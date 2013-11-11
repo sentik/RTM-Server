@@ -1,7 +1,7 @@
 #include "main.h"
 
 /*
-
+http://ru.wikibooks.org/wiki/%D0%A1%D0%B8++
 Суровый язык этот с++ Можно не то что в ногу себе выстрелить, а запросто повеситься в абсолютно пустой комнате
 Язык содержит слишком много возможностей, они могут быть опасны. © Википедия
 */
@@ -45,12 +45,14 @@ PLUGIN_EXPORT void PLUGIN_CALL ProcessTick()
 	tCount++;
 	if (tCount==200)
 	{
+		/*
 		thread threadKey(StreamerCall::Tick);
-		threadKey.join();
+		threadKey.join();*/
+		//thrd.start_thread();
+
 		//StreamerCall::Tick();
 		tCount = 0;
 	}
-
 }
 //-------------------------------------------------------------------------------------------
 PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx)
@@ -72,6 +74,8 @@ static void buildRegex()
 	expDate = regex("(0[1-9]|[12][0-9]|3[01]).(0[1-9]|1[012]).(19|20)([0-9])([0-9])");
 }
 
+
+
 //-------------------------------------------------------------------------------------------------------------------
 //TODO: Загружаем сервер
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData)
@@ -89,16 +93,20 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData)
 	//===============================================================================
 	cInteriors::loadInterioList();
 	cProperty::loadHouses();
+	cProperty::loadHouseInteriors();
 	buildRegex();
 	//===============================================================================
 	for (int i = 0; i < 3; i++) 	cClass::fixText(RaceList[i], strlen(RaceList[i]));
 	for (int i = 0; i < 5; i++) 	cClass::fixText(Natioins[i], strlen(Natioins[i]));
 	for (int i = 0; i < 2; i++) 	cClass::fixText(SexArray[i], strlen(SexArray[i]));
 	//===============================================================================
+	cClass::loadVehicleClass();
+	cClass::loadPlayerClass();
+	//===============================================================================
 	cClass::fixText(strSpeed, 13);
 	cClass::fixText(strMuscular, 13);
 	cClass::fixText(strAgility, 13);
-	cClass::loadPlayerClass();
+	//===============================================================================
 	srand(RANDOM_SEED);
 	return true;
 }

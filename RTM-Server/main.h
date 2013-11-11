@@ -4,14 +4,10 @@
 #pragma warning(disable: 4244)
 #define _CRT_SECURE_NO_WARNINGS
 
-#define GAME_VERSION "0.6A"
+#define GAME_VERSION "0.75A"
 #define DEFAULT_SPAWN 100.0f, 200.0f, 10.0f
 #define SELECT_COLORUS 0xDCDCDC88
 #define RANDOM_SEED	8 * time(0) + 6 * clock()  - 123
-
-
-
-
 
 #include <iostream>
 #include <string>
@@ -19,6 +15,8 @@
 #include <vector>
 #include <regex>
 #include <thread>
+#include <process.h>
+#include <stdio.h>
 //--------------------------------------------
 #include <sampgdk/a_players.h>
 #include <sampgdk/a_vehicles.h>
@@ -44,9 +42,6 @@
 #include "configs.h"
 #include "cClass.h"
 #include "cState.h"
-
-
-
 using namespace std;
 //--------------------------------------------
 typedef void(*logprintf_t)(const char*, ...);

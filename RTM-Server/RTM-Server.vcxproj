@@ -90,21 +90,25 @@
   <ItemGroup>
     <ClInclude Include="cClass.h" />
     <ClInclude Include="cDialogs.h" />
+    <ClInclude Include="cGang.h" />
     <ClInclude Include="cInteriors.h" />
     <ClInclude Include="configs.h" />
     <ClInclude Include="cProperty.h" />
     <ClInclude Include="cState.h" />
     <ClInclude Include="cTexrDraws.h" />
+    <ClInclude Include="cVehicle.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="cPlayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cClass.cpp" />
     <ClCompile Include="cDialogs.cpp" />
+    <ClCompile Include="cGang.cpp" />
     <ClCompile Include="cInteriors.cpp" />
     <ClCompile Include="cProperty.cpp" />
     <ClCompile Include="cState.cpp" />
     <ClCompile Include="cTexrDraws.cpp" />
+    <ClCompile Include="cVehicle.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="cPlayer.cpp" />
   </ItemGroup>

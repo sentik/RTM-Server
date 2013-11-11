@@ -3,10 +3,9 @@
 #ifndef __cProperty__   
 #define __cProperty__   
 
-
-#define MAX_HOUSES		5000
+#define MAX_HOUSES		500
 #define MAX_PROPERTY	MAX_HOUSES + 100
-
+#define MAX_DIS_OBJ		96
 struct sProperty
 {
 	int		db;				//ָה ג בה
@@ -46,30 +45,48 @@ struct eHouseDesine
 	int obj;
 	int db;
 };
-struct eHouseDesine extern HouseDesine[ MAX_HOUSES ][96];
+struct eHouseDesine extern HouseDesine[ MAX_HOUSES ][ MAX_DIS_OBJ ];
 
 class cProperty
 {
 public:
 	static void cProperty::loadHouses();
+	static void cProperty::loadHouseInteriors();
+	static void cProperty::createHouseInterior(int);
+	//-------------------------------------------
 	static void cProperty::enterProperty(const int);
 	static void cProperty::buyMessage(const int, const int);
 	static void cProperty::statusMessage(const int, const int);
+	//-------------------------------------------
 };
 
-enum HouseRows
+
+namespace Properties
 {
-	id,
-	owner,
-	property,
-	type,
-	posx,
-	posy,
-	posz,
-	price,
-	bank,
-	db,
-	style,
-	oName,
-};
+	namespace Houses
+	{
+		enum HouseRows
+		{
+			id,
+			owner,
+			property,
+			type,
+			posx,
+			posy,
+			posz,
+			price,
+			bank,
+			db,
+			style,
+			oName,
+		};
+
+		namespace Desine
+		{
+
+		}
+	}
+}
+
+
 #endif 

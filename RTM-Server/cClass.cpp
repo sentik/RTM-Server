@@ -1,7 +1,31 @@
 #include "main.h"
 
-struct pClass PlayerClass[MAX_CLASES] = { { 0, 0 } };
 
+//--------------------------------------------------------
+struct pClass PlayerClass[MAX_CLASES] = { { 0, 0 } };
+struct vClass VehicleClass[ VEH_CLASES ] = { { 0, 0 } };
+//--------------------------------------------------------
+void cClass::loadVehicleClass()
+{
+	int i = 0;
+	MYSQL_ROW row;
+	//------------------------------------------------------------
+	mysql_query(con, "SELECT * FROM class_Vehicles ORDER BY id LIMIT 212");
+	MYSQL_RES *result = mysql_store_result(con);
+	//------------------------------------------------------------	
+	while (( row = mysql_fetch_row(result) ))
+	{
+		VehicleClass[ i ].Group		= atoi(row[ ServerClass::Vehicle::vehiclesClassRows::category ]);
+		VehicleClass[ i ].Gear		= atoi(row[ ServerClass::Vehicle::vehiclesClassRows::gear ]);
+		VehicleClass[ i ].Power		= atoi(row[ ServerClass::Vehicle::vehiclesClassRows::power ]);
+		VehicleClass[ i ].Speed		= atoi(row[ ServerClass::Vehicle::vehiclesClassRows::speed ]);
+		//--------------------------------------------------------------------------------------------
+		strcpy(VehicleClass[ i ].Name, row[ ServerClass::Vehicle::vehiclesClassRows::name ]);
+		i++;
+	}
+	logprintf("[Система Классов]: \tБыло загруженно классов транспорта - %d", i);
+}
+//--------------------------------------------------------
 void cClass::loadPlayerClass()
 {
 	int i = 0;
@@ -13,21 +37,20 @@ void cClass::loadPlayerClass()
 	while ((row = mysql_fetch_row(result)))
 	{
 		//-------------------------------------
-		PlayerClass[i].cSkin = atoi(row[0]);
-		PlayerClass[i].cRace = atoi(row[1]);
-		PlayerClass[i].cNation = atoi(row[2]);
-		PlayerClass[i].cSex = (atoi(row[3])) ? (true) : (false);
-		PlayerClass[i].cPower = atoi(row[4]);
-		PlayerClass[i].cSpeed = atoi(row[5]);
-		PlayerClass[i].cAgility = atoi(row[6]);
+		PlayerClass[ i ].cSkin		= atoi(row[ ServerClass::Player::playerClassRows::skin]);
+		PlayerClass[ i ].cRace		= atoi(row[ ServerClass::Player::playerClassRows::race ]);
+		PlayerClass[ i ].cNation	= atoi(row[ ServerClass::Player::playerClassRows::nation ]);
+		PlayerClass[ i ].cSex		=(atoi(row[ ServerClass::Player::playerClassRows::sex])) ? ( true ) : ( false );
+		PlayerClass[ i ].cPower		= atoi(row[ ServerClass::Player::playerClassRows::power ]);
+		PlayerClass[ i ].cSpeed		= atoi(row[ ServerClass::Player::playerClassRows::speed ]);
+		PlayerClass[ i ].cAgility	= atoi(row[ ServerClass::Player::playerClassRows::agility ]);
 		//-------------------------------------
 		//AddPlayerClass(PlayerClass[i].cSkin, DEFAULT_SPAWN, 0.0f, 0, 0, 0, 0, 0, 0);
 		i++;
 	}
 	//------------------------------------------------------------
-	logprintf("[Система Классов]: \tБыло загруженно классов - %d", i);
+	logprintf("[Система Классов]: \tБыло загруженно классов игроков - %d", i);
 }
-
 //-------------------------------------------------------------------------------------------
 void cClass::fixText(char * text, int size)
 {

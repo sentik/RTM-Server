@@ -1,9 +1,8 @@
 #include "main.h"
 
-struct sProperty Property[ MAX_PROPERTY ] = { { 0, 0 } };
-struct Houses Houses[MAX_HOUSES] = { { 0, 0 } };
-struct eHouseDesine HouseDesine[ MAX_HOUSES ][ 96 ];
-
+struct sProperty		Property	[ MAX_PROPERTY ] = { { 0, 0 } };
+struct Houses			Houses		[ MAX_HOUSES ] = { { 0, 0 } };
+struct eHouseDesine		HouseDesine	[ MAX_HOUSES ][ 96 ];
 
 int countProperty;
 int countHouses;
@@ -55,9 +54,9 @@ void cProperty::enterProperty(const int u)
 				break;
 			}
 			//-----------------------------------------------------------------------------------------------
-			cPlayer::setCharPos(u, Interior[ style ].posX, Interior[ style ].posY, Interior[ style ].posZ, true);
-			cPlayer::setCharInterior(u, Interior[ style ].posI);
-			cPlayer::setCharAngle(u, Interior[ style ].posR);
+			cPlayer::setCharPos(u, Interior[ idx ].posX, Interior[ idx ].posY, Interior[ idx ].posZ, true);
+			cPlayer::setCharInterior(u, Interior[ idx ].posI);
+			cPlayer::setCharAngle(u, Interior[ idx ].posR);
 			cPlayer::setCharWorld(u, i);
 			//-----------------------------------------------------------------------------------------------
 			break;
@@ -65,7 +64,7 @@ void cProperty::enterProperty(const int u)
 		//--------------------------------------------------------------------
 		if (Player[ u ].pPosW != i) continue;	//Если игрок не в нужном мире
 		//--------------------------------------------------------------------
-		if (cPlayer::isRangeOfPoint(u, ENTER_RADIUS, Interior[ style ].posX, Interior[ style ].posY, Interior[ style ].posZ))
+		if (cPlayer::isRangeOfPoint(u, ENTER_RADIUS, Interior[ idx ].posX, Interior[ idx ].posY, Interior[ idx ].posZ))
 		{
 			cPlayer::setCharPos(u, Property[ i ].posX, Property[ i ].posY, Property[ i ].posZ, false);
 			cPlayer::setCharInterior(u, 0);
@@ -75,7 +74,6 @@ void cProperty::enterProperty(const int u)
 		//--------------------------------------------------------------------
 	}
 }
-
 
 /// <summary>
 /// Загрузка списка домов
@@ -90,36 +88,46 @@ void cProperty::loadHouses()
 	//------------------------------------------------------------	
 	while ((row = mysql_fetch_row(result)))
 	{
-		Property[countProperty].db			= atoi(row[HouseRows::id]);
-		Property[countProperty].bank		= atoi(row[HouseRows::bank]);
-		Property[countProperty].owner		= atoi(row[HouseRows::owner]);
-		Property[countProperty].price		= atoi(row[HouseRows::price]);
-		Property[countProperty].type		= atoi(row[HouseRows::type]);
-		Property[countProperty].posX		= atof(row[HouseRows::posx ]);
-		Property[countProperty].posY		= atof(row[HouseRows::posy ]);
-		Property[countProperty].posZ		= atof(row[HouseRows::posz]);
-		Property[countProperty].property	= atoi(row[HouseRows::property]);
-		Property[ countProperty ].style		= atoi(row[HouseRows::style ]);
+		Property[countProperty].db			= atoi(row[Properties::Houses::HouseRows::id]);
+		Property[countProperty].bank		= atoi(row[Properties::Houses::HouseRows::bank]);
+		Property[countProperty].owner		= atoi(row[Properties::Houses::HouseRows::owner]);
+		Property[countProperty].price		= atoi(row[Properties::Houses::HouseRows::price]);
+		Property[countProperty].type		= atoi(row[Properties::Houses::HouseRows::type]);
+		Property[countProperty].posX		= atof(row[Properties::Houses::HouseRows::posx ]);
+		Property[countProperty].posY		= atof(row[Properties::Houses::HouseRows::posy ]);
+		Property[countProperty].posZ		= atof(row[Properties::Houses::HouseRows::posz]);
+		Property[countProperty].property	= atoi(row[Properties::Houses::HouseRows::property]);
+		Property[ countProperty ].style		= atoi(row[Properties::Houses::HouseRows::style ]);
 		//--------------------------------------------------------------
-		strcpy(Property[countProperty].player, row[oName]);
+		strcpy(Property[ countProperty ].player, row[ Properties::Houses::HouseRows::oName ]);
 		//--------------------------------------------------------------
-		Houses[i].style = atoi(row[HouseRows::style]);
-		Houses[i].db = atoi(row[HouseRows::db]);
+		Houses[i].style = atoi(row[Properties::Houses::HouseRows::style]);
+		Houses[i].db = atoi(row[Properties::Houses::HouseRows::db]);
 		//--------------------------------------------------------------
 		countProperty++;
 		i++;
 	}
 	logprintf("[Система Имущества]: \tБыло загруженно домов \t- %d", i);
+}
 
-	for (int z = 0; z < MAX_HOUSES; z++)
+void cProperty::loadHouseInteriors()
+{
+	int slot = 0;
+	int house = 0;
+	MYSQL_ROW row;
+	//------------------------------------------------------------
+	mysql_query(con, "SELECT * FROM interior_House ORDER BY house");
+	MYSQL_RES *result = mysql_store_result(con);
+	//------------------------------------------------------------	
+	while (( row = mysql_fetch_row(result) ))
 	{
-		for (int q = 0; q < 96; q++)
+		if (house == atoi(row[ 1 ]) && slot < 96) slot++;
+		else
 		{
-			HouseDesine[ z ][ q ].db = z + q;
-			HouseDesine[ z ][ q ].model = 1000 + z + q;
-			HouseDesine[ z ][ q ].posX = 777.0f;
-			HouseDesine[ z ][ q ].rotY = 554.0f;
+			house = atoi(row[ 1 ]);
+			slot = 0;
 		}
+		HouseDesine[ house ][ slot ].db = atoi(row[ 0 ]);
+	//	logprintf("house: %d || slot: %d || db: %d", house, slot, HouseDesine[ house ][ slot ].db);
 	}
-
 }

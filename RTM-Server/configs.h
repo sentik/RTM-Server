@@ -15,7 +15,7 @@
 /*---------------Registration Character--------------*/
 
 
-#define ENTER_RADIUS 2.0f
+#define ENTER_RADIUS 1.5f
 
 
 #endif 
