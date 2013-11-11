@@ -3,9 +3,9 @@
 
 #ifndef __dialogs__   
 #define __dialogs__   
-
 enum DIALOG_LIST
 {
+	DLG_NILL = -1,
 	DLG_NONE = 0,
 	DLG_WELCOME,				// Диалог приветствия
 	DLG_LOGINFORM,				// Диалог формы ввода пароля

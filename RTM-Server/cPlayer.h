@@ -28,7 +28,8 @@ public:
 	static void cPlayer::setCharWorld(const int, const int);
 	static void cPlayer::setCharPos(const int, float, float, float, bool);
 	static void cPlayer::camSelectChar(int);
-	static bool cPlayer::isRangeOfPoint(int i, float r, float x, float y, float z);
+	static bool cPlayer::isRangeOfPoint(int, float, float, float, float);
+	static bool cPlayer::checkMoney(const int, float);
 };
 
 int extern drawPlayerChar[6];

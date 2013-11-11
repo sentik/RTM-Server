@@ -274,7 +274,6 @@ void cPlayer::SpawnChar(const int i)
 /// </summary>
 void cPlayer::setCharPos(const int i, float x, float y, float z, bool isFreeze = false)
 {
-
 	//------------------------------
 	Player[i].pPosX = x;
 	Player[i].pPosY = y;
@@ -478,4 +477,16 @@ bool cPlayer::isRangeOfPoint(int i, float r, float x, float y, float z)
 	float ra = pow(r, 2);
 	if (pow(Player[ i ].pPosZ - z, 2) > ra) return false;
 	return pow(Player[ i ].pPosX - x, 2) + pow(Player[ i ].pPosY - y, 2) < ra;
+}
+
+bool cPlayer::checkMoney(const int u, float value)
+{
+	if (Player[ u ].pMoney >= value) return true;
+	//=========================================
+	char msg[ 128 ];
+	//=========================================
+	sprintf(msg, "К сожаления у вас не хватает %f$\nТребуется всего: %f$", value - Player[ u ].pMoney, value);
+	ShowPlayerDialog(u, DIALOG_LIST::DLG_NILL, GUI_MSG, "[Информация]: Недостаточно средств", msg, "Закрыть", "");
+	//=========================================
+	return false;
 }

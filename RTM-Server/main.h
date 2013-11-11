@@ -34,12 +34,13 @@
 //#include<boost / system / linux_error.hpp>
 #include<boost/system/windows_error.hpp>
 //--------------------------------------------
+#include "cPlayer.h"
 #include "streamerlib.h"
 #include "cTexrDraws.h"
 #include "cInteriors.h"
 #include "cProperty.h"
 #include "cDialogs.h"
-#include "cPlayer.h"
+
 #include "configs.h"
 #include "cClass.h"
 #include "cState.h"
