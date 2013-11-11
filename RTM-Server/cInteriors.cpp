@@ -4,7 +4,9 @@
 struct iInterior extern Interior[ MAX_INTERIORS ] = { { 0, 0 } };
 int countInteriors;
 
-
+/// <summary>
+/// Загрузка списка интерьеров
+/// </summary>
 void cInteriors::loadInterioList()
 {
 	int i = 0;

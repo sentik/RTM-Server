@@ -9,6 +9,10 @@
 #define SELECT_COLORUS 0xDCDCDC88
 #define RANDOM_SEED	8 * time(0) + 6 * clock()  - 123
 
+
+
+
+
 #include <iostream>
 #include <string>
 #include <memory>

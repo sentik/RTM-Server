@@ -8,14 +8,51 @@ int countProperty;
 int countHouses;
 
 
-void cProperty::enterProperty()
+/// <summary>
+/// Сообщение покупки недвижимости
+/// <param name="u">* Ид игрока</param>
+/// <param name="p">* Ид недвижимости</param>
+/// </summary>
+void cProperty::buyMessage(const int u, const int p)
+{
+
+}
+
+
+/// <summary>
+/// Действие входа в недвижимость
+/// <param name="u">* Ид игрока</param>
+/// </summary>
+void cProperty::enterProperty(const int u)
 {
 	for (int i = 0; i < countProperty; i++)
 	{
+		const int idx = Property[ i ].style;
+		if (cPlayer::isRangeOfPoint(u, ENTER_RADIUS, Property[ i ].posX, Property[ i ].posY, Property[ i ].posZ))
+		{
+			if (!Property[ i ].owner)
+			{
+				cProperty::buyMessage(u, i);
+				break;
+			}
+			//-----------------------------------------------------------------------------------------------
+			cPlayer::setCharPos(u, Interior[ style ].posX, Interior[ style ].posY, Interior[ style ].posZ, true);
+			cPlayer::setCharInterior(u, Interior[ style ].posI);
+			cPlayer::setCharAngle(u, Interior[ style ].posR);
+			cPlayer::setCharWorld(u, i);
+			//-----------------------------------------------------------------------------------------------
+		}
+		else if (cPlayer::isRangeOfPoint(u, ENTER_RADIUS, Interior[ style ].posX, Interior[ style ].posY, Interior[ style ].posZ))
+		{
 
+		}
 	}
 }
 
+
+/// <summary>
+/// Загрузка списка домов
+/// </summary>
 void cProperty::loadHouses()
 {
 	int i = 0;
@@ -31,9 +68,9 @@ void cProperty::loadHouses()
 		Property[countProperty].owner	= atoi(row[HouseRows::owner]);
 		Property[countProperty].price	= atoi(row[HouseRows::price]);
 		Property[countProperty].type	= atoi(row[HouseRows::type]);
-		Property[ countProperty ].posx  = atof(row[ HouseRows::posx ]);
-		Property[ countProperty ].posy  = atof(row[ HouseRows::posy ]);
-		Property[countProperty].posz	=   atof(row[HouseRows::posz]);
+		Property[ countProperty ].posX  = atof(row[ HouseRows::posx ]);
+		Property[ countProperty ].posY  = atof(row[ HouseRows::posy ]);
+		Property[countProperty].posZ	=   atof(row[HouseRows::posz]);
 		Property[countProperty].property = atoi(row[HouseRows::property]);
 		//--------------------------------------------------------------
 		strcpy(Property[countProperty].player, row[oName]);

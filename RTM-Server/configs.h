@@ -13,4 +13,9 @@
 #define		CREG_SKIN_POS				1302.7f,-792.3f,96.5f
 #define		CREG_CAMR_POS				1300.4f,-791.0f,97.5f
 /*---------------Registration Character--------------*/
+
+
+#define ENTER_RADIUS 2.0f
+
+
 #endif 

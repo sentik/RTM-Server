@@ -13,11 +13,12 @@ struct Property
 	int		owner;			//Владелец
 	int		property;		//Ссылка на имущество (БД)
 	int		price;			//Стоимость
-	float	posx;			//Позиция x
-	float	posy;			//Позиция y
-	float	posz;			//Позиция z
+	float	posX;			//Позиция x
+	float	posY;			//Позиция y
+	float	posZ;			//Позиция z
 	int		bank;			//Ссылка на счет в банке
 	int		link;			//Ссылка на имущество (локальная)
+	char	style;
 	char	player[16];		//Имя владельца
 	char	type;			//Тип имущества
 };
@@ -36,7 +37,8 @@ class cProperty
 {
 public:
 	static void cProperty::loadHouses();
-	static void cProperty::enterProperty();
+	static void cProperty::enterProperty(const int);
+	static void cProperty::buyMessage(const int, const int);
 };
 
 enum HouseRows
