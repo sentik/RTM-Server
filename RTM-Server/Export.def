@@ -1,0 +1,26 @@
+LIBRARY
+EXPORTS
+	Supports
+	Load
+	Unload
+	AmxLoad
+	AmxUnload
+	ProcessTick
+	OnPlayerConnect
+	OnPlayerDisconnect
+	OnDialogResponse
+	OnPlayerClickPlayerTextDraw
+	OnPlayerClickTextDraw
+	OnPlayerRequestClass
+	OnPlayerKeyStateChange
+	OnPlayerUpdate
+	OnGameModeInit
+	OnPlayerSpawn
+
+	OnPlayerEditObject
+	OnPlayerSelectObject
+	OnPlayerPickUpPickup
+	OnPlayerEnterCheckpoint
+	OnPlayerLeaveCheckpoint
+	OnPlayerEnterRaceCheckpoint
+	OnPlayerLeaveRaceCheckpoint
