@@ -84,14 +84,16 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <ModuleDefinitionFile>Export.def</ModuleDefinitionFile>
-      <AdditionalDependencies>C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\sampgdk3.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\mysqlclient.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\streamer.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\boost\libboost_system-vc110-mt-1_50.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\sampgdk3.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\mysqlclient.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\streamer.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\boost\libboost_system-vc110-mt-1_50.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\tinyxml.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="cChat.h" />
     <ClInclude Include="cClass.h" />
     <ClInclude Include="cDialogs.h" />
     <ClInclude Include="cGang.h" />
     <ClInclude Include="cInteriors.h" />
+    <ClInclude Include="cObjects.h" />
     <ClInclude Include="configs.h" />
     <ClInclude Include="cProperty.h" />
     <ClInclude Include="cState.h" />
@@ -101,10 +103,12 @@
     <ClInclude Include="cPlayer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="cChat.cpp" />
     <ClCompile Include="cClass.cpp" />
     <ClCompile Include="cDialogs.cpp" />
     <ClCompile Include="cGang.cpp" />
     <ClCompile Include="cInteriors.cpp" />
+    <ClCompile Include="cObjects.cpp" />
     <ClCompile Include="cProperty.cpp" />
     <ClCompile Include="cState.cpp" />
     <ClCompile Include="cTexrDraws.cpp" />

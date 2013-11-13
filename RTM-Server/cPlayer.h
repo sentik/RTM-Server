@@ -53,6 +53,9 @@ struct  pInfo
 	int		pPosI;				//Позиция	игрока Interior
 	bool	isLogged;			//Авторизов игрок?
 	char	isAction;			//Действие	игрока
+	char	pCarid;				//Ид		транспорта
+	char	pSeatid;			//Ид		места в транспорте
+	char	pState;				//Состаяние	игрока
 };
 //TODO: Структура игрока
 struct pInfo extern Player[MAX_PLAYERS];

@@ -1,22 +1,24 @@
 LIBRARY
 EXPORTS
-	Supports
 	Load
 	Unload
 	AmxLoad
+	Supports
 	AmxUnload
 	ProcessTick
-	OnPlayerConnect
-	OnPlayerDisconnect
-	OnDialogResponse
-	OnPlayerClickPlayerTextDraw
-	OnPlayerClickTextDraw
-	OnPlayerRequestClass
-	OnPlayerKeyStateChange
+	OnPlayerText
+	OnPlayerSpawn
 	OnPlayerUpdate
 	OnGameModeInit
-	OnPlayerSpawn
-
+	OnPlayerConnect
+	OnDialogResponse
+	OnPlayerDisconnect
+	OnPlayerStateChange
+	OnPlayerCommandText
+	OnPlayerRequestClass
+	OnPlayerClickTextDraw
+	OnPlayerKeyStateChange
+	OnPlayerClickPlayerTextDraw
 	OnPlayerEditObject
 	OnPlayerSelectObject
 	OnPlayerPickUpPickup

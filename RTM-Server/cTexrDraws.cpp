@@ -16,22 +16,6 @@ PLUGIN_EXPORT bool PLUGIN_CALL  OnPlayerClickTextDraw(const int u, const int dra
 	//----------------------------------------------------------------------------------------------------------
 	if (Player[u].isAction == ACTION_AUTH_PLAYER)
 	{
-		if (draw == drawPlayerChar[REG_LEFT])			//Назад
-		{
-
-		}
-		else if (draw == drawPlayerChar[REG_SELECT])	//Выбрать
-		{
-			Player[u].isLogged = true;
-			//-----------------------------------
-			cPlayer::unloadChars(u);
-			cPlayer::loadPlayerChar(u);
-			cPlayer::SpawnChar(u);
-		}
-		else if (draw == drawPlayerChar[REG_RIGHT])		//Вперед
-		{
-
-		}
 		return 1;
 	}
 	//----------------------------------------------------------------------------------------------------------
@@ -75,6 +59,11 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickPlayerTextDraw(const int u, const in
 			Player[i].pClass = PlayerChar[u][i].pDB;
 			cPlayer::setRegClassSkin(u, i);
 			//================================
+			Player[u].isLogged = true;
+			//-----------------------------------
+			cPlayer::unloadChars(u);
+			cPlayer::loadPlayerChar(u);
+			cPlayer::SpawnChar(u);
 			break;
 		}
 	}

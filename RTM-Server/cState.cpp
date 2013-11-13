@@ -30,3 +30,19 @@ void cState::callKeyStateChange(int playerid, int newkeys, int oldkeys)
 		//-------------------------------------------------------------------------------------
 	}
 }
+
+void cState::callStateChange(int playerid, int newstate, int oldstate)
+{
+	sprintf(query, "player: %d || state: %d||%d", playerid, newstate, oldstate);
+	SendClientMessage(playerid, -1, query);
+	Player[playerid].pState = newstate;
+	if (newstate == 2 || newstate == 3)
+	{
+		Player[playerid].pCarid = GetPlayerVehicleID(playerid);
+		Player[playerid].pSeatid = GetPlayerVehicleSeat(playerid);
+	}
+	else if (oldstate == 2 || oldstate == 3)
+	{
+		Player[playerid].pSeatid = -1;
+	}
+}

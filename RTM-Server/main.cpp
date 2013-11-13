@@ -45,11 +45,8 @@ PLUGIN_EXPORT void PLUGIN_CALL ProcessTick()
 	tCount++;
 	if (tCount==200)
 	{
-		/*
 		thread threadKey(StreamerCall::Tick);
-		threadKey.join();*/
-		//thrd.start_thread();
-
+		threadKey.join();
 		//StreamerCall::Tick();
 		tCount = 0;
 	}
@@ -207,7 +204,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 	TextDrawTextSize(drawPlayerChar[REG_BUTTON_BG], 0.000000f, 150.000000f);
 	TextDrawSetSelectable(drawPlayerChar[REG_BUTTON_BG], 0);
 	//-------------------------------------------------------------
-	//	StreamerCall::Load();
+	cObjects::loadObjects("intdoma1");
 	return true;
 }
 //-------------------------------------------------------------------------------------------
@@ -239,6 +236,18 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerConnect(int playerid)
 //	Player[playerid] = { { 0 } };
 	return true;
 }
+
+//SAMPGDK_CALLBACK_EXPORT bool SAMPGDK_CALLBACK_CALL OnPlayerText(int playerid, const char * text);
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerText(int u, const char *text)
+{
+	char msg[ 144 ];
+	sprintf(msg, "%s %s [{FFAF00}%d{FFFFFF}] говорит: {FFAF00}%s", Player[ u ].uName, Player[ u ].sName, u, text);
+	cChat::ProxDetector(u, 10.0f, msg);
+	return false;
+}
+
+
+
 //-------------------------------------------------------------------------------------------
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerDisconnect(int playerid, int reason)
 {
@@ -287,6 +296,26 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerKeyStateChange(int playerid, int newkeys,
 {
 	thread threadKey(cState::callKeyStateChange, playerid, newkeys, oldkeys);
 	threadKey.join();
+	return true;
+}
+//-------------------------------------------------------------------------------------------
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerStateChange(int playerid, int newstate, int oldstate)
+{
+	thread threadKey(cState::callStateChange, playerid, newstate, oldstate);
+	threadKey.join();
+	return true;
+}
+//-------------------------------------------------------------------------------------------
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cmd)
+{
+	sprintf(query, "playr: %d cmd: %s", playerid, cmd);
+	SendClientMessage(playerid, -1, query);
+	if (strcmp("/veh", cmd) == 0)
+	{
+		GetPlayerPos(playerid, &Player[playerid].pPosX, &Player[playerid].pPosY, &Player[playerid].pPosZ);
+		int veh = CreateVehicle(562, Player[playerid].pPosX, Player[playerid].pPosY, Player[playerid].pPosZ, 0, 0, 0, -1);
+		PutPlayerInVehicle(playerid, veh, 0);
+	}
 	return true;
 }
 //-------------------------------------------------------------------------------------------

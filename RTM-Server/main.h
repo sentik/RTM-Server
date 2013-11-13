@@ -17,6 +17,8 @@
 #include <thread>
 #include <process.h>
 #include <stdio.h>
+#include <list>
+#include <map>
 //--------------------------------------------
 #include <sampgdk/a_players.h>
 #include <sampgdk/a_vehicles.h>
@@ -25,6 +27,7 @@
 #include <sampgdk/plugin.h>
 //--------------------------------------------
 #include <mysql.h>
+#include <tinyxml/tinyxml.h>
 //--------------------------------------------
 #include<boost/system/error_code.hpp>
 #include<boost/system/system_error.hpp>
@@ -32,16 +35,20 @@
 //#include<boost / system / linux_error.hpp>
 #include<boost/system/windows_error.hpp>
 //--------------------------------------------
-#include "cPlayer.h"
 #include "streamerlib.h"
 #include "cTexrDraws.h"
 #include "cInteriors.h"
 #include "cProperty.h"
 #include "cDialogs.h"
-
+#include "cObjects.h"
+#include "cVehicle.h"
 #include "configs.h"
+#include "cPlayer.h"
 #include "cClass.h"
 #include "cState.h"
+#include "cChat.h"
+#include "cGang.h"
+//--------------------------------------------
 using namespace std;
 //--------------------------------------------
 typedef void(*logprintf_t)(const char*, ...);

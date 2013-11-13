@@ -108,10 +108,6 @@ bool cPlayer::loadChars(int i)
 	//---------------------------------------------
 	TextDrawShowForPlayer(i, drawPlayerChar[REG_BG]);
 	TextDrawShowForPlayer(i, drawPlayerChar[REG_HEADER]);
-	TextDrawShowForPlayer(i, drawPlayerChar[REG_BUTTON_BG]);
-	TextDrawShowForPlayer(i, drawPlayerChar[REG_LEFT]);
-	TextDrawShowForPlayer(i, drawPlayerChar[REG_SELECT]);
-	TextDrawShowForPlayer(i, drawPlayerChar[REG_RIGHT]);
 	//---------------------------------------------
 	while ((row = mysql_fetch_row(result)))
 	{
