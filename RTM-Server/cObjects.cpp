@@ -17,6 +17,7 @@ void cObjects::loadObjects(char name[ ])
 		for (TiXmlElement *obj = map->FirstChildElement("object"); obj; obj = obj->NextSiblingElement("object"))
 		{
 			// Получаем аргументы
+			//---------------------------------------------
 			const int	 model = atoi(obj->Attribute("model"));
 			//---------------------------------------------
 			const double posX  = atof(obj->Attribute("posX"));

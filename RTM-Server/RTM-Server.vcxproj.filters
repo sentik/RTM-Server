@@ -13,89 +13,140 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Заголовочные файлы\property">
+      <UniqueIdentifier>{b97e457e-2401-459a-b5ae-d7118fe38d2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\property\houses">
+      <UniqueIdentifier>{ae89acbe-87a3-4f4c-9fb6-b3d5780c36de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\property">
+      <UniqueIdentifier>{a3a68618-047b-4ccf-9756-beb092e48736}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\property\houses">
+      <UniqueIdentifier>{aa109bd8-b338-4258-9927-b00ff8f2c08a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\gui">
+      <UniqueIdentifier>{e096990e-9a8b-4e66-9235-3ec57938a0d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\gui">
+      <UniqueIdentifier>{df630a51-3fa4-4241-bb68-1e6da2b248b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\general">
+      <UniqueIdentifier>{34a0a225-a8f9-4b25-96f3-61a02d104691}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\general">
+      <UniqueIdentifier>{ce28e6d6-bcef-4de0-9cea-4e9e7aa3a9bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\property\vehicles">
+      <UniqueIdentifier>{48e7f54b-3eb7-4094-b361-9b26bff300ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\property\vehicles">
+      <UniqueIdentifier>{82edee41-a655-4d65-a892-9441c27fb617}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\player">
+      <UniqueIdentifier>{fc60ae4d-bd97-4c97-b898-be6ce22fe14f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\player">
+      <UniqueIdentifier>{91cabca9-0da7-44de-93cc-050690b3ec56}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="cPlayer.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="configs.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="cTexrDraws.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="cClass.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="cDialogs.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="cState.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="cProperty.h">
-      <Filter>Заголовочные файлы</Filter>
+      <Filter>Заголовочные файлы\property</Filter>
     </ClInclude>
-    <ClInclude Include="cInteriors.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="cVehicle.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="cGang.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="cChat.h">
-      <Filter>Заголовочные файлы</Filter>
+    <ClInclude Include="cHouses.h">
+      <Filter>Заголовочные файлы\property\houses</Filter>
     </ClInclude>
     <ClInclude Include="cObjects.h">
-      <Filter>Заголовочные файлы</Filter>
+      <Filter>Заголовочные файлы\property</Filter>
+    </ClInclude>
+    <ClInclude Include="cInteriors.h">
+      <Filter>Заголовочные файлы\property</Filter>
+    </ClInclude>
+    <ClInclude Include="cChat.h">
+      <Filter>Заголовочные файлы\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="cDialogs.h">
+      <Filter>Заголовочные файлы\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="cTexrDraws.h">
+      <Filter>Заголовочные файлы\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="cClass.h">
+      <Filter>Заголовочные файлы\general</Filter>
+    </ClInclude>
+    <ClInclude Include="configs.h">
+      <Filter>Заголовочные файлы\general</Filter>
+    </ClInclude>
+    <ClInclude Include="saZones.h">
+      <Filter>Заголовочные файлы\general</Filter>
+    </ClInclude>
+    <ClInclude Include="cVehicle.h">
+      <Filter>Заголовочные файлы\property\vehicles</Filter>
+    </ClInclude>
+    <ClInclude Include="cGang.h">
+      <Filter>Заголовочные файлы\player</Filter>
+    </ClInclude>
+    <ClInclude Include="cPlayer.h">
+      <Filter>Заголовочные файлы\player</Filter>
+    </ClInclude>
+    <ClInclude Include="cState.h">
+      <Filter>Заголовочные файлы\player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="cPlayer.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="cTexrDraws.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="cClass.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="cDialogs.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="cState.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="cProperty.cpp">
-      <Filter>Файлы исходного кода</Filter>
+      <Filter>Файлы исходного кода\property</Filter>
     </ClCompile>
-    <ClCompile Include="cInteriors.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="cVehicle.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="cGang.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="cChat.cpp">
-      <Filter>Файлы исходного кода</Filter>
+    <ClCompile Include="cHouses.cpp">
+      <Filter>Файлы исходного кода\property\houses</Filter>
     </ClCompile>
     <ClCompile Include="cObjects.cpp">
-      <Filter>Файлы исходного кода</Filter>
+      <Filter>Файлы исходного кода\property</Filter>
+    </ClCompile>
+    <ClCompile Include="cInteriors.cpp">
+      <Filter>Файлы исходного кода\property</Filter>
+    </ClCompile>
+    <ClCompile Include="cTexrDraws.cpp">
+      <Filter>Файлы исходного кода\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="cDialogs.cpp">
+      <Filter>Файлы исходного кода\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="cChat.cpp">
+      <Filter>Файлы исходного кода\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="cVehicle.cpp">
+      <Filter>Файлы исходного кода\property\vehicles</Filter>
+    </ClCompile>
+    <ClCompile Include="saZones.cpp">
+      <Filter>Файлы исходного кода\general</Filter>
+    </ClCompile>
+    <ClCompile Include="cClass.cpp">
+      <Filter>Файлы исходного кода\general</Filter>
+    </ClCompile>
+    <ClCompile Include="cPlayer.cpp">
+      <Filter>Файлы исходного кода\player</Filter>
+    </ClCompile>
+    <ClCompile Include="cGang.cpp">
+      <Filter>Файлы исходного кода\player</Filter>
+    </ClCompile>
+    <ClCompile Include="cState.cpp">
+      <Filter>Файлы исходного кода\player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Export.def">
       <Filter>Файлы исходного кода</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="changelog.txt" />
   </ItemGroup>
 </Project>

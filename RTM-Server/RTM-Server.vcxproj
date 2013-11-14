@@ -69,7 +69,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>BOOST_ALL_NO_LIB;BOOST_CHRONO_HEADER_ONLY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -77,14 +77,18 @@
       <AdditionalIncludeDirectories>C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <EnablePREfast>false</EnablePREfast>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <ModuleDefinitionFile>Export.def</ModuleDefinitionFile>
       <AdditionalDependencies>C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\sampgdk3.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\mysqlclient.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\streamer.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\boost\libboost_system-vc110-mt-1_50.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\tinyxml.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <TurnOffAssemblyGeneration>true</TurnOffAssemblyGeneration>
+      <LargeAddressAware>true</LargeAddressAware>
+      <Driver>NotSet</Driver>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -92,6 +96,7 @@
     <ClInclude Include="cClass.h" />
     <ClInclude Include="cDialogs.h" />
     <ClInclude Include="cGang.h" />
+    <ClInclude Include="cHouses.h" />
     <ClInclude Include="cInteriors.h" />
     <ClInclude Include="cObjects.h" />
     <ClInclude Include="configs.h" />
@@ -101,12 +106,14 @@
     <ClInclude Include="cVehicle.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="cPlayer.h" />
+    <ClInclude Include="saZones.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cChat.cpp" />
     <ClCompile Include="cClass.cpp" />
     <ClCompile Include="cDialogs.cpp" />
     <ClCompile Include="cGang.cpp" />
+    <ClCompile Include="cHouses.cpp" />
     <ClCompile Include="cInteriors.cpp" />
     <ClCompile Include="cObjects.cpp" />
     <ClCompile Include="cProperty.cpp" />
@@ -115,9 +122,13 @@
     <ClCompile Include="cVehicle.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="cPlayer.cpp" />
+    <ClCompile Include="saZones.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Export.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="changelog.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

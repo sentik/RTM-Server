@@ -16,6 +16,8 @@ class cInteriors
 struct  iInterior
 {
 	int db;				// Ид в базе данных
+	int text;
+	int pick;
 	//------------
 	float posX;			//Кординаты выхода X
 	float posY;			//Кординаты выхода Y
@@ -32,6 +34,7 @@ struct  iInterior
 	//------------
 	char posI;			//Ид	интерьера
 	char Type;			//Тип	интерьера
+
 };
 struct iInterior extern Interior[ MAX_INTERIORS ];
 int extern countInteriors;

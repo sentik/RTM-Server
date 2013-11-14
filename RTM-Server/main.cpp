@@ -24,10 +24,11 @@ char query[512];
 //-------------------------------------------------------------------------------------------
 int tCount;
 int uCount;
+int uTime;
 
 PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports()
 {
-	return SUPPORTS_VERSION | SUPPORTS_AMX_NATIVES;
+	return SUPPORTS_VERSION | SUPPORTS_AMX_NATIVES | SUPPORTS_PROCESS_TICK;
 }
 //-------------------------------------------------------------------------------------------
 PLUGIN_EXPORT void PLUGIN_CALL Unload()
@@ -43,11 +44,21 @@ AMX_NATIVE_INFO PluginNatives[] =
 PLUGIN_EXPORT void PLUGIN_CALL ProcessTick()
 {
 	tCount++;
-	if (tCount==200)
+	StreamerCall::Tick();
+	if (tCount == 100)
 	{
-		thread threadKey(StreamerCall::Tick);
-		threadKey.join();
-		//StreamerCall::Tick();
+		
+	}
+	else if (tCount==200)
+	{
+		uTime = getUnixTime();
+		//-----------------------------------
+		thread threadUpdater(cPlayer::update);
+		threadUpdater.join();
+		//-----------------------------------
+		/*thread threadStream(StreamerCall::Tick);
+		threadStream.join();*/
+		//-----------------------------------
 		tCount = 0;
 	}
 }
@@ -70,9 +81,6 @@ static void buildRegex()
 	//expDate  = regex("(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d");
 	expDate = regex("(0[1-9]|[12][0-9]|3[01]).(0[1-9]|1[012]).(19|20)([0-9])([0-9])");
 }
-
-
-
 //-------------------------------------------------------------------------------------------------------------------
 //TODO: Загружаем сервер
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData)
@@ -88,9 +96,6 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData)
 	mysql_real_connect(con, MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_BASE, 0, NULL, 0);
 	mysql_query(con, "SET NAMES cp1251");
 	//===============================================================================
-	cInteriors::loadInterioList();
-	cProperty::loadHouses();
-	cProperty::loadHouseInteriors();
 	buildRegex();
 	//===============================================================================
 	for (int i = 0; i < 3; i++) 	cClass::fixText(RaceList[i], strlen(RaceList[i]));
@@ -110,13 +115,6 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData)
 //-------------------------------------------------------------------------------------------
 PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 {
-	/*
-	for (int i = 0; i < 1000; i++)
-	for (int q = 0; q < 1000; q++)
-	{
-		StreamerCall::Native::CreateDynamicObject(987, 15.0f + q , 15.0f + i, 2.2f, 0.0f, 0.0f, 0.0f);
-	}
-	*/
 	//-------------------------------------------------------------
 	//TODO: Фон формы авторизации
 	drawPlayerChar[REG_BG] = TextDrawCreate(100.000000f, 160.000000f, "_");
@@ -204,7 +202,13 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 	TextDrawTextSize(drawPlayerChar[REG_BUTTON_BG], 0.000000f, 150.000000f);
 	TextDrawSetSelectable(drawPlayerChar[REG_BUTTON_BG], 0);
 	//-------------------------------------------------------------
+	cInteriors::loadInterioList();
+	cHouses::loadHouses();
+	cHouses::loadHouseInteriors();
+	//-------------------------------------------------------------
 	cObjects::loadObjects("intdoma1");
+	cObjects::loadObjects("intdoma2");
+	//-------------------------------------------------------------
 	return true;
 }
 //-------------------------------------------------------------------------------------------
@@ -279,11 +283,11 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSpawn(int playerid)
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerUpdate(int playerid)
 {
 	uCount++;
-	if (Player[playerid].isLogged && uCount > 25)
+	//if (Player[playerid].isLogged && uCount > 10)
 	{
-		//StreamerCall::Native::Update(playerid);
-		thread threadKey(StreamerCall::Native::Update, playerid);
-		threadKey.join();
+		StreamerCall::Native::Update(playerid);
+		/*thread threadKey(StreamerCall::Native::Update, playerid);
+		threadKey.join();*/
 		uCount = 0;
 	}
 	return true;
@@ -310,6 +314,8 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 {
 	sprintf(query, "playr: %d cmd: %s", playerid, cmd);
 	SendClientMessage(playerid, -1, query);
+
+
 	if (strcmp("/veh", cmd) == 0)
 	{
 		GetPlayerPos(playerid, &Player[playerid].pPosX, &Player[playerid].pPosY, &Player[playerid].pPosZ);
@@ -398,3 +404,10 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerLeaveRaceCheckpoint(int playerid)
 {
 	return StreamerCall::Events::OnPlayerLeaveRaceCheckpoint(playerid);
 }
+
+
+static int getUnixTime()
+{
+	return (int)std::time(0);
+}
+

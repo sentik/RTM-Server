@@ -6,6 +6,32 @@ struct pInfo Player[MAX_PLAYERS] = { { 0, 0 } };
 int drawPlayerChar[6];
 
 
+void cPlayer::update()
+{
+	//-------------------------------------------------
+	bool isTwo = uTime % 2 == 0;		//Кратность 2  UNIX-Time
+	bool isFive = uTime % 5 == 0;		//Кратность 5  UNIX-Time
+	bool isTen = isTwo & isFive;		//Кратность 10 UNIX-Time 
+	//-------------------------------------------------
+	for (int i = 0; i < MAX_PLAYERS; i++)
+	{
+		if (Player[ i ].isLogged == false) continue;
+		if (Player[ i ].isAction == PlayerAction::ACTION_FREZSETPOS)
+		{
+			Player[ i ].isAction = PlayerAction::ACTION_NONE;
+			TogglePlayerControllable(i, 1);
+		}
+		if (isTwo)
+		{
+			GetPlayerPos(i, &Player[ i ].pPosX, &Player[ i ].pPosY, &Player[ i ].pPosZ);
+		}
+		logprintf("[%d] is Updated!", i);
+	}
+}
+
+
+
+
 //TODO: Проверить наличие аккаунта
 int cPlayer::checkLogin(const char* login)
 {
@@ -66,6 +92,7 @@ void cPlayer::loadPlayerChar(int i)
 	//------------------------------------------------
 	strcpy(Player[i].uName, row[PlayerRows::pluName]);
 	strcpy(Player[i].sName, row[PlayerRows::plsName]);
+	//------------------------------------------------
 }
 
 /// <summary>
@@ -485,4 +512,9 @@ bool cPlayer::checkMoney(const int u, float value)
 	ShowPlayerDialog(u, DIALOG_LIST::DLG_NILL, GUI_MSG, "[Информация]: Недостаточно средств", msg, "Закрыть", "");
 	//=========================================
 	return false;
+}
+
+void cPlayer::getPlayerPos(const int i)
+{
+	GetPlayerPos(i, &Player[ i ].pPosX, &Player[ i ].pPosY, &Player[ i ].pPosZ);
 }

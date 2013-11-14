@@ -33,6 +33,17 @@ void cInteriors::loadInterioList()
 		Interior[ i ].subX = atof(row[ Interiors::InteriorRows::subx ]);
 		Interior[ i ].subY = atof(row[ Interiors::InteriorRows::suby ]);
 		Interior[ i ].subZ = atof(row[ Interiors::InteriorRows::subz ]);
+		//------------------------------------------------------
+		Interior[i].pick   = StreamerCall::Native::CreateDynamicPickup(EXIT_PICKUP, 23, 
+																	   Interior[ i ].posX, 
+																	   Interior[ i ].posY, 
+																	   Interior[ i ].posZ);
+		//------------------------------------------------------
+		Interior[ i ].text = StreamerCall::Native::CreateDynamic3DTextLabel("Выход\nНажмите [ALT]", -1,
+																		Interior[ i ].posX,
+																		Interior[ i ].posY,
+																		Interior[ i ].posZ, 10.0f);
+		//------------------------------------------------------
 		i++;
 	}
 	logprintf("[Система имущества]: Было загруженно %d интерьеров", i);

@@ -17,8 +17,11 @@ void cState::callKeyStateChange(int playerid, int newkeys, int oldkeys)
 		//-------------------------------------------------------------------------------------
 		case KEY_WALK:
 		{
+			cPlayer::getPlayerPos(playerid);
+			//==========================================================
 			thread threadProperty(cProperty::enterProperty, playerid);
 			threadProperty.join();
+			//==========================================================
 		}
 		break;
 		//-------------------------------------------------------------------------------------

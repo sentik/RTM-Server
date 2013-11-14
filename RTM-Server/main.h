@@ -7,7 +7,7 @@
 #define GAME_VERSION "0.75A"
 #define DEFAULT_SPAWN 100.0f, 200.0f, 10.0f
 #define SELECT_COLORUS 0xDCDCDC88
-#define RANDOM_SEED	8 * time(0) + 6 * clock()  - 123
+#define RANDOM_SEED	8 * getUnixTime() + 6 * clock()  - 123
 
 #include <iostream>
 #include <string>
@@ -18,7 +18,9 @@
 #include <process.h>
 #include <stdio.h>
 #include <list>
+#include <stack>
 #include <map>
+#include <unordered_map>
 //--------------------------------------------
 #include <sampgdk/a_players.h>
 #include <sampgdk/a_vehicles.h>
@@ -42,8 +44,10 @@
 #include "cDialogs.h"
 #include "cObjects.h"
 #include "cVehicle.h"
+#include "cHouses.h"
 #include "configs.h"
 #include "cPlayer.h"
+#include "saZones.h"
 #include "cClass.h"
 #include "cState.h"
 #include "cChat.h"
@@ -73,12 +77,14 @@ extern char Natioins[5][18];
 extern char SexArray[2][16];
 //----------------------------------------------------------------
 extern char query[512];
+extern int uTime;
 
 template <typename T> T clamp(const T& value, const T& low, const T& high)
 {
 	return value < low ? low : (value > high ? high : value);
 }
 
+static int getUnixTime();
 static string perkCalculate(int value)
 {
 	string  str = "llllllllllllll";
