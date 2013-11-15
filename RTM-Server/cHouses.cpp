@@ -15,7 +15,7 @@ void cHouses::loadHouses()
 	//------------------------------------------------------------
 	mysql_query(con, "SELECT class_Property.*, class_Houses.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Houses  WHERE class_Property.property = class_Houses.db AND class_Property.type = 1");
 	MYSQL_RES *result = mysql_store_result(con);
-	//------------------------------------------------------------	
+	//------------------------------------------------------------
 	while (( row = mysql_fetch_row(result) ))
 	{
 		Property[ countProperty ].db = atoi(row[ Properties::Houses::HouseRows::id ]);
@@ -28,17 +28,19 @@ void cHouses::loadHouses()
 		Property[ countProperty ].posZ = atof(row[ Properties::Houses::HouseRows::posz ]);
 		Property[ countProperty ].property = atoi(row[ Properties::Houses::HouseRows::property ]);
 		Property[ countProperty ].style = atoi(row[ Properties::Houses::HouseRows::style ]);
+		Property[countProperty].region = atoi(row[Properties::Houses::HouseRows::region]);
+		Property[countProperty].number = atoi(row[Properties::Houses::HouseRows::number]);
 		//--------------------------------------------------------------
-		strcpy(Property[ countProperty ].player, row[ Properties::Houses::HouseRows::oName ]);
 		//--------------------------------------------------------------
 		Houses[ i ].style = atoi(row[ Properties::Houses::HouseRows::style ]);
 		Houses[ i ].db = atoi(row[ Properties::Houses::HouseRows::db ]);
 		//--------------------------------------------------------------
 		if (Property[ countProperty ].owner)
 		{
-			sprintf(query, "{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s", "none", 0, Property[ countProperty ].player);
+			strcpy(Property[countProperty].player, row[Properties::Houses::HouseRows::oName]);
+			sprintf(query, "{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s", cProperty::getZoneName(Property[countProperty].region), Property[countProperty].number, Property[countProperty].player);
 			//=====================================================================================================
-			Property[ countProperty ].pick = StreamerCall::Native::CreateDynamicPickup(HOUSE_RED, 23,
+			Property[countProperty].pick = StreamerCall::Native::CreateDynamicPickup(HOUSE_GREEN, 23,
 																					   Property[ countProperty ].posX,
 																					   Property[ countProperty ].posY,
 																					   Property[ countProperty ].posZ, 0, 0);
@@ -46,9 +48,9 @@ void cHouses::loadHouses()
 		}
 		else
 		{
-			sprintf(query, "{FFFFFF}Адрес: {FF0000}%s {FFFFFF}д: {FF0000}%d\n{FFFFFF}Стоимость: {FF0000}%d$", "none", 0, Property[ countProperty ].price);
+			sprintf(query, "{FFFFFF}Адрес: {FF0000}%s {FFFFFF}д: {FF0000}%d\n{FFFFFF}Стоимость: {FF0000}%d$", cProperty::getZoneName(Property[countProperty].region), Property[countProperty].number, Property[countProperty].price);
 			//=====================================================================================================
-			Property[ countProperty ].pick = StreamerCall::Native::CreateDynamicPickup(HOUSE_GREEN, 23,
+			Property[countProperty].pick = StreamerCall::Native::CreateDynamicPickup(HOUSE_RED, 23,
 																					   Property[ countProperty ].posX,
 																					   Property[ countProperty ].posY,
 																					   Property[ countProperty ].posZ, 0, 0);

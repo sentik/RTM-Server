@@ -1,7 +1,6 @@
 #include "main.h"
 
 struct sProperty		Property	[ MAX_PROPERTY ] = { { 0, 0 } };
-
 int countProperty;
 
 /// <summary>
@@ -11,6 +10,8 @@ int countProperty;
 /// </summary>
 void cProperty::buyMessage(const int u, const int p)
 {
+	sprintf(query, "");
+
 
 }
 

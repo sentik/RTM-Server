@@ -29,9 +29,6 @@ void cPlayer::update()
 	}
 }
 
-
-
-
 //TODO: Проверить наличие аккаунта
 int cPlayer::checkLogin(const char* login)
 {

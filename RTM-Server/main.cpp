@@ -26,6 +26,7 @@ int tCount;
 int uCount;
 int uTime;
 
+
 PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports()
 {
 	return SUPPORTS_VERSION | SUPPORTS_AMX_NATIVES | SUPPORTS_PROCESS_TICK;
@@ -81,6 +82,7 @@ static void buildRegex()
 	//expDate  = regex("(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d");
 	expDate = regex("(0[1-9]|[12][0-9]|3[01]).(0[1-9]|1[012]).(19|20)([0-9])([0-9])");
 }
+
 //-------------------------------------------------------------------------------------------------------------------
 //TODO: Загружаем сервер
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData)
@@ -112,9 +114,29 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData)
 	srand(RANDOM_SEED);
 	return true;
 }
+/*
+std::map<int, void*> fnMap;
+
+void demo()
+{
+	logprintf("xuita!");
+}*/
+
+
+
 //-------------------------------------------------------------------------------------------
 PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 {
+	//"demo"( );
+	//-------------------------------------------------------------
+	cBanks::loadBanks();
+	//-------------------------------------------------------------
+	cInteriors::loadInterioList();
+	cHouses::loadHouses();
+	cHouses::loadHouseInteriors();
+	//-------------------------------------------------------------
+	cObjects::loadObjects("intdoma1");
+	cObjects::loadObjects("intdoma2");
 	//-------------------------------------------------------------
 	//TODO: Фон формы авторизации
 	drawPlayerChar[REG_BG] = TextDrawCreate(100.000000f, 160.000000f, "_");
@@ -201,14 +223,6 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 	TextDrawBoxColor(drawPlayerChar[REG_BUTTON_BG], -1778346416);
 	TextDrawTextSize(drawPlayerChar[REG_BUTTON_BG], 0.000000f, 150.000000f);
 	TextDrawSetSelectable(drawPlayerChar[REG_BUTTON_BG], 0);
-	//-------------------------------------------------------------
-	cInteriors::loadInterioList();
-	cHouses::loadHouses();
-	cHouses::loadHouseInteriors();
-	//-------------------------------------------------------------
-	cObjects::loadObjects("intdoma1");
-	cObjects::loadObjects("intdoma2");
-	//-------------------------------------------------------------
 	return true;
 }
 //-------------------------------------------------------------------------------------------
@@ -255,6 +269,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerText(int u, const char *text)
 //-------------------------------------------------------------------------------------------
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerDisconnect(int playerid, int reason)
 {
+	Player[playerid].isLogged = false;
 	StreamerCall::Events::OnPlayerDisconnect(playerid, reason);
 //	Player[playerid] = { { 0 } };
 	return true;
@@ -310,6 +325,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerStateChange(int playerid, int newstate, i
 	return true;
 }
 //-------------------------------------------------------------------------------------------
+
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cmd)
 {
 	sprintf(query, "playr: %d cmd: %s", playerid, cmd);
@@ -318,9 +334,36 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 
 	if (strcmp("/veh", cmd) == 0)
 	{
+		int model = 411;
+		int cone = 0;
+		int ctwo = 0;
+		sscanf(cmd, "/%*s %d %d %d", &model, &cone, &ctwo);
+		SendClientMessage(playerid, -1, cmd);
 		GetPlayerPos(playerid, &Player[playerid].pPosX, &Player[playerid].pPosY, &Player[playerid].pPosZ);
-		int veh = CreateVehicle(562, Player[playerid].pPosX, Player[playerid].pPosY, Player[playerid].pPosZ, 0, 0, 0, -1);
+		GetPlayerFacingAngle(playerid, &Player[playerid].pPosR);
+		int veh = CreateVehicle(model, Player[playerid].pPosX, Player[playerid].pPosY, Player[playerid].pPosZ, Player[playerid].pPosR, cone, ctwo, -1);
 		PutPlayerInVehicle(playerid, veh, 0);
+	}
+	else if (strcmp("/tah", cmd) == 0)
+	{
+		GetPlayerPos(playerid, &Player[playerid].pPosX, &Player[playerid].pPosY, &Player[playerid].pPosZ);
+		Property[countProperty].region = cProperty::getZoneNumber(Player[playerid].pPosX, Player[playerid].pPosY, Player[playerid].pPosZ);
+		int idx = 1;
+		for (int i = 0; i < MAX_PRIORITY; ++i)
+		{
+			if (Property[countProperty].region == Property[i].region)
+			{
+				idx++;
+			}
+		}
+		Property[countProperty].number = idx;
+		mysql_query(con, "INSERT INTO class_Houses SET style = 1");
+		int isert = mysql_insert_id(con);
+		sprintf(query, "INSERT INTO class_Property SET property = %d, type = 1, x=%.4f, y=%.4f, z=%.4f, price=1000, region=%d, number=%d", isert, Player[playerid].pPosX, Player[playerid].pPosY, Player[playerid].pPosZ, Property[countProperty].region, Property[countProperty].number);
+		mysql_query(con, query);
+		mysql_insert_id(con);
+		countProperty++;
+		SendClientMessage(playerid, -1, "Test house add.");
 	}
 	return true;
 }
@@ -411,3 +454,18 @@ static int getUnixTime()
 	return (int)std::time(0);
 }
 
+bool OnPlayerCommandReceived(int playerid, std::string command, std::string params)
+{
+	return true;
+}
+
+void OnPlayerCommandExecuted(int playerid, std::string, std::string params, bool success)
+{
+
+}
+
+//note that the 'command' is always in lower-case because of the transformation done in the main processing step
+bool OnUnknownCommand(int playerid, std::string command, std::string params)
+{
+	return true;
+}

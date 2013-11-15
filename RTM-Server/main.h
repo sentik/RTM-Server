@@ -52,6 +52,16 @@
 #include "cState.h"
 #include "cChat.h"
 #include "cGang.h"
+#include "cBank.h"
+
+
+#include <string>
+#include <iostream>
+#include <sstream>
+#include <functional>
+#include <stdexcept>
+#include <type_traits>
+
 //--------------------------------------------
 using namespace std;
 //--------------------------------------------

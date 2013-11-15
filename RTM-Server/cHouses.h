@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef __cHouses__   
+#define __cHouses__   
+
 #include "configs.h"
 
 class cHouses
@@ -10,7 +13,6 @@ class cHouses
 	static void cHouses::createHouseInterior(int);
 	//-------------------------------------------
 };
-
 
 struct Houses
 {
@@ -38,12 +40,6 @@ struct eHouseDesine extern HouseDesine[ MAX_HOUSES ][ MAX_DIS_OBJ ];
 
 namespace Properties
 {
-	enum propertyTypes
-	{
-		Property_None,
-		Property_House,
-	};
-
 	namespace Houses
 	{
 		enum HouseRows
@@ -57,6 +53,8 @@ namespace Properties
 			posz,
 			price,
 			bank,
+			region,
+			number,
 			db,
 			style,
 			oName,
@@ -79,3 +77,5 @@ namespace Properties
 		}
 	}
 }
+
+#endif 

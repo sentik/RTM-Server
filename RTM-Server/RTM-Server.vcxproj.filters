@@ -49,6 +49,24 @@
     <Filter Include="Заголовочные файлы\player">
       <UniqueIdentifier>{91cabca9-0da7-44de-93cc-050690b3ec56}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Заголовочные файлы\property\banks">
+      <UniqueIdentifier>{d7e538b3-25e0-4ba2-9f91-fa4049abf2f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\property\banks">
+      <UniqueIdentifier>{b7d65669-8781-484b-b112-034c64c09401}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\property\gas">
+      <UniqueIdentifier>{7300fb24-09a9-4dd6-ab8d-3548a5ba72c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\property\gas">
+      <UniqueIdentifier>{aa0b0f93-6c57-4195-919e-cd96ba32be81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\property\shops">
+      <UniqueIdentifier>{33975ea3-8ca0-4529-8735-06e493355a0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\property\shops">
+      <UniqueIdentifier>{69498804-2a9e-4293-97f5-838ab6a01140}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -59,9 +77,6 @@
     </ClInclude>
     <ClInclude Include="cHouses.h">
       <Filter>Заголовочные файлы\property\houses</Filter>
-    </ClInclude>
-    <ClInclude Include="cObjects.h">
-      <Filter>Заголовочные файлы\property</Filter>
     </ClInclude>
     <ClInclude Include="cInteriors.h">
       <Filter>Заголовочные файлы\property</Filter>
@@ -76,9 +91,6 @@
       <Filter>Заголовочные файлы\gui</Filter>
     </ClInclude>
     <ClInclude Include="cClass.h">
-      <Filter>Заголовочные файлы\general</Filter>
-    </ClInclude>
-    <ClInclude Include="configs.h">
       <Filter>Заголовочные файлы\general</Filter>
     </ClInclude>
     <ClInclude Include="saZones.h">
@@ -96,6 +108,21 @@
     <ClInclude Include="cState.h">
       <Filter>Заголовочные файлы\player</Filter>
     </ClInclude>
+    <ClInclude Include="cBank.h">
+      <Filter>Заголовочные файлы\property\banks</Filter>
+    </ClInclude>
+    <ClInclude Include="cObjects.h">
+      <Filter>Заголовочные файлы\general</Filter>
+    </ClInclude>
+    <ClInclude Include="configs.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="cGas.h">
+      <Filter>Заголовочные файлы\property\gas</Filter>
+    </ClInclude>
+    <ClInclude Include="shopVehicle.h">
+      <Filter>Заголовочные файлы\property\shops</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -106,9 +133,6 @@
     </ClCompile>
     <ClCompile Include="cHouses.cpp">
       <Filter>Файлы исходного кода\property\houses</Filter>
-    </ClCompile>
-    <ClCompile Include="cObjects.cpp">
-      <Filter>Файлы исходного кода\property</Filter>
     </ClCompile>
     <ClCompile Include="cInteriors.cpp">
       <Filter>Файлы исходного кода\property</Filter>
@@ -139,6 +163,18 @@
     </ClCompile>
     <ClCompile Include="cState.cpp">
       <Filter>Файлы исходного кода\player</Filter>
+    </ClCompile>
+    <ClCompile Include="cBank.cpp">
+      <Filter>Файлы исходного кода\property\banks</Filter>
+    </ClCompile>
+    <ClCompile Include="cObjects.cpp">
+      <Filter>Файлы исходного кода\general</Filter>
+    </ClCompile>
+    <ClCompile Include="cGas.cpp">
+      <Filter>Файлы исходного кода\property\gas</Filter>
+    </ClCompile>
+    <ClCompile Include="shopVehicle.cpp">
+      <Filter>Файлы исходного кода\property\shops</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
