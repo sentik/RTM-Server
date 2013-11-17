@@ -58,6 +58,8 @@ struct  pInfo
 	char	pCarid;				//Ид		транспорта
 	char	pSeatid;			//Ид		места в транспорте
 	char	pState;				//Состаяние	игрока
+	int		inType;
+	int		inIndex;
 };
 //TODO: Структура игрока
 struct pInfo extern Player[MAX_PLAYERS];

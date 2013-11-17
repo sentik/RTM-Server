@@ -4,7 +4,7 @@
 #pragma warning(disable: 4244)
 #define _CRT_SECURE_NO_WARNINGS
 
-#define GAME_VERSION "0.75A"
+#define GAME_VERSION "0.76A"
 #define DEFAULT_SPAWN 100.0f, 200.0f, 10.0f
 #define SELECT_COLORUS 0xDCDCDC88
 #define RANDOM_SEED	8 * getUnixTime() + 6 * clock()  - 123
@@ -95,6 +95,8 @@ template <typename T> T clamp(const T& value, const T& low, const T& high)
 }
 
 static int getUnixTime();
+static void initTextDraws();
+
 static string perkCalculate(int value)
 {
 	string  str = "llllllllllllll";

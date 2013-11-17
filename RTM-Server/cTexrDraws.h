@@ -13,5 +13,4 @@ enum REG_DRAWS
 	REG_SELECT,		//Форма регистрации. Кнопка	выбрать
 	REG_BUTTON_BG,	//Форма регистрации. Фон кнопок
 };
-
 #endif 

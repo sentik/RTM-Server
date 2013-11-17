@@ -23,6 +23,8 @@
 
 #define ENTER_RADIUS	1.5f
 #define EXIT_PICKUP		19132
+#define INFO_PICKUP		1239
+
 
 #define	CLOTH_PICKUP	1275
 #define	DOLLAR_PICKUP	1274

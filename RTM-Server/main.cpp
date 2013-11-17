@@ -1,5 +1,4 @@
 #include "main.h"
-
 /*
 http://ru.wikibooks.org/wiki/%D0%A1%D0%B8++
 Суровый язык этот с++ Можно не то что в ногу себе выстрелить, а запросто повеситься в абсолютно пустой комнате
@@ -34,6 +33,7 @@ PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports()
 //-------------------------------------------------------------------------------------------
 PLUGIN_EXPORT void PLUGIN_CALL Unload()
 {
+	mysql_close(con);
 	logprintf(" * Test plugin was unloaded.");
 }
 //-------------------------------------------------------------------------------------------
@@ -122,12 +122,11 @@ void demo()
 	logprintf("xuita!");
 }*/
 
-
-
 //-------------------------------------------------------------------------------------------
 PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 {
 	//"demo"( );
+	Properties::Shops::ShopVehicle::loadShop();
 	//-------------------------------------------------------------
 	cBanks::loadBanks();
 	//-------------------------------------------------------------
@@ -137,92 +136,10 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 	//-------------------------------------------------------------
 	cObjects::loadObjects("intdoma1");
 	cObjects::loadObjects("intdoma2");
+	cObjects::loadObjects("arendaauto");
+	cObjects::loadObjects("0bankint");
 	//-------------------------------------------------------------
-	//TODO: Фон формы авторизации
-	drawPlayerChar[REG_BG] = TextDrawCreate(100.000000f, 160.000000f, "_");
-	TextDrawAlignment(drawPlayerChar[REG_BG], 2);
-	TextDrawBackgroundColor(drawPlayerChar[REG_BG], 255);
-	TextDrawFont(drawPlayerChar[REG_BG], 1);
-	TextDrawLetterSize(drawPlayerChar[REG_BG], 0.500000f, 17.000003f);
-	TextDrawColor(drawPlayerChar[REG_BG], -1);
-	TextDrawSetOutline(drawPlayerChar[REG_BG], 0);
-	TextDrawSetProportional(drawPlayerChar[REG_BG], 1);
-	TextDrawSetShadow(drawPlayerChar[REG_BG], 1);
-	TextDrawUseBox(drawPlayerChar[REG_BG], 1);
-	TextDrawBoxColor(drawPlayerChar[REG_BG], 80);
-	TextDrawTextSize(drawPlayerChar[REG_BG], 0.000000f, 150.000000f);
-	TextDrawSetSelectable(drawPlayerChar[REG_BG], 0);
-	//-------------------------------------------------------------
-	//TODO: Заголовок окна авторизации
-	drawPlayerChar[REG_HEADER] = TextDrawCreate(100.000000f, 153.000000f, "Select Craracter");
-	TextDrawAlignment(drawPlayerChar[REG_HEADER], 2);
-	TextDrawBackgroundColor(drawPlayerChar[REG_HEADER], -1778346416);
-	TextDrawFont(drawPlayerChar[REG_HEADER], 0);
-	TextDrawLetterSize(drawPlayerChar[REG_HEADER], 0.609999f, 1.00000f);
-	TextDrawColor(drawPlayerChar[REG_HEADER], -1);
-	TextDrawSetOutline(drawPlayerChar[REG_HEADER], 1);
-	TextDrawSetProportional(drawPlayerChar[REG_HEADER], 1);
-	TextDrawSetSelectable(drawPlayerChar[REG_HEADER], 0);
-	//-------------------------------------------------------------
-	//TODO: Регистрация. Кнопка назад
-	drawPlayerChar[REG_LEFT] = TextDrawCreate(25.000000f, 316.000000f, "ld_beat:left");
-	TextDrawAlignment(drawPlayerChar[REG_LEFT], 2);
-	TextDrawBackgroundColor(drawPlayerChar[REG_LEFT], 0);
-	TextDrawFont(drawPlayerChar[REG_LEFT], 4);
-	TextDrawLetterSize(drawPlayerChar[REG_LEFT], 0.500000f, 1.100000f);
-	TextDrawColor(drawPlayerChar[REG_LEFT], 100);
-	TextDrawSetOutline(drawPlayerChar[REG_LEFT], 0);
-	TextDrawSetProportional(drawPlayerChar[REG_LEFT], 1);
-	TextDrawSetShadow(drawPlayerChar[REG_LEFT], 1);
-	TextDrawUseBox(drawPlayerChar[REG_LEFT], 1);
-	TextDrawBoxColor(drawPlayerChar[REG_LEFT], 255);
-	TextDrawTextSize(drawPlayerChar[REG_LEFT], 30.000000f, 15.000000f);
-	TextDrawSetSelectable(drawPlayerChar[REG_LEFT], 1);
-	//-------------------------------------------------------------
-	//TODO: Регистрация. Кнопка вперед
-	drawPlayerChar[REG_RIGHT] = TextDrawCreate(145.000000f, 316.000000f, "ld_beat:right");
-	TextDrawAlignment(drawPlayerChar[REG_RIGHT], 2);
-	TextDrawBackgroundColor(drawPlayerChar[REG_RIGHT], 0);
-	TextDrawFont(drawPlayerChar[REG_RIGHT], 4);
-	TextDrawLetterSize(drawPlayerChar[REG_RIGHT], 0.500000f, 1.100000f);
-	TextDrawColor(drawPlayerChar[REG_RIGHT], 100);
-	TextDrawSetOutline(drawPlayerChar[REG_RIGHT], 0);
-	TextDrawSetProportional(drawPlayerChar[REG_RIGHT], 1);
-	TextDrawSetShadow(drawPlayerChar[REG_RIGHT], 1);
-	TextDrawUseBox(drawPlayerChar[REG_RIGHT], 1);
-	TextDrawBoxColor(drawPlayerChar[REG_RIGHT], 255);
-	TextDrawTextSize(drawPlayerChar[REG_RIGHT], 30.000000f, 15.000000f);
-	TextDrawSetSelectable(drawPlayerChar[REG_RIGHT], 1);
-	//-------------------------------------------------------------
-	//TODO: Регистрация. Кнопка Выбрать
-	drawPlayerChar[REG_SELECT] = TextDrawCreate(100.000000f, 316.000000f, "SELECT");
-	TextDrawAlignment(drawPlayerChar[REG_SELECT], 2);
-	TextDrawBackgroundColor(drawPlayerChar[REG_SELECT], 0);
-	TextDrawFont(drawPlayerChar[REG_SELECT], 1);
-	TextDrawLetterSize(drawPlayerChar[REG_SELECT], 0.609999f, 1.399999f);
-	TextDrawColor(drawPlayerChar[REG_SELECT], 100);
-	TextDrawSetOutline(drawPlayerChar[REG_SELECT], 0);
-	TextDrawSetProportional(drawPlayerChar[REG_SELECT], 1);
-	TextDrawSetShadow(drawPlayerChar[REG_SELECT], 1);
-	TextDrawUseBox(drawPlayerChar[REG_SELECT], 1);
-	TextDrawBoxColor(drawPlayerChar[REG_SELECT], 0x00000000);
-	TextDrawTextSize(drawPlayerChar[REG_SELECT], 15.000000f, 60.000000f);
-	TextDrawSetSelectable(drawPlayerChar[REG_SELECT], 1);
-	//-------------------------------------------------------------
-	//TODO: Регистрация. Фон для кнопок
-	drawPlayerChar[REG_BUTTON_BG] = TextDrawCreate(100.000000f, 318.000000f, "_");
-	TextDrawAlignment(drawPlayerChar[REG_BUTTON_BG], 2);
-	TextDrawBackgroundColor(drawPlayerChar[REG_BUTTON_BG], 255);
-	TextDrawFont(drawPlayerChar[REG_BUTTON_BG], 1);
-	TextDrawLetterSize(drawPlayerChar[REG_BUTTON_BG], 0.500000f, 1.199998f);
-	TextDrawColor(drawPlayerChar[REG_BUTTON_BG], -1);
-	TextDrawSetOutline(drawPlayerChar[REG_BUTTON_BG], 0);
-	TextDrawSetProportional(drawPlayerChar[REG_BUTTON_BG], 1);
-	TextDrawSetShadow(drawPlayerChar[REG_BUTTON_BG], 1);
-	TextDrawUseBox(drawPlayerChar[REG_BUTTON_BG], 1);
-	TextDrawBoxColor(drawPlayerChar[REG_BUTTON_BG], -1778346416);
-	TextDrawTextSize(drawPlayerChar[REG_BUTTON_BG], 0.000000f, 150.000000f);
-	TextDrawSetSelectable(drawPlayerChar[REG_BUTTON_BG], 0);
+	initTextDraws();
 	return true;
 }
 //-------------------------------------------------------------------------------------------
@@ -326,23 +243,29 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerStateChange(int playerid, int newstate, i
 }
 //-------------------------------------------------------------------------------------------
 
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cmd)
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cmdtext)
 {
-	sprintf(query, "playr: %d cmd: %s", playerid, cmd);
+	char cmd[20];
+	char params[128];
+
+	int res = sscanf(cmdtext, "/%20s %128[0-9a-zA-Zа-яА-Я ]s", &cmd, &params);
+
+	sprintf(query, "cmd: %s params: %s sscanf result: %d", cmd, params, res);
 	SendClientMessage(playerid, -1, query);
 
-
-	if (strcmp("/veh", cmd) == 0)
+	if (strcmp("veh", cmd) == 0)
 	{
-		int model = 411;
+		int model;
 		int cone = 0;
 		int ctwo = 0;
-		sscanf(cmd, "/%*s %d %d %d", &model, &cone, &ctwo);
-		SendClientMessage(playerid, -1, cmd);
-		GetPlayerPos(playerid, &Player[playerid].pPosX, &Player[playerid].pPosY, &Player[playerid].pPosZ);
-		GetPlayerFacingAngle(playerid, &Player[playerid].pPosR);
-		int veh = CreateVehicle(model, Player[playerid].pPosX, Player[playerid].pPosY, Player[playerid].pPosZ, Player[playerid].pPosR, cone, ctwo, -1);
-		PutPlayerInVehicle(playerid, veh, 0);
+		if (sscanf(params, "%3d %3d %3d", &model, &cone, &ctwo) >= 1)
+		{
+			GetPlayerPos(playerid, &Player[playerid].pPosX, &Player[playerid].pPosY, &Player[playerid].pPosZ);
+			GetPlayerFacingAngle(playerid, &Player[playerid].pPosR);
+			int veh = CreateVehicle(model, Player[playerid].pPosX, Player[playerid].pPosY, Player[playerid].pPosZ, Player[playerid].pPosR, cone, ctwo, -1);
+			PutPlayerInVehicle(playerid, veh, 0);
+		}
+		else SendClientMessage(playerid, -1, "Use: /veh [modelid] (optional [color1] [color2])");
 	}
 	else if (strcmp("/tah", cmd) == 0)
 	{
@@ -468,4 +391,95 @@ void OnPlayerCommandExecuted(int playerid, std::string, std::string params, bool
 bool OnUnknownCommand(int playerid, std::string command, std::string params)
 {
 	return true;
+}
+
+
+static void initTextDraws()
+{
+	//-------------------------------------------------------------
+	//TODO: Фон формы авторизации
+	drawPlayerChar[ REG_BG ] = TextDrawCreate(100.000000f, 160.000000f, "_");
+	TextDrawAlignment(drawPlayerChar[ REG_BG ], 2);
+	TextDrawBackgroundColor(drawPlayerChar[ REG_BG ], 255);
+	TextDrawFont(drawPlayerChar[ REG_BG ], 1);
+	TextDrawLetterSize(drawPlayerChar[ REG_BG ], 0.500000f, 17.000003f);
+	TextDrawColor(drawPlayerChar[ REG_BG ], -1);
+	TextDrawSetOutline(drawPlayerChar[ REG_BG ], 0);
+	TextDrawSetProportional(drawPlayerChar[ REG_BG ], 1);
+	TextDrawSetShadow(drawPlayerChar[ REG_BG ], 1);
+	TextDrawUseBox(drawPlayerChar[ REG_BG ], 1);
+	TextDrawBoxColor(drawPlayerChar[ REG_BG ], 80);
+	TextDrawTextSize(drawPlayerChar[ REG_BG ], 0.000000f, 150.000000f);
+	TextDrawSetSelectable(drawPlayerChar[ REG_BG ], 0);
+	//-------------------------------------------------------------
+	//TODO: Заголовок окна авторизации
+	drawPlayerChar[ REG_HEADER ] = TextDrawCreate(100.000000f, 153.000000f, "Select Craracter");
+	TextDrawAlignment(drawPlayerChar[ REG_HEADER ], 2);
+	TextDrawBackgroundColor(drawPlayerChar[ REG_HEADER ], -1778346416);
+	TextDrawFont(drawPlayerChar[ REG_HEADER ], 0);
+	TextDrawLetterSize(drawPlayerChar[ REG_HEADER ], 0.609999f, 1.00000f);
+	TextDrawColor(drawPlayerChar[ REG_HEADER ], -1);
+	TextDrawSetOutline(drawPlayerChar[ REG_HEADER ], 1);
+	TextDrawSetProportional(drawPlayerChar[ REG_HEADER ], 1);
+	TextDrawSetSelectable(drawPlayerChar[ REG_HEADER ], 0);
+	//-------------------------------------------------------------
+	//TODO: Регистрация. Кнопка назад
+	drawPlayerChar[ REG_LEFT ] = TextDrawCreate(25.000000f, 316.000000f, "ld_beat:left");
+	TextDrawAlignment(drawPlayerChar[ REG_LEFT ], 2);
+	TextDrawBackgroundColor(drawPlayerChar[ REG_LEFT ], 0);
+	TextDrawFont(drawPlayerChar[ REG_LEFT ], 4);
+	TextDrawLetterSize(drawPlayerChar[ REG_LEFT ], 0.500000f, 1.100000f);
+	TextDrawColor(drawPlayerChar[ REG_LEFT ], 100);
+	TextDrawSetOutline(drawPlayerChar[ REG_LEFT ], 0);
+	TextDrawSetProportional(drawPlayerChar[ REG_LEFT ], 1);
+	TextDrawSetShadow(drawPlayerChar[ REG_LEFT ], 1);
+	TextDrawUseBox(drawPlayerChar[ REG_LEFT ], 1);
+	TextDrawBoxColor(drawPlayerChar[ REG_LEFT ], 255);
+	TextDrawTextSize(drawPlayerChar[ REG_LEFT ], 30.000000f, 15.000000f);
+	TextDrawSetSelectable(drawPlayerChar[ REG_LEFT ], 1);
+	//-------------------------------------------------------------
+	//TODO: Регистрация. Кнопка вперед
+	drawPlayerChar[ REG_RIGHT ] = TextDrawCreate(145.000000f, 316.000000f, "ld_beat:right");
+	TextDrawAlignment(drawPlayerChar[ REG_RIGHT ], 2);
+	TextDrawBackgroundColor(drawPlayerChar[ REG_RIGHT ], 0);
+	TextDrawFont(drawPlayerChar[ REG_RIGHT ], 4);
+	TextDrawLetterSize(drawPlayerChar[ REG_RIGHT ], 0.500000f, 1.100000f);
+	TextDrawColor(drawPlayerChar[ REG_RIGHT ], 100);
+	TextDrawSetOutline(drawPlayerChar[ REG_RIGHT ], 0);
+	TextDrawSetProportional(drawPlayerChar[ REG_RIGHT ], 1);
+	TextDrawSetShadow(drawPlayerChar[ REG_RIGHT ], 1);
+	TextDrawUseBox(drawPlayerChar[ REG_RIGHT ], 1);
+	TextDrawBoxColor(drawPlayerChar[ REG_RIGHT ], 255);
+	TextDrawTextSize(drawPlayerChar[ REG_RIGHT ], 30.000000f, 15.000000f);
+	TextDrawSetSelectable(drawPlayerChar[ REG_RIGHT ], 1);
+	//-------------------------------------------------------------
+	//TODO: Регистрация. Кнопка Выбрать
+	drawPlayerChar[ REG_SELECT ] = TextDrawCreate(100.000000f, 316.000000f, "SELECT");
+	TextDrawAlignment(drawPlayerChar[ REG_SELECT ], 2);
+	TextDrawBackgroundColor(drawPlayerChar[ REG_SELECT ], 0);
+	TextDrawFont(drawPlayerChar[ REG_SELECT ], 1);
+	TextDrawLetterSize(drawPlayerChar[ REG_SELECT ], 0.609999f, 1.399999f);
+	TextDrawColor(drawPlayerChar[ REG_SELECT ], 100);
+	TextDrawSetOutline(drawPlayerChar[ REG_SELECT ], 0);
+	TextDrawSetProportional(drawPlayerChar[ REG_SELECT ], 1);
+	TextDrawSetShadow(drawPlayerChar[ REG_SELECT ], 1);
+	TextDrawUseBox(drawPlayerChar[ REG_SELECT ], 1);
+	TextDrawBoxColor(drawPlayerChar[ REG_SELECT ], 0x00000000);
+	TextDrawTextSize(drawPlayerChar[ REG_SELECT ], 15.000000f, 60.000000f);
+	TextDrawSetSelectable(drawPlayerChar[ REG_SELECT ], 1);
+	//-------------------------------------------------------------
+	//TODO: Регистрация. Фон для кнопок
+	drawPlayerChar[ REG_BUTTON_BG ] = TextDrawCreate(100.000000f, 318.000000f, "_");
+	TextDrawAlignment(drawPlayerChar[ REG_BUTTON_BG ], 2);
+	TextDrawBackgroundColor(drawPlayerChar[ REG_BUTTON_BG ], 255);
+	TextDrawFont(drawPlayerChar[ REG_BUTTON_BG ], 1);
+	TextDrawLetterSize(drawPlayerChar[ REG_BUTTON_BG ], 0.500000f, 1.199998f);
+	TextDrawColor(drawPlayerChar[ REG_BUTTON_BG ], -1);
+	TextDrawSetOutline(drawPlayerChar[ REG_BUTTON_BG ], 0);
+	TextDrawSetProportional(drawPlayerChar[ REG_BUTTON_BG ], 1);
+	TextDrawSetShadow(drawPlayerChar[ REG_BUTTON_BG ], 1);
+	TextDrawUseBox(drawPlayerChar[ REG_BUTTON_BG ], 1);
+	TextDrawBoxColor(drawPlayerChar[ REG_BUTTON_BG ], -1778346416);
+	TextDrawTextSize(drawPlayerChar[ REG_BUTTON_BG ], 0.000000f, 150.000000f);
+	TextDrawSetSelectable(drawPlayerChar[ REG_BUTTON_BG ], 0);
 }

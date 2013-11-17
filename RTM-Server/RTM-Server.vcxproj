@@ -46,6 +46,7 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>C:$(HOMEPATH)\Dropbox\!WorkSpace\RulezzTeam</OutDir>
     <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

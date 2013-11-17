@@ -16,8 +16,12 @@ class cInteriors
 struct  iInterior
 {
 	int db;				// Ид в базе данных
-	int text;
-	int pick;
+	int text;			//Текст выхда
+	int pick;			//Пикап выхода
+	int actT;			//Текст действия 1
+	int actP;			//Пикап действия 1
+	int subT;			//Текст действия 2
+	int subP;			//Пикап действия 2
 	//------------
 	float posX;			//Кординаты выхода X
 	float posY;			//Кординаты выхода Y
