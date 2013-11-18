@@ -48,6 +48,10 @@ public:
 	static void cProperty::statusMessage(const int, const int);
 	static char* cProperty::getZoneName(const int);
 	static int cProperty::getZoneNumber(float, float, float);
+	static void cProperty::beforBuy(const int);
+	//============================================================
+	static void cProperty::setOwner(const int, const int);
+	static void cProperty::setStatus(const int, const int);
 	//-------------------------------------------
 };
 

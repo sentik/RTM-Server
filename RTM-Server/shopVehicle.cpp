@@ -30,6 +30,7 @@ void Properties::Shops::ShopVehicle::loadShop()
 		vehicle[ i ].spawnX = atof(row[ Properties::Shops::ShopVehicle::vehRows::spawnx ]);
 		vehicle[ i ].spawnY = atof(row[ Properties::Shops::ShopVehicle::vehRows::spawny ]);
 		vehicle[ i ].spawnZ = atof(row[ Properties::Shops::ShopVehicle::vehRows::spawnz ]);
+		Property[ countProperty ].link = i;	// Ссылка на имущество
 		//--------------------------------------------------------------
 		strcpy(vehicle[ i ].name, row[ Properties::Shops::ShopVehicle::vehRows::name ]);
 		//--------------------------------------------------------------
@@ -64,6 +65,28 @@ void Properties::Shops::ShopVehicle::loadShop()
 		i++;
 	}
 	logprintf("[Система Имущества]: \tБыло загруженно автосалонов \t- %d", i);
-	
+}
+
+void Properties::Shops::ShopVehicle::preView(const int u)
+{
+	const int shop = Property[ Player[ u ].inIndex ].link;
+	if (vehicle[ shop ].Used)
+	{
+		SendClientMessage(u, -1, "[Информация]: Извините, но на данный момент наш менеджер занят!");
+		SendClientMessage(u, -1, "[Информация]: Пожалуйста, подождите пока он освободится.");
+		return;
+	}
 
 }
+
+void Properties::Shops::ShopVehicle::viewList(const int u, const int item)
+{
+
+}
+
+void Properties::Shops::ShopVehicle::viewCam(const int u)
+{
+
+}
+
+

@@ -115,6 +115,18 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 				cPlayer::SpawnChar(playerid);
 			}
 		}
+		case DLG_PROPERTY_BUY:
+		{
+			if (!response) return 1;
+			int idx = Player[ playerid ].inIndex;
+			if (cPlayer::checkMoney(playerid, Property[ idx ].price))
+			{
+				cProperty::setOwner(idx, Player[ playerid ].pDB);
+				cPlayer::givePlayerMoney(playerid, -Property[ idx ].price);
+				cProperty::beforBuy(playerid);
+			}
+			break;
+		}
 	}
 	return true;
 }

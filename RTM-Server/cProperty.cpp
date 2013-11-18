@@ -10,9 +10,44 @@ int countProperty;
 /// </summary>
 void cProperty::buyMessage(const int u, const int p)
 {
-	sprintf(query, "");
+	char msg[ 512 ];
+	//===============================================
+	Player[ u ].inIndex = p;
+	//===============================================
+	switch (Property[p].type)
+	{
+		//------------------------------------------
+		case 1:	//Дома
+		{
+			sprintf(msg, "Здравствуйте, вы действильно хотите приобрести этот дом?\nАдрес дома: %s %d\nСтоимость покупки: %d$", 
+					"nill", 0, Property[p].price);
+		}
+		break;
+		//------------------------------------------
+	}
+	ShowPlayerDialog(u, DLG_PROPERTY_BUY, GUI_MSG, "Покупка недвижимости", msg, "Далее", "Отмена");
+}
 
 
+/// <summary>
+/// Сообщение плсле покупки недвижимости
+/// <param name="u">* Ид игрока</param>
+/// </summary>
+void cProperty::beforBuy(const int u)
+{
+	char msg[ 600 ];
+	strcpy(msg, "============================================ \n");
+	strcat(msg, "\tПоздравляем вас с покупкой недвижимости.	  \n");
+	strcat(msg, "============================================ \n");
+	strcat(msg, "Каждые 24 часа вы будете получать квитанции, \n");
+	strcat(msg, "которые необходимо своевременно оплатить!    \n");
+	strcat(msg, "Квитанции можно оплатить в банке или терминале\n");
+	strcat(msg, "============================================  \n");
+	strcat(msg, "Более подробно, вы можете узнать на форуме    \n");
+	strcat(msg, "Или посмотреть список комманд /mm -> Имущество\n");
+	strcat(msg, "============================================  \n");
+	strcat(msg, "\tВсего хорошего, желаем приятной игры !");
+	ShowPlayerDialog(u, DLG_NONE, GUI_MSG, "[Информация]", msg, "Закрыть", "");
 }
 
 
@@ -25,6 +60,23 @@ void cProperty::statusMessage(const int u, const int p)
 {
 
 }
+
+
+void cProperty::setOwner(const int p, const int owner)
+{
+	Property[ p ].owner = owner;
+	sprintf(query, "UPDATE class_Property SET owner = '%d' WHERE id = %d", owner, Property[ p ].db);
+	mysql_query(con, query); 
+}
+
+
+void cProperty::setStatus(const int p, const int status)
+{
+	Property[ p ].status = status;
+	sprintf(query, "UPDATE class_Property SET status = '%d' WHERE id = %d", status, Property[ p ].db);
+	mysql_query(con, query);
+}
+
 
 
 /// <summary>

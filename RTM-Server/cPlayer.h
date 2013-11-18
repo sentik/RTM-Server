@@ -32,6 +32,9 @@ public:
 	static bool cPlayer::checkMoney(const int, float);
 	static void cPlayer::update();
 	static void cPlayer::getPlayerPos(const int);
+	static void cPlayer::givePlayerMoney(const int, float);
+	static void cPlayer::updatePos(const int);
+
 };
 
 int extern drawPlayerChar[6];

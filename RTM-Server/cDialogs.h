@@ -12,6 +12,7 @@ enum DIALOG_LIST
 	DLG_AUTHPLAYER,				// Диалог формы авторизации
 	DLG_REGISTER_NAME,			// Диалог
 	DLG_REGISTER_CRD,			// Диалог
+	DLG_PROPERTY_BUY,
 };
 
 enum DIALOG_STYLYS

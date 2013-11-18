@@ -23,7 +23,7 @@ void cPlayer::update()
 		}
 		if (isTwo)
 		{
-			GetPlayerPos(i, &Player[ i ].pPosX, &Player[ i ].pPosY, &Player[ i ].pPosZ);
+			cPlayer::updatePos(i);
 		}
 		logprintf("[%d] is Updated!", i);
 	}
@@ -90,6 +90,7 @@ void cPlayer::loadPlayerChar(int i)
 	strcpy(Player[i].uName, row[PlayerRows::pluName]);
 	strcpy(Player[i].sName, row[PlayerRows::plsName]);
 	//------------------------------------------------
+	GivePlayerMoney(i, Player[ i ].pMoney);
 }
 
 /// <summary>
@@ -280,6 +281,8 @@ void cPlayer::hideRegDraws(const int i)
 void cPlayer::SpawnChar(const int i)
 {
 	CancelSelectTextDraw(i);
+	TogglePlayerControllable(i, 0);
+	Player[ i ].isAction = ACTION_FREZSETPOS;
 	TogglePlayerSpectating(i, false);
 	SetCameraBehindPlayer(i);
 	SpawnPlayer(i);
@@ -505,11 +508,37 @@ bool cPlayer::checkMoney(const int u, float value)
 	//=========================================
 	char msg[ 128 ];
 	//=========================================
-	sprintf(msg, "К сожаления у вас не хватает %f$\nТребуется всего: %f$", value - Player[ u ].pMoney, value);
-	ShowPlayerDialog(u, DIALOG_LIST::DLG_NILL, GUI_MSG, "[Информация]: Недостаточно средств", msg, "Закрыть", "");
+	sprintf(msg, "К сожаления у вас не хватает %.2f$\nТребуется всего: %.2f$", value - Player[ u ].pMoney, value);
+	ShowPlayerDialog(u, DIALOG_LIST::DLG_NONE, GUI_MSG, "[Информация]: Недостаточно средств", msg, "Закрыть", "");
 	//=========================================
 	return false;
 }
+
+void cPlayer::givePlayerMoney(const int u, float value)
+{
+	//=============================
+	GivePlayerMoney(u, value);
+	Player[ u ].pMoney += value;
+	//=============================
+	sprintf(query, "UPDATE player_Character SET money = '%f' WHERE id = '%d'", Player[ u ].pMoney, Player[ u ].pDB);
+	mysql_query(con, query);
+	//=============================
+}
+
+void cPlayer::updatePos(const int u)
+{
+	GetPlayerPos(u, &Player[ u ].pPosX, &Player[ u ].pPosY, &Player[ u ].pPosZ);
+	GetPlayerFacingAngle( u, &Player[ u ].pPosR );
+	Player[ u ].pPosW = GetPlayerVirtualWorld(u);
+	Player[ u ].pPosI = GetPlayerInterior(u);
+	//================================================================================
+	sprintf(query, "UPDATE player_Character SET posx='%f', posy='%f', posz='%f', posr='%f', posi='%d', posw='%d', posp='%d' WHERE id = '%d'", 
+			Player[ u ].pPosX, Player[ u ].pPosY, Player[ u ].pPosZ, Player[ u ].pPosR, Player[ u ].pPosI, Player[ u ].pPosW,
+			Player[ u ].inIndex, Player[ u ].pDB);
+	//================================================================================
+	mysql_query(con, query);
+}
+
 
 void cPlayer::getPlayerPos(const int i)
 {

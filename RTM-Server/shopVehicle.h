@@ -16,6 +16,7 @@ struct sVehicle
 	//-----------------------------
 	int Item;			//Индекс
 	int	Car;			//Ид авто
+	bool Used;
 };
 
 
@@ -40,7 +41,9 @@ namespace Properties
 			static struct sVehicle  ShopVehicle::vehicle[ MAX_VEHSHOPS ];
 			static int count;
 			static void ShopVehicle::loadShop();
-
+			static void ShopVehicle::preView(const int);
+			static void ShopVehicle::viewList(const int, const int);
+			static void ShopVehicle::viewCam(const int);
 
 			enum vehRows
 			{

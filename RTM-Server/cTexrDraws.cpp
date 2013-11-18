@@ -58,11 +58,12 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickPlayerTextDraw(const int u, const in
 			//================================
 			Player[i].pClass = PlayerChar[u][i].pDB;
 			cPlayer::setRegClassSkin(u, i);
-			//================================
-			Player[u].isLogged = true;
 			//-----------------------------------
 			cPlayer::unloadChars(u);
 			cPlayer::loadPlayerChar(u);
+			//================================
+			Player[ u ].isLogged = true;
+			//================================
 			cPlayer::SpawnChar(u);
 			break;
 		}
