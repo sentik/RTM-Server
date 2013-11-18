@@ -85,41 +85,84 @@ void cProperty::setStatus(const int p, const int status)
 /// </summary>
 void cProperty::enterProperty(const int u)
 {
-	for (int i = 0; i < countProperty; i++)
+		for (int i = 0; i < countProperty; i++)
+		{
+			const int idx = Property[ i ].style;
+			//-----------------------------------------------------------------------------------------------
+			if (cPlayer::isRangeOfPoint(u, ENTER_RADIUS, Property[ i ].posX, Property[ i ].posY, Property[ i ].posZ))
+			{
+				if (!Property[ i ].owner)
+				{
+					cProperty::buyMessage(u, i);
+					break;
+				}
+				//-----------------------------------------------------------------------------------------------
+				if (Property[ i ].status)
+				{
+					cProperty::statusMessage(u, i);
+					break;
+				}
+				//-----------------------------------------------------------------------------------------------
+				cPlayer::setCharPos(u, Interior[ idx ].posX, Interior[ idx ].posY, Interior[ idx ].posZ, true);
+				cPlayer::setCharInterior(u, Interior[ idx ].posI);
+				cPlayer::setCharAngle(u, Interior[ idx ].posR);
+				cPlayer::setCharWorld(u, i);
+				//-----------------------------------------------------------------------------------------------
+				Player[ u ].inIndex = i;
+				break;
+			}
+			//--------------------------------------------------------------------
+			if (Player[ u ].pPosW != i) continue;	//Если игрок не в нужном мире
+			//--------------------------------------------------------------------
+			if (cPlayer::isRangeOfPoint(u, ENTER_RADIUS, Interior[ idx ].posX, Interior[ idx ].posY, Interior[ idx ].posZ))
+			{
+				cPlayer::setCharPos(u, Property[ i ].posX, Property[ i ].posY, Property[ i ].posZ, false);
+				cPlayer::setCharInterior(u, 0);
+				cPlayer::setCharWorld(u, 0);
+				cPlayer::setCharAngle(u, 0);
+			}
+			//--------------------------------------------------------------------
+			else if (cPlayer::isRangeOfPoint(u, ENTER_RADIUS, Interior[ idx ].actX, Interior[ idx ].actY, Interior[ idx ].actZ))
+			{
+				cProperty::doAct(u);
+			}
+			//--------------------------------------------------------------------
+			else if (cPlayer::isRangeOfPoint(u, ENTER_RADIUS, Interior[ idx ].subX, Interior[ idx ].subY, Interior[ idx ].subZ))
+			{
+				cProperty::doSub(u);
+			}
+		}
+
+	
+
+}
+
+void cProperty::doAct(int u)
+{
+	const int idx = Player[ u ].inIndex;
+	switch (Property[idx].type)
 	{
-		const int idx = Property[ i ].style;
-		//-----------------------------------------------------------------------------------------------
-		if (cPlayer::isRangeOfPoint(u, ENTER_RADIUS, Property[ i ].posX, Property[ i ].posY, Property[ i ].posZ))
+		//----------------------------------------
+		case 2:	//Банк. Хранилише
 		{
-			if (!Property[ i ].owner)
-			{
-				cProperty::buyMessage(u, i);
-				break;
-			}
-			//-----------------------------------------------------------------------------------------------
-			if (Property[ i ].status)
-			{
-				cProperty::statusMessage(u, i);
-				break;
-			}
-			//-----------------------------------------------------------------------------------------------
-			cPlayer::setCharPos(u, Interior[ idx ].posX, Interior[ idx ].posY, Interior[ idx ].posZ, true);
-			cPlayer::setCharInterior(u, Interior[ idx ].posI);
-			cPlayer::setCharAngle(u, Interior[ idx ].posR);
-			cPlayer::setCharWorld(u, i);
-			//-----------------------------------------------------------------------------------------------
-			break;
+			cBanks::actStuff(u);
 		}
-		//--------------------------------------------------------------------
-		if (Player[ u ].pPosW != i) continue;	//Если игрок не в нужном мире
-		//--------------------------------------------------------------------
-		if (cPlayer::isRangeOfPoint(u, ENTER_RADIUS, Interior[ idx ].posX, Interior[ idx ].posY, Interior[ idx ].posZ))
+		break;
+		//----------------------------------------
+	}
+}
+
+void cProperty::doSub(int u)
+{
+	const int idx = Player[ u ].inIndex;
+	switch (Property[ idx ].type)
+	{
+		//----------------------------------------
+		case 2:	//Банк. Управление счетом
 		{
-			cPlayer::setCharPos(u, Property[ i ].posX, Property[ i ].posY, Property[ i ].posZ, false);
-			cPlayer::setCharInterior(u, 0);
-			cPlayer::setCharWorld(u, 0);
-			cPlayer::setCharAngle(u, 0);
+			cBanks::actBill(u);
 		}
-		//--------------------------------------------------------------------
+		break;
+		//----------------------------------------
 	}
 }

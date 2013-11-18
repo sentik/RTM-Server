@@ -139,6 +139,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 	cObjects::loadObjects("arendaauto");
 	cObjects::loadObjects("0bankint");
 	//-------------------------------------------------------------
+	world::DropedGuns::loadGuns();
 	initTextDraws();
 	return true;
 }

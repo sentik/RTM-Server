@@ -10,7 +10,7 @@ void cState::callKeyStateChange(int playerid, int newkeys, int oldkeys)
 	{
 		//-------------------------------------------------------------------------------------
 		case KEY_SUBMISSION:
-		{
+		{		   
 
 		}
 		break;
@@ -21,6 +21,14 @@ void cState::callKeyStateChange(int playerid, int newkeys, int oldkeys)
 			//==========================================================
 			thread threadProperty(cProperty::enterProperty, playerid);
 			threadProperty.join();
+			//==========================================================
+			for (auto it = world::DropedGuns::DropedGun.begin(); it != world::DropedGuns::DropedGun.end(); ++it)
+			{
+				if (cPlayer::isRangeOfPoint(playerid, 1.0f, it->second.posX, it->second.posY, it->second.posZ))
+				{
+					SendClientMessage(playerid, -1, "Good!");
+				}
+			}
 			//==========================================================
 		}
 		break;

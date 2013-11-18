@@ -123,6 +123,9 @@
     <ClInclude Include="shopVehicle.h">
       <Filter>Заголовочные файлы\property\shops</Filter>
     </ClInclude>
+    <ClInclude Include="dropGuns.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -175,6 +178,9 @@
     </ClCompile>
     <ClCompile Include="shopVehicle.cpp">
       <Filter>Файлы исходного кода\property\shops</Filter>
+    </ClCompile>
+    <ClCompile Include="dropGuns.cpp">
+      <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

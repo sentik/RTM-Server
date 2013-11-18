@@ -52,7 +52,11 @@ public:
 	//============================================================
 	static void cProperty::setOwner(const int, const int);
 	static void cProperty::setStatus(const int, const int);
-	//-------------------------------------------
+	//============================================================
+	static void cProperty::doAct(int);
+	static void cProperty::doSub(int);
+
+
 };
 
 #endif 
