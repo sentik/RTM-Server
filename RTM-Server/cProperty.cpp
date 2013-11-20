@@ -112,7 +112,7 @@ void cProperty::enterProperty(const int u)
 				break;
 			}
 			//--------------------------------------------------------------------
-			if (Player[ u ].pPosW != i) continue;	//Если игрок не в нужном мире
+		//	if (Player[ u ].pPosW != i) continue;	//Если игрок не в нужном мире
 			//--------------------------------------------------------------------
 			if (cPlayer::isRangeOfPoint(u, ENTER_RADIUS, Interior[ idx ].posX, Interior[ idx ].posY, Interior[ idx ].posZ))
 			{
@@ -161,6 +161,12 @@ void cProperty::doSub(int u)
 		case 2:	//Банк. Управление счетом
 		{
 			cBanks::actBill(u);
+		}
+		break;
+		//----------------------------------------
+		case 3:
+		{
+			Properties::Shops::ShopVehicle::preView(u);
 		}
 		break;
 		//----------------------------------------

@@ -37,7 +37,7 @@ public:
 
 };
 
-int extern drawPlayerChar[6];
+int extern drawPlayerChar[10];
 
 struct  pInfo
 {
@@ -63,6 +63,11 @@ struct  pInfo
 	char	pState;				//Состаяние	игрока
 	int		inType;
 	int		inIndex;
+	int		vcKey;				//Клавиша	AutoControl
+	//Потом пихани куда надо, ок.
+	int		spdSpeed;			//TextDraw
+	int		spdState;			//TextDraw
+	int		spdTitle;			//TextDraw
 };
 //TODO: Структура игрока
 struct pInfo extern Player[MAX_PLAYERS];

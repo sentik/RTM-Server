@@ -3,8 +3,9 @@
 struct pChar PlayerChar[MAX_PLAYERS][MAX_CHARS] = { { 0, 0 } };
 struct rChar RegChar[MAX_PLAYERS] = { { 0, 0 } };
 struct pInfo Player[MAX_PLAYERS] = { { 0, 0 } };
-int drawPlayerChar[6];
+int drawPlayerChar[10];
 
+int qqqq;
 
 void cPlayer::update()
 {
@@ -26,6 +27,12 @@ void cPlayer::update()
 			cPlayer::updatePos(i);
 		}
 		logprintf("[%d] is Updated!", i);
+		qqqq++;
+		if (qqqq % 10 == 0)
+		{
+			Properties::Shops::ShopVehicle::viewCam(i);
+		}
+
 	}
 }
 
@@ -105,6 +112,7 @@ void  cPlayer::unloadChars(int i)
 	TextDrawHideForPlayer(i, drawPlayerChar[REG_LEFT]);
 	TextDrawHideForPlayer(i, drawPlayerChar[REG_SELECT]);
 	TextDrawHideForPlayer(i, drawPlayerChar[REG_RIGHT]);
+	TextDrawHideForPlayer(i, drawPlayerChar[REG_CREATE]);
 	for (int c = 0; c < MAX_CHARS; c++)
 	{
 		//------------------------------------------------------
@@ -133,6 +141,8 @@ bool cPlayer::loadChars(int i)
 	//---------------------------------------------
 	TextDrawShowForPlayer(i, drawPlayerChar[REG_BG]);
 	TextDrawShowForPlayer(i, drawPlayerChar[REG_HEADER]);
+	TextDrawShowForPlayer(i, drawPlayerChar[REG_BUTTON_BG]);
+	TextDrawShowForPlayer(i, drawPlayerChar[REG_CREATE]);
 	//---------------------------------------------
 	while ((row = mysql_fetch_row(result)))
 	{
@@ -271,6 +281,7 @@ void cPlayer::hideRegDraws(const int i)
 	TextDrawHideForPlayer(i, drawPlayerChar[REG_RIGHT]);
 	TextDrawHideForPlayer(i, drawPlayerChar[REG_SELECT]);
 	TextDrawHideForPlayer(i, drawPlayerChar[REG_BUTTON_BG]);
+	TextDrawHideForPlayer(i, drawPlayerChar[REG_CREATE]);
 }
 
 
@@ -536,7 +547,7 @@ void cPlayer::updatePos(const int u)
 			Player[ u ].pPosX, Player[ u ].pPosY, Player[ u ].pPosZ, Player[ u ].pPosR, Player[ u ].pPosI, Player[ u ].pPosW,
 			Player[ u ].inIndex, Player[ u ].pDB);
 	//================================================================================
-	mysql_query(con, query);
+	//mysql_query(con, query);
 }
 
 

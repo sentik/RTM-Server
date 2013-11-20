@@ -14,12 +14,11 @@ struct sVehicle
 	float spawnR;
 	float angle;
 	//-----------------------------
+	int Textdraw[15];
 	int Item;			//Индекс
 	int	Car;			//Ид авто
 	bool Used;
 };
-
-
 
 struct eItem
 {
@@ -31,6 +30,7 @@ struct eItem
 
 
 
+
 namespace Properties
 {
 	namespace Shops
@@ -38,13 +38,16 @@ namespace Properties
 		class ShopVehicle
 		{
 			public:
+			static char Gear[ 3 ][ 16 ];
+			static char Group[ 4 ][ 16 ];
 			static struct sVehicle  ShopVehicle::vehicle[ MAX_VEHSHOPS ];
+			static struct eItem		ShopVehicle::items[ 64 ];
 			static int count;
 			static void ShopVehicle::loadShop();
 			static void ShopVehicle::preView(const int);
 			static void ShopVehicle::viewList(const int, const int);
 			static void ShopVehicle::viewCam(const int);
-
+			static void  ShopVehicle::initTextDraws(const int, const int);
 			enum vehRows
 			{
 				id,

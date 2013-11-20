@@ -10,6 +10,7 @@
 #define 	MYSQL_PASS					"dev1488"
 /*----------------- MYSQL Connector -----------------*/
 
+#define MAX_GAS			10
 #define MAX_BANKS		20
 #define MAX_HOUSES		500
 #define MAX_PROPERTY	550

@@ -35,7 +35,13 @@ void cState::callKeyStateChange(int playerid, int newkeys, int oldkeys)
 		//-------------------------------------------------------------------------------------
 		default:
 		{
-
+			if (Player[playerid].pSeatid == 0)
+			{
+				if (newkeys & Player[playerid].vcKey && Player[playerid].vcKey != 0)
+				{
+					cVehicle::menuVehicle(playerid);
+				}
+			}
 		}
 		break;
 		//-------------------------------------------------------------------------------------
@@ -51,9 +57,17 @@ void cState::callStateChange(int playerid, int newstate, int oldstate)
 	{
 		Player[playerid].pCarid = GetPlayerVehicleID(playerid);
 		Player[playerid].pSeatid = GetPlayerVehicleSeat(playerid);
+		if (newstate == 2)
+		{
+			cVehicle::showSpeed(playerid);
+		}
 	}
 	else if (oldstate == 2 || oldstate == 3)
 	{
 		Player[playerid].pSeatid = -1;
+		if (oldstate == 2)
+		{
+			cVehicle::hideSpeed(playerid);
+		}
 	}
 }

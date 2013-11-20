@@ -114,13 +114,6 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData)
 	srand(RANDOM_SEED);
 	return true;
 }
-/*
-std::map<int, void*> fnMap;
-
-void demo()
-{
-	logprintf("xuita!");
-}*/
 
 //-------------------------------------------------------------------------------------------
 PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
@@ -141,6 +134,9 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 	//-------------------------------------------------------------
 	world::DropedGuns::loadGuns();
 	initTextDraws();
+	ManualVehicleEngineAndLights();
+	sprintf(query, "RTM-GM v%s", GAME_VERSION);
+	SetGameModeText(query);
 	return true;
 }
 //-------------------------------------------------------------------------------------------
@@ -215,6 +211,10 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSpawn(int playerid)
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerUpdate(int playerid)
 {
+	if (Player[playerid].pState == PLAYER_STATE_DRIVER)
+	{
+		cVehicle::updateSpeed(playerid);
+	}
 	uCount++;
 	//if (Player[playerid].isLogged && uCount > 10)
 	{
@@ -242,55 +242,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerStateChange(int playerid, int newstate, i
 	threadKey.join();
 	return true;
 }
-//-------------------------------------------------------------------------------------------
 
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cmdtext)
-{
-	char cmd[20];
-	char params[128];
-
-	int res = sscanf(cmdtext, "/%20s %128[0-9a-zA-Zа-яА-Я ]s", &cmd, &params);
-
-	sprintf(query, "cmd: %s params: %s sscanf result: %d", cmd, params, res);
-	SendClientMessage(playerid, -1, query);
-
-	if (strcmp("veh", cmd) == 0)
-	{
-		int model;
-		int cone = 0;
-		int ctwo = 0;
-		if (sscanf(params, "%3d %3d %3d", &model, &cone, &ctwo) >= 1)
-		{
-			GetPlayerPos(playerid, &Player[playerid].pPosX, &Player[playerid].pPosY, &Player[playerid].pPosZ);
-			GetPlayerFacingAngle(playerid, &Player[playerid].pPosR);
-			int veh = CreateVehicle(model, Player[playerid].pPosX, Player[playerid].pPosY, Player[playerid].pPosZ, Player[playerid].pPosR, cone, ctwo, -1);
-			PutPlayerInVehicle(playerid, veh, 0);
-		}
-		else SendClientMessage(playerid, -1, "Use: /veh [modelid] (optional [color1] [color2])");
-	}
-	else if (strcmp("/tah", cmd) == 0)
-	{
-		GetPlayerPos(playerid, &Player[playerid].pPosX, &Player[playerid].pPosY, &Player[playerid].pPosZ);
-		Property[countProperty].region = cProperty::getZoneNumber(Player[playerid].pPosX, Player[playerid].pPosY, Player[playerid].pPosZ);
-		int idx = 1;
-		for (int i = 0; i < MAX_PRIORITY; ++i)
-		{
-			if (Property[countProperty].region == Property[i].region)
-			{
-				idx++;
-			}
-		}
-		Property[countProperty].number = idx;
-		mysql_query(con, "INSERT INTO class_Houses SET style = 1");
-		int isert = mysql_insert_id(con);
-		sprintf(query, "INSERT INTO class_Property SET property = %d, type = 1, x=%.4f, y=%.4f, z=%.4f, price=1000, region=%d, number=%d", isert, Player[playerid].pPosX, Player[playerid].pPosY, Player[playerid].pPosZ, Property[countProperty].region, Property[countProperty].number);
-		mysql_query(con, query);
-		mysql_insert_id(con);
-		countProperty++;
-		SendClientMessage(playerid, -1, "Test house add.");
-	}
-	return true;
-}
 //-------------------------------------------------------------------------------------------
 namespace StreamerCall
 {
@@ -424,6 +376,17 @@ static void initTextDraws()
 	TextDrawSetProportional(drawPlayerChar[ REG_HEADER ], 1);
 	TextDrawSetSelectable(drawPlayerChar[ REG_HEADER ], 0);
 	//-------------------------------------------------------------
+	//TODO: Заголовок окна авторизации
+	drawPlayerChar[REG_HEADER_CLASS] = TextDrawCreate(100.000000f, 153.000000f, "Select Class");
+	TextDrawAlignment(drawPlayerChar[REG_HEADER_CLASS], 2);
+	TextDrawBackgroundColor(drawPlayerChar[REG_HEADER_CLASS], -1778346416);
+	TextDrawFont(drawPlayerChar[REG_HEADER_CLASS], 0);
+	TextDrawLetterSize(drawPlayerChar[REG_HEADER_CLASS], 0.609999f, 1.00000f);
+	TextDrawColor(drawPlayerChar[REG_HEADER_CLASS], -1);
+	TextDrawSetOutline(drawPlayerChar[REG_HEADER_CLASS], 1);
+	TextDrawSetProportional(drawPlayerChar[REG_HEADER_CLASS], 1);
+	TextDrawSetSelectable(drawPlayerChar[REG_HEADER_CLASS], 0);
+	//-------------------------------------------------------------
 	//TODO: Регистрация. Кнопка назад
 	drawPlayerChar[ REG_LEFT ] = TextDrawCreate(25.000000f, 316.000000f, "ld_beat:left");
 	TextDrawAlignment(drawPlayerChar[ REG_LEFT ], 2);
@@ -469,6 +432,21 @@ static void initTextDraws()
 	TextDrawTextSize(drawPlayerChar[ REG_SELECT ], 15.000000f, 60.000000f);
 	TextDrawSetSelectable(drawPlayerChar[ REG_SELECT ], 1);
 	//-------------------------------------------------------------
+	//TODO: Регистрация. Кнопка Выбрать
+	drawPlayerChar[REG_CREATE] = TextDrawCreate(100.000000f, 316.000000f, "CREATE");
+	TextDrawAlignment(drawPlayerChar[REG_CREATE], 2);
+	TextDrawBackgroundColor(drawPlayerChar[REG_CREATE], 0);
+	TextDrawFont(drawPlayerChar[REG_CREATE], 1);
+	TextDrawLetterSize(drawPlayerChar[REG_CREATE], 0.609999f, 1.399999f);
+	TextDrawColor(drawPlayerChar[REG_CREATE], 100);
+	TextDrawSetOutline(drawPlayerChar[REG_CREATE], 0);
+	TextDrawSetProportional(drawPlayerChar[REG_CREATE], 1);
+	TextDrawSetShadow(drawPlayerChar[REG_CREATE], 1);
+	TextDrawUseBox(drawPlayerChar[REG_CREATE], 1);
+	TextDrawBoxColor(drawPlayerChar[REG_CREATE], 0x00000000);
+	TextDrawTextSize(drawPlayerChar[REG_CREATE], 15.000000f, 60.000000f);
+	TextDrawSetSelectable(drawPlayerChar[REG_CREATE], 1);
+	//-------------------------------------------------------------
 	//TODO: Регистрация. Фон для кнопок
 	drawPlayerChar[ REG_BUTTON_BG ] = TextDrawCreate(100.000000f, 318.000000f, "_");
 	TextDrawAlignment(drawPlayerChar[ REG_BUTTON_BG ], 2);
@@ -483,4 +461,19 @@ static void initTextDraws()
 	TextDrawBoxColor(drawPlayerChar[ REG_BUTTON_BG ], -1778346416);
 	TextDrawTextSize(drawPlayerChar[ REG_BUTTON_BG ], 0.000000f, 150.000000f);
 	TextDrawSetSelectable(drawPlayerChar[ REG_BUTTON_BG ], 0);
+	//-------------------------------------------------------------
+	//TODO: Игра. Фон спидометра
+	drawPlayerChar[SPD_BG] = TextDrawCreate(580.000000, 300.000000, "_");
+	TextDrawAlignment( drawPlayerChar[SPD_BG], 2);
+	TextDrawBackgroundColor( drawPlayerChar[SPD_BG], 255);
+	TextDrawFont( drawPlayerChar[SPD_BG], 1);
+	TextDrawLetterSize( drawPlayerChar[SPD_BG], 0.500000, 5.000000);
+	TextDrawColor( drawPlayerChar[SPD_BG], -1);
+	TextDrawSetOutline( drawPlayerChar[SPD_BG], 0);
+	TextDrawSetProportional( drawPlayerChar[SPD_BG], 1);
+	TextDrawSetShadow( drawPlayerChar[SPD_BG], 1);
+	TextDrawUseBox( drawPlayerChar[SPD_BG], 1);
+	TextDrawBoxColor( drawPlayerChar[SPD_BG], 80);
+	TextDrawTextSize( drawPlayerChar[SPD_BG], 0.000000, 120.000000);
+	TextDrawSetSelectable( drawPlayerChar[SPD_BG], 0);
 }

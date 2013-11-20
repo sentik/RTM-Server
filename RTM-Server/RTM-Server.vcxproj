@@ -103,6 +103,7 @@
     <ClInclude Include="cGas.h" />
     <ClInclude Include="cHouses.h" />
     <ClInclude Include="cInteriors.h" />
+    <ClInclude Include="cmd.h" />
     <ClInclude Include="cObjects.h" />
     <ClInclude Include="configs.h" />
     <ClInclude Include="cProperty.h" />
@@ -124,6 +125,7 @@
     <ClCompile Include="cGas.cpp" />
     <ClCompile Include="cHouses.cpp" />
     <ClCompile Include="cInteriors.cpp" />
+    <ClCompile Include="cmd.cpp" />
     <ClCompile Include="cObjects.cpp" />
     <ClCompile Include="cProperty.cpp" />
     <ClCompile Include="cState.cpp" />

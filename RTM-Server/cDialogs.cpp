@@ -127,6 +127,33 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 			}
 			break;
 		}
+		case DLG_VEHICLE_CONTROL: //Engine [%d]\nLights [%d]\nBoot [%d]\nBonnet [%d]
+		{
+			#define vehid Player[playerid].pCarid
+			if (!response) return true;
+			if (listitem == 0)
+			{
+				Vehicle[vehid].Engine = !Vehicle[vehid].Engine;
+				SetVehicleParamsEx(vehid, Vehicle[vehid].Engine, Vehicle[vehid].Light, false, Vehicle[vehid].Locked, Vehicle[vehid].Bonnet, Vehicle[vehid].Boot, false);
+			}
+			else if (listitem == 1)
+			{
+				Vehicle[vehid].Light = !Vehicle[vehid].Light;
+				SetVehicleParamsEx(vehid, Vehicle[vehid].Engine, Vehicle[vehid].Light, false, Vehicle[vehid].Locked, Vehicle[vehid].Bonnet, Vehicle[vehid].Boot, false);
+			}
+			else if (listitem == 2)
+			{
+				Vehicle[vehid].Boot = !Vehicle[vehid].Boot;
+				SetVehicleParamsEx(vehid, Vehicle[vehid].Engine, Vehicle[vehid].Light, false, Vehicle[vehid].Locked, Vehicle[vehid].Bonnet, Vehicle[vehid].Boot, false);
+			}
+			else if (listitem == 3)
+			{
+				Vehicle[vehid].Bonnet = !Vehicle[vehid].Bonnet;
+				SetVehicleParamsEx(vehid, Vehicle[vehid].Engine, Vehicle[vehid].Light, false, Vehicle[vehid].Locked, Vehicle[vehid].Bonnet, Vehicle[vehid].Boot, false);
+			}
+			cVehicle::menuVehicle(playerid);
+			#undef vehid
+		}
 	}
 	return true;
 }

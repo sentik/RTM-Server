@@ -1,11 +1,3 @@
-#include "cGas.h"
+#include "main.h"
 
 
-cGas::cGas()
-{
-}
-
-
-cGas::~cGas()
-{
-}

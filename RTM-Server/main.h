@@ -54,7 +54,8 @@
 #include "cChat.h"
 #include "cGang.h"
 #include "cBank.h"
-
+#include "cGas.h"
+#include "cmd.h"
 
 #include <string>
 #include <iostream>
