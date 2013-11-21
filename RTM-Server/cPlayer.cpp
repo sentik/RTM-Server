@@ -27,11 +27,12 @@ void cPlayer::update()
 			cPlayer::updatePos(i);
 		}
 		logprintf("[%d] is Updated!", i);
-		qqqq++;
+		
+		/*qqqq++;
 		if (qqqq % 10 == 0)
 		{
 			Properties::Shops::ShopVehicle::viewCam(i);
-		}
+		}*/
 
 	}
 }
@@ -137,7 +138,7 @@ bool cPlayer::loadChars(int i)
 	MYSQL_RES *result = mysql_store_result(con);
 	int num_fields = mysql_num_rows(result);
 	//---------------------------------------------
-	Player[i].isAction = ACTION_AUTH_PLAYER;
+	Player[i].isAction = PlayerAction::ACTION_AUTH_PLAYER;
 	//---------------------------------------------
 	TextDrawShowForPlayer(i, drawPlayerChar[REG_BG]);
 	TextDrawShowForPlayer(i, drawPlayerChar[REG_HEADER]);
@@ -275,13 +276,12 @@ void cPlayer::hideRegDraws(const int i)
 	PlayerTextDrawHide(i, RegChar[i].rNation);
 	PlayerTextDrawHide(i, RegChar[i].rSex);
 	//------------------------------------------
-	TextDrawHideForPlayer(i, drawPlayerChar[REG_HEADER]);
+	TextDrawHideForPlayer(i, drawPlayerChar[REG_HEADER_CLASS]);
 	TextDrawHideForPlayer(i, drawPlayerChar[REG_BG]);
 	TextDrawHideForPlayer(i, drawPlayerChar[REG_LEFT]);
 	TextDrawHideForPlayer(i, drawPlayerChar[REG_RIGHT]);
 	TextDrawHideForPlayer(i, drawPlayerChar[REG_SELECT]);
 	TextDrawHideForPlayer(i, drawPlayerChar[REG_BUTTON_BG]);
-	TextDrawHideForPlayer(i, drawPlayerChar[REG_CREATE]);
 }
 
 
@@ -293,7 +293,7 @@ void cPlayer::SpawnChar(const int i)
 {
 	CancelSelectTextDraw(i);
 	TogglePlayerControllable(i, 0);
-	Player[ i ].isAction = ACTION_FREZSETPOS;
+	Player[i].isAction = PlayerAction::ACTION_FREZSETPOS;
 	TogglePlayerSpectating(i, false);
 	SetCameraBehindPlayer(i);
 	SpawnPlayer(i);
@@ -318,7 +318,7 @@ void cPlayer::setCharPos(const int i, float x, float y, float z, bool isFreeze =
 	if (isFreeze)
 	{
 		TogglePlayerControllable(i, false);
-		Player[i].isAction = ACTION_FREZSETPOS;
+		Player[i].isAction = PlayerAction::ACTION_FREZSETPOS;
 	}
 }
 //http://developer.alexanderklimov.ru/articles/xmlcomment.php
@@ -375,11 +375,12 @@ void cPlayer::showCharMaker(int i)
 	SetPlayerCameraPos(i, CREG_CAMR_POS);
 	SetPlayerCameraLookAt(i, CREG_SKIN_POS, CAMERA_MOVE);*/
 	//-------------------------------------------------------------------------------------------------------------
-	TextDrawShowForPlayer(i, drawPlayerChar[0]);
-	TextDrawShowForPlayer(i, drawPlayerChar[2]);
-	TextDrawShowForPlayer(i, drawPlayerChar[3]);
-	TextDrawShowForPlayer(i, drawPlayerChar[4]);
-	TextDrawShowForPlayer(i, drawPlayerChar[5]);
+	TextDrawShowForPlayer(i, drawPlayerChar[REG_HEADER_CLASS]);
+	TextDrawShowForPlayer(i, drawPlayerChar[REG_BG]);
+	TextDrawShowForPlayer(i, drawPlayerChar[REG_BUTTON_BG]);
+	TextDrawShowForPlayer(i, drawPlayerChar[REG_LEFT]);
+	TextDrawShowForPlayer(i, drawPlayerChar[REG_RIGHT]);
+	TextDrawShowForPlayer(i, drawPlayerChar[REG_SELECT]);
 	//-------------------------------------------------------------------------------------------------------------
 	RegChar[i].rSpeed[0] = CreatePlayerTextDraw(i, 30.000000f, 170.000000f, strSpeed);
 	PlayerTextDrawBackgroundColor(i, RegChar[i].rSpeed[0], 80);

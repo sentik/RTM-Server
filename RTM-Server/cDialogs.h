@@ -15,6 +15,7 @@ enum DIALOG_LIST
 	DLG_PROPERTY_BUY,
 	DLG_BABK_MAKE_ACC,
 	DLG_VEHICLE_CONTROL,
+	DLG_MAIN_MENU
 };
 
 enum DIALOG_STYLYS
@@ -30,6 +31,7 @@ class dialogs
 public:
 	static void dialogs::showDLGEnterName(const int);
 	static void dialogs::showDLGEnterDate(const int);
+	static void dialogs::genDLGItem(const int i, const char str[ ], char *);
 };
 
 #endif 

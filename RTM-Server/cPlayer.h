@@ -63,11 +63,13 @@ struct  pInfo
 	char	pState;				//Состаяние	игрока
 	int		inType;
 	int		inIndex;
-	int		vcKey;				//Клавиша	AutoControl
 	//Потом пихани куда надо, ок.
 	int		spdSpeed;			//TextDraw
 	int		spdState;			//TextDraw
 	int		spdTitle;			//TextDraw
+	int		spdFuel;
+	int		spdMilage;
+	char	role;				//Роль игрока
 };
 //TODO: Структура игрока
 struct pInfo extern Player[MAX_PLAYERS];
@@ -120,5 +122,6 @@ enum PlayerAction
 	ACTION_NONE,
 	ACTION_AUTH_PLAYER,
 	ACTION_FREZSETPOS,
+	ACTION_USERENT,
 };
 #endif 

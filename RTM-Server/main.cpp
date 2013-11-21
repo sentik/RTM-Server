@@ -132,6 +132,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 	cObjects::loadObjects("arendaauto");
 	cObjects::loadObjects("0bankint");
 	//-------------------------------------------------------------
+
 	world::DropedGuns::loadGuns();
 	initTextDraws();
 	ManualVehicleEngineAndLights();
@@ -476,4 +477,15 @@ static void initTextDraws()
 	TextDrawBoxColor( drawPlayerChar[SPD_BG], 80);
 	TextDrawTextSize( drawPlayerChar[SPD_BG], 0.000000, 120.000000);
 	TextDrawSetSelectable( drawPlayerChar[SPD_BG], 0);
+
+	// In OnPlayerConnect prefferably, we procced to create our textdraws:
+	drawPlayerChar[SHOP_HEADER_VEHICLE] = TextDrawCreate(100.000000, 153.000000, "Vehicle Shop");
+	TextDrawAlignment(drawPlayerChar[SHOP_HEADER_VEHICLE], 2);
+	TextDrawBackgroundColor(drawPlayerChar[SHOP_HEADER_VEHICLE], -1778346416);
+	TextDrawFont(drawPlayerChar[SHOP_HEADER_VEHICLE], 0);
+	TextDrawLetterSize(drawPlayerChar[SHOP_HEADER_VEHICLE], 0.500000, 1.000000);
+	TextDrawColor(drawPlayerChar[SHOP_HEADER_VEHICLE], -1);
+	TextDrawSetOutline(drawPlayerChar[SHOP_HEADER_VEHICLE], 1);
+	TextDrawSetProportional(drawPlayerChar[SHOP_HEADER_VEHICLE], 1);
+	TextDrawSetSelectable(drawPlayerChar[SHOP_HEADER_VEHICLE], 0);
 }

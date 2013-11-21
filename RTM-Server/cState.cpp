@@ -2,6 +2,16 @@
 #include "main.h"
 
 
+
+/*if (Player[ playerid ].pSeatid == 0)
+{
+
+	cVehicle::menuVehicle(playerid);
+
+}
+*/
+
+
 void cState::callKeyStateChange(int playerid, int newkeys, int oldkeys)
 {
 	sprintf(query, "player: %d || key: %d||%d", playerid, newkeys, oldkeys);
@@ -11,7 +21,11 @@ void cState::callKeyStateChange(int playerid, int newkeys, int oldkeys)
 		//-------------------------------------------------------------------------------------
 		case KEY_SUBMISSION:
 		{		   
+			if (Player[playerid].pSeatid == 0)
+			{
 
+				cVehicle::menuVehicle(playerid);
+			}
 		}
 		break;
 		//-------------------------------------------------------------------------------------
@@ -30,18 +44,6 @@ void cState::callKeyStateChange(int playerid, int newkeys, int oldkeys)
 				}
 			}
 			//==========================================================
-		}
-		break;
-		//-------------------------------------------------------------------------------------
-		default:
-		{
-			if (Player[playerid].pSeatid == 0)
-			{
-				if (newkeys & Player[playerid].vcKey && Player[playerid].vcKey != 0)
-				{
-					cVehicle::menuVehicle(playerid);
-				}
-			}
 		}
 		break;
 		//-------------------------------------------------------------------------------------

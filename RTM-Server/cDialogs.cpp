@@ -185,3 +185,10 @@ void dialogs::showDLGEnterName(const int u)
 	//----------------------------------------------------------------------------------------------------------------
 	ShowPlayerDialog(u, DLG_REGISTER_NAME, GUI_INPUT, "[West-RP]: Регистрация перосанажа", message, "Далее", "Отмена");
 }
+
+void dialogs::genDLGItem(const int i, const char str[], char *res)
+{
+	char line[ 80 ];
+	sprintf(line, "{FFFFFF}[{990099}%d{FFFFFF}] {990099}%s\n", i, str);
+	strcat(res, line);
+}
