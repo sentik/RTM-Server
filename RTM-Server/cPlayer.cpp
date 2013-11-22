@@ -26,14 +26,16 @@ void cPlayer::update()
 		{
 			cPlayer::updatePos(i);
 		}
-		logprintf("[%d] is Updated!", i);
 		
-		/*qqqq++;
-		if (qqqq % 10 == 0)
+		if (Player[i].isAction == PlayerAction::ACTION_USERENT)
 		{
-			Properties::Shops::ShopVehicle::viewCam(i);
-		}*/
-
+			qqqq++;
+			if (qqqq % 10 == 0)
+			{
+				Properties::Shops::ShopVehicle::viewCam(i);
+				qqqq = 0;
+			}
+		}
 	}
 }
 

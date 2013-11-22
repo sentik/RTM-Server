@@ -79,6 +79,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <EnablePREfast>false</EnablePREfast>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -93,6 +94,9 @@
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>LIBCMT</IgnoreSpecificDefaultLibraries>
     </Link>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="cBank.h" />
@@ -104,6 +108,7 @@
     <ClInclude Include="cHouses.h" />
     <ClInclude Include="cInteriors.h" />
     <ClInclude Include="cmd.h" />
+    <ClInclude Include="cMiner.h" />
     <ClInclude Include="cObjects.h" />
     <ClInclude Include="configs.h" />
     <ClInclude Include="cProperty.h" />
@@ -126,6 +131,7 @@
     <ClCompile Include="cHouses.cpp" />
     <ClCompile Include="cInteriors.cpp" />
     <ClCompile Include="cmd.cpp" />
+    <ClCompile Include="cMiner.cpp" />
     <ClCompile Include="cObjects.cpp" />
     <ClCompile Include="cProperty.cpp" />
     <ClCompile Include="cState.cpp" />

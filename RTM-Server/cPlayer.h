@@ -67,8 +67,9 @@ struct  pInfo
 	int		spdSpeed;			//TextDraw
 	int		spdState;			//TextDraw
 	int		spdTitle;			//TextDraw
-	int		spdFuel;
-	int		spdMilage;
+	int		spdFuel;			//TextDraw
+	int		spdMilage;			//TextDraw
+	int		minerDraw[20];		//TextDraws miner
 	char	role;				//Роль игрока
 };
 //TODO: Структура игрока
@@ -123,5 +124,6 @@ enum PlayerAction
 	ACTION_AUTH_PLAYER,
 	ACTION_FREZSETPOS,
 	ACTION_USERENT,
+	ACTION_MINERGAME,
 };
 #endif 

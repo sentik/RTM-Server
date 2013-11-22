@@ -4,7 +4,7 @@
 #pragma warning(disable: 4244)
 #define _CRT_SECURE_NO_WARNINGS
 
-#define GAME_VERSION "0.76A"
+#define GAME_VERSION "0.78A"
 #define DEFAULT_SPAWN 100.0f, 200.0f, 10.0f
 #define SELECT_COLORUS 0xDCDCDC88
 #define RANDOM_SEED	8 * getUnixTime() + 6 * clock()  - 123
@@ -51,6 +51,7 @@
 #include "saZones.h"
 #include "cClass.h"
 #include "cState.h"
+#include "cMiner.h"
 #include "cChat.h"
 #include "cGang.h"
 #include "cBank.h"

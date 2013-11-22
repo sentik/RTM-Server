@@ -21,13 +21,12 @@ void cState::callKeyStateChange(int playerid, int newkeys, int oldkeys)
 		//-------------------------------------------------------------------------------------
 		case KEY_SUBMISSION:
 		{		   
-			if (Player[playerid].pSeatid == 0)
+			if (Player[playerid].pState == PLAYER_STATE_DRIVER)
 			{
-
 				cVehicle::menuVehicle(playerid);
 			}
+			break;
 		}
-		break;
 		//-------------------------------------------------------------------------------------
 		case KEY_WALK:
 		{
@@ -43,9 +42,9 @@ void cState::callKeyStateChange(int playerid, int newkeys, int oldkeys)
 					SendClientMessage(playerid, -1, "Good!");
 				}
 			}
+			break;
 			//==========================================================
 		}
-		break;
 		//-------------------------------------------------------------------------------------
 	}
 }

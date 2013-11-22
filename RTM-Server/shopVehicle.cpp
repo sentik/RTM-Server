@@ -133,15 +133,16 @@ void Properties::Shops::ShopVehicle::viewList(const int u, const int item)
 	//====================================================
 	const int shop = Property[ Player[ u ].inIndex ].link;
 	const int styl = Property[ Player[ u ].inIndex ].style;
-	const int modl = 0;
 	//====================================================
-	for (int i = 0; i < 20; i++)
-	{
-		if (items[shop][i].Amount > 0)
-		{
-			vehicle[shop].Item = i;
-		}
-	}
+	if (items[ shop ][ item ].Amount > 0)  vehicle[ shop ].Item = item;
+	else vehicle[ shop ].Item = 0;
+	//====================================================
+	const int modl = vehicle[ shop ].Item;
+	const int speed = VehicleClass[ modl ].Speed;
+	const int power = VehicleClass[ modl ].Power;
+	const int group = VehicleClass[ modl ].Group;
+	const int gear = VehicleClass[ modl ].Gear;
+	const int back = 100;
 	//====================================================
 	if (vehicle[ shop ].Car)
 	{
@@ -150,12 +151,12 @@ void Properties::Shops::ShopVehicle::viewList(const int u, const int item)
 	}
 	//====================================================
 	sprintf(field, "%d$", items[shop][vehicle[shop].Item].Price), PlayerTextDrawSetString(u, vehicle[shop].Textdraw[drawNames::costVeh], field);
-	sprintf(field, "%s класс", Group[0]), cClass::fixText(field, 32), PlayerTextDrawSetString(u, vehicle[shop].Textdraw[drawNames::group], field);
-	sprintf(field, "%s привод", Gear[0]), cClass::fixText(field, 32), PlayerTextDrawSetString(u, vehicle[shop].Textdraw[drawNames::gear], field);
+	sprintf(field, "%s класс", Group[ group ]), cClass::fixText(field, 32), PlayerTextDrawSetString(u, vehicle[ shop ].Textdraw[ drawNames::group ], field);
+	sprintf(field, "%s привод", Gear[ gear ]), cClass::fixText(field, 32), PlayerTextDrawSetString(u, vehicle[ shop ].Textdraw[ drawNames::gear ], field);
 	
-	sprintf(field, "Скорость:\t\t %d км/ч", 180), cClass::fixText(field, 32), PlayerTextDrawSetString(u, vehicle[shop].Textdraw[drawNames::speedText], field);
-	sprintf(field, "Мощность:\t\t%d л.с", 200), cClass::fixText(field, 32), PlayerTextDrawSetString(u, vehicle[shop].Textdraw[drawNames::power], field);
-	sprintf(field, "Дизель,\t\t\t\t\t %dL", 200), cClass::fixText(field, 32), PlayerTextDrawSetString(u, vehicle[shop].Textdraw[drawNames::fuel], field);
+	sprintf(field, "Скорость:\t\t %d км/ч", speed), cClass::fixText(field, 32), PlayerTextDrawSetString(u, vehicle[ shop ].Textdraw[ drawNames::speedText ], field);
+	sprintf(field, "Мощность:\t\t%d л.с", power), cClass::fixText(field, 32), PlayerTextDrawSetString(u, vehicle[ shop ].Textdraw[ drawNames::power ], field);
+	sprintf(field, "Дизель,\t\t\t\t\t %dL", back), cClass::fixText(field, 32), PlayerTextDrawSetString(u, vehicle[ shop ].Textdraw[ drawNames::fuel ], field);
 	sprintf(field, "Маневренность"), cClass::fixText(field, 32), PlayerTextDrawSetString(u, vehicle[shop].Textdraw[drawNames::control], field);
 	sprintf(field, "Скорость"), cClass::fixText(field, 32), PlayerTextDrawSetString(u, vehicle[shop].Textdraw[drawNames::speed], field);
 
@@ -184,6 +185,41 @@ void Properties::Shops::ShopVehicle::viewCam(const int u)
 	//------------------------------------------------------------	
 	vehicle[ shop ].angle += rand() % 25;
 }
+
+
+
+void Properties::Shops::ShopVehicle::endView(const int u)
+{
+	const int shop = Property[ Player[ u ].inIndex ].link;
+	Player[ u ].isAction = PlayerAction::ACTION_NONE;
+	DestroyVehicle(vehicle[ shop ].Car);
+	vehicle[ shop ].Used = false;
+	SetCameraBehindPlayer(u);
+	//==============================================================
+	TextDrawHideForPlayer(u, drawPlayerChar[ SHOP_HEADER_VEHICLE ]);
+	TextDrawHideForPlayer(u, drawPlayerChar[ REG_BG ]);
+	TextDrawHideForPlayer(u, drawPlayerChar[ REG_BUTTON_BG ]);
+	TextDrawHideForPlayer(u, drawPlayerChar[ REG_LEFT ]);
+	TextDrawHideForPlayer(u, drawPlayerChar[ REG_SELECT ]);
+	TextDrawHideForPlayer(u, drawPlayerChar[ REG_RIGHT ]);
+
+
+	for (int i = 0; i < sizeof( vehicle[ shop ].Textdraw ); i++)
+	{
+		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ i ]);
+		/*PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::control ]);
+		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::controlValue ]);
+		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::costVeh ]);
+		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::fuel ]);
+		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::gear ]);
+		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::group ]);
+		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::power ]);
+		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::speed ]);
+		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::speedText ]);
+		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::speedValue ]);*/
+	}
+}
+
 
 void  Properties::Shops::ShopVehicle::initTextDraws(const int u, const int shop)
 {
@@ -318,54 +354,5 @@ void  Properties::Shops::ShopVehicle::initTextDraws(const int u, const int shop)
 	PlayerTextDrawTextSize(u, vehicle[shop].Textdraw[drawNames::costVeh], 175.000000, 0.000000);
 	PlayerTextDrawSetSelectable(u, vehicle[shop].Textdraw[drawNames::costVeh], 0);
 
-
-
-
 	//====================================================================================================
-
-}
-
-void Properties::Shops::ShopVehicle::endView(const int u)
-{
-	const int shop = Property[Player[u].inIndex].link;
-
-	SetCameraBehindPlayer(u);
-
-	TextDrawHideForPlayer(u, drawPlayerChar[SHOP_HEADER_VEHICLE]);
-	TextDrawHideForPlayer(u, drawPlayerChar[REG_BG]);
-	TextDrawHideForPlayer(u, drawPlayerChar[REG_BUTTON_BG]);
-	TextDrawHideForPlayer(u, drawPlayerChar[REG_LEFT]);
-	TextDrawHideForPlayer(u, drawPlayerChar[REG_SELECT]);
-	TextDrawHideForPlayer(u, drawPlayerChar[REG_RIGHT]);
-
-	DestroyVehicle(vehicle[shop].Car);
-	vehicle[shop].Used = false;
-	Player[u].isAction = PlayerAction::ACTION_NONE;
-
-	for (int i = 0; i < sizeof( vehicle[ shop ].Textdraw ); i++)
-	{
-		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ i ]);
-		/*PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::control ]);
-		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::controlValue ]);
-		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::costVeh ]);
-		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::fuel ]);
-		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::gear ]);
-		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::group ]);
-		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::power ]);
-		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::speed ]);
-		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::speedText ]);
-		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::speedValue ]);*/
-	}
-}
-
-void Properties::Shops::ShopVehicle::listView(const int u, bool left)
-{
-	if (left)
-	{
-
-	}
-	else
-	{
-
-	}
 }

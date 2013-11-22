@@ -39,10 +39,9 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 	if (strcmp("veh", cmd) == 0)				CMD::veh(playerid, params);
 	else if (strcmp("mm", cmd) == 0)			CMD::mm(playerid);
 	else if (strcmp("mainmenu", cmd) == 0)		CMD::mm(playerid);
-	else if (strcmp("getact", cmd) == 0)
+	else if (strcmp("testmg", cmd) == 0)
 	{
-		sprintf(params, "player: %d action: %d", playerid, Player[playerid].isAction);
-		SendClientMessage(playerid, -1, params);
+		Jobs::Miner::cMiner::startMinerGame(playerid);
 	}
 	else if (strcmp("gotokk", cmd) == 0)
 	{

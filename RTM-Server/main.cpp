@@ -120,6 +120,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 {
 	//"demo"( );
 	Properties::Shops::ShopVehicle::loadShop();
+	Jobs::Miner::cMiner::loadMiner();
 	//-------------------------------------------------------------
 	cBanks::loadBanks();
 	//-------------------------------------------------------------
@@ -131,6 +132,8 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 	cObjects::loadObjects("intdoma2");
 	cObjects::loadObjects("arendaauto");
 	cObjects::loadObjects("0bankint");
+	cObjects::loadObjects("waxta");
+	cObjects::loadObjects("waxta2");
 	//-------------------------------------------------------------
 
 	world::DropedGuns::loadGuns();
@@ -164,8 +167,9 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerRequestClass(int playerid, int classid)
 //-------------------------------------------------------------------------------------------
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerConnect(int playerid)
 {
-	StreamerCall::Events::OnPlayerConnect(playerid);
 	if (IsPlayerNPC(playerid)) return true;
+	StreamerCall::Events::OnPlayerConnect(playerid);
+	cObjects::removeObjects(playerid);
 //	Player[playerid] = { { 0 } };
 	return true;
 }
