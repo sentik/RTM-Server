@@ -135,7 +135,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 	cObjects::loadObjects("waxta");
 	cObjects::loadObjects("waxta2");
 	//-------------------------------------------------------------
-
+	world::Gangs::init();
 	world::DropedGuns::loadGuns();
 	initTextDraws();
 	ManualVehicleEngineAndLights();

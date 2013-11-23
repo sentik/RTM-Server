@@ -19,7 +19,7 @@ void cState::callKeyStateChange(int playerid, int newkeys, int oldkeys)
 	switch (newkeys)
 	{
 		//-------------------------------------------------------------------------------------
-		case KEY_SUBMISSION:
+		case KEY_FIRE:
 		{		   
 			if (Player[playerid].pState == PLAYER_STATE_DRIVER)
 			{

@@ -199,6 +199,7 @@
     <None Include="Export.def">
       <Filter>Файлы исходного кода</Filter>
     </None>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="changelog.txt" />
