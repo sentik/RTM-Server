@@ -108,3 +108,5 @@ static string perkCalculate(int value)
 	return str;
 }
 #endif 
+
+

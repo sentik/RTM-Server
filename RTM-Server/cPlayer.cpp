@@ -24,16 +24,27 @@ void cPlayer::update()
 		}
 		if (isTwo)
 		{
-			cPlayer::updatePos(i);
+			if (Player[ i ].isAction == PlayerAction::ACTION_AUTH_PLAYER)
+			{
+
+			}
+			//==========================================
+			else
+			{
+				GetPlayerPos(i, &Player[ i ].pPosX, &Player[ i ].pPosY, &Player[ i ].pPosZ);
+				GetPlayerFacingAngle(i, &Player[ i ].pPosR);
+				Player[ i ].pPosW = GetPlayerVirtualWorld(i);
+				Player[ i ].pPosI = GetPlayerInterior(i);
+			}
+			//==========================================
 		}
-		
-		if (Player[i].isAction == PlayerAction::ACTION_USERENT)
+		if (isTen)
 		{
-			qqqq++;
-			if (qqqq % 10 == 0)
+			cPlayer::updatePos(i);
+			//==========================================
+			if (Player[ i ].isAction == PlayerAction::ACTION_USERENT)
 			{
 				Properties::Shops::ShopVehicle::viewCam(i);
-				qqqq = 0;
 			}
 		}
 	}
@@ -100,7 +111,10 @@ void cPlayer::loadPlayerChar(int i)
 	strcpy(Player[i].uName, row[PlayerRows::pluName]);
 	strcpy(Player[i].sName, row[PlayerRows::plsName]);
 	//------------------------------------------------
+	//------------------------------------------------
 	GivePlayerMoney(i, Player[ i ].pMoney);
+	//------------------------------------------------
+	//world::Vehicles::loadPlayerVehs(i);
 }
 
 /// <summary>
@@ -550,7 +564,7 @@ void cPlayer::updatePos(const int u)
 			Player[ u ].pPosX, Player[ u ].pPosY, Player[ u ].pPosZ, Player[ u ].pPosR, Player[ u ].pPosI, Player[ u ].pPosW,
 			Player[ u ].inIndex, Player[ u ].pDB);
 	//================================================================================
-	//mysql_query(con, query);
+	mysql_query(con, query);
 }
 
 

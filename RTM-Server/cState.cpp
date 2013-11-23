@@ -23,7 +23,7 @@ void cState::callKeyStateChange(int playerid, int newkeys, int oldkeys)
 		{		   
 			if (Player[playerid].pState == PLAYER_STATE_DRIVER)
 			{
-				cVehicle::menuVehicle(playerid);
+				world::Vehicles::menuVehicle(playerid);
 			}
 			break;
 		}
@@ -60,7 +60,7 @@ void cState::callStateChange(int playerid, int newstate, int oldstate)
 		Player[playerid].pSeatid = GetPlayerVehicleSeat(playerid);
 		if (newstate == 2)
 		{
-			cVehicle::showSpeed(playerid);
+			world::Vehicles::showSpeed(playerid);
 		}
 	}
 	else if (oldstate == 2 || oldstate == 3)
@@ -68,7 +68,7 @@ void cState::callStateChange(int playerid, int newstate, int oldstate)
 		Player[playerid].pSeatid = -1;
 		if (oldstate == 2)
 		{
-			cVehicle::hideSpeed(playerid);
+			world::Vehicles::hideSpeed(playerid);
 		}
 	}
 }

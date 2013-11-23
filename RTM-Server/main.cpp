@@ -170,7 +170,6 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerConnect(int playerid)
 	if (IsPlayerNPC(playerid)) return true;
 	StreamerCall::Events::OnPlayerConnect(playerid);
 	cObjects::removeObjects(playerid);
-//	Player[playerid] = { { 0 } };
 	return true;
 }
 
@@ -196,7 +195,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerDisconnect(int playerid, int reason)
 //-------------------------------------------------------------------------------------------
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSpawn(int playerid)
 {
-	if (Player[playerid].isLogged)
+	if (Player[ playerid ].isLogged)
 	{
 		cPlayer::setClassSkin(playerid);
 		//-------------------------------------------------------
@@ -218,7 +217,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerUpdate(int playerid)
 {
 	if (Player[playerid].pState == PLAYER_STATE_DRIVER)
 	{
-		cVehicle::updateSpeed(playerid);
+		world::Vehicles::updateSpeed(playerid);
 	}
 	uCount++;
 	//if (Player[playerid].isLogged && uCount > 10)

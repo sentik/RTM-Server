@@ -117,6 +117,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickPlayerTextDraw(const int u, const in
 			cPlayer::unloadChars(u);
 			cPlayer::loadPlayerChar(u);
 			//================================
+			Player[ u ].isAction = PlayerAction::ACTION_NONE;
 			Player[ u ].isLogged = true;
 			//================================
 			cPlayer::SpawnChar(u);
