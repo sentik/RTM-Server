@@ -71,6 +71,11 @@ struct  pInfo
 	int		spdMilage;			//TextDraw
 	int		minerDraw[20];		//TextDraws miner
 	char	role;				//Роль игрока
+	//--------------------------------------
+	char	memType;			//Тип банды/ мафии/ 
+	int		memIndex;			//Ид банды/ мафии/
+	
+	
 };
 //TODO: Структура игрока
 struct pInfo extern Player[MAX_PLAYERS];
