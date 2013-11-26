@@ -39,10 +39,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 	if (strcmp("veh", cmd) == 0)				CMD::veh(playerid, params);
 	else if (strcmp("mm", cmd) == 0)			CMD::mm(playerid);
 	else if (strcmp("mainmenu", cmd) == 0)		CMD::mm(playerid);
-	else if (strcmp("testmg", cmd) == 0)
-	{
-		Jobs::Miner::cMiner::startMinerGame(playerid);
-	}
+	
 	else if (strcmp("gotokk", cmd) == 0)
 	{
 		float pos[ 3 ];

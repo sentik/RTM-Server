@@ -96,17 +96,59 @@ bool Jobs::Miner::cMiner::getMinerInstrument(const int u)
 	return (IsPlayerAttachedObjectSlotUsed(u, 8) && IsPlayerAttachedObjectSlotUsed(u, 7));
 }
 
-void Jobs::Miner::cMiner::startMinerGame(const int u)
+
+void Jobs::Miner::cMiner::onGUI(const int u, const int draw)
 {
-	//for test
-	if (Player[u].minerDraw[1] != INVALID_TEXT_DRAW)
+	char minerAmount,
+		minerColor;
+	for (int i = 0; i < 20; i++)
 	{
-		for (int i = 0; i < 20; i++)
+		if (draw == Player[ u ].minerDraw[ i ])
 		{
-			PlayerTextDrawDestroy(u, Player[u].minerDraw[i]);
+			minerColor = 0 + rand() % 5;
+			PlayerTextDrawHide(u, Player[ u ].minerDraw[ i ]);
+			PlayerTextDrawColor(u, Player[ u ].minerDraw[ i ], ( minerColor ) ? ( 0xB700FF88 ) : ( 0xFF000088 ));
+			PlayerTextDrawSetSelectable(u, Player[ u ].minerDraw[ i ], false);
+			PlayerTextDrawShow(u, Player[ u ].minerDraw[ i ]);
+
+			if (minerColor)
+			{
+				if (Player[ u ].inIndex == 1)
+				{
+					minerAmount = rand() % 10;
+					Player[ u ].aMinerA += minerAmount;
+					sprintf(query, "Вы добыли: {B700FF}%d {FFFFFF}грамм железа, всего {B700FF}%d{FFFFFF} грамм", minerAmount, Player[ u ].aMinerA);
+				}
+				else if (Player[ u ].inIndex == 2)
+				{
+					minerAmount = rand() % 7;
+					Player[ u ].aMinerB += minerAmount;
+					sprintf(query, "Вы добыли: {B700FF}%d {FFFFFF}грамм серебра, всего {B700FF}%d{FFFFFF} грамм", minerAmount, Player[ u ].aMinerB);
+				}
+				else if (Player[ u ].inIndex == 3)
+				{
+					minerAmount = rand() % 8;
+					Player[ u ].aMinerA += minerAmount;
+					sprintf(query, "Вы добыли: {B700FF}%d {FFFFFF}грамм меди, всего {B700FF}%d{FFFFFF} грамм", minerAmount, Player[ u ].aMinerA);
+				}
+				else if (Player[ u ].inIndex == 4)
+				{
+					minerAmount = rand() % 4;
+					Player[ u ].aMinerB += minerAmount;
+					sprintf(query, "Вы добыли: {B700FF}%d {FFFFFF}грамм золота, всего {B700FF}%d{FFFFFF} грамм", minerAmount, Player[ u ].aMinerB);
+				}
+			}
+			else
+			{
+				sprintf(query, "Вы добыли: {B700FF}красный богатырь :)");
+			}
+			SendClientMessage(u, -1, query);
 		}
 	}
+}
 
+void Jobs::Miner::cMiner::startMinerGame(const int u)
+{
 	float	wtd_xpos,
 			wtd_ypos,
 			wtd_sx,
@@ -140,4 +182,85 @@ void Jobs::Miner::cMiner::startMinerGame(const int u)
 	}
 	Player[u].isAction = PlayerAction::ACTION_MINERGAME;
 	SelectTextDraw(u, 0x00000055);
+}
+
+void Jobs::Miner::cMiner::actionPicks(const int u)
+{
+	char action = 0;
+	if (cPlayer::isRangeOfPoint(u, 1.0f, MINER_SH1_RAZDEVALKA))
+	{
+		action = 1;
+		Player[u].inType = 1;
+	}
+	else if (cPlayer::isRangeOfPoint(u, 1.0f, MINER_SH2_RAZDEVALKA))
+	{
+		action = 1;
+		Player[u].inType = 2;
+	}
+	else if (cPlayer::isRangeOfPoint(u, MINER_SH1_IRON_RADIUS, MINER_SH1_IRON))
+	{
+		action = 2;
+		Player[u].inIndex = 1;
+		SendClientMessage(u, -1, "Вы начали добывать, {B700FF}железо");
+	}
+	else if (cPlayer::isRangeOfPoint(u, MINER_SH1_SILVER_RADIUS, MINER_SH1_SILVER))
+	{
+		action = 2;
+		Player[u].inIndex = 2;
+		SendClientMessage(u, -1, "Вы начали добывать, {B700FF}серебро");
+	}
+	else if (cPlayer::isRangeOfPoint(u, MINER_SH2_CUPRUM_RADIUS, MINER_SH2_CUPRUM))
+	{
+		action = 2;
+		Player[u].inIndex = 3;
+		SendClientMessage(u, -1, "Вы начали добывать, {B700FF}медь");
+	}
+	else if (cPlayer::isRangeOfPoint(u, MINER_SH2_GOLD_RADIUS, MINER_SH2_GOLD))
+	{
+		action = 2;
+		Player[u].inIndex = 4;
+		SendClientMessage(u, -1, "Вы начали добывать, {B700FF}золото");
+	}
+	else if (cPlayer::isRangeOfPoint(u, 2.5f, MINER_SH1_CHECKPOS))
+	{
+		sprintf(query, "\t\t\t{FFFFFF}Добыто {B700FF}[{FFFFFF}Заработано{B700FF}]\n{FFFFFF}Железо: {B700FF}%d [{FFFFFF}%.2f${B700FF}]\n{FFFFFF}Серебро: {B700FF}%d [{FFFFFF}%.2f${B700FF}]", 
+						Player[u].aMinerA, Jobs::Miner::cMiner::miner[0].zp1*Player[u].aMinerA, 
+						Player[u].aMinerB, Jobs::Miner::cMiner::miner[0].zp2*Player[u].aMinerB);
+		ShowPlayerDialog(u, DLG_NONE, GUI_MSG, "Железно-серебряная шахта", query, "OK", "");
+		Player[u].aMinerA = 0;
+		Player[u].aMinerB = 0;
+	}
+	else if (cPlayer::isRangeOfPoint(u, 2.5f, MINER_SH2_CHECKPOS))
+	{
+		sprintf(query, "\t\t\t{FFFFFF}Добыто {B700FF}[{FFFFFF}Заработано{B700FF}]\n{FFFFFF}Медь: {B700FF}%d [{FFFFFF}%.2f${B700FF}]\n{FFFFFF}Золото: {B700FF}%d [{FFFFFF}%.2f${B700FF}]",
+			Player[u].aMinerA, Jobs::Miner::cMiner::miner[1].zp1*Player[u].aMinerA,
+			Player[u].aMinerB, Jobs::Miner::cMiner::miner[1].zp2*Player[u].aMinerB);
+		ShowPlayerDialog(u, DLG_NONE, GUI_MSG, "Золото-медная шахта", query, "OK", "");
+		Player[u].aMinerA = 0;
+		Player[u].aMinerB = 0;
+	}
+
+	if (action == 1)
+	{
+		if (Jobs::Miner::cMiner::getMinerInstrument(u))
+		{
+			Jobs::Miner::cMiner::removeMinerInstrument(u);
+		}
+		else
+		{
+			Jobs::Miner::cMiner::giveMinerInstrument(u);
+		}
+	}
+	else if (action == 2)
+	{
+		if (Jobs::Miner::cMiner::getMinerInstrument(u))
+		{
+			ApplyAnimation(u, "SWORD", "sword_4", 3.0f, true, false, false, false, 0, true);
+			Jobs::Miner::cMiner::startMinerGame(u);
+		}
+		else
+		{
+			SendClientMessage(u, -1, "{FF0000}Ошибка: {FFFFFF}у вас нет инструмента!");
+		}
+	}
 }

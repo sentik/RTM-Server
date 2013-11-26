@@ -1,20 +1,4 @@
 #include "main.h"
-/*
-PLUGIN_EXPORT bool PLUGIN_CALL  OnPlayerClickTextDraw(const int, const int);
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickPlayerTextDraw(const int, const int);
-*/
-
-
-/*
-
-const int shop = Property[ Player[ u ].inIndex ].link;
-//======================================================
-if (left) vehicle[ shop ].Item--;
-else   	  vehicle[ shop ].Item++;
-//======================================================
-
-*/
-
 
 PLUGIN_EXPORT bool PLUGIN_CALL  OnPlayerClickTextDraw(const int u, const int draw)
 {
@@ -24,28 +8,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL  OnPlayerClickTextDraw(const int u, const int dra
 		//=========================================================================
 		if (Player[ u ].isAction == PlayerAction::ACTION_USERENT)	//Действия в AS
 		{
-			using namespace Properties::Shops;
-			const int shop = Property[ Player[ u ].inIndex ].link;
-			//----------------------------------------------------------------------
-			if (draw == INVALID_TEXT_DRAW)
-			{
-				Properties::Shops::ShopVehicle::endView(u);
-			}
-			//----------------------------------------------------------------------			
-			else if (draw == drawPlayerChar[ REG_LEFT ])			//Назад
-			{
-				ShopVehicle::vehicle[ shop ].Item = clamp(ShopVehicle::vehicle[ shop ].Item - 1, 0, 100);
-				ShopVehicle::viewList(u, ShopVehicle::vehicle[ shop ].Item);
-			}
-			else if(draw == drawPlayerChar[ REG_SELECT ])	//Выбрать
-			{
-
-			}
-			else if (draw == drawPlayerChar[ REG_RIGHT ])	//Вперед
-			{
-				ShopVehicle::vehicle[ shop ].Item = clamp(ShopVehicle::vehicle[ shop ].Item + 1, 0, 100);
-				ShopVehicle::viewList(u, ShopVehicle::vehicle[ shop ].Item);
-			}
+			Properties::Shops::ShopVehicle::onGUI(u, draw);
 		}
 		//=========================================================================
 		return 1;
@@ -58,7 +21,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL  OnPlayerClickTextDraw(const int u, const int dra
 	{
 
 	}
-	else if (draw == drawPlayerChar[REG_LEFT])			//Назад
+	else if (draw == drawPlayerChar[REG_LEFT])		//Назад
 	{
 		if (Player[u].pClass == 0) Player[u].pClass = MAX_CLASES - 1;
 		else Player[u].pClass = clamp(Player[u].pClass - 1, 0, MAX_CLASES);
@@ -83,25 +46,15 @@ PLUGIN_EXPORT bool PLUGIN_CALL  OnPlayerClickTextDraw(const int u, const int dra
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickPlayerTextDraw(const int u, const int draw)
 {
 	//----------------------------------------------------------------------------------------------------------
-	/*if (Player[u].isLogged)
+	if (Player[u].isLogged)
 	{
-
-		return 1;
-	}*/
-	//----------------------------------------------------------------------------------------------------------
-	if (Player[u].isAction == PlayerAction::ACTION_MINERGAME)
-	{
-		for (int i = 0; i < 20; i++)
+		//=========================================================
+		if (Player[ u ].isAction == PlayerAction::ACTION_MINERGAME)
 		{
-			if (draw == Player[u].minerDraw[i])
-			{
-				PlayerTextDrawHide(u, Player[u].minerDraw[i]);
-				PlayerTextDrawColor(u, Player[u].minerDraw[i], (0 + rand() % 2) ? (0xFF000088) : (0xB7FF0088));
-				PlayerTextDrawSetSelectable(u, Player[u].minerDraw[i], false);
-				PlayerTextDrawShow(u, Player[u].minerDraw[i]);
-			}
+			Jobs::Miner::cMiner::onGUI(u, draw);
 		}
-		return true;
+		//=========================================================
+		return 1;
 	}
 	//----------------------------------------------------------------------------------------------------------
 	for (int i = 0; i < MAX_CHARS; i++)
@@ -124,5 +77,6 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickPlayerTextDraw(const int u, const in
 			break;
 		}
 	}
+	//----------------------------------------------------------------------------------------------------------
 	return 1;
 }

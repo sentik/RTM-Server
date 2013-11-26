@@ -46,6 +46,23 @@ void cPlayer::update()
 			{
 				Properties::Shops::ShopVehicle::viewCam(i);
 			}
+			else if (Player[i].isAction == PlayerAction::ACTION_MINERGAME)
+			{
+				if (Player[i].minerDraw[1] != INVALID_TEXT_DRAW)
+				{
+					for (int t = 0; t < 20; t++)
+					{
+						PlayerTextDrawDestroy(i, Player[i].minerDraw[t]);
+					}
+				}
+				CancelSelectTextDraw(i);
+				ClearAnimations(i, true);
+				Player[i].isAction = PlayerAction::ACTION_NONE;
+				if (Player[i].inType == 1) 
+					SetPlayerCheckpoint(i, MINER_SH1_CHECKPOS, 4.5f);
+				else
+					SetPlayerCheckpoint(i, MINER_SH2_CHECKPOS, 4.5f);
+			}
 		}
 	}
 }

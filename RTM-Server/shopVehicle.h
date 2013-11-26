@@ -49,6 +49,7 @@ namespace Properties
 			static void ShopVehicle::viewCam(const int);
 			static void ShopVehicle::initTextDraws(const int, const int);
 			static void ShopVehicle::endView(const int);
+			static void ShopVehicle::onGUI(const int, const int);
 			enum vehRows
 			{
 				id,

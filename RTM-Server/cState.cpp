@@ -19,7 +19,8 @@ void cState::callKeyStateChange(int playerid, int newkeys, int oldkeys)
 	switch (newkeys)
 	{
 		//-------------------------------------------------------------------------------------
-		case KEY_FIRE:
+		case 1:
+		case 9:
 		{		   
 			if (Player[playerid].pState == PLAYER_STATE_DRIVER)
 			{
@@ -34,6 +35,8 @@ void cState::callKeyStateChange(int playerid, int newkeys, int oldkeys)
 			//==========================================================
 			thread threadProperty(cProperty::enterProperty, playerid);
 			threadProperty.join();
+			//==========================================================
+			Jobs::Miner::cMiner::actionPicks(playerid);
 			//==========================================================
 			for (auto it = world::DropedGuns::DropedGun.begin(); it != world::DropedGuns::DropedGun.end(); ++it)
 			{

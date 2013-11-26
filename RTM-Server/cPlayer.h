@@ -74,7 +74,9 @@ struct  pInfo
 	//--------------------------------------
 	char	memType;			//Тип банды/ мафии/ 
 	int		memIndex;			//Ид банды/ мафии/
-	
+	//Miner
+	int		aMinerA;
+	int		aMinerB;
 	
 };
 //TODO: Структура игрока

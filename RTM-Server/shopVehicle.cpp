@@ -220,6 +220,30 @@ void Properties::Shops::ShopVehicle::endView(const int u)
 	}
 }
 
+void Properties::Shops::ShopVehicle::onGUI(const int u, const int draw)
+{
+	const int shop = Property[ Player[ u ].inIndex ].link;
+	//----------------------------------------------------------------------
+	if (draw == INVALID_TEXT_DRAW)
+	{
+		Properties::Shops::ShopVehicle::endView(u);
+	}
+	//----------------------------------------------------------------------			
+	else if (draw == drawPlayerChar[ REG_LEFT ])			//Назад
+	{
+		ShopVehicle::vehicle[ shop ].Item = clamp(ShopVehicle::vehicle[ shop ].Item - 1, 0, 100);
+		ShopVehicle::viewList(u, ShopVehicle::vehicle[ shop ].Item);
+	}
+	else if (draw == drawPlayerChar[ REG_SELECT ])	//Выбрать
+	{
+
+	}
+	else if (draw == drawPlayerChar[ REG_RIGHT ])	//Вперед
+	{
+		ShopVehicle::vehicle[ shop ].Item = clamp(ShopVehicle::vehicle[ shop ].Item + 1, 0, 100);
+		ShopVehicle::viewList(u, ShopVehicle::vehicle[ shop ].Item);
+	}
+}
 
 void  Properties::Shops::ShopVehicle::initTextDraws(const int u, const int shop)
 {
