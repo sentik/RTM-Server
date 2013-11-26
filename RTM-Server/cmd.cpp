@@ -1,10 +1,19 @@
 #include "main.h"
+using namespace world::Players;
+
 
 void CMD::veh(int playerid, char* params)
 {
+	if (Admins::isAsses(playerid, 50) == false)
+	{
+		SendClientMessage(playerid, -1, "Вы не админ!");
+	}
+	else SendClientMessage(playerid, -1, "Вы  админ!");
+	//------------------------------------------------------------
 	int model;
 	int cone = 0;
 	int ctwo = 0;
+	//------------------------------------------------------------
 	if (sscanf(params, "%3d %3d %3d", &model, &cone, &ctwo) >= 1)
 	{
 		GetPlayerPos(playerid, &Player[ playerid ].pPosX, &Player[ playerid ].pPosY, &Player[ playerid ].pPosZ);

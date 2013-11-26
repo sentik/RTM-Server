@@ -1,13 +1,23 @@
 #pragma once
+
+
 #ifndef __MAIN__   
 #define __MAIN__   
+
+//======================================================
+#define DEFAULT_RUSSIAN 1		//По умолчанию Русский
+//#define DEFAULT_ENGLISH 1		//По умолчанию Анлийский
+//#define DEFAULT_GERMAN 1		//По умолчанию Немецкий
+//======================================================
+
 #pragma warning(disable: 4244)
 #define _CRT_SECURE_NO_WARNINGS
-
 #define GAME_VERSION "0.79A"
 #define DEFAULT_SPAWN 100.0f, 200.0f, 10.0f
 #define SELECT_COLORUS 0xDCDCDC88
 #define RANDOM_SEED	8 * getUnixTime() + 6 * clock()  - 123
+
+
 
 #include <iostream>
 #include <string>
@@ -48,6 +58,7 @@
 #include "cHouses.h"
 #include "configs.h"
 #include "cPlayer.h"
+#include "cAdmins.h"
 #include "saZones.h"
 #include "cClass.h"
 #include "cState.h"
@@ -57,13 +68,25 @@
 #include "cBank.h"
 #include "cGas.h"
 #include "cmd.h"
-
 #include <string>
 #include <iostream>
 #include <sstream>
 #include <functional>
 #include <stdexcept>
 #include <type_traits>
+//---------------------
+#ifdef DEFAULT_RUSSIAN
+#include "Russian.h"
+#endif
+//---------------------
+#ifdef DEFAULT_ENGLISH
+#include "English.h"
+#endif
+//---------------------
+#ifdef DEFAULT_GERMAN
+#include "German.h"
+#endif
+//---------------------
 
 //--------------------------------------------
 using namespace std;

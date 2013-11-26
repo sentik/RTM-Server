@@ -67,6 +67,9 @@
     <Filter Include="Файлы исходного кода\property\shops">
       <UniqueIdentifier>{69498804-2a9e-4293-97f5-838ab6a01140}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Заголовочные файлы\general\Languages">
+      <UniqueIdentifier>{cc4a208d-1da7-4b9b-ad72-330a9d6b163a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -132,6 +135,18 @@
     <ClInclude Include="cMiner.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="cAdmins.h">
+      <Filter>Заголовочные файлы\player</Filter>
+    </ClInclude>
+    <ClInclude Include="English.h">
+      <Filter>Заголовочные файлы\general\Languages</Filter>
+    </ClInclude>
+    <ClInclude Include="Russian.h">
+      <Filter>Заголовочные файлы\general\Languages</Filter>
+    </ClInclude>
+    <ClInclude Include="German.h">
+      <Filter>Заголовочные файлы\general\Languages</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -193,6 +208,9 @@
     </ClCompile>
     <ClCompile Include="cMiner.cpp">
       <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="cAdmins.cpp">
+      <Filter>Файлы исходного кода\player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

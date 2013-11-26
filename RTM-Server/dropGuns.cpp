@@ -30,7 +30,7 @@ void world::DropedGuns::loadGuns()
 		world::DropedGuns::DropedGun.insert(make_pair(i, temp));
 		i++;
 	}
-	logprintf("Было загруженно %d оружий", i);
+	logprintf(language::dropGuns::logLoaded, i);
 }
 
 

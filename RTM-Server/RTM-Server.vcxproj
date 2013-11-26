@@ -102,6 +102,7 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="cAdmins.h" />
     <ClInclude Include="cBank.h" />
     <ClInclude Include="cChat.h" />
     <ClInclude Include="cClass.h" />
@@ -119,12 +120,16 @@
     <ClInclude Include="cTexrDraws.h" />
     <ClInclude Include="cVehicle.h" />
     <ClInclude Include="dropGuns.h" />
+    <ClInclude Include="English.h" />
+    <ClInclude Include="German.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="cPlayer.h" />
+    <ClInclude Include="Russian.h" />
     <ClInclude Include="saZones.h" />
     <ClInclude Include="shopVehicle.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="cAdmins.cpp" />
     <ClCompile Include="cBank.cpp" />
     <ClCompile Include="cChat.cpp" />
     <ClCompile Include="cClass.cpp" />
