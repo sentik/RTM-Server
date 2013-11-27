@@ -20,6 +20,11 @@ void CMD::veh(int playerid, char* params)
 		GetPlayerPos(playerid, &Player[ playerid ].pPosX, &Player[ playerid ].pPosY, &Player[ playerid ].pPosZ);
 		GetPlayerFacingAngle(playerid, &Player[ playerid ].pPosR);
 		int veh = CreateVehicle(model, Player[ playerid ].pPosX, Player[ playerid ].pPosY, Player[ playerid ].pPosZ, Player[ playerid ].pPosR, cone, ctwo, -1);
+		//-------------------------------------------------------------------
+		SetVehicleParamsEx(veh, true, true, false, false, false, false, false);
+		world::Vehicles::Vehicle[ veh ].Engine = true;
+		world::Vehicles::Vehicle[ veh ].Light = true;
+		//-------------------------------------------------------------------
 		PutPlayerInVehicle(playerid, veh, 0);
 	}
 	else SendClientMessage(playerid, -1, "Use: /veh [modelid] (optional [color1] [color2])");

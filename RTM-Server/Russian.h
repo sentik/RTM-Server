@@ -9,6 +9,20 @@ namespace language
 		const char logLoaded[ 48 ] = "Было загруженно %d оружий";
 	}
 
+	namespace property
+	{
+		namespace bank
+		{
+			const char percentHeader[ 48 ]		= "[Банк]: Информация о процентах";
+			const char percentCredit[ 64 ]		= "Проценты по кредитам: \t\t%0.1f\n";
+			const char percentSend[ 64 ]		= "Проценты по переводам:  \t\t%0.1f\n";
+			const char percentDeposi[ 64 ]		= "Проценты по вкладам:  \t\t%0.1f\n";
+			const char percentPay[ 64 ]			= "Проценты по оплате:  \t\t%0.1f\n";
+
+		}
+	}
+
+
 	namespace jobs
 	{
 		namespace miner

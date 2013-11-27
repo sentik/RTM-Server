@@ -115,6 +115,34 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 					cPlayer::SpawnChar(playerid);
 				}
 			}
+			case DLG_VEHICLE_CONTROL: //Engine [%d]\nLights [%d]\nBoot [%d]\nBonnet [%d]
+			{
+				if (!response) return true;
+
+				const int vehid = Player[ playerid ].pCarid;
+
+				if (listitem == 0)
+				{
+					world::Vehicles::Vehicle[ vehid ].Engine = !world::Vehicles::Vehicle[ vehid ].Engine;
+					SetVehicleParamsEx(vehid, world::Vehicles::Vehicle[ vehid ].Engine, world::Vehicles::Vehicle[ vehid ].Light, false, world::Vehicles::Vehicle[ vehid ].Locked, world::Vehicles::Vehicle[ vehid ].Bonnet, world::Vehicles::Vehicle[ vehid ].Boot, false);
+				}
+				else if (listitem == 1)
+				{
+					world::Vehicles::Vehicle[ vehid ].Light = !world::Vehicles::Vehicle[ vehid ].Light;
+					SetVehicleParamsEx(vehid, world::Vehicles::Vehicle[ vehid ].Engine, world::Vehicles::Vehicle[ vehid ].Light, false, world::Vehicles::Vehicle[ vehid ].Locked, world::Vehicles::Vehicle[ vehid ].Bonnet, world::Vehicles::Vehicle[ vehid ].Boot, false);
+				}
+				else if (listitem == 2)
+				{
+					world::Vehicles::Vehicle[ vehid ].Boot = !world::Vehicles::Vehicle[ vehid ].Boot;
+					SetVehicleParamsEx(vehid, world::Vehicles::Vehicle[ vehid ].Engine, world::Vehicles::Vehicle[ vehid ].Light, false, world::Vehicles::Vehicle[ vehid ].Locked, world::Vehicles::Vehicle[ vehid ].Bonnet, world::Vehicles::Vehicle[ vehid ].Boot, false);
+				}
+				else if (listitem == 3)
+				{
+					world::Vehicles::Vehicle[ vehid ].Bonnet = !world::Vehicles::Vehicle[ vehid ].Bonnet;
+					SetVehicleParamsEx(vehid, world::Vehicles::Vehicle[ vehid ].Engine, world::Vehicles::Vehicle[ vehid ].Light, false, world::Vehicles::Vehicle[ vehid ].Locked, world::Vehicles::Vehicle[ vehid ].Bonnet, world::Vehicles::Vehicle[ vehid ].Boot, false);
+				}
+				world::Vehicles::menuVehicle(playerid);
+			}
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -136,34 +164,6 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 				cProperty::beforBuy(playerid);
 			}
 			break;
-		}
-		case DLG_VEHICLE_CONTROL: //Engine [%d]\nLights [%d]\nBoot [%d]\nBonnet [%d]
-		{
-			if (!response) return true;
-
-			const int vehid = Player[ playerid ].pCarid;
-
-			if (listitem == 0)
-			{
-				world::Vehicles::Vehicle[vehid].Engine = !world::Vehicles::Vehicle[vehid].Engine;
-				SetVehicleParamsEx(vehid, world::Vehicles::Vehicle[vehid].Engine, world::Vehicles::Vehicle[vehid].Light, false, world::Vehicles::Vehicle[vehid].Locked, world::Vehicles::Vehicle[vehid].Bonnet, world::Vehicles::Vehicle[vehid].Boot, false);
-			}
-			else if (listitem == 1)
-			{
-				world::Vehicles::Vehicle[vehid].Light = !world::Vehicles::Vehicle[vehid].Light;
-				SetVehicleParamsEx(vehid, world::Vehicles::Vehicle[vehid].Engine, world::Vehicles::Vehicle[vehid].Light, false, world::Vehicles::Vehicle[vehid].Locked, world::Vehicles::Vehicle[vehid].Bonnet, world::Vehicles::Vehicle[vehid].Boot, false);
-			}
-			else if (listitem == 2)
-			{
-				world::Vehicles::Vehicle[vehid].Boot = !world::Vehicles::Vehicle[vehid].Boot;
-				SetVehicleParamsEx(vehid, world::Vehicles::Vehicle[vehid].Engine, world::Vehicles::Vehicle[vehid].Light, false, world::Vehicles::Vehicle[vehid].Locked, world::Vehicles::Vehicle[vehid].Bonnet, world::Vehicles::Vehicle[vehid].Boot, false);
-			}
-			else if (listitem == 3)
-			{
-				world::Vehicles::Vehicle[vehid].Bonnet = !world::Vehicles::Vehicle[vehid].Bonnet;
-				SetVehicleParamsEx(vehid, world::Vehicles::Vehicle[vehid].Engine, world::Vehicles::Vehicle[vehid].Light, false, world::Vehicles::Vehicle[vehid].Locked, world::Vehicles::Vehicle[vehid].Bonnet, world::Vehicles::Vehicle[vehid].Boot, false);
-			}
-			world::Vehicles::menuVehicle(playerid);
 		}
 	}
 	return true;
