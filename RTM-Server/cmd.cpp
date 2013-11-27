@@ -1,16 +1,6 @@
 #include "main.h"
 using namespace world::Players;
 
-/*
-
-etc
-
-*/
-
-/*
-rugfj4gfjgfj
-
-*/
 
 void CMD::veh(int playerid, char* params)
 {
