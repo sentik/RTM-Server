@@ -28,14 +28,13 @@ void CMD::veh(int playerid, char* params)
 
 void CMD::mm(int playerid)
 {
-	char msg[ 256 ];
-	if (Admins::isAllow(playerid, 1) == false) return;
+	char msg[ 300 ];
 	//-------------------------------------------------------
 	dialogs::genDLGItem(1, "Статистика игрока", msg);
-/*	dialogs::genDLGItem(2, "Настройки аккаунта", msg);
+	dialogs::genDLGItem(2, "Настройки аккаунта", msg);
 	dialogs::genDLGItem(3, "Список команд сервера", msg);
 	dialogs::genDLGItem(4, "Помощь по игре", msg);
-	dialogs::genDLGItem(5, "Сменить персонажа", msg);*/
+	dialogs::genDLGItem(5, "Сменить персонажа", msg);
 	//-------------------------------------------------------
 	ShowPlayerDialog(playerid, DLG_MAIN_MENU, GUI_LIST, "[Главное меню]", msg, "Выбрать", "Отмена");
 }
