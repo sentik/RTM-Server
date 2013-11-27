@@ -7,6 +7,11 @@ etc
 
 */
 
+/*
+rugfj4gfjgfj
+
+*/
+
 void CMD::veh(int playerid, char* params)
 {
 	if (Admins::isAllow(playerid, 5) == false) return ;
