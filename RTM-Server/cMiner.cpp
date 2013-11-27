@@ -20,6 +20,9 @@ void Jobs::Miner::cMiner::loadMiner()
 {
 	int i = 0;
 	MYSQL_ROW row;
+
+	world::Vehicles::locked(0, true);
+
 	//------------------------------------------------------------
 	mysql_query(con, "SELECT class_Property.*, class_Miners.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Miners  WHERE class_Property.property = class_Miners.id AND class_Property.type = 4");
 	MYSQL_RES *result = mysql_store_result(con);
