@@ -1,6 +1,20 @@
 #include "main.h"
 
+/* Немного доработал шахты:
+1. Теперь можно потерять -- уронить руду
+2. Сообщения шахты теперь локализованы
+3. Исправил баг отрицательного значения руды ...
+*/
 struct sMiner   Jobs::Miner::cMiner::miner[MAX_SH];
+
+
+/*
+Заебал использовать query для сообщений!
+Используй новые переменные. query -- глобальная переменная, 
+и к ней доступ медленне, чем к локальной.
+*/
+
+
 
 void Jobs::Miner::cMiner::loadMiner()
 {
@@ -79,28 +93,48 @@ void Jobs::Miner::cMiner::loadMiner()
 	logprintf("[Система имущества]:\tБыло загруженно шахт\t- %d", i);
 }
 
+/// <summary>
+/// Дать инструменты шахтера
+/// <param name="u">* Ид игрока</param>
+/// </summary>
 void Jobs::Miner::cMiner::giveMinerInstrument(const int u)
 {
 	SetPlayerAttachedObject(u, 8, 18634, 6, 0.065867f, 0.029999f, 0.0f, 80.586486f, 270.0f, 0.0f, 1.0f, 1.0f, 1.0f, -1, -1);
 	SetPlayerAttachedObject(u, 7, 18638, 2, 0.160290f, 0.024471f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, -1, -1);
 }
 
+
+/// <summary>
+/// Убрать инструменты шахтера
+/// <param name="u">* Ид игрока</param>
+/// </summary>
 void Jobs::Miner::cMiner::removeMinerInstrument(const int u)
 {
 	RemovePlayerAttachedObject(u, 8);
 	RemovePlayerAttachedObject(u, 7);
 }
 
+
+/// <summary>
+/// Проверка  наличия инструмента шахтера
+/// <param name="u">* Ид игрока</param>
+/// </summary>
 bool Jobs::Miner::cMiner::getMinerInstrument(const int u)
 {
 	return (IsPlayerAttachedObjectSlotUsed(u, 8) && IsPlayerAttachedObjectSlotUsed(u, 7));
 }
 
 
+/// <summary>
+/// Действия с GUI
+/// <param name="u">* Ид игрока</param>
+/// <param name="draw">* Ид текстдрава</param>
+/// </summary>
+
 void Jobs::Miner::cMiner::onGUI(const int u, const int draw)
 {
-	char minerAmount,
-		minerColor;
+	char msg[ 144 ];
+	char minerAmount,	minerColor;
 	for (int i = 0; i < 20; i++)
 	{
 		if (draw == Player[ u ].minerDraw[ i ])
@@ -110,39 +144,71 @@ void Jobs::Miner::cMiner::onGUI(const int u, const int draw)
 			PlayerTextDrawColor(u, Player[ u ].minerDraw[ i ], ( minerColor ) ? ( 0xB700FF88 ) : ( 0xFF000088 ));
 			PlayerTextDrawSetSelectable(u, Player[ u ].minerDraw[ i ], false);
 			PlayerTextDrawShow(u, Player[ u ].minerDraw[ i ]);
-
-			if (minerColor)
+			//------------------------------------------------------------------------------------------------------
+			if (Player[ u ].inIndex == 1)				// Железо
 			{
-				if (Player[ u ].inIndex == 1)
+				minerAmount = rand() % 10;
+				if (minerColor)
 				{
-					minerAmount = rand() % 10;
 					Player[ u ].aMinerA += minerAmount;
-					sprintf(query, "Вы добыли: {B700FF}%d {FFFFFF}грамм железа, всего {B700FF}%d{FFFFFF} грамм", minerAmount, Player[ u ].aMinerA);
+					sprintf(msg, language::jobs::miner::actionOne, minerAmount, Player[ u ].aMinerA);
 				}
-				else if (Player[ u ].inIndex == 2)
+				else
 				{
-					minerAmount = rand() % 7;
-					Player[ u ].aMinerB += minerAmount;
-					sprintf(query, "Вы добыли: {B700FF}%d {FFFFFF}грамм серебра, всего {B700FF}%d{FFFFFF} грамм", minerAmount, Player[ u ].aMinerB);
-				}
-				else if (Player[ u ].inIndex == 3)
-				{
-					minerAmount = rand() % 8;
-					Player[ u ].aMinerA += minerAmount;
-					sprintf(query, "Вы добыли: {B700FF}%d {FFFFFF}грамм меди, всего {B700FF}%d{FFFFFF} грамм", minerAmount, Player[ u ].aMinerA);
-				}
-				else if (Player[ u ].inIndex == 4)
-				{
-					minerAmount = rand() % 4;
-					Player[ u ].aMinerB += minerAmount;
-					sprintf(query, "Вы добыли: {B700FF}%d {FFFFFF}грамм золота, всего {B700FF}%d{FFFFFF} грамм", minerAmount, Player[ u ].aMinerB);
+					Player[ u ].aMinerA -= minerAmount;
+					sprintf(msg, language::jobs::miner::disActionOne, minerAmount, Player[ u ].aMinerA);
 				}
 			}
-			else
+			//------------------------------------------------------------------------------------------------------
+			else if (Player[ u ].inIndex == 2)			//Серебро
 			{
-				sprintf(query, "Вы добыли: {B700FF}красный богатырь :)");
+				minerAmount = rand() % 7;
+				if (minerColor)
+				{
+					Player[ u ].aMinerB += minerAmount;
+					sprintf(msg, language::jobs::miner::actionTwo, minerAmount, Player[ u ].aMinerB);
+				}
+				else
+				{
+					Player[ u ].aMinerB -= minerAmount;
+					sprintf(msg, language::jobs::miner::disActionTwo, minerAmount, Player[ u ].aMinerA);
+				}
 			}
-			SendClientMessage(u, -1, query);
+			//------------------------------------------------------------------------------------------------------
+			else if (Player[ u ].inIndex == 3)			//Медь
+			{
+				minerAmount = rand() % 8;
+				if (minerColor)
+				{
+					Player[ u ].aMinerA += minerAmount;
+					sprintf(msg, language::jobs::miner::actionThree, minerAmount, Player[ u ].aMinerB);
+				}
+				else
+				{
+					Player[ u ].aMinerA -= minerAmount;
+					sprintf(msg, language::jobs::miner::actionThree, minerAmount, Player[ u ].aMinerA);
+				}
+			}
+			//------------------------------------------------------------------------------------------------------
+			else if (Player[ u ].inIndex == 4)			//Золото
+			{
+				minerAmount = rand() % 4;
+				if (minerColor)
+				{
+					Player[ u ].aMinerB += minerAmount;
+					sprintf(msg, language::jobs::miner::actionFour, minerAmount, Player[ u ].aMinerB);
+				}
+				else
+				{
+					Player[ u ].aMinerB -= minerAmount;
+					sprintf(msg, language::jobs::miner::disActionFour, minerAmount, Player[ u ].aMinerA);
+				}
+			}
+			//------------------------------------------------------------------------------------------------------
+			if (Player[ u ].aMinerA < 0) Player[ u ].aMinerA = 0;
+			if (Player[ u ].aMinerB < 0) Player[ u ].aMinerB = 0;
+			//------------------------------------------------------------------------------------------------------
+			SendClientMessage(u, -1, msg);
 		}
 	}
 }
