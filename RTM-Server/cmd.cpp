@@ -33,7 +33,7 @@ void CMD::veh(int playerid, char* params)
 
 void CMD::mm(int playerid)
 {
-	char msg[ 300 ];
+	char msg[ 300 ] = "";
 	//-------------------------------------------------------
 	dialogs::genDLGItem(1, "Статистика игрока", msg);
 	dialogs::genDLGItem(2, "Настройки аккаунта", msg);

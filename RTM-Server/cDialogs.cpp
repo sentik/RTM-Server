@@ -200,6 +200,6 @@ void dialogs::showDLGEnterName(const int u)
 void dialogs::genDLGItem(const int i, const char str[], char *res)
 {
 	char line[ 80 ];
-	sprintf(line, "{FFFFFF}[{990099}%d{FFFFFF}] {990099}%s\n", i, str);
+	sprintf(line, "{FFFFFF}[{84ecff}%d{FFFFFF}] {84ecff}%s\n", i, str);
 	strcat(res, line);
 }
