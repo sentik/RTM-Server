@@ -147,71 +147,94 @@ void Jobs::Miner::cMiner::onGUI(const int u, const int draw)
 		{
 			minerColor = 0 + rand() % 5;
 			PlayerTextDrawHide(u, Player[ u ].minerDraw[ i ]);
-			PlayerTextDrawColor(u, Player[ u ].minerDraw[ i ], ( minerColor ) ? ( 0xB700FF88 ) : ( 0xFF000088 ));
+			//------------------------------------------------------------------------------------------------------
+			if (minerColor == 0)
+				PlayerTextDrawColor(u, Player[u].minerDraw[i], 0xFF000088);
+			else if (minerColor == 1)
+				PlayerTextDrawColor(u, Player[u].minerDraw[i], 0xB700FF88);
+			else
+				PlayerTextDrawColor(u, Player[u].minerDraw[i], 0xFFAF0088);
+			//------------------------------------------------------------------------------------------------------
 			PlayerTextDrawSetSelectable(u, Player[ u ].minerDraw[ i ], false);
 			PlayerTextDrawShow(u, Player[ u ].minerDraw[ i ]);
 			//------------------------------------------------------------------------------------------------------
 			if (Player[ u ].inIndex == 1)				// Железо
 			{
-				if (minerColor)
+				if (minerColor == 1)
 				{
-					minerAmount = rand() % 10;
+					minerAmount = 1 + rand() % 9;
 					Player[ u ].aMinerA += minerAmount;
 					sprintf(msg, language::jobs::miner::actionOne, minerAmount, Player[ u ].aMinerA);
 				}
-				else
+				else if (minerColor == 0)
 				{
-					minerAmount = rand() % 5;
+					minerAmount =  1 + rand() % 5;
 					Player[ u ].aMinerA -= minerAmount;
 					sprintf(msg, language::jobs::miner::disActionOne, minerAmount, Player[ u ].aMinerA);
+				}
+				else
+				{
+					sprintf(msg, language::jobs::miner::otherAction);
 				}
 			}
 			//------------------------------------------------------------------------------------------------------
 			else if (Player[ u ].inIndex == 2)			//Серебро
 			{
-				if (minerColor)
+				if (minerColor == 1)
 				{
-					minerAmount = rand() % 6;
+					minerAmount = 1 + rand() % 6;
 					Player[ u ].aMinerB += minerAmount;
 					sprintf(msg, language::jobs::miner::actionTwo, minerAmount, Player[ u ].aMinerB);
 				}
+				else if (minerColor == 0)
+				{
+					minerAmount = 1 + rand() % 2;
+					Player[ u ].aMinerB -= minerAmount;
+					sprintf(msg, language::jobs::miner::disActionTwo, minerAmount, Player[u].aMinerB);
+				}
 				else
 				{
-					minerAmount = rand() % 2;
-					Player[ u ].aMinerB -= minerAmount;
-					sprintf(msg, language::jobs::miner::disActionTwo, minerAmount, Player[ u ].aMinerA);
+					sprintf(msg, language::jobs::miner::otherAction);
 				}
 			}
 			//------------------------------------------------------------------------------------------------------
 			else if (Player[ u ].inIndex == 3)			//Медь
 			{
-				if (minerColor)
+				if (minerColor == 1)
 				{
-					minerAmount = rand() % 8;
+					minerAmount = 1 + rand() % 8;
 					Player[ u ].aMinerA += minerAmount;
-					sprintf(msg, language::jobs::miner::actionThree, minerAmount, Player[ u ].aMinerB);
+					sprintf(msg, language::jobs::miner::actionThree, minerAmount, Player[u].aMinerA);
+				}
+				else if (minerColor == 0)
+				{
+					minerAmount = 1 + rand() % 4;
+					Player[ u ].aMinerA -= minerAmount;
+					sprintf(msg, language::jobs::miner::disActionThree, minerAmount, Player[u].aMinerA);
 				}
 				else
 				{
-					minerAmount = rand() % 4;
-					Player[ u ].aMinerA -= minerAmount;
-					sprintf(msg, language::jobs::miner::actionThree, minerAmount, Player[ u ].aMinerA);
+					sprintf(msg, language::jobs::miner::otherAction);
 				}
 			}
 			//------------------------------------------------------------------------------------------------------
 			else if (Player[ u ].inIndex == 4)			//Золото
 			{
-				if (minerColor)
+				if (minerColor == 1)
 				{
-					minerAmount = rand() % 4;
+					minerAmount = 1 + rand() % 4;
 					Player[ u ].aMinerB += minerAmount;
 					sprintf(msg, language::jobs::miner::actionFour, minerAmount, Player[ u ].aMinerB);
 				}
+				else if (minerColor == 0)
+				{
+					minerAmount = 1 + rand() % 2;
+					Player[ u ].aMinerB -= minerAmount;
+					sprintf(msg, language::jobs::miner::disActionFour, minerAmount, Player[u].aMinerB);
+				}
 				else
 				{
-					minerAmount = rand() % 2;
-					Player[ u ].aMinerB -= minerAmount;
-					sprintf(msg, language::jobs::miner::disActionFour, minerAmount, Player[ u ].aMinerA);
+					sprintf(msg, language::jobs::miner::otherAction);
 				}
 			}
 			//------------------------------------------------------------------------------------------------------
