@@ -56,12 +56,14 @@ void Jobs::Miner::cMiner::loadMiner()
 			sprintf(query, "Железо-серебряная шахта");
 			StreamerCall::Native::CreateDynamicPickup(CLOTH_PICKUP, 23, MINER_SH1_RAZDEVALKA);
 			StreamerCall::Native::CreateDynamic3DTextLabel("Раздевалка\nНажмите [ALT]", -1, MINER_SH1_RAZDEVALKA, 5.0f);
+			miner[i].infoTable = StreamerCall::Native::CreateDynamicObject(MINER_SH1_INFOTABLE);
 		}
 		else
 		{
 			sprintf(query, "Золото-медная шахта");
 			StreamerCall::Native::CreateDynamicPickup(CLOTH_PICKUP, 23, MINER_SH2_RAZDEVALKA);
 			StreamerCall::Native::CreateDynamic3DTextLabel("Раздевалка\nНажмите [ALT]", -1, MINER_SH2_RAZDEVALKA, 5.0f);
+			miner[i].infoTable = StreamerCall::Native::CreateDynamicObject(MINER_SH2_INFOTABLE);
 		}
 		//--------------------------------------------------------------
 		if (Property[countProperty].owner)
@@ -93,6 +95,8 @@ void Jobs::Miner::cMiner::loadMiner()
 		countProperty++;
 		i++;
 	}
+	Jobs::Miner::cMiner::updateInfotable(false);
+	Jobs::Miner::cMiner::updateInfotable(true);
 	logprintf("[Система имущества]:\tБыло загруженно шахт\t- %d", i);
 }
 
@@ -133,7 +137,6 @@ bool Jobs::Miner::cMiner::getMinerInstrument(const int u)
 /// <param name="u">* Ид игрока</param>
 /// <param name="draw">* Ид текстдрава</param>
 /// </summary>
-
 void Jobs::Miner::cMiner::onGUI(const int u, const int draw)
 {
 	char msg[ 144 ];
@@ -150,14 +153,15 @@ void Jobs::Miner::cMiner::onGUI(const int u, const int draw)
 			//------------------------------------------------------------------------------------------------------
 			if (Player[ u ].inIndex == 1)				// Железо
 			{
-				minerAmount = rand() % 10;
 				if (minerColor)
 				{
+					minerAmount = rand() % 10;
 					Player[ u ].aMinerA += minerAmount;
 					sprintf(msg, language::jobs::miner::actionOne, minerAmount, Player[ u ].aMinerA);
 				}
 				else
 				{
+					minerAmount = rand() % 5;
 					Player[ u ].aMinerA -= minerAmount;
 					sprintf(msg, language::jobs::miner::disActionOne, minerAmount, Player[ u ].aMinerA);
 				}
@@ -165,14 +169,15 @@ void Jobs::Miner::cMiner::onGUI(const int u, const int draw)
 			//------------------------------------------------------------------------------------------------------
 			else if (Player[ u ].inIndex == 2)			//Серебро
 			{
-				minerAmount = rand() % 7;
 				if (minerColor)
 				{
+					minerAmount = rand() % 6;
 					Player[ u ].aMinerB += minerAmount;
 					sprintf(msg, language::jobs::miner::actionTwo, minerAmount, Player[ u ].aMinerB);
 				}
 				else
 				{
+					minerAmount = rand() % 2;
 					Player[ u ].aMinerB -= minerAmount;
 					sprintf(msg, language::jobs::miner::disActionTwo, minerAmount, Player[ u ].aMinerA);
 				}
@@ -180,14 +185,15 @@ void Jobs::Miner::cMiner::onGUI(const int u, const int draw)
 			//------------------------------------------------------------------------------------------------------
 			else if (Player[ u ].inIndex == 3)			//Медь
 			{
-				minerAmount = rand() % 8;
 				if (minerColor)
 				{
+					minerAmount = rand() % 8;
 					Player[ u ].aMinerA += minerAmount;
 					sprintf(msg, language::jobs::miner::actionThree, minerAmount, Player[ u ].aMinerB);
 				}
 				else
 				{
+					minerAmount = rand() % 4;
 					Player[ u ].aMinerA -= minerAmount;
 					sprintf(msg, language::jobs::miner::actionThree, minerAmount, Player[ u ].aMinerA);
 				}
@@ -195,14 +201,15 @@ void Jobs::Miner::cMiner::onGUI(const int u, const int draw)
 			//------------------------------------------------------------------------------------------------------
 			else if (Player[ u ].inIndex == 4)			//Золото
 			{
-				minerAmount = rand() % 4;
 				if (minerColor)
 				{
+					minerAmount = rand() % 4;
 					Player[ u ].aMinerB += minerAmount;
 					sprintf(msg, language::jobs::miner::actionFour, minerAmount, Player[ u ].aMinerB);
 				}
 				else
 				{
+					minerAmount = rand() % 2;
 					Player[ u ].aMinerB -= minerAmount;
 					sprintf(msg, language::jobs::miner::disActionFour, minerAmount, Player[ u ].aMinerA);
 				}
@@ -292,21 +299,31 @@ void Jobs::Miner::cMiner::actionPicks(const int u)
 	}
 	else if (cPlayer::isRangeOfPoint(u, 2.5f, MINER_SH1_CHECKPOS))
 	{
-		sprintf(query, "\t\t\t{FFFFFF}Добыто {B700FF}[{FFFFFF}Заработано{B700FF}]\n{FFFFFF}Железо: {B700FF}%d [{FFFFFF}%.2f${B700FF}]\n{FFFFFF}Серебро: {B700FF}%d [{FFFFFF}%.2f${B700FF}]", 
+		sprintf(query, "\t\t\t\t\t{FFFFFF}Добыто {B700FF}[{FFFFFF}Заработано{B700FF}]\n\t{FFFFFF}Железо: {B700FF}%d [{FFFFFF}%.2f${B700FF}]\n\t{FFFFFF}Серебро: {B700FF}%d [{FFFFFF}%.2f${B700FF}]", 
 						Player[u].aMinerA, Jobs::Miner::cMiner::miner[0].zp1*Player[u].aMinerA, 
 						Player[u].aMinerB, Jobs::Miner::cMiner::miner[0].zp2*Player[u].aMinerB);
 		ShowPlayerDialog(u, DLG_NONE, GUI_MSG, "Железно-серебряная шахта", query, "OK", "");
+		//----------------------------------------------------------------------------------------------------------------------
+		Jobs::Miner::cMiner::miner[0].a1 += Player[u].aMinerA;
+		Jobs::Miner::cMiner::miner[0].a2 += Player[u].aMinerB;
 		Player[u].aMinerA = 0;
 		Player[u].aMinerB = 0;
+		//----------------------------------------------------------------------------------------------------------------------
+		Jobs::Miner::cMiner::updateInfotable(false);
 	}
 	else if (cPlayer::isRangeOfPoint(u, 2.5f, MINER_SH2_CHECKPOS))
 	{
-		sprintf(query, "\t\t\t{FFFFFF}Добыто {B700FF}[{FFFFFF}Заработано{B700FF}]\n{FFFFFF}Медь: {B700FF}%d [{FFFFFF}%.2f${B700FF}]\n{FFFFFF}Золото: {B700FF}%d [{FFFFFF}%.2f${B700FF}]",
+		sprintf(query, "\t\t\t\t\t{FFFFFF}Добыто {B700FF}[{FFFFFF}Заработано{B700FF}]\n\t{FFFFFF}Медь: {B700FF}%d [{FFFFFF}%.2f${B700FF}]\n\t{FFFFFF}Золото: {B700FF}%d [{FFFFFF}%.2f${B700FF}]",
 			Player[u].aMinerA, Jobs::Miner::cMiner::miner[1].zp1*Player[u].aMinerA,
 			Player[u].aMinerB, Jobs::Miner::cMiner::miner[1].zp2*Player[u].aMinerB);
 		ShowPlayerDialog(u, DLG_NONE, GUI_MSG, "Золото-медная шахта", query, "OK", "");
+		//----------------------------------------------------------------------------------------------------------------------
+		Jobs::Miner::cMiner::miner[1].a1 += Player[u].aMinerA;
+		Jobs::Miner::cMiner::miner[1].a2 += Player[u].aMinerB;
 		Player[u].aMinerA = 0;
 		Player[u].aMinerB = 0;
+		//----------------------------------------------------------------------------------------------------------------------
+		Jobs::Miner::cMiner::updateInfotable(true);
 	}
 
 	if (action == 1)
@@ -332,4 +349,40 @@ void Jobs::Miner::cMiner::actionPicks(const int u)
 			SendClientMessage(u, -1, "{FF0000}Ошибка: {FFFFFF}у вас нет инструмента!");
 		}
 	}
+}
+
+void Jobs::Miner::cMiner::updateInfotable(bool i)
+{
+	struct StreamerCall::Native::ObjectText tmp;
+
+	tmp.backColor = 0xFF000000;
+	tmp.bold = true;
+	tmp.fontColor = 0xFFFFFFFF;
+	tmp.fontFace = "Arial";
+	tmp.fontSize = 28;
+	tmp.materialSize = 130;
+	tmp.textAlignment = 1;
+
+	char msg[200];
+	if (!i)
+	{
+		sprintf(msg, language::jobs::miner::tableSH1, miner[i].zp1, miner[i].zp2, miner[i].a1, miner[i].a2);
+	}
+	else
+	{
+		sprintf(msg, language::jobs::miner::tableSH2, miner[i].zp1, miner[i].zp2, miner[i].a1, miner[i].a2);
+	}
+
+	tmp.materialText = msg;
+	StreamerCall::Native::SetDynamicObjectMaterialText(miner[i].infoTable, 0, tmp);
+
+	/*
+	format(string, sizeof(string), "Информация\nСтоимость грамма железа: {B700FF}%.2f$\n{FFFFFF}Стоимость грамма серебра: {B700FF}%.2f$\n{FFFFFF}Склад\nЖелеза грамм: {B700FF}%d\n{FFFFFF}Серебра грамм: {B700FF}%d",
+		shInfo[0][shZP][0], shInfo[0][shZP][1], shInfo[0][shAmount][0], shInfo[0][shAmount][1]);
+	SetDynamicObjectMaterialText(shInfo[0][shObject], 0, string, OBJECT_MATERIAL_SIZE_512x256, "Arial", 28, 1, 0xFFFFFFFF, 0xFF000000, OBJECT_MATERIAL_TEXT_ALIGN_CENTER);
+
+	format(string, sizeof(string), "Информация\nСтоимость грамма Меди: {B700FF}%.2f$\n{FFFFFF}Стоимость грамма золота: {B700FF}%.2f$\n{FFFFFF}Склад\nМеди грамм: {B700FF}%d\n{FFFFFF}Золота грамм: {B700FF}%d",
+		shInfo[1][shZP][0], shInfo[1][shZP][1], shInfo[1][shAmount][0], shInfo[1][shAmount][1]);
+	SetDynamicObjectMaterialText(shInfo[1][shObject], 0, string, OBJECT_MATERIAL_SIZE_512x256, "Arial", 28, 1, 0xFFFFFFFF, 0xFF000000, OBJECT_MATERIAL_TEXT_ALIGN_CENTER);
+	*/
 }
