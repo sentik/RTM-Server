@@ -151,6 +151,11 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 		cBanks::onDLG(playerid, dialogid, response, listitem, inputtext);
 	}
 	//---------------------------------------------------------------------------
+	else if (Player[ playerid ].isAction = PlayerAction::ACTION_AUTOSHOP)
+	{
+		Properties::Shops::ShopVehicle::onDLG(playerid, dialogid, response, listitem, inputtext);
+	}
+	//---------------------------------------------------------------------------
 	else switch (dialogid)
 	{
 		case DLG_PROPERTY_BUY:

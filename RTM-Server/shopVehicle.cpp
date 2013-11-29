@@ -207,18 +207,35 @@ void Properties::Shops::ShopVehicle::endView(const int u)
 	for (int i = 0; i < sizeof( vehicle[ shop ].Textdraw ); i++)
 	{
 		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ i ]);
-		/*PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::control ]);
-		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::controlValue ]);
-		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::costVeh ]);
-		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::fuel ]);
-		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::gear ]);
-		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::group ]);
-		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::power ]);
-		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::speed ]);
-		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::speedText ]);
-		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ drawNames::speedValue ]);*/
 	}
 }
+
+
+void Properties::Shops::ShopVehicle::onDLG(int u, int dialogid, int response, int listitem, const char* inputtext)
+{
+	if (dialogid == DLG_VEHICLE_BUY)
+	{
+		if (!response) Player[ u ].isAction = PlayerAction::ACTION_NONE;
+		else
+		{
+			ShowPlayerDialog(u, DLG_VEHICLE_PAY, GUI_LIST, "Способ оплаты", "Оплата наличными \nОплата кредиткой", "Далее", "Отмена");
+		}
+	}
+	//----------------------------------------------------------------------
+	else if (dialogid == DLG_VEHICLE_PAY)
+	{
+		if (listitem == 0)
+		{
+
+		}
+		else
+		{
+
+		}
+	}
+	//----------------------------------------------------------------------
+}
+
 
 void Properties::Shops::ShopVehicle::onGUI(const int u, const int draw)
 {
@@ -236,7 +253,10 @@ void Properties::Shops::ShopVehicle::onGUI(const int u, const int draw)
 	}
 	else if (draw == drawPlayerChar[ REG_SELECT ])	//Выбрать
 	{
-
+		Player[ u ].isAction = PlayerAction::ACTION_AUTOSHOP;
+		char msg[ sizeof( language::property::shop::vehicle::action_Buy )];
+		sprintf(msg, language::property::shop::vehicle::action_Buy, Player[ u ].uName, Player[ u ].sName);
+		ShowPlayerDialog(u, DLG_VEHICLE_BUY, GUI_MSG, language::property::shop::vehicle::header_Buy, msg, "Купить", "Назад");
 	}
 	else if (draw == drawPlayerChar[ REG_RIGHT ])	//Вперед
 	{

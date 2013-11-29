@@ -50,6 +50,7 @@ namespace Properties
 			static void ShopVehicle::initTextDraws(const int, const int);
 			static void ShopVehicle::endView(const int);
 			static void ShopVehicle::onGUI(const int, const int);
+			static void ShopVehicle::onDLG(int, int, int, int, const char*);
 			enum vehRows
 			{
 				id,

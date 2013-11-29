@@ -1,6 +1,12 @@
 #pragma once
 
 
+/*
+Серый, доделай шахты, сделай лесопилки.
+так же мне нужен уже инвертарь, нужны текстдравы ...
+*/
+
+
 #ifndef __MAIN__   
 #define __MAIN__   
 
@@ -100,6 +106,7 @@ extern logprintf_t logprintf;
 extern regex expLogin;
 extern regex expNames;
 extern regex expDate;
+extern regex expCode;
 //======================================
 //TODO: MYSQL-соединение
 extern MYSQL *con;

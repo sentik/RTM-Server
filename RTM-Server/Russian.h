@@ -19,9 +19,26 @@ namespace language
 
 	namespace property
 	{
+
+		
+
+
+		namespace shop
+		{
+			namespace vehicle
+			{
+				const char header_Buy[ 32 ] = "[Автосалон] :: Покупка авто";
+				const char action_Buy[ 128 ] = "Здравствуйте, %s %s, вы дейтвительно хотите купить %s за %d$ ?";
+			}
+		}
+
 		namespace bank
 		{
-			const char Header_Acc_MAKE[32]	= "[Банк] Заведение счета";
+			const char Header_Acc_MAKE[32]	 = "[Банк] Заведение счета";
+			const char Header_Acc_BILL[ 32 ] = "[Банк] Управление счетами";
+
+
+			
 			//----------------------------------------------------------------------------
 			const char percentHeader[48]	= "[Банк]: Информация о процентах";
 			const char percentCredit[64]	= "Проценты по кредитам: \t\t%0.1f%%\n";
