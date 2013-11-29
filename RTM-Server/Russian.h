@@ -37,7 +37,7 @@ namespace language
 	{
 		namespace miner
 		{
-			const char actionOne[ 96 ]		= "Âû המבûכט: {B700FF}%d {FFFFFF}דנאלל זוכוחא, גסודמ { B700FF }%d { FFFFFF } דנאלל";
+			const char actionOne[ 96 ]		= "Âû המבûכט: {B700FF}%d {FFFFFF}דנאלל זוכוחא, גסודמ {B700FF}%d{FFFFFF} דנאלל";
 			const char actionTwo[ 96 ]		= "Âû המבûכט: {B700FF}%d {FFFFFF}דנאלל סונובנא, גסודמ {B700FF}%d{FFFFFF} דנאלל";
 			const char actionThree[ 96 ]	= "Âû המבûכט: {B700FF}%d {FFFFFF}דנאלל לוהט, גסודמ {B700FF}%d{FFFFFF} דנאלל";
 			const char actionFour[ 96 ]		= "Âû המבûכט: {B700FF}%d {FFFFFF}דנאלל חמכמעא, גסודמ {B700FF}%d{FFFFFF} דנאלל";

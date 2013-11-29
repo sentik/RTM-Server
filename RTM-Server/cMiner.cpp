@@ -242,6 +242,7 @@ void Jobs::Miner::cMiner::onGUI(const int u, const int draw)
 			if (Player[ u ].aMinerB < 0) Player[ u ].aMinerB = 0;
 			//------------------------------------------------------------------------------------------------------
 			SendClientMessage(u, -1, msg);
+			break;
 		}
 	}
 }

@@ -95,7 +95,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData)
 	//===============================================================================
 	logprintf("\n\n*** Rulezz Team GameMode v%s By SeNTike & Serinc ***\n", GAME_VERSION);
 	//===============================================================================
-	mysql_real_connect(con, MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_BASE, 0, NULL, 0);
+	mysql_real_connect(con, MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_BASE, 0, NULL, CLIENT_MULTI_STATEMENTS);
 	mysql_query(con, "SET NAMES cp1251");
 	//===============================================================================
 	buildRegex();

@@ -5,6 +5,7 @@
 #define MAX_PLAYERS		1000
 #define MAX_CHARS		5
 
+
 //Класс игрока
 class cPlayer
 {

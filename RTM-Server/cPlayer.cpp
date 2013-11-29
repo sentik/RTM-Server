@@ -113,29 +113,34 @@ int cPlayer::regChar(const int u)
 /// </summary>
 void cPlayer::loadPlayerChar(int i)
 {
-	//-------------------------------------------------------------------------------------------------------------------
-	sprintf(query, "SELECT * FROM player_Character  WHERE owner = '%d' AND id = %d LIMIT 1", Player[i].pDB, Player[i].pClass), mysql_query(con, query);
-	//-------------------------------------------------------------------------------------------------------------------
-	MYSQL_RES *result = mysql_store_result(con);
-	MYSQL_ROW row = mysql_fetch_row(result);
-	//-------------------------------------------------------------------------------------------------------------------
-	Player[i].pDB		= atoi(row[PlayerRows::plDB]);
-	Player[i].pMoney	= atof(row[PlayerRows::plMoney]);
-	Player[i].pClass	= atoi(row[PlayerRows::plClass]);
-	Player[i].pPosX		= atof(row[PlayerRows::plPosX]);
-	Player[i].pPosY		= atof(row[PlayerRows::plPosY]);
-	Player[i].pPosZ		= atof(row[PlayerRows::plPosZ]);
-	Player[i].pPosR		= atof(row[PlayerRows::plPosR]);
-	Player[i].pPosI		= atoi(row[PlayerRows::plPosI]);
-	Player[i].pPosW		= atoi(row[PlayerRows::plPosW]);
-	//------------------------------------------------
-	strcpy(Player[i].uName, row[PlayerRows::pluName]);
-	strcpy(Player[i].sName, row[PlayerRows::plsName]);
-	//------------------------------------------------
-	//------------------------------------------------
-	GivePlayerMoney(i, Player[ i ].pMoney);
-	//------------------------------------------------
-	//world::Vehicles::loadPlayerVehs(i);
+		//-------------------------------------------------------------------------------------------------------------------
+		sprintf(query, "SELECT * FROM player_Character  WHERE owner = '%d' AND id = %d  LIMIT 1", Player[ i ].pDB, Player[ i ].pClass), mysql_query(con, query);
+		//-------------------------------------------------------------------------------------------------------------------
+		MYSQL_RES *result = mysql_store_result(con);
+		//-------------------------------------------------------------------------------------------------------------------
+		MYSQL_ROW row = mysql_fetch_row(result);
+	//	if (mysql_num_rows(result))
+			Player[ i ].pDB = atoi(row[ PlayerRows::plDB ]);
+			Player[ i ].pMoney = atof(row[ PlayerRows::plMoney ]);
+			Player[ i ].pClass = atoi(row[ PlayerRows::plClass ]);
+			Player[ i ].pPosX = atof(row[ PlayerRows::plPosX ]);
+			Player[ i ].pPosY = atof(row[ PlayerRows::plPosY ]);
+			Player[ i ].pPosZ = atof(row[ PlayerRows::plPosZ ]);
+			Player[ i ].pPosR = atof(row[ PlayerRows::plPosR ]);
+			Player[ i ].pPosI = atoi(row[ PlayerRows::plPosI ]);
+			Player[ i ].pPosW = atoi(row[ PlayerRows::plPosW ]);
+			//------------------------------------------------
+			strcpy(Player[ i ].uName, row[ PlayerRows::pluName ]);
+			strcpy(Player[ i ].sName, row[ PlayerRows::plsName ]);
+			//------------------------------------------------
+			//------------------------------------------------
+			GivePlayerMoney(i, Player[ i ].pMoney);
+			cPlayer::setClassSkin(i);
+			//------------------------------------------------
+			//world::Vehicles::loadPlayerVehs(i);
+		
+		mysql_free_result(result);
+		//mysql_reload(con);
 }
 
 /// <summary>
@@ -186,13 +191,14 @@ bool cPlayer::loadChars(int i)
 	{
 		PlayerChar[i][c].pDB = atoi(row[0]);
 		PlayerChar[i][c].pClass = atoi(row[1]);
+
 		PlayerChar[i][c].pMoney = atof(row[2]);
 		strcpy(PlayerChar[i][c].uName, row[3]);
 		strcpy(PlayerChar[i][c].sName, row[4]);
 		//------------------------------------------------------------------------------------
 		cClass::fixText(PlayerChar[i][c].uName, strlen(PlayerChar[i][c].uName));
 		cClass::fixText(PlayerChar[i][c].sName, strlen(PlayerChar[i][c].sName));
-		sprintf(tmp, "%s %s", PlayerChar[i][c].uName, PlayerChar[i][c].sName);
+		sprintf(tmp, "%s %s %d|%d", PlayerChar[ i ][ c ].uName, PlayerChar[ i ][ c ].sName, PlayerChar[ i ][ c ].pDB, PlayerChar[ i ][ c ].pClass);
 		//------------------------------------------------------------------------------------
 		PlayerChar[i][c].cUserus = CreatePlayerTextDraw(i, 35.0f, 15 * c + 170.0f, tmp);
 		PlayerTextDrawBackgroundColor(i, PlayerChar[i][c].cUserus, 80);
