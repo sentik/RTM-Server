@@ -19,10 +19,11 @@ void CMD::veh(int playerid, char* params)
 		SetVehicleParamsEx(veh, true, true, false, false, false, false, false);
 		world::Vehicles::Vehicle[ veh ].Engine = true;
 		world::Vehicles::Vehicle[ veh ].Light = true;
+		world::Vehicles::Vehicle[veh].Fuel = 100.0f;
 		//-------------------------------------------------------------------
 		PutPlayerInVehicle(playerid, veh, 0);
 	}
-	else SendClientMessage(playerid, -1, "Use: /veh [modelid] (optional [color1] [color2])");
+	else SendClientMessage(playerid, -1, language::player::cmd::useVeh);
 }
 
 
@@ -50,6 +51,10 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 	else if (strcmp("mm", cmd) == 0)			CMD::mm(playerid);
 	else if (strcmp("mainmenu", cmd) == 0)		CMD::mm(playerid);
 	
+	else if (strcmp("tfill", cmd) == 0)
+	{
+		gasProperty::cGas::fillingVehicle(playerid);
+	}
 	else if (strcmp("gotokk", cmd) == 0)
 	{
 		float pos[ 3 ];

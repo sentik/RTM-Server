@@ -1,5 +1,10 @@
 #include "main.h"
-
+/*
+Сделал:
+1. Диалог покупки авто
+2. Простое заведение счета в банке
+3. Начал делать список счетов в банке
+*/
 
 
 char  Properties::Shops::ShopVehicle::Gear[ 3 ][ 16 ] = { "Передний", "Задний", "Полный" };
@@ -215,20 +220,54 @@ void Properties::Shops::ShopVehicle::onDLG(int u, int dialogid, int response, in
 {
 	if (dialogid == DLG_VEHICLE_BUY)
 	{
-		if (!response) Player[ u ].isAction = PlayerAction::ACTION_NONE;
-		else
-		{
+		if (response) 
 			ShowPlayerDialog(u, DLG_VEHICLE_PAY, GUI_LIST, "Способ оплаты", "Оплата наличными \nОплата кредиткой", "Далее", "Отмена");
-		}
+		
 	}
 	//----------------------------------------------------------------------
 	else if (dialogid == DLG_VEHICLE_PAY)
 	{
-		if (listitem == 0)
+		if (listitem == 0)					//Наличные
 		{
-
+			using namespace Properties::Shops;
+			const int idx = Property[ Player[ u ].inIndex ].link;
+			const int item = 0;
+			if (cPlayer::checkMoney(u, -ShopVehicle::items[ idx ][ item ].Price))
+			{
+				eVehicle tmp;
+				//----------------------------------------------------
+				tmp.Owner = Player[ u ].pDB;
+				tmp.Model = ShopVehicle::items[ idx ][ item ].Model;
+				//----------------------------------------------------
+				tmp.posX = ShopVehicle::vehicle[ idx ].spawnX;
+				tmp.posY = ShopVehicle::vehicle[ idx ].spawnY;
+				tmp.posZ = ShopVehicle::vehicle[ idx ].spawnZ;
+				tmp.posR = ShopVehicle::vehicle[ idx ].spawnR;
+				tmp.Dist = tmp.posI = tmp.posW = 0;
+				//----------------------------------------------------
+				tmp.Boot = tmp.Bonnet = tmp.Locked = tmp.Light = tmp.Engine = false;
+				tmp.color1 = tmp.color2 = 0;
+				tmp.Heal = 1000.0f;
+				tmp.Fuel = 20.0f;
+				tmp.paint = -1;
+				//----------------------------------------------------
+				int veh = CreateVehicle(tmp.Model, tmp.posX, tmp.posY, tmp.posZ, tmp.posR, tmp.color1, tmp.color2, 500);
+				//----------------------------------------------------
+				strcpy(tmp.vNumber, "NONE");
+				//----------------------------------------------------
+				sprintf(query, "INSERT INTO world_Vehicles VALUES (NULL, '%d', '%d', '%f', '%f', '%f', '%f', '%d', '%d', '%d', '%d', '%d', '%f', '%f', '%f', '%s', '%d', '%d', '%d', '%d', '%d')",
+				tmp.Owner, tmp.Model, tmp.posX, tmp.posY, tmp.posZ, tmp.posR, tmp.posI, tmp.posW, tmp.color1, tmp.color1, tmp.paint, tmp.Heal, tmp.Fuel, tmp.Dist, tmp.vNumber, false, false, false, false, false);
+				logprintf(query);
+				//----------------------------------------------------
+				mysql_query(con, query);
+				tmp.db = mysql_insert_id(con);
+				//----------------------------------------------------
+				world::Vehicles::Vehicle[ veh ] = tmp;
+				ShopVehicle::endView(u);
+			}
 		}
-		else
+		//===========================================================================
+		else                                //Кредитка
 		{
 
 		}

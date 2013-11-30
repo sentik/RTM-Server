@@ -44,7 +44,6 @@ void cPlayer::update()
 		}
 		if (isTen)
 		{
-			cPlayer::updatePos(i);
 			//==========================================
 			if (Player[ i ].isAction == PlayerAction::ACTION_USERENT)
 			{
@@ -66,6 +65,10 @@ void cPlayer::update()
 					SetPlayerCheckpoint(i, MINER_SH1_CHECKPOS, 4.5f);
 				else
 					SetPlayerCheckpoint(i, MINER_SH2_CHECKPOS, 4.5f);
+			}
+			else
+			{
+				cPlayer::updatePos(i);
 			}
 		}
 	}
@@ -119,7 +122,8 @@ void cPlayer::loadPlayerChar(int i)
 		MYSQL_RES *result = mysql_store_result(con);
 		//-------------------------------------------------------------------------------------------------------------------
 		MYSQL_ROW row = mysql_fetch_row(result);
-	//	if (mysql_num_rows(result))
+		if (mysql_num_rows(result))
+		{
 			Player[ i ].pDB = atoi(row[ PlayerRows::plDB ]);
 			Player[ i ].pMoney = atof(row[ PlayerRows::plMoney ]);
 			Player[ i ].pClass = atoi(row[ PlayerRows::plClass ]);
@@ -138,7 +142,7 @@ void cPlayer::loadPlayerChar(int i)
 			cPlayer::setClassSkin(i);
 			//------------------------------------------------
 			//world::Vehicles::loadPlayerVehs(i);
-		
+		}
 		mysql_free_result(result);
 		//mysql_reload(con);
 }
@@ -424,6 +428,7 @@ void cPlayer::showCharMaker(int i)
 	TextDrawShowForPlayer(i, drawPlayerChar[REG_LEFT]);
 	TextDrawShowForPlayer(i, drawPlayerChar[REG_RIGHT]);
 	TextDrawShowForPlayer(i, drawPlayerChar[REG_SELECT]);
+	TextDrawHideForPlayer(i, drawPlayerChar[REG_CREATE]);
 	//-------------------------------------------------------------------------------------------------------------
 	RegChar[i].rSpeed[0] = CreatePlayerTextDraw(i, 30.000000f, 170.000000f, strSpeed);
 	PlayerTextDrawBackgroundColor(i, RegChar[i].rSpeed[0], 80);
@@ -598,4 +603,13 @@ void cPlayer::updatePos(const int u)
 void cPlayer::getPlayerPos(const int i)
 {
 	GetPlayerPos(i, &Player[ i ].pPosX, &Player[ i ].pPosY, &Player[ i ].pPosZ);
+}
+
+bool cPlayer::isPlayerInCube(const int u, float minX, float minY, float minZ, float maxX, float maxY, float maxZ)
+{
+	const float x = Player[u].pPosX;
+	const float y = Player[u].pPosY;
+	const float z = Player[u].pPosZ;
+	//================================================================================
+	return (x >= minX && x <= maxX && y >= minY && y <= maxY && z >= minZ && z <= maxZ) ? true : false;
 }

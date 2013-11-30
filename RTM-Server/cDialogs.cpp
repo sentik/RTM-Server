@@ -32,6 +32,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 				if (!regex_match(inputtext, expLogin)) goto case_welcome;
 				//---------------------------------
 				Player[ playerid ].pDB = cPlayer::checkLogin(inputtext);
+				SetPlayerName(playerid, inputtext);
 				if (Player[ playerid ].pDB == 0)
 				{
 					strcpy(Player[ playerid ].uLogin, inputtext);

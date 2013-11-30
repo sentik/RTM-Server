@@ -34,5 +34,7 @@
 #define HOUSE_GREEN		1273	// green house
 #define HOUSE_RED		1272	// blue house
 
+#define	TREE_SPEED		0.005f
+
 
 #endif 

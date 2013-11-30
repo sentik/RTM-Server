@@ -147,6 +147,9 @@
     <ClInclude Include="German.h">
       <Filter>Заголовочные файлы\general\Languages</Filter>
     </ClInclude>
+    <ClInclude Include="cFeller.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -211,6 +214,9 @@
     </ClCompile>
     <ClCompile Include="cAdmins.cpp">
       <Filter>Файлы исходного кода\player</Filter>
+    </ClCompile>
+    <ClCompile Include="cFeller.cpp">
+      <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

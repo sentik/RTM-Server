@@ -35,6 +35,7 @@ public:
 	static void cPlayer::getPlayerPos(const int);
 	static void cPlayer::givePlayerMoney(const int, float);
 	static void cPlayer::updatePos(const int);
+	static bool cPlayer::isPlayerInCube(const int, float, float, float, float, float, float);
 
 };
 
