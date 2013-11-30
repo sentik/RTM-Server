@@ -107,6 +107,13 @@ static void buildRegex()
 
 }
 
+double fint(double x) // округление в сторону нуля (т.е. меньшее по абсолютному значению)
+{
+	return x >= 0.
+		? floor(x)
+		: ceil(x);
+}
+
 //-------------------------------------------------------------------------------------------------------------------
 //TODO: Загружаем сервер
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData)
@@ -135,6 +142,16 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData)
 	cClass::fixText(strMuscular, 13);
 	cClass::fixText(strAgility, 13);
 	//===============================================================================
+	
+	double x, y, n;
+	x = -41.56789;
+	y = modf(x, &n);	
+
+	logprintf("[%f] [%d] [%f]", x, y, n);
+
+
+
+
 	srand(RANDOM_SEED);
 	return true;
 }
