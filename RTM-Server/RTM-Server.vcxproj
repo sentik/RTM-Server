@@ -25,7 +25,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>Intel C++ Compiler XE 14.0</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -133,6 +133,7 @@
     <ClInclude Include="dropGuns.h" />
     <ClInclude Include="English.h" />
     <ClInclude Include="German.h" />
+    <ClInclude Include="invertory.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="cPlayer.h" />
     <ClInclude Include="Russian.h" />
@@ -158,6 +159,7 @@
     <ClCompile Include="cTexrDraws.cpp" />
     <ClCompile Include="cVehicle.cpp" />
     <ClCompile Include="dropGuns.cpp" />
+    <ClCompile Include="invertory.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="cPlayer.cpp" />
     <ClCompile Include="saZones.cpp" />

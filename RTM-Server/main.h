@@ -76,15 +76,18 @@
 #include "streamerlib.h"
 #include "cTexrDraws.h"
 #include "cInteriors.h"
+#include "invertory.h"
 #include "cProperty.h"
 #include "cDialogs.h"
 #include "dropGuns.h"
 #include "cObjects.h"
+
 #include "cVehicle.h"
 #include "cHouses.h"
 #include "configs.h"
 #include "cPlayer.h"
 #include "cAdmins.h"
+
 #include "saZones.h"
 #include "cFeller.h"
 #include "cClass.h"

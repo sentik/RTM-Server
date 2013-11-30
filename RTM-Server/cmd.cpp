@@ -53,7 +53,10 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 	
 	else if (strcmp("tfill", cmd) == 0)
 	{
-		gasProperty::cGas::fillingVehicle(playerid);
+		Player[ playerid ].pDB = 1;
+		world::Players::invertory::load(playerid);
+		world::Players::invertory::show(playerid);
+		//gasProperty::cGas::fillingVehicle(playerid);
 	}
 	else if (strcmp("fel", cmd) == 0)
 	{

@@ -134,9 +134,9 @@ void cPlayer::loadPlayerChar(int i)
 		//-------------------------------------------------------------------------------------------------------------------
 		MYSQL_RES *result = mysql_store_result(con);
 		//-------------------------------------------------------------------------------------------------------------------
-		MYSQL_ROW row = mysql_fetch_row(result);
 		if (mysql_num_rows(result))
 		{
+			MYSQL_ROW row = mysql_fetch_row(result);
 			Player[ i ].pDB = atoi(row[ PlayerRows::plDB ]);
 			Player[ i ].pMoney = atof(row[ PlayerRows::plMoney ]);
 			Player[ i ].pClass = atoi(row[ PlayerRows::plClass ]);
@@ -154,10 +154,10 @@ void cPlayer::loadPlayerChar(int i)
 			GivePlayerMoney(i, Player[ i ].pMoney);
 			cPlayer::setClassSkin(i);
 			//------------------------------------------------
-			//world::Vehicles::loadPlayerVehs(i);
+			
+			world::Vehicles::loadPlayerVehs(i);
 		}
 		mysql_free_result(result);
-		//mysql_reload(con);
 }
 
 /// <summary>

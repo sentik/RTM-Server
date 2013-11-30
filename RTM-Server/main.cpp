@@ -142,12 +142,9 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData)
 	cClass::fixText(strMuscular, 13);
 	cClass::fixText(strAgility, 13);
 	//===============================================================================
-	
-	double x, y, n;
-	x = -41.56789;
-	y = modf(x, &n);	
-
-	logprintf("[%f] [%d] [%f]", x, y, n);
+	/*Player[ 0 ].pDB = 1;
+	world::Players::invertory::load(0);
+	*/
 
 
 
