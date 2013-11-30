@@ -55,6 +55,17 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 	{
 		gasProperty::cGas::fillingVehicle(playerid);
 	}
+	else if (strcmp("fel", cmd) == 0)
+	{
+		if (fProperty::cFeller::getFellerTool(playerid))
+		{
+			fProperty::cFeller::removeFellerTool(playerid);
+		}
+		else
+		{
+			fProperty::cFeller::giveFellerTool(playerid);
+		}
+	}
 	else if (strcmp("gotokk", cmd) == 0)
 	{
 		float pos[ 3 ];

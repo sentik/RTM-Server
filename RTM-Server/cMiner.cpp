@@ -334,6 +334,8 @@ void Jobs::Miner::cMiner::actionPicks(const int u)
 		Player[u].aMinerB = 0;
 		//----------------------------------------------------------------------------------------------------------------------
 		Jobs::Miner::cMiner::updateInfotable(false);
+		//----------------------------------------------------------------------------------------------------------------------
+		cPlayer::givePlayerMoney(u, (Jobs::Miner::cMiner::miner[0].zp1*Player[u].aMinerA + Jobs::Miner::cMiner::miner[0].zp2*Player[u].aMinerB));
 	}
 	else if (cPlayer::isRangeOfPoint(u, 2.5f, MINER_SH2_CHECKPOS))
 	{
@@ -348,6 +350,8 @@ void Jobs::Miner::cMiner::actionPicks(const int u)
 		Player[u].aMinerB = 0;
 		//----------------------------------------------------------------------------------------------------------------------
 		Jobs::Miner::cMiner::updateInfotable(true);
+		//----------------------------------------------------------------------------------------------------------------------
+		cPlayer::givePlayerMoney(u, (Jobs::Miner::cMiner::miner[1].zp1*Player[u].aMinerA + Jobs::Miner::cMiner::miner[1].zp2*Player[u].aMinerB));
 	}
 
 	if (action == 1)

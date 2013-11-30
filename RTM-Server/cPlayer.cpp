@@ -66,6 +66,19 @@ void cPlayer::update()
 				else
 					SetPlayerCheckpoint(i, MINER_SH2_CHECKPOS, 4.5f);
 			}
+			else if (Player[i].isAction == PlayerAction::ACTION_FELGAME)
+			{
+				if (Player[i].minerDraw[1] != INVALID_TEXT_DRAW)
+				{
+					for (int t = 0; t < 20; t++)
+					{
+						PlayerTextDrawDestroy(i, Player[i].minerDraw[t]);
+					}
+				}
+				CancelSelectTextDraw(i);
+				ClearAnimations(i, true);
+				Player[i].isAction = PlayerAction::ACTION_FELJOB;
+			}
 			else
 			{
 				cPlayer::updatePos(i);

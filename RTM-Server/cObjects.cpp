@@ -11,7 +11,7 @@ void cObjects::loadObjects(char name[ ])
 	//-----------------------------------
 	TiXmlElement *map = document.FirstChildElement("map");			// Загружаем категорию MAP
 	//-----------------------------------
-	if (map)
+	if (map)//dimension
 	{
 		// Загружаем категорию "<object>" по этапно
 		for (TiXmlElement *obj = map->FirstChildElement("object"); obj; obj = obj->NextSiblingElement("object"))
@@ -19,7 +19,8 @@ void cObjects::loadObjects(char name[ ])
 			// Получаем аргументы
 			//---------------------------------------------
 			const int	 model = atoi(obj->Attribute("model"));
-		//	int			 posI  = atoi(obj->Attribute("interior"));
+			int			 posI  = atoi(obj->Attribute("interior"));
+			int			 posW  = atoi(obj->Attribute("dimension"));
 			//---------------------------------------------
 			const double posX  = atof(obj->Attribute("posX"));
 			const double posY  = atof(obj->Attribute("posY"));
@@ -29,8 +30,9 @@ void cObjects::loadObjects(char name[ ])
 			const double rotY = atof(obj->Attribute("rotY"));
 			const double rotZ = atof(obj->Attribute("rotZ"));
 			//---------------------------------------------
-			//if (posI == 0) posI = -1;
-			StreamerCall::Native::CreateDynamicObject(model, posX, posY, posZ, rotX, rotY, rotZ);
+			if (posI == 0) posI = -1;
+			if (posW == 0) posW = -1;
+			StreamerCall::Native::CreateDynamicObject(model, posX, posY, posZ, rotX, rotY, rotZ, posW, posI);
 		}
 		logprintf("[XML Objects]: %s загружен успешно", name);
 	}
@@ -95,4 +97,10 @@ void cObjects::removeObjects(const int playerid)
 	RemoveBuildingForPlayer(playerid, 955, 0.0, 0.0, 0.0, 6000.0);
 	RemoveBuildingForPlayer(playerid, 1755, 0.0, 0.0, 0.0, 6000.0);
 	RemoveBuildingForPlayer(playerid, 1776, 0.0, 0.0, 0.0, 6000.0);
+	//lesopilka
+	RemoveBuildingForPlayer(playerid, 785, -387.3672, -97.3594, 43.1797, 0.25);
+	RemoveBuildingForPlayer(playerid, 785, -449.9375, 10.8359, 46.5391, 0.25);
+	RemoveBuildingForPlayer(playerid, 791, -387.3672, -97.3594, 43.1797, 0.25);
+	RemoveBuildingForPlayer(playerid, 694, -439.1875, -19.9375, 58.0938, 0.25);
+	RemoveBuildingForPlayer(playerid, 791, -449.9375, 10.8359, 46.5391, 0.25);
 }

@@ -12,10 +12,12 @@
 
 #define	MAX_SH			2
 #define MAX_GAS			10
+#define MAX_FELL		5
 #define MAX_BANKS		20
 #define MAX_HOUSES		500
-#define MAX_PROPERTY	550
 #define MAX_DIS_OBJ		96
+#define MAX_PROPERTY	550
+#define MAX_FELL_TREE	32
 
 /*---------------Registration Character--------------*/
 #define		CREG_SKIN_POS				1302.7f,-792.3f,96.5f
@@ -34,7 +36,8 @@
 #define HOUSE_GREEN		1273	// green house
 #define HOUSE_RED		1272	// blue house
 
-#define	TREE_SPEED		0.005f
+#define	TREE_SPEED		0.1f	// Default: 0.005f
+#define TREE_OFFSET		24
 
 
 #endif 

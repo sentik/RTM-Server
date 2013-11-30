@@ -40,7 +40,7 @@ void gasProperty::cGas::loadGas()
 		//--------------------------------------------------------------
 		if (Property[countProperty].owner)
 		{
-			strcpy(Property[countProperty].player, row[Properties::Houses::HouseRows::oName]);
+			strcpy(Property[countProperty].player, row[gasProperty::rowsGas::pname]);
 			sprintf(query, "{FFFFFF}Заправка: {B7FF00}%s\n{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s", gasProperty::cGas::Gas[i].name, cProperty::getZoneName(Property[countProperty].region), Property[countProperty].number, Property[countProperty].player);
 			//=====================================================================================================
 			Property[countProperty].pick = StreamerCall::Native::CreateDynamicPickup(DOLLAR_PICKUP, 23,

@@ -87,10 +87,18 @@ namespace language
 			const char disActionThree[ 96 ] = "Вы уронили:{FF0000} %d {FFFFFF}грамм меди, всего {FF0000}%d{FFFFFF} грамм";
 			const char disActionFour[ 96 ]	= "Вы уронили:{FF0000} %d {FFFFFF}грамм золота, всего {FF0000}%d{FFFFFF} грамм";
 			//----------------------------------------------------------------------------
-			const char otherAction[26]		= "Вы добыли: {FFAF00}воздух";
+			const char otherAction[32]		= "Вы добыли: {FFAF00}воздух";
 			//----------------------------------------------------------------------------
-			const char tableSH1[175]		= "Информация\nСтоимость грамма железа: {B700FF}%.2f$\n{FFFFFF}Стоимость грамма серебра: {B700FF}%.2f$\n{FFFFFF}Склад\nЖелеза грамм: {B700FF}%d\n{FFFFFF}Серебра грамм: {B700FF}%d";
-			const char tableSH2[175]		= "Информация\nСтоимость грамма меди: {B700FF}%.2f$\n{FFFFFF}Стоимость грамма золота: {B700FF}%.2f$\n{FFFFFF}Склад\nМеди грамм: {B700FF}%d\n{FFFFFF}Золота грамм: {B700FF}%d";
+			const char tableSH1[176]		= "Информация\nСтоимость грамма железа: {B700FF}%.2f$\n{FFFFFF}Стоимость грамма серебра: {B700FF}%.2f$\n{FFFFFF}Склад\nЖелеза грамм: {B700FF}%d\n{FFFFFF}Серебра грамм: {B700FF}%d";
+			const char tableSH2[176]		= "Информация\nСтоимость грамма меди: {B700FF}%.2f$\n{FFFFFF}Стоимость грамма золота: {B700FF}%.2f$\n{FFFFFF}Склад\nМеди грамм: {B700FF}%d\n{FFFFFF}Золота грамм: {B700FF}%d";
+		}
+
+		namespace feller
+		{
+			const char actionOne[96]		= "Вы уронили: {FF0000}%d {FFFFFF}единиц древесины, всего {FF0000}%d {FFFFFF}единиц";
+			const char actionTwo[96]		= "Вы добыли: {B7FF00}%d {FFFFFF}единиц древесины, всего {B7FF00}%d {FFFFFF}единиц";
+			const char actionThree[32]		= "Вы добыли: {FFAF00}воздух";
+			const char actionFour[48]		= "Вы поранились: {FF0000}-%d.00 {FFFFFF}здоровья";
 		}
 	}
 }

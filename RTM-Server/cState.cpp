@@ -37,6 +37,7 @@ void cState::callKeyStateChange(int playerid, int newkeys, int oldkeys)
 			threadProperty.join();
 			//==========================================================
 			Jobs::Miner::cMiner::actionPicks(playerid);
+			if (Player[playerid].isAction == PlayerAction::ACTION_FELJOB) fProperty::cFeller::actionTrees(playerid);
 			//==========================================================
 			for (auto it = world::DropedGuns::DropedGun.begin(); it != world::DropedGuns::DropedGun.end(); ++it)
 			{

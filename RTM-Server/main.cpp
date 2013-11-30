@@ -160,11 +160,13 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData)
 PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 {
 	//"demo"( );
-	gasProperty::cGas::loadGas();
 	Properties::Shops::ShopVehicle::loadShop();
 	Jobs::Miner::cMiner::loadMiner();
+	fProperty::cFeller::loadFeller();
+	fProperty::cFeller::loadTrees();
 	//-------------------------------------------------------------
 	cBanks::loadBanks();
+	gasProperty::cGas::loadGas();
 	//-------------------------------------------------------------
 	cInteriors::loadInterioList();
 	cHouses::loadHouses();
@@ -178,6 +180,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 	cObjects::loadObjects("waxta2");
 	cObjects::loadObjects("vagonreg");
 	cObjects::loadObjects("BOLNICA_10");
+	cObjects::loadObjects("feller1");
 	//-------------------------------------------------------------
 	world::Players::Admins::init();
 	world::Gangs::init();

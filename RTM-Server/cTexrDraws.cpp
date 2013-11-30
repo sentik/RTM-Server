@@ -53,6 +53,10 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickPlayerTextDraw(const int u, const in
 		{
 			Jobs::Miner::cMiner::onGUI(u, draw);
 		}
+		else if (Player[u].isAction == PlayerAction::ACTION_FELGAME)
+		{
+			fProperty::cFeller::onGUI(u, draw);
+		}
 		//=========================================================
 		return 1;
 	}
