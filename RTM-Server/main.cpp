@@ -536,4 +536,36 @@ static void initTextDraws()
 	TextDrawSetOutline(drawPlayerChar[SHOP_HEADER_VEHICLE], 1);
 	TextDrawSetProportional(drawPlayerChar[SHOP_HEADER_VEHICLE], 1);
 	TextDrawSetSelectable(drawPlayerChar[SHOP_HEADER_VEHICLE], 0);
+
+	drawPlayerChar[ INVERTORY_BG ] = TextDrawCreate(320.000000, 225.000000, "                ");
+	TextDrawAlignment(drawPlayerChar[ INVERTORY_BG ], 2);
+	TextDrawBackgroundColor(drawPlayerChar[ INVERTORY_BG ], 255);
+	TextDrawFont(drawPlayerChar[ INVERTORY_BG ], 1);
+	TextDrawLetterSize(drawPlayerChar[ INVERTORY_BG ], 2.289999, 18.400003);
+	TextDrawColor(drawPlayerChar[ INVERTORY_BG ], -1);
+	TextDrawSetOutline(drawPlayerChar[ INVERTORY_BG ], 0);
+	TextDrawSetProportional(drawPlayerChar[ INVERTORY_BG ], 1);
+	TextDrawSetShadow(drawPlayerChar[ INVERTORY_BG ], 1);
+	TextDrawUseBox(drawPlayerChar[ INVERTORY_BG ], 1);
+	TextDrawBoxColor(drawPlayerChar[ INVERTORY_BG ], 255);
+	TextDrawTextSize(drawPlayerChar[ INVERTORY_BG ], 81.000000, 285.000000);
+	TextDrawSetSelectable(drawPlayerChar[ INVERTORY_BG ], 0);
+	//--------------------------------------------------------------------------------
+	drawPlayerChar[ INVERTORY_BG ] = TextDrawCreate(353.000000, 186.000000, "                     ");
+	TextDrawAlignment(drawPlayerChar[ INVERTORY_BG ], 2);
+	TextDrawBackgroundColor(drawPlayerChar[ INVERTORY_BG ], 255);
+	TextDrawFont(drawPlayerChar[ INVERTORY_BG ], 1);
+	TextDrawLetterSize(drawPlayerChar[ INVERTORY_BG ], 3.099999, 24.499998);
+	TextDrawColor(drawPlayerChar[ INVERTORY_BG ], -1);
+	TextDrawSetOutline(drawPlayerChar[ INVERTORY_BG ], 0);
+	TextDrawSetProportional(drawPlayerChar[ INVERTORY_BG ], 1);
+	TextDrawSetShadow(drawPlayerChar[ INVERTORY_BG ], 1);
+	TextDrawUseBox(drawPlayerChar[ INVERTORY_BG ], 1);
+	TextDrawBoxColor(drawPlayerChar[ INVERTORY_BG ], 16711935);
+	TextDrawTextSize(drawPlayerChar[ INVERTORY_BG ], 1.000000, 384.000000);
+	TextDrawSetSelectable(drawPlayerChar[ INVERTORY_BG ], 0);
+
+
+
+
 }

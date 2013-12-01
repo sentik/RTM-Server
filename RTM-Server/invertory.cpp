@@ -53,19 +53,18 @@ void invertory::show(const int u)
 {
 	int lineX = 0;
 	int lineY = 0;
-	SendClientMessage(u, -1, "begin");
-
+	TextDrawShowForPlayer(u, drawPlayerChar[ INVERTORY_BG ]);
 	for (auto it = inv[ u ].begin(); it != inv[ u ].end(); it++)
 	{
-		if (lineX == 6)
+		if (lineX == 8)
 		{
 			lineX = 0;
 			lineY++;
 		}
-		it->obj = CreatePlayerTextDraw(u, 215.000 + 50 * lineX, 240.000000 + 30 * lineY, "         ");
+		it->obj = CreatePlayerTextDraw(u, 197.0 + 45 * lineX, 200.000000 + 25 * lineY, "         ");
 		PlayerTextDrawAlignment(u, it->obj, 2);
 		PlayerTextDrawBackgroundColor(u, it->obj, 255);
-		PlayerTextDrawFont(u, it->obj, 1);
+		PlayerTextDrawFont(u, it->obj, 5);
 		PlayerTextDrawLetterSize(u, it->obj, 0.800000, 2.300000);
 		PlayerTextDrawColor(u, it->obj, -1);
 		PlayerTextDrawSetOutline(u, it->obj, 0);
@@ -74,7 +73,12 @@ void invertory::show(const int u)
 		PlayerTextDrawUseBox(u, it->obj, 1);
 		PlayerTextDrawBoxColor(u, it->obj, -1);
 		PlayerTextDrawTextSize(u, it->obj, 0.000000, 40.000000);
-		PlayerTextDrawSetSelectable(u, it->obj, 0);
+
+		PlayerTextDrawSetPreviewModel(u, it->obj, 19461);
+		PlayerTextDrawSetPreviewRot(u, it->obj, 0.000000, 0.000000, 90.000000, 0.100000);
+
+
+		PlayerTextDrawSetSelectable(u, it->obj, 1);
 		PlayerTextDrawShow(u, it->obj);
 		SendClientMessage(u, -1, "qqqq");
 

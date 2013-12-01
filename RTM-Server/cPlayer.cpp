@@ -9,7 +9,7 @@
 struct pChar PlayerChar[MAX_PLAYERS][MAX_CHARS] = { { 0, 0 } };
 struct rChar RegChar[MAX_PLAYERS] = { { 0, 0 } };
 struct pInfo Player[MAX_PLAYERS] = { { 0, 0 } };
-int drawPlayerChar[10];
+int drawPlayerChar[15];
 
 void cPlayer::update()
 {

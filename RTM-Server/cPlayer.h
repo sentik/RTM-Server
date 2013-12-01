@@ -39,7 +39,7 @@ public:
 
 };
 
-int extern drawPlayerChar[10];
+int extern drawPlayerChar[15];
 
 struct  pInfo
 {

@@ -141,9 +141,9 @@ void fProperty::cFeller::onGUI(const int u, const int draw)
 			}
 			else if (minerColor == 5)
 			{
-				minerAmount = 1 + rand() % 3;
+				minerAmount = 1 + rand() % 300;
 				GetPlayerHealth(u, &ftmp);
-				SetPlayerHealth(u, ftmp - minerAmount);
+				SetPlayerHealth(u, ftmp - (minerAmount/100));
 				sprintf(msg, language::jobs::feller::actionFour, minerAmount);
 				PlayerTextDrawColor(u, Player[u].minerDraw[i], 0xB700B788);
 			}

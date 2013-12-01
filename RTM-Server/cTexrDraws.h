@@ -16,5 +16,6 @@ enum REG_DRAWS
 	REG_BUTTON_BG,		//Форма регистрации. Фон кнопок
 	SPD_BG,				//Спидометр.		 Фон
 	SHOP_HEADER_VEHICLE,//Автосалон.		 Заголовок
+	INVERTORY_BG,
 };
 #endif 
