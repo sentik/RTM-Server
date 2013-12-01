@@ -70,11 +70,10 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickPlayerTextDraw(const int u, const in
 		{
 			logprintf("Clicked : %d[%d] || db:%d || class: %d", i,u, PlayerChar[ u ][ i ].pDB, PlayerChar[ u ][ i ].pClass);
 			//================================
-			Player[ i ].pClass = PlayerChar[ u ][ i ].pDB;
 			cPlayer::setRegClassSkin(u, i);
 			//-----------------------------------
+			cPlayer::loadPlayerChar(u, PlayerChar[ u ][ i ].pDB);
 			cPlayer::unloadChars(u);
-			cPlayer::loadPlayerChar(u);
 			//================================
 			Player[ u ].isAction = PlayerAction::ACTION_NONE;
 			Player[ u ].isLogged = true;

@@ -127,37 +127,35 @@ int cPlayer::regChar(const int u)
 /// Загрузить персонажа игрока
 /// <param name="i">* Ид игрока</param>
 /// </summary>
-void cPlayer::loadPlayerChar(int i)
+void cPlayer::loadPlayerChar(int i, int pers)
 {
-		//-------------------------------------------------------------------------------------------------------------------
-		sprintf(query, "SELECT * FROM player_Character  WHERE owner = '%d' AND id = %d  LIMIT 1", Player[ i ].pDB, Player[ i ].pClass), mysql_query(con, query);
-		//-------------------------------------------------------------------------------------------------------------------
-		MYSQL_RES *result = mysql_store_result(con);
-		//-------------------------------------------------------------------------------------------------------------------
-		if (mysql_num_rows(result))
-		{
-			MYSQL_ROW row = mysql_fetch_row(result);
-			Player[ i ].pDB = atoi(row[ PlayerRows::plDB ]);
-			Player[ i ].pMoney = atof(row[ PlayerRows::plMoney ]);
-			Player[ i ].pClass = atoi(row[ PlayerRows::plClass ]);
-			Player[ i ].pPosX = atof(row[ PlayerRows::plPosX ]);
-			Player[ i ].pPosY = atof(row[ PlayerRows::plPosY ]);
-			Player[ i ].pPosZ = atof(row[ PlayerRows::plPosZ ]);
-			Player[ i ].pPosR = atof(row[ PlayerRows::plPosR ]);
-			Player[ i ].pPosI = atoi(row[ PlayerRows::plPosI ]);
-			Player[ i ].pPosW = atoi(row[ PlayerRows::plPosW ]);
-			//------------------------------------------------
-			strcpy(Player[ i ].uName, row[ PlayerRows::pluName ]);
-			strcpy(Player[ i ].sName, row[ PlayerRows::plsName ]);
-			//------------------------------------------------
-			//------------------------------------------------
-			GivePlayerMoney(i, Player[ i ].pMoney);
-			cPlayer::setClassSkin(i);
-			//------------------------------------------------
-			
-			world::Vehicles::loadPlayerVehs(i);
-		}
-		mysql_free_result(result);
+	//-------------------------------------------------------------------------------------------------------------------
+	sprintf(query, "SELECT * FROM player_Character  WHERE owner = '%d' AND id = %d  LIMIT 1", Player[ i ].pDB, pers), mysql_query(con, query);
+	//-------------------------------------------------------------------------------------------------------------------
+	MYSQL_RES *result = mysql_store_result(con);
+	//-------------------------------------------------------------------------------------------------------------------
+	if (mysql_num_rows(result))
+	{
+		MYSQL_ROW row = mysql_fetch_row(result);
+		Player[ i ].pDB = atoi(row[ PlayerRows::plDB ]);
+		Player[ i ].pMoney = atof(row[ PlayerRows::plMoney ]);
+		Player[ i ].pClass = atoi(row[ PlayerRows::plClass ]);
+		Player[ i ].pPosX = atof(row[ PlayerRows::plPosX ]);
+		Player[ i ].pPosY = atof(row[ PlayerRows::plPosY ]);
+		Player[ i ].pPosZ = atof(row[ PlayerRows::plPosZ ]);
+		Player[ i ].pPosR = atof(row[ PlayerRows::plPosR ]);
+		Player[ i ].pPosI = atoi(row[ PlayerRows::plPosI ]);
+		Player[ i ].pPosW = atoi(row[ PlayerRows::plPosW ]);
+		//------------------------------------------------
+		strcpy(Player[ i ].uName, row[ PlayerRows::pluName ]);
+		strcpy(Player[ i ].sName, row[ PlayerRows::plsName ]);
+		//------------------------------------------------
+		GivePlayerMoney(i, Player[ i ].pMoney);
+		cPlayer::setClassSkin(i);
+		//------------------------------------------------
+		world::Vehicles::loadPlayerVehs(i);
+	}
+	mysql_free_result(result);
 }
 
 /// <summary>

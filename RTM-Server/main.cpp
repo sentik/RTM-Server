@@ -142,13 +142,6 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData)
 	cClass::fixText(strMuscular, 13);
 	cClass::fixText(strAgility, 13);
 	//===============================================================================
-	/*Player[ 0 ].pDB = 1;
-	world::Players::invertory::load(0);
-	*/
-
-
-
-
 	srand(RANDOM_SEED);
 	return true;
 }

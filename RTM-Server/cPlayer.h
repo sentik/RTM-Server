@@ -22,7 +22,7 @@ public:
 	static int	cPlayer::regChar(const int);
 	static void cPlayer::hideRegDraws(const int);
 	static void cPlayer::destRegDraws(const int);
-	static void cPlayer::loadPlayerChar(int);
+	static void cPlayer::loadPlayerChar(int, int);
 	static void cPlayer::SpawnChar(const int);
 	static void cPlayer::setCharAngle(const int, float);
 	static void cPlayer::setCharInterior(const int, const int);
