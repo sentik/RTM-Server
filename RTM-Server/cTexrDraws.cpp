@@ -19,7 +19,10 @@ PLUGIN_EXPORT bool PLUGIN_CALL  OnPlayerClickTextDraw(const int u, const int dra
 
 	if (draw == INVALID_TEXT_DRAW)
 	{
-
+		if (Player[u].isAction == PlayerAction::ACTION_PREFELGAME)
+		{
+			SelectTextDraw(u, 0xB7FF00FF);
+		}
 	}
 	else if (draw == drawPlayerChar[REG_LEFT])		//Назад
 	{
@@ -53,7 +56,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickPlayerTextDraw(const int u, const in
 		{
 			Jobs::Miner::cMiner::onGUI(u, draw);
 		}
-		else if (Player[u].isAction == PlayerAction::ACTION_FELGAME)
+		else if (Player[u].isAction == PlayerAction::ACTION_PREFELGAME || Player[u].isAction == PlayerAction::ACTION_FELGAME)
 		{
 			fProperty::cFeller::onGUI(u, draw);
 		}

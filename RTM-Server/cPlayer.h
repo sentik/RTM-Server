@@ -79,6 +79,8 @@ struct  pInfo
 	//Miner
 	int		aMinerA;
 	int		aMinerB;
+	//Skills, разфасуешь...
+	int		jSkills[3];
 	
 };
 //TODO: Структура игрока
@@ -136,7 +138,14 @@ enum PlayerAction
 	ACTION_MINERGAME,
 	ACTION_BANKBILL,
 	ACTION_AUTOSHOP,
+	ACTION_PREFELGAME,
 	ACTION_FELGAME,
 	ACTION_FELJOB,
+};
+
+enum PlayerSkills
+{
+	SKILL_MINER,
+	SKILL_FELLER,
 };
 #endif 

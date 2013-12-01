@@ -98,7 +98,10 @@ namespace language
 			const char actionOne[96]		= "Вы уронили: {FF0000}%d {FFFFFF}единиц древесины, всего {FF0000}%d {FFFFFF}единиц";
 			const char actionTwo[96]		= "Вы добыли: {B7FF00}%d {FFFFFF}единиц древесины, всего {B7FF00}%d {FFFFFF}единиц";
 			const char actionThree[32]		= "Вы добыли: {FFAF00}воздух";
-			const char actionFour[48]		= "Вы поранились: {FF0000}-%d.00 {FFFFFF}здоровья";
+			const char actionFour[48]		= "Вы поранились: {FF0000}-%.2f {FFFFFF}здоровья";
+			//----------------------------------------------------------------------------
+			const char preActionOne[56]		= "Вы пытаетесь повалить дерево ({B7FF00}Удачно{FFFFFF})";
+			const char preActionTwo[56]		= "Вы пытаетесь повалить дерево ({B70000}Неудачно{FFFFFF})";
 		}
 	}
 }

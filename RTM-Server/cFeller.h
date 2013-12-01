@@ -42,6 +42,7 @@ namespace fProperty
 			static void giveFellerTool(const int);
 			static void removeFellerTool(const int);
 			static bool getFellerTool(const int);
+			static void startPreFellerGame(const int);
 			static void startFellerGame(const int);
 			static void onGUI(const int, const int);
 			static void actionTrees(const int);

@@ -115,47 +115,87 @@ void fProperty::cFeller::loadTrees()
 
 void fProperty::cFeller::onGUI(const int u, const int draw)
 {
-	char msg[112];
-	char minerAmount, minerColor;
-	float ftmp;
-	for (int i = 0; i < 20; i++)
+	char msg[112], minerColor; 
+	const char fell = Player[u].inType;
+	const char slot = Player[u].aMinerB;
+
+	if (Player[u].isAction == PlayerAction::ACTION_PREFELGAME)
 	{
-		if (draw == Player[u].minerDraw[i])
+		for (int i = 1; i < 10; i++)
 		{
-			minerColor = 0 + rand() % 6;
-			PlayerTextDrawHide(u, Player[u].minerDraw[i]);
-			//------------------------------------------------------------------------------------------------------
-			if (minerColor == 0)
+			if (draw == Player[u].minerDraw[i])
 			{
-				minerAmount = 1 + rand() % 8;
-				Player[u].aMinerA -= minerAmount;
-				sprintf(msg, language::jobs::feller::actionOne, minerAmount, Player[u].aMinerA);
-				PlayerTextDrawColor(u, Player[u].minerDraw[i], 0xFF000088);
+
+				for (int t = 0; t < 10; t++)
+				{
+					PlayerTextDrawDestroy(u, Player[u].minerDraw[t]);
+				}
+
+				minerColor = 1 + rand() % 10;
+
+				if (minerColor == i)
+				{
+					SendClientMessage(u, -1, language::jobs::feller::preActionOne);
+					StreamerCall::Native::MoveDynamicObject(fProperty::cFeller::Feller[fell].Trees[slot].obj, fProperty::cFeller::Feller[fell].Trees[slot].x, fProperty::cFeller::Feller[fell].Trees[slot].y, fProperty::cFeller::Feller[fell].Trees[slot].z - 1.0f, 1.5f, -90.0f, 0.0f, 0.0f);
+					fProperty::cFeller::Feller[fell].Trees[slot].proc = 1.0f;
+				}
+				else
+				{
+					SendClientMessage(u, -1, language::jobs::feller::preActionTwo);
+				}
+
+				CancelSelectTextDraw(u);
+				Player[u].isAction = PlayerAction::ACTION_FELJOB;
+
+				break;
 			}
-			else if (minerColor == 1)
+		}
+	}
+	else
+	{
+		char minerAmount;
+		float ftmp;
+		for (int i = 0; i < 20; i++)
+		{
+			if (draw == Player[u].minerDraw[i])
 			{
-				minerAmount = 1 + rand() % 24;
-				Player[u].aMinerA += minerAmount;
-				sprintf(msg, language::jobs::feller::actionTwo, minerAmount, Player[u].aMinerA);
-				PlayerTextDrawColor(u, Player[u].minerDraw[i], 0xB7FF0088);
+				minerColor = 0 + rand() % 6;
+				PlayerTextDrawHide(u, Player[u].minerDraw[i]);
+				//------------------------------------------------------------------------------------------------------
+				if (minerColor == 0)
+				{
+					minerAmount = 1 + rand() % 8;
+					Player[u].aMinerA -= minerAmount;
+					sprintf(msg, language::jobs::feller::actionOne, minerAmount, Player[u].aMinerA);
+					PlayerTextDrawColor(u, Player[u].minerDraw[i], 0xFF000088);
+				}
+				else if (minerColor == 1)
+				{
+					minerAmount = 1 + rand() % 24;
+					Player[u].aMinerA += minerAmount;
+					sprintf(msg, language::jobs::feller::actionTwo, minerAmount, Player[u].aMinerA);
+					PlayerTextDrawColor(u, Player[u].minerDraw[i], 0xB7FF0088);
+
+					fProperty::cFeller::Feller[fell].Trees[slot].proc += minerAmount;
+				}
+				else if (minerColor == 5)
+				{
+					const float hpAmount = (1.0f + rand() % 300) / 100;
+					GetPlayerHealth(u, &ftmp);
+					SetPlayerHealth(u, ftmp - hpAmount);
+					sprintf(msg, language::jobs::feller::actionFour, hpAmount);
+					PlayerTextDrawColor(u, Player[u].minerDraw[i], 0xB700B788);
+				}
+				else
+				{
+					strcpy(msg, language::jobs::feller::actionThree);
+					PlayerTextDrawColor(u, Player[u].minerDraw[i], 0xFFAF0088);
+				}
+				//------------------------------------------------------------------------------------------------------
+				PlayerTextDrawSetSelectable(u, Player[u].minerDraw[i], false);
+				PlayerTextDrawShow(u, Player[u].minerDraw[i]);
+				SendClientMessage(u, -1, msg);
 			}
-			else if (minerColor == 5)
-			{
-				minerAmount = 1 + rand() % 300;
-				GetPlayerHealth(u, &ftmp);
-				SetPlayerHealth(u, ftmp - (minerAmount/100));
-				sprintf(msg, language::jobs::feller::actionFour, minerAmount);
-				PlayerTextDrawColor(u, Player[u].minerDraw[i], 0xB700B788);
-			}
-			else
-			{
-				strcpy(msg, language::jobs::feller::actionThree);
-				PlayerTextDrawColor(u, Player[u].minerDraw[i], 0xFFAF0088);
-			}
-			//------------------------------------------------------------------------------------------------------
-			PlayerTextDrawSetSelectable(u, Player[u].minerDraw[i], false);
-			PlayerTextDrawShow(u, Player[u].minerDraw[i]);
-			SendClientMessage(u, -1, msg);
 		}
 	}
 }
@@ -177,6 +217,50 @@ void fProperty::cFeller::removeFellerTool(const int u)
 	Player[u].isAction = PlayerAction::ACTION_NONE;
 	RemovePlayerAttachedObject(u, 5); 
 	RemovePlayerAttachedObject(u, 4);
+}
+
+void fProperty::cFeller::startPreFellerGame(const int u)
+{
+	float y;
+
+	Player[u].minerDraw[0] = CreatePlayerTextDraw(u, 115.000000, 120.000000, "Tree");
+	PlayerTextDrawAlignment(u, Player[u].minerDraw[0], 2);
+	PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[0], 0);
+	PlayerTextDrawFont(u, Player[u].minerDraw[0], 5);
+	PlayerTextDrawLetterSize(u, Player[u].minerDraw[0], 0.500000, 1.000000);
+	PlayerTextDrawColor(u, Player[u].minerDraw[0], -2004318072);
+	PlayerTextDrawSetOutline(u, Player[u].minerDraw[0], 0);
+	PlayerTextDrawSetProportional(u, Player[u].minerDraw[0], 0);
+	PlayerTextDrawSetShadow(u, Player[u].minerDraw[0], 1);
+	PlayerTextDrawUseBox(u, Player[u].minerDraw[0], 1);
+	PlayerTextDrawBoxColor(u, Player[u].minerDraw[0], 255);
+	PlayerTextDrawTextSize(u, Player[u].minerDraw[0], 400.000000, 380.000000);
+	PlayerTextDrawSetPreviewModel(u, Player[u].minerDraw[0], 659);
+	PlayerTextDrawSetPreviewRot(u, Player[u].minerDraw[0], -16.000000, 0.000000, -55.000000, 1.200000);
+	PlayerTextDrawSetSelectable(u, Player[u].minerDraw[0], false);
+	PlayerTextDrawShow(u, Player[u].minerDraw[0]);
+
+	for (int i = 1; i < 10; i++)
+	{
+		y = 365.0f + (rand() % 7500) / 100;
+
+		Player[u].minerDraw[i] = CreatePlayerTextDraw(u, 318.000000, y, "-");
+		PlayerTextDrawAlignment(u, Player[u].minerDraw[i], 2);
+		PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[i], 255);
+		PlayerTextDrawFont(u, Player[u].minerDraw[i], 1);
+		PlayerTextDrawLetterSize(u, Player[u].minerDraw[i], 1.000000, 1.000000);
+		PlayerTextDrawColor(u, Player[u].minerDraw[i], -1);
+		PlayerTextDrawSetOutline(u, Player[u].minerDraw[i], 0);
+		PlayerTextDrawSetProportional(u, Player[u].minerDraw[i], 1);
+		PlayerTextDrawSetShadow(u, Player[u].minerDraw[i], 0);
+		PlayerTextDrawUseBox(u, Player[u].minerDraw[i], 1);
+		PlayerTextDrawBoxColor(u, Player[u].minerDraw[i], 0);
+		PlayerTextDrawTextSize(u, Player[u].minerDraw[i], 10.000000, 10.000000);
+		PlayerTextDrawSetSelectable(u, Player[u].minerDraw[i], true);
+		PlayerTextDrawShow(u, Player[u].minerDraw[i]);
+	}
+	Player[u].isAction = PlayerAction::ACTION_PREFELGAME;
+	SelectTextDraw(u, 0xB7FF00FF);
 }
 
 void fProperty::cFeller::startFellerGame(const int u)
@@ -224,9 +308,31 @@ void fProperty::cFeller::actionTrees(const int u)
 		{
 			for (int slot = 0; slot < MAX_FELL_TREE; slot++)
 			{
-				if (cPlayer::isRangeOfPoint(u, 2.5f, fProperty::cFeller::Feller[fell].Trees[slot].x, fProperty::cFeller::Feller[fell].Trees[slot].y, fProperty::cFeller::Feller[fell].Trees[slot].z))
+				if (StreamerCall::Native::IsDynamicObjectMoving(fProperty::cFeller::Feller[fell].Trees[slot].obj)) continue;
+				else if (cPlayer::isRangeOfPoint(u, 2.5f, fProperty::cFeller::Feller[fell].Trees[slot].x, fProperty::cFeller::Feller[fell].Trees[slot].y + 10.0f, fProperty::cFeller::Feller[fell].Trees[slot].z) && fProperty::cFeller::Feller[fell].Trees[slot].proc >= 1.0f)
 				{
-					fProperty::cFeller::startFellerGame(u);
+					if (fProperty::cFeller::Feller[fell].Trees[slot].proc >= 500.0f)
+					{
+						fProperty::cFeller::Feller[fell].Trees[slot].proc = 0.0f;
+						StreamerCall::Native::SetDynamicObjectPos(fProperty::cFeller::Feller[fell].Trees[slot].obj, fProperty::cFeller::Feller[fell].Trees[slot].x, fProperty::cFeller::Feller[fell].Trees[slot].y, fProperty::cFeller::Feller[fell].Trees[slot].z - TREE_OFFSET);
+						StreamerCall::Native::SetDynamicObjectRot(fProperty::cFeller::Feller[fell].Trees[slot].obj, 0.0f, 0.0f, 0.0f);
+						StreamerCall::Native::MoveDynamicObject(fProperty::cFeller::Feller[fell].Trees[slot].obj, fProperty::cFeller::Feller[fell].Trees[slot].x, fProperty::cFeller::Feller[fell].Trees[slot].y, fProperty::cFeller::Feller[fell].Trees[slot].z, TREE_SPEED);
+					}
+					else
+					{
+						ApplyAnimation(u, "CHAINSAW", "CSAW_G", 3.0, 1, 0, 0, 0, 0, 1);
+						Player[u].inType = fell;
+						Player[u].aMinerB = slot;
+						fProperty::cFeller::startFellerGame(u);
+					}
+					break;
+				}
+				else if (cPlayer::isRangeOfPoint(u, 2.5f, fProperty::cFeller::Feller[fell].Trees[slot].x, fProperty::cFeller::Feller[fell].Trees[slot].y, fProperty::cFeller::Feller[fell].Trees[slot].z) && fProperty::cFeller::Feller[fell].Trees[slot].proc == 0.0f)
+				{
+					ApplyAnimation(u, "CHAINSAW", "CSAW_PART", 3.0, 1, 1, 1, 1, 1, 1);
+					Player[u].inType = fell;
+					Player[u].aMinerB = slot;
+					fProperty::cFeller::startPreFellerGame(u);
 					break;
 				}
 			}

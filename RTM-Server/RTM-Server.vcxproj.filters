@@ -70,6 +70,12 @@
     <Filter Include="Заголовочные файлы\general\Languages">
       <UniqueIdentifier>{cc4a208d-1da7-4b9b-ad72-330a9d6b163a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Заголовочные файлы\property\jobs">
+      <UniqueIdentifier>{fbac606d-920a-4cee-9cbe-3a1b01f7f944}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\property\jobs">
+      <UniqueIdentifier>{c18bd527-be24-4ee4-b450-6a1a2031bba5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -132,9 +138,6 @@
     <ClInclude Include="cmd.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="cMiner.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="cAdmins.h">
       <Filter>Заголовочные файлы\player</Filter>
     </ClInclude>
@@ -147,11 +150,14 @@
     <ClInclude Include="German.h">
       <Filter>Заголовочные файлы\general\Languages</Filter>
     </ClInclude>
-    <ClInclude Include="cFeller.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="invertory.h">
       <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="cFeller.h">
+      <Filter>Заголовочные файлы\property\jobs</Filter>
+    </ClInclude>
+    <ClInclude Include="cMiner.h">
+      <Filter>Заголовочные файлы\property\jobs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -212,17 +218,17 @@
     <ClCompile Include="cmd.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="cMiner.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="cAdmins.cpp">
       <Filter>Файлы исходного кода\player</Filter>
     </ClCompile>
-    <ClCompile Include="cFeller.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="invertory.cpp">
       <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="cFeller.cpp">
+      <Filter>Файлы исходного кода\property\jobs</Filter>
+    </ClCompile>
+    <ClCompile Include="cMiner.cpp">
+      <Filter>Файлы исходного кода\property\jobs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
