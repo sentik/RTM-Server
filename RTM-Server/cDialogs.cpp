@@ -45,7 +45,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 					strcat(message, "Пожалуйста, укажите ваш пароль ниже.\n");
 					strcat(message, "{FFAF00}===========================================================\n");
 					strcat(message, "{FFFFFF}-{00DDFF}Не забывайте, пароль чувствителен к регистру.\n");
-					strcat(message, "{FFFFFF}-{00DDFF}Пароли qwerty и qWeRtY - это разные пароли!\n");
+					strcat(message, "{FFFFFF}-{fc0fc0}Пароли qwerty и qWeRtY - это разные пароли!\n");
 					strcat(message, "{FFAF00}===========================================================");
 				}
 				else

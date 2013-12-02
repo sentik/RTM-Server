@@ -25,7 +25,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>Intel C++ Compiler XE 14.0</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -126,6 +126,7 @@
     <ClInclude Include="cMiner.h" />
     <ClInclude Include="cObjects.h" />
     <ClInclude Include="configs.h" />
+    <ClInclude Include="cPickups.h" />
     <ClInclude Include="cProperty.h" />
     <ClInclude Include="cState.h" />
     <ClInclude Include="cTexrDraws.h" />
@@ -154,6 +155,7 @@
     <ClCompile Include="cmd.cpp" />
     <ClCompile Include="cMiner.cpp" />
     <ClCompile Include="cObjects.cpp" />
+    <ClCompile Include="cPickups.cpp" />
     <ClCompile Include="cProperty.cpp" />
     <ClCompile Include="cState.cpp" />
     <ClCompile Include="cTexrDraws.cpp" />

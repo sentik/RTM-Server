@@ -25,7 +25,6 @@ void invertory::load(const int u)
 		//----------------------------
 		inv[ u ].insert(inv[ u ].end(), tmp);
 		//----------------------------
-		sprintf(query, "db: %d || model: %d || %d", tmp.db, tmp.model, tmp.amount);
 		logprintf(query);
 		SendClientMessage(u, -1, query);
 	}
@@ -61,10 +60,10 @@ void invertory::show(const int u)
 			lineX = 0;
 			lineY++;
 		}
-		it->obj = CreatePlayerTextDraw(u, 197.0 + 45 * lineX, 200.000000 + 25 * lineY, "         ");
+		/*it->obj = CreatePlayerTextDraw(u, 197.0 + 45 * lineX, 200.000000 + 25 * lineY, "         ");
 		PlayerTextDrawAlignment(u, it->obj, 2);
 		PlayerTextDrawBackgroundColor(u, it->obj, 255);
-		PlayerTextDrawFont(u, it->obj, 5);
+		PlayerTextDrawFont(u, it->obj, TEXT_DRAW_FONT_MODEL_PREVIEW);
 		PlayerTextDrawLetterSize(u, it->obj, 0.800000, 2.300000);
 		PlayerTextDrawColor(u, it->obj, -1);
 		PlayerTextDrawSetOutline(u, it->obj, 0);
@@ -77,12 +76,24 @@ void invertory::show(const int u)
 		PlayerTextDrawSetPreviewModel(u, it->obj, 19461);
 		PlayerTextDrawSetPreviewRot(u, it->obj, 0.000000, 0.000000, 90.000000, 0.100000);
 
+		PlayerTextDrawSetSelectable(u, it->obj, 1);*/
+
+		it->obj = CreatePlayerTextDraw(u, 175 + 41 * lineX, 200.000000 + 23 * lineY, "         ");
+		PlayerTextDrawAlignment(u, it->obj, 2);
+		PlayerTextDrawBackgroundColor(u, it->obj, 255);
+		PlayerTextDrawFont(u, it->obj, TEXT_DRAW_FONT_MODEL_PREVIEW);
+		PlayerTextDrawUseBox(u, it->obj, 1);
+		PlayerTextDrawBoxColor(u, it->obj, 0x000000FF);
+		PlayerTextDrawTextSize(u, it->obj, 40.000000, 22.000000);
+		PlayerTextDrawSetPreviewModel(u, it->obj, it->model);
+		PlayerTextDrawSetPreviewRot(u, it->obj, -10.0, 0.0, -20.0, 1.0);
 
 		PlayerTextDrawSetSelectable(u, it->obj, 1);
+
+
+
+
 		PlayerTextDrawShow(u, it->obj);
-		SendClientMessage(u, -1, "qqqq");
-
-
 		lineX++; 
 	}
 

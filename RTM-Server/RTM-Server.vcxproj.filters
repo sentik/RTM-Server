@@ -159,6 +159,9 @@
     <ClInclude Include="cMiner.h">
       <Filter>Заголовочные файлы\property\jobs</Filter>
     </ClInclude>
+    <ClInclude Include="cPickups.h">
+      <Filter>Заголовочные файлы\general</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -229,6 +232,9 @@
     </ClCompile>
     <ClCompile Include="cMiner.cpp">
       <Filter>Файлы исходного кода\property\jobs</Filter>
+    </ClCompile>
+    <ClCompile Include="cPickups.cpp">
+      <Filter>Файлы исходного кода\general</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

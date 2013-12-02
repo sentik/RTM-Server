@@ -35,6 +35,8 @@ void cState::callKeyStateChange(int playerid, int newkeys, int oldkeys)
 			//==========================================================
 			thread threadProperty(cProperty::enterProperty, playerid);
 			threadProperty.join();
+
+			thread(world::pickups::cPickups::actionPickups, playerid).join();
 			//==========================================================
 			Jobs::Miner::cMiner::actionPicks(playerid);
 			if (Player[playerid].isAction == PlayerAction::ACTION_FELJOB) fProperty::cFeller::actionTrees(playerid);

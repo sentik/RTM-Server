@@ -120,6 +120,12 @@ int cPlayer::regChar(const int u)
 	sprintf(query, "INSERT INTO player_Character (owner, uname, sname, money, class) VALUES ('%d', '%s', '%s', '%f', '%d')",
 		Player[u].pDB, Player[u].uName, Player[u].sName, Player[u].pMoney, Player[u].pClass);
 	mysql_query(con, query);
+	//--------------------------------------------------------------------------------------------------------------------
+	Player[u].pPosX = REG_SPAWN_X;
+	Player[u].pPosY = REG_SPAWN_Y;
+	Player[u].pPosZ = REG_SPAWN_Z;
+	Player[u].pPosW = REG_SPAWN_WOR;
+	Player[u].pPosI = REG_SPAWN_INT;
 	return mysql_insert_id(con);
 }
 

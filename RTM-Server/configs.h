@@ -39,5 +39,11 @@
 #define	TREE_SPEED		0.8f	// Default: 0.005f
 #define TREE_OFFSET		24
 
+#define	REG_SPAWN_X		1700.0f
+#define	REG_SPAWN_Y		-1954.0f
+#define	REG_SPAWN_Z		14.9f
+#define REG_SPAWN_INT	0
+#define REG_SPAWN_WOR	56
+
 
 #endif 

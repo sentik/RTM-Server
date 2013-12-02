@@ -81,6 +81,7 @@
 #include "cDialogs.h"
 #include "dropGuns.h"
 #include "cObjects.h"
+#include "cPickups.h"
 
 #include "cVehicle.h"
 #include "cHouses.h"

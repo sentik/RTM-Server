@@ -175,6 +175,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 	world::Players::Admins::init();
 	world::Gangs::init();
 	world::DropedGuns::loadGuns();
+	world::pickups::cPickups::loadPickups();
 	initTextDraws();
 	ManualVehicleEngineAndLights();
 	sprintf(query, "RTM-GM v%s", GAME_VERSION);
@@ -190,14 +191,14 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerRequestClass(int playerid, int classid)
 	char message[560];
 	//==========================================================================
 	strcpy(message, "{FFAF00}===========================================================");
-	strcat(message, "\n{FFFFFF}ВЫ можете полностью окунуться в мир RolePlay, только у нас есть:");
+	strcat(message, "\n{7df9ff}ВЫ можете полностью окунуться в мир RolePlay, только у нас есть:");
 	strcat(message, "\n - Реалистичная экономика и гормоничный игровой мир");
 	strcat(message, "\n - Различные типы имущества (Дома, Гаражи, Магазины, Бизнесы)");
 	strcat(message, "\n - Различные виды работ (Продавец, уборщик, охранник, курьер)");
 	strcat(message, "\n - Множество различных банд, мафий и организаций");
 	strcat(message, "\n - Качественная и полноценная RP-отыгровка");
 	strcat(message, "\n{FFAF00}===========================================================");
-	strcat(message, "\n{FFFFFF}Присойденяйся к нам прямо сейчас, окунись в мир RolePlay!");
+	strcat(message, "\n{08e8de}Присойденяйся к нам прямо сейчас, окунись в мир RolePlay!");
 	//==========================================================================
 	ShowPlayerDialog(playerid, DLG_WELCOME, GUI_MSG, "[West-RP]: Приветствие", message, "Далее", "");
 	return true;
