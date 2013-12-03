@@ -36,6 +36,7 @@ public:
 	static void cPlayer::givePlayerMoney(const int, float);
 	static void cPlayer::updatePos(const int);
 	static bool cPlayer::isPlayerInCube(const int, float, float, float, float, float, float);
+	static void cPlayer::updateMoney(const int);
 
 };
 
@@ -81,6 +82,8 @@ struct  pInfo
 	int		aMinerB;
 	//Skills, разфасуешь...
 	int		jSkills[3];
+	//Money draw
+	int		tCents;
 	
 };
 //TODO: Структура игрока

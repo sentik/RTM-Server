@@ -14,9 +14,20 @@ int drawPlayerChar[15];
 void cPlayer::update()
 {
 	//-------------------------------------------------
-	bool isTwo = uTime % 2 == 0;		//Кратность 2  UNIX-Time
-	bool isFive = uTime % 5 == 0;		//Кратность 5  UNIX-Time
-	bool isTen = isTwo & isFive;		//Кратность 10 UNIX-Time 
+	const bool isTwo = uTime % 2 == 0;		//Кратность 2  UNIX-Time
+	const bool isFive = uTime % 5 == 0;		//Кратность 5  UNIX-Time
+	const bool isTen = isTwo & isFive;		//Кратность 10 UNIX-Time 
+	//-------------------------------------------------
+	time_t rawtime;
+	tm* timeinfo;
+	char buffer[48];
+
+	time(&rawtime);
+	timeinfo = localtime(&rawtime);
+
+	sprintf(buffer, "~w~%02d~p~.~w~%02d~p~.~w~%04d %02d~p~:~w~%02d~p~:~w~%02d", timeinfo->tm_mday, timeinfo->tm_mon + 1, timeinfo->tm_year, timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec);
+
+	TextDrawSetString(drawPlayerChar[HEADER_TIME], buffer);
 	//-------------------------------------------------
 	for (int i = 0; i < MAX_PLAYERS; i++)
 	{
@@ -594,12 +605,22 @@ bool cPlayer::checkMoney(const int u, float value)
 void cPlayer::givePlayerMoney(const int u, float value)
 {
 	//=============================
-	GivePlayerMoney(u, value);
 	Player[ u ].pMoney += value;
 	//=============================
 	sprintf(query, "UPDATE player_Character SET money = '%f' WHERE id = '%d'", Player[ u ].pMoney, Player[ u ].pDB);
 	mysql_query(con, query);
 	//=============================
+	cPlayer::updateMoney(u);
+}
+
+void cPlayer::updateMoney(const int u)
+{
+	char buff[16];
+	sprintf(buff, "%0.02f", Player[u].pMoney);
+	PlayerTextDrawSetString(u, Player[u].tCents, buff);
+	//=============================
+	ResetPlayerMoney(u);
+	GivePlayerMoney(u, floor(Player[u].pMoney));
 }
 
 void cPlayer::updatePos(const int u)

@@ -248,6 +248,10 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSpawn(int playerid)
 		SetPlayerInterior(playerid, Player[playerid].pPosI);
 		SetPlayerVirtualWorld(playerid, Player[playerid].pPosW);
 		//-------------------------------------------------------
+		cPlayer::updateMoney(playerid);
+		PlayerTextDrawShow(playerid, Player[playerid].tCents);
+		TextDrawShowForPlayer(playerid, drawPlayerChar[HEADER_BG]);
+		TextDrawShowForPlayer(playerid, drawPlayerChar[HEADER_TIME]);
 	}
 	return true;
 }
@@ -558,8 +562,31 @@ static void initTextDraws()
 	TextDrawBoxColor(drawPlayerChar[ INVERTORY_BG ], 16711935);
 	TextDrawTextSize(drawPlayerChar[ INVERTORY_BG ], 1.000000, 384.000000);
 	TextDrawSetSelectable(drawPlayerChar[ INVERTORY_BG ], 0);
-
-
+	//--------------------------------------------------------------------------------
+	//TODO: Server Name
+	drawPlayerChar[HEADER_BG] = TextDrawCreate(320.000000, 1.000000, "~w~World Of RPG ~p~[~w~worpg.ru~p~]");
+	TextDrawAlignment(drawPlayerChar[HEADER_BG], 2);
+	TextDrawBackgroundColor(drawPlayerChar[HEADER_BG], -1778346416);
+	TextDrawFont(drawPlayerChar[HEADER_BG], 1);
+	TextDrawLetterSize(drawPlayerChar[HEADER_BG], 0.500000, 1.000000);
+	TextDrawColor(drawPlayerChar[HEADER_BG], -1);
+	TextDrawSetOutline(drawPlayerChar[HEADER_BG], 1);
+	TextDrawSetProportional(drawPlayerChar[HEADER_BG], 1);
+	TextDrawUseBox(drawPlayerChar[HEADER_BG], 1);
+	TextDrawBoxColor(drawPlayerChar[HEADER_BG], -1778346416);
+	TextDrawTextSize(drawPlayerChar[HEADER_BG], 1.000000, 640.000000);
+	TextDrawSetSelectable(drawPlayerChar[HEADER_BG], 0);
+	//--------------------------------------------------------------------------------
+	//TODO: Server Time
+	drawPlayerChar[HEADER_TIME] = TextDrawCreate(640.000000, 1.000000, "~w~20~p~.~w~11~p~.~w~2013 15~p~:~w~55~p~:~w~05");
+	TextDrawAlignment(drawPlayerChar[HEADER_TIME], 3);
+	TextDrawBackgroundColor(drawPlayerChar[HEADER_TIME], -1778346416);
+	TextDrawFont(drawPlayerChar[HEADER_TIME], 1);
+	TextDrawLetterSize(drawPlayerChar[HEADER_TIME], 0.500000, 1.000000);
+	TextDrawColor(drawPlayerChar[HEADER_TIME], -1);
+	TextDrawSetOutline(drawPlayerChar[HEADER_TIME], 1);
+	TextDrawSetProportional(drawPlayerChar[HEADER_TIME], 1);
+	TextDrawSetSelectable(drawPlayerChar[HEADER_TIME], 0);
 
 
 }

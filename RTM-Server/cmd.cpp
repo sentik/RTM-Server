@@ -45,7 +45,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 {
 	char cmd[ 20 ];
 	char params[ 128 ];
-	sscanf(cmdtext, "/%20s %128[0-9a-zA-Zà-ÿÀ-ß ]s", &cmd, &params);
+	sscanf(cmdtext, "/%20s %128[0-9a-zA-Zà-ÿÀ-ß\\-\\. ]s", &cmd, &params);
 	//==============================================================
 	if (strcmp("veh", cmd) == 0)				CMD::veh(playerid, params);
 	else if (strcmp("mm", cmd) == 0)			CMD::mm(playerid);
@@ -71,11 +71,13 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 	}
 	else if (strcmp("gotokk", cmd) == 0)
 	{
+		cPlayer::givePlayerMoney(playerid, 0.50f);
+
 		float pos[ 3 ];
 		int sub[ 2 ];
 		sub[ 0 ] = 0;
 		sub[ 1 ] = 0;
-		if (sscanf(params, "%[-0-9.]f %[-0-9.]f %[-0-9.]f %d %d", &pos[ 0 ], &pos[ 1 ], &pos[ 2 ], &sub[ 0 ], &sub[ 1 ]) >= 3)
+		if (sscanf(params, "%f %f %f %d %d", &pos[ 0 ], &pos[ 1 ], &pos[ 2 ], &sub[ 0 ], &sub[ 1 ]) >= 3)
 		{
 			SetPlayerPos(playerid, pos[ 0 ], pos[ 1 ], pos[ 2 ]);
 			SetPlayerInterior(playerid, sub[ 0 ]);

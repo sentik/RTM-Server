@@ -17,5 +17,7 @@ enum REG_DRAWS
 	SPD_BG,				//Спидометр.		 Фон
 	SHOP_HEADER_VEHICLE,//Автосалон.		 Заголовок
 	INVERTORY_BG,
+	HEADER_BG,
+	HEADER_TIME,
 };
 #endif 
