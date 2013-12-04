@@ -128,6 +128,7 @@
     <ClInclude Include="configs.h" />
     <ClInclude Include="cPickups.h" />
     <ClInclude Include="cProperty.h" />
+    <ClInclude Include="cRadio.h" />
     <ClInclude Include="cState.h" />
     <ClInclude Include="cTexrDraws.h" />
     <ClInclude Include="cVehicle.h" />
@@ -157,6 +158,7 @@
     <ClCompile Include="cObjects.cpp" />
     <ClCompile Include="cPickups.cpp" />
     <ClCompile Include="cProperty.cpp" />
+    <ClCompile Include="cRadio.cpp" />
     <ClCompile Include="cState.cpp" />
     <ClCompile Include="cTexrDraws.cpp" />
     <ClCompile Include="cVehicle.cpp" />

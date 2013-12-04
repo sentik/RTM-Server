@@ -176,8 +176,10 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 	world::Gangs::init();
 	world::DropedGuns::loadGuns();
 	world::pickups::cPickups::loadPickups();
+	world::radio::cRadio::loadRadio();
 	initTextDraws();
 	ManualVehicleEngineAndLights();
+	EnableStuntBonusForAll(false);
 	sprintf(query, "RTM-GM v%s", GAME_VERSION);
 	SetGameModeText(query);
 	return true;

@@ -64,6 +64,7 @@ void cState::callStateChange(int playerid, int newstate, int oldstate)
 	{
 		Player[playerid].pCarid = GetPlayerVehicleID(playerid);
 		Player[playerid].pSeatid = GetPlayerVehicleSeat(playerid);
+		PlayAudioStreamForPlayer(playerid, world::radio::cRadio::Radio.at(world::Vehicles::Vehicle[Player[playerid].pCarid].radio).url);
 		if (newstate == 2)
 		{
 			world::Vehicles::showSpeed(playerid);
@@ -71,6 +72,7 @@ void cState::callStateChange(int playerid, int newstate, int oldstate)
 	}
 	else if (oldstate == 2 || oldstate == 3)
 	{
+		StopAudioStreamForPlayer(playerid);
 		Player[playerid].pSeatid = -1;
 		if (oldstate == 2)
 		{

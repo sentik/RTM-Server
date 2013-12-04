@@ -88,6 +88,7 @@
 #include "configs.h"
 #include "cPlayer.h"
 #include "cAdmins.h"
+#include "cRadio.h"
 
 #include "saZones.h"
 #include "cFeller.h"

@@ -18,7 +18,7 @@ void cPlayer::update()
 	const bool isFive = uTime % 5 == 0;		//Кратность 5  UNIX-Time
 	const bool isTen = isTwo & isFive;		//Кратность 10 UNIX-Time 
 	//-------------------------------------------------
-	time_t rawtime;
+	/*time_t rawtime;
 	tm* timeinfo;
 	char buffer[48];
 
@@ -26,7 +26,17 @@ void cPlayer::update()
 	timeinfo = localtime(&rawtime);
 
 	sprintf(buffer, "~w~%02d~p~.~w~%02d~p~.~w~%04d %02d~p~:~w~%02d~p~:~w~%02d", timeinfo->tm_mday, timeinfo->tm_mon + 1, timeinfo->tm_year, timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec);
+	*/
 
+
+	time_t rawtime;
+	struct tm * timeinfo;
+	char buffer[ 80 ];
+
+	time(&rawtime);
+	timeinfo = localtime(&rawtime);
+
+	strftime(buffer, 80, "~w~%d~p~.~w~%m~p~.~w~%Y %H~p~:~w~%M~p~:~w~%S", timeinfo);
 	TextDrawSetString(drawPlayerChar[HEADER_TIME], buffer);
 	//-------------------------------------------------
 	for (int i = 0; i < MAX_PLAYERS; i++)

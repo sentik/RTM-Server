@@ -115,6 +115,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 					//-----------------------------------------
 					cPlayer::SpawnChar(playerid);
 				}
+				break;
 			}
 			case DLG_VEHICLE_CONTROL: //Engine [%d]\nLights [%d]\nBoot [%d]\nBonnet [%d]
 			{
@@ -142,7 +143,32 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 					world::Vehicles::Vehicle[ vehid ].Bonnet = !world::Vehicles::Vehicle[ vehid ].Bonnet;
 					SetVehicleParamsEx(vehid, world::Vehicles::Vehicle[ vehid ].Engine, world::Vehicles::Vehicle[ vehid ].Light, false, world::Vehicles::Vehicle[ vehid ].Locked, world::Vehicles::Vehicle[ vehid ].Bonnet, world::Vehicles::Vehicle[ vehid ].Boot, false);
 				}
+				else if (listitem == 4)
+				{
+					world::radio::cRadio::showRadioList(playerid);
+					return true;
+				}
 				world::Vehicles::menuVehicle(playerid);
+				break;
+			}
+			case DLG_RADIO_LIST:
+			{
+				if (!response) return true;
+
+				const int vid = Player[playerid].pCarid;
+				world::Vehicles::Vehicle[vid].radio = listitem;
+
+				for (int i = 0; i < MAX_PLAYERS; i++)
+				{
+					if (Player[i].pSeatid != -1)
+					{
+						if (Player[i].pCarid == vid)
+						{
+							PlayAudioStreamForPlayer(playerid, world::radio::cRadio::Radio.at(listitem).url);
+						}
+					}
+				}
+				break;
 			}
 		}
 	}

@@ -162,6 +162,9 @@
     <ClInclude Include="cPickups.h">
       <Filter>Заголовочные файлы\general</Filter>
     </ClInclude>
+    <ClInclude Include="cRadio.h">
+      <Filter>Заголовочные файлы\property\vehicles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -235,6 +238,9 @@
     </ClCompile>
     <ClCompile Include="cPickups.cpp">
       <Filter>Файлы исходного кода\general</Filter>
+    </ClCompile>
+    <ClCompile Include="cRadio.cpp">
+      <Filter>Файлы исходного кода\property\vehicles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
