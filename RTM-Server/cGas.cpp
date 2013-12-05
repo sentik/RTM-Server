@@ -34,6 +34,7 @@ void gasProperty::cGas::loadGas()
 		gasProperty::cGas::Gas[i].minX		= atof(row[gasProperty::rowsGas::minX]);
 		gasProperty::cGas::Gas[i].minY		= atof(row[gasProperty::rowsGas::minY]);
 		gasProperty::cGas::Gas[i].minZ		= atof(row[gasProperty::rowsGas::minZ]);
+		gasProperty::cGas::Gas[i].cost		= atof(row[gasProperty::rowsGas::cost]);
 		strcpy(gasProperty::cGas::Gas[i].name,  row[gasProperty::rowsGas::name]);
 
 		Property[countProperty].link = i;
@@ -82,9 +83,55 @@ void gasProperty::cGas::fillingVehicle(const int u)
 
 			if (world::Vehicles::isVehicleInCube(car, Gas[d].minX, Gas[d].minY, Gas[d].minZ, Gas[d].maxX, Gas[d].maxY, Gas[d].maxZ) && cPlayer::isPlayerInCube(u, Gas[d].minX, Gas[d].minY, Gas[d].minZ, Gas[d].maxX, Gas[d].maxY, Gas[d].maxZ))
 			{
-				SendClientMessage(u, -1, "useFilling");
+				thread(gasProperty::cGas::fillingVehicleProcess, u, i).detach();
 				break;
 			}
 		}
+	}
+}
+
+void gasProperty::cGas::fillingVehicleProcess(const int u, const int i)
+{
+	char msg[64];
+	const int d = Property[i].link;
+	const int car = Player[u].pCarid;
+	const int tmpText = StreamerCall::Native::CreateDynamic3DTextLabel("Заправка", -1, 0.0f, 0.0f, 0.5f, 20.0f, 65535, car);
+
+	cPlayer::givePlayerMoney(u, -Gas[i].cost * (100.0f - world::Vehicles::Vehicle[car].Fuel));
+
+	case_filling:
+
+	Sleep(1000);
+
+	if (world::Vehicles::isVehicleInCube(car, Gas[d].minX, Gas[d].minY, Gas[d].minZ, Gas[d].maxX, Gas[d].maxY, Gas[d].maxZ))
+	{
+		if (world::Vehicles::Vehicle[car].Engine)
+		{
+			case_fillingCancel:
+			StreamerCall::Native::UpdateDynamic3DTextLabelText(tmpText, -1, language::property::gas::fillingCancel);
+			Sleep(5000);
+			StreamerCall::Native::DestroyDynamic3DTextLabel(tmpText);
+		}
+		else
+		{
+			if (world::Vehicles::Vehicle[car].Fuel >= 100.0f)
+			{
+				world::Vehicles::Vehicle[car].Fuel = 100.0f;
+				StreamerCall::Native::UpdateDynamic3DTextLabelText(tmpText, -1, language::property::gas::fillingDone);
+				Sleep(5000);
+				StreamerCall::Native::DestroyDynamic3DTextLabel(tmpText);
+			}
+			else
+			{
+				world::Vehicles::Vehicle[car].Fuel += ((0.0f + rand() % 250) / 100);
+				sprintf(msg, language::property::gas::fillingProcess, world::Vehicles::Vehicle[car].Fuel);
+				StreamerCall::Native::UpdateDynamic3DTextLabelText(tmpText, -1, msg);
+				goto case_filling;
+			}
+		}
+	}
+	else
+	{
+		goto case_fillingCancel;
 	}
 }

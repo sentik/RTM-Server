@@ -10,19 +10,45 @@ int countProperty;
 /// </summary>
 void cProperty::buyMessage(const int u, const int p)
 {
-	char msg[ 512 ];
+	char msg[ 336 ];
+	sprintf(msg, "{FFFFFF}Здраствуйте, вы действительно хотите приобрести эту недвижимость?\nАдрес: {00C0FF}%s {FFFFFF}д: {00C0FF}%d {FFFFFF}|| Стоимость: {00C0FF}%d{FFFFFF}$",
+				 cProperty::getZoneName(Property[p].region), Property[p].number, Property[p].price);
 	//===============================================
 	Player[ u ].inIndex = p;
 	//===============================================
 	switch (Property[p].type)
 	{
 		//------------------------------------------
-		case 1:	//Дома
+		case PropertyType::prHouse:		//Дома
 		{
-			sprintf(msg, "Здравствуйте, вы действильно хотите приобрести этот дом?\nАдрес дома: %s %d\nСтоимость покупки: %d$", 
-					"nill", 0, Property[p].price);
+									sprintf(msg, "%s\nТип: {00C0FF}Дом", msg);
+									break;
 		}
-		break;
+		case PropertyType::prBank:		//Банки
+		{
+									sprintf(msg, "%s\nТип: {00C0FF}Банк", msg);
+									break;
+		}
+		case PropertyType::prGas:		//Заправки
+		{
+									sprintf(msg, "%s\nТип: {00C0FF}Заправка", msg);
+									break;
+		}
+		case PropertyType::prAutosalon:	//Автосалоны
+		{
+									sprintf(msg, "%s\nТип: {00C0FF}Автосалон", msg);
+									break;
+		}
+		case PropertyType::prMiner:		//Шахты
+		{
+									sprintf(msg, "%s\nТип: {00C0FF}Шахта", msg);
+									break;
+		}
+		case PropertyType::prFeller:	//Лесопилки
+		{
+									sprintf(msg, "%s\nТип: {00C0FF}Лесопилка", msg);
+									break;
+		}
 		//------------------------------------------
 	}
 	ShowPlayerDialog(u, DLG_PROPERTY_BUY, GUI_MSG, "Покупка недвижимости", msg, "Далее", "Отмена");

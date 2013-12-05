@@ -59,4 +59,15 @@ public:
 
 };
 
+enum PropertyType
+{
+	prNone,
+	prHouse,
+	prBank,
+	prAutosalon,
+	prMiner,
+	prGas,
+	prFeller,
+};
+
 #endif 

@@ -8,6 +8,7 @@
 struct eGas
 {
 	int		db;
+	float	cost;
 	float	fuel;
 	float	minX;
 	float	minY;
@@ -25,6 +26,7 @@ namespace gasProperty
 		public:
 			static void cGas::loadGas();
 			static void cGas::fillingVehicle(const int);
+			static void cGas::fillingVehicleProcess(const int, const int);
 			static struct eGas cGas::Gas[MAX_GAS];
 	};
 
@@ -50,6 +52,7 @@ namespace gasProperty
 		maxY,
 		maxZ,
 		name,
+		cost,
 		pname,
 	};
 }

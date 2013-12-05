@@ -19,8 +19,8 @@ void cObjects::loadObjects(char name[ ])
 			// Получаем аргументы
 			//---------------------------------------------
 			const int	 model = atoi(obj->Attribute("model"));
-			int			 posI  = atoi(obj->Attribute("interior"));
-			int			 posW  = atoi(obj->Attribute("dimension"));
+			//int			 posI  = atoi(obj->Attribute("interior"));
+			//int			 posW  = atoi(obj->Attribute("dimension"));
 			//---------------------------------------------
 			const double posX  = atof(obj->Attribute("posX"));
 			const double posY  = atof(obj->Attribute("posY"));
@@ -30,9 +30,9 @@ void cObjects::loadObjects(char name[ ])
 			const double rotY = atof(obj->Attribute("rotY"));
 			const double rotZ = atof(obj->Attribute("rotZ"));
 			//---------------------------------------------
-			if (posI == 0) posI = -1;
-			if (posW == 0) posW = -1;
-			StreamerCall::Native::CreateDynamicObject(model, posX, posY, posZ, rotX, rotY, rotZ, posW, posI);
+			//if (posI == 0) posI = -1;
+			//if (posW == 0) posW = -1;
+			StreamerCall::Native::CreateDynamicObject(model, posX, posY, posZ, rotX, rotY, rotZ /*posW, posI*/);
 		}
 		logprintf("[XML Objects]: %s загружен успешно", name);
 	}

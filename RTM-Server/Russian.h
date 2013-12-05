@@ -71,6 +71,13 @@ namespace language
 			//----------------------------------------------------------------------------
 			const char Acc_Make[144]		= "Здравствуйте, %s %s, пожалуйста укажите Пин-Код.\nПин-код может состоять от 4 до 8 цифр.\nНапример, 787898 или 020190";
 		}
+
+		namespace gas
+		{
+			const char fillingDone[32]		= "{B7FF00}транспорт заправлен";
+			const char fillingProcess[32]	= "Топливо в баке: {B700FF}%.2fL";
+			const char fillingCancel[32]	= "{B70000}остановка заправления";
+		}
 	}
 
 	namespace jobs

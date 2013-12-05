@@ -19,7 +19,7 @@ void CMD::veh(int playerid, char* params)
 		SetVehicleParamsEx(veh, true, true, false, false, false, false, false);
 		world::Vehicles::Vehicle[ veh ].Engine = true;
 		world::Vehicles::Vehicle[ veh ].Light = true;
-		world::Vehicles::Vehicle[veh].Fuel = 100.0f;
+		world::Vehicles::Vehicle[veh].Fuel = 10.0f;
 		//-------------------------------------------------------------------
 		PutPlayerInVehicle(playerid, veh, 0);
 	}
@@ -53,10 +53,10 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 	
 	else if (strcmp("tfill", cmd) == 0)
 	{
-		Player[ playerid ].pDB = 1;
+		/*Player[ playerid ].pDB = 1;
 		world::Players::invertory::load(playerid);
-		world::Players::invertory::show(playerid);
-		//gasProperty::cGas::fillingVehicle(playerid);
+		world::Players::invertory::show(playerid);*/
+		gasProperty::cGas::fillingVehicle(playerid);
 	}
 	else if (strcmp("fel", cmd) == 0)
 	{

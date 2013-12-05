@@ -43,7 +43,7 @@ void fProperty::cFeller::loadFeller()
 		if (Property[countProperty].owner)
 		{
 			strcpy(Property[countProperty].player, row[fProperty::rowsFeller::pname]);
-			sprintf(query, "{FFFFFF}Лесопилка: {B7FF00}%s\n{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s", gasProperty::cGas::Gas[i].name, cProperty::getZoneName(Property[countProperty].region), Property[countProperty].number, Property[countProperty].player);
+			sprintf(query, "{FFFFFF}Лесопилка: {B7FF00}%s\n{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s", fProperty::cFeller::Feller[i].name, cProperty::getZoneName(Property[countProperty].region), Property[countProperty].number, Property[countProperty].player);
 			//=====================================================================================================
 			Property[countProperty].pick = StreamerCall::Native::CreateDynamicPickup(DOLLAR_PICKUP, 23,
 				Property[countProperty].posX,
@@ -53,7 +53,7 @@ void fProperty::cFeller::loadFeller()
 		}
 		else
 		{
-			sprintf(query, "{FFFFFF}Лесопилка: {FF0000}%s\n{FFFFFF}Адрес: {FF0000}%s {FFFFFF}д: {FF0000}%d\n{FFFFFF}Стоимость: {FF0000}%d$", gasProperty::cGas::Gas[i].name, cProperty::getZoneName(Property[countProperty].region), Property[countProperty].number, Property[countProperty].price);
+			sprintf(query, "{FFFFFF}Лесопилка: {FF0000}%s\n{FFFFFF}Адрес: {FF0000}%s {FFFFFF}д: {FF0000}%d\n{FFFFFF}Стоимость: {FF0000}%d$", fProperty::cFeller::Feller[i].name, cProperty::getZoneName(Property[countProperty].region), Property[countProperty].number, Property[countProperty].price);
 			//=====================================================================================================
 			Property[countProperty].pick = StreamerCall::Native::CreateDynamicPickup(DOLLAR_PICKUP, 23,
 				Property[countProperty].posX,
