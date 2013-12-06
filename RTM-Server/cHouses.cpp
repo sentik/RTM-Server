@@ -110,3 +110,18 @@ void cHouses::loadHouseInteriors()
 		//	logprintf("house: %d || slot: %d || db: %d", house, slot, HouseDesine[ house ][ slot ].db);
 	}
 }
+
+void cHouses::updateText(const int p, const int u)
+{
+	char msg[256];
+	sprintf(Property[p].player, "%s %s", Player[u].uName, Player[u].sName);
+	sprintf(msg, "{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s", cProperty::getZoneName(Property[p].region), Property[p].number, Property[p].player);
+	//=====================================================================================================
+	StreamerCall::Native::DestroyDynamicPickup(Property[p].pick);
+	Property[p].pick = StreamerCall::Native::CreateDynamicPickup(HOUSE_GREEN, 23,
+		Property[p].posX,
+		Property[p].posY,
+		Property[p].posZ, 0, 0);
+	//=====================================================================================================
+	StreamerCall::Native::UpdateDynamic3DTextLabelText(Property[p].text, -1, msg);
+}

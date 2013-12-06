@@ -11,7 +11,7 @@ int countProperty;
 void cProperty::buyMessage(const int u, const int p)
 {
 	char msg[ 336 ];
-	sprintf(msg, "{FFFFFF}Здраствуйте, вы действительно хотите приобрести эту недвижимость?\nАдрес: {00C0FF}%s {FFFFFF}д: {00C0FF}%d {FFFFFF}|| Стоимость: {00C0FF}%d{FFFFFF}$",
+	sprintf(msg, "{FFFFFF}Здраствуйте, вы действительно хотите приобрести эту недвижимость?\nАдрес: {00C0FF}%s {FFFFFF}д: {00C0FF}%d {FFFFFF}|| Стоимость: {00C0FF}%d${FFFFFF}",
 				 cProperty::getZoneName(Property[p].region), Property[p].number, Property[p].price);
 	//===============================================
 	Player[ u ].inIndex = p;
@@ -21,32 +21,32 @@ void cProperty::buyMessage(const int u, const int p)
 		//------------------------------------------
 		case PropertyType::prHouse:		//Дома
 		{
-									sprintf(msg, "%s\nТип: {00C0FF}Дом", msg);
+									sprintf(msg, "%s || Тип: {00C0FF}Дом", msg);
 									break;
 		}
 		case PropertyType::prBank:		//Банки
 		{
-									sprintf(msg, "%s\nТип: {00C0FF}Банк", msg);
+									sprintf(msg, "%s || Тип: {00C0FF}Банк", msg);
 									break;
 		}
 		case PropertyType::prGas:		//Заправки
 		{
-									sprintf(msg, "%s\nТип: {00C0FF}Заправка", msg);
+									sprintf(msg, "%s || Тип: {00C0FF}Заправка", msg);
 									break;
 		}
 		case PropertyType::prAutosalon:	//Автосалоны
 		{
-									sprintf(msg, "%s\nТип: {00C0FF}Автосалон", msg);
+									sprintf(msg, "%s || Тип: {00C0FF}Автосалон", msg);
 									break;
 		}
 		case PropertyType::prMiner:		//Шахты
 		{
-									sprintf(msg, "%s\nТип: {00C0FF}Шахта", msg);
+									sprintf(msg, "%s || Тип: {00C0FF}Шахта", msg);
 									break;
 		}
 		case PropertyType::prFeller:	//Лесопилки
 		{
-									sprintf(msg, "%s\nТип: {00C0FF}Лесопилка", msg);
+									sprintf(msg, "%s || Тип: {00C0FF}Лесопилка", msg);
 									break;
 		}
 		//------------------------------------------
@@ -90,9 +90,43 @@ void cProperty::statusMessage(const int u, const int p)
 
 void cProperty::setOwner(const int p, const int owner)
 {
-	Property[ p ].owner = owner;
-	sprintf(query, "UPDATE class_Property SET owner = '%d' WHERE id = %d", owner, Property[ p ].db);
+	Property[p].owner = Player[owner].pDB;
+	sprintf(query, "UPDATE class_Property SET owner = '%d' WHERE id = %d", Property[p].owner, Property[p].db);
 	mysql_query(con, query); 
+
+	switch (Property[p].type)
+	{
+		case PropertyType::prHouse:		//Дома
+		{
+										cHouses::updateText(p, owner);
+										break;
+		}
+		case PropertyType::prBank:		//Банки
+		{
+										cBanks::updateText(p, owner);
+										break;
+		}
+		case PropertyType::prAutosalon:	//Автосалоны
+		{
+										Properties::Shops::ShopVehicle::updateText(p, owner);
+										break;
+		}
+		case PropertyType::prGas:		//Заправки
+		{
+										gasProperty::cGas::updateText(p, owner);
+										break;
+		}
+		case PropertyType::prMiner:		//Шахты
+		{
+										Jobs::Miner::cMiner::updateText(p, owner);
+										break;
+		}
+		case PropertyType::prFeller:	//Лесопилки
+		{
+										fProperty::cFeller::updateText(p, owner);
+										break;
+		}
+	}
 }
 
 

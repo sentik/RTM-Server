@@ -340,3 +340,12 @@ void fProperty::cFeller::actionTrees(const int u)
 		}
 	}
 }
+
+void fProperty::cFeller::updateText(const int p, const int u)
+{
+	char msg[256];
+	sprintf(Property[p].player, "%s %s", Player[u].uName, Player[u].sName);
+	sprintf(msg, "{FFFFFF}Лесопилка: {B7FF00}%s\n{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s", fProperty::cFeller::Feller[Property[p].link].name, cProperty::getZoneName(Property[p].region), Property[p].number, Property[p].player);
+	//------------------------------------------------------------------
+	StreamerCall::Native::UpdateDynamic3DTextLabelText(Property[p].text, -1, msg);
+}

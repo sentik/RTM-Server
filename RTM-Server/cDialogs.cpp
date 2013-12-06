@@ -176,7 +176,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 				int idx = Player[playerid].inIndex;
 				if (cPlayer::checkMoney(playerid, Property[idx].price))
 				{
-					cProperty::setOwner(idx, Player[playerid].pDB);
+					cProperty::setOwner(idx, playerid);
 					cPlayer::givePlayerMoney(playerid, -Property[idx].price);
 					cProperty::beforBuy(playerid);
 				}

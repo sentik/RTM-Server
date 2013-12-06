@@ -403,14 +403,25 @@ void Jobs::Miner::cMiner::updateInfotable(bool i)
 
 	tmp.materialText = msg;
 	StreamerCall::Native::SetDynamicObjectMaterialText(miner[i].infoTable, 0, tmp);
+}
 
-	/*
-	format(string, sizeof(string), "Информация\nСтоимость грамма железа: {B700FF}%.2f$\n{FFFFFF}Стоимость грамма серебра: {B700FF}%.2f$\n{FFFFFF}Склад\nЖелеза грамм: {B700FF}%d\n{FFFFFF}Серебра грамм: {B700FF}%d",
-		shInfo[0][shZP][0], shInfo[0][shZP][1], shInfo[0][shAmount][0], shInfo[0][shAmount][1]);
-	SetDynamicObjectMaterialText(shInfo[0][shObject], 0, string, OBJECT_MATERIAL_SIZE_512x256, "Arial", 28, 1, 0xFFFFFFFF, 0xFF000000, OBJECT_MATERIAL_TEXT_ALIGN_CENTER);
-
-	format(string, sizeof(string), "Информация\nСтоимость грамма Меди: {B700FF}%.2f$\n{FFFFFF}Стоимость грамма золота: {B700FF}%.2f$\n{FFFFFF}Склад\nМеди грамм: {B700FF}%d\n{FFFFFF}Золота грамм: {B700FF}%d",
-		shInfo[1][shZP][0], shInfo[1][shZP][1], shInfo[1][shAmount][0], shInfo[1][shAmount][1]);
-	SetDynamicObjectMaterialText(shInfo[1][shObject], 0, string, OBJECT_MATERIAL_SIZE_512x256, "Arial", 28, 1, 0xFFFFFFFF, 0xFF000000, OBJECT_MATERIAL_TEXT_ALIGN_CENTER);
-	*/
+void Jobs::Miner::cMiner::updateText(const int p, const int u)
+{
+	char msg[256];
+	sprintf(Property[p].player, "%s %s", Player[u].uName, Player[u].sName);
+	if (!Property[p].link)
+	{
+		sprintf(msg, "Железо-серебряная шахта");
+	}
+	else
+	{
+		sprintf(msg, "Золото-медная шахта");
+	}
+	sprintf(msg, "%s\nАдрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s",
+		msg,
+		cProperty::getZoneName(Property[p].region),
+		Property[p].number,
+		Property[p].player);
+	//------------------------------------------------------------------
+	StreamerCall::Native::UpdateDynamic3DTextLabelText(Property[p].text, -1, msg);
 }

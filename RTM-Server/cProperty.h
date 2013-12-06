@@ -55,8 +55,6 @@ public:
 	//============================================================
 	static void cProperty::doAct(int);
 	static void cProperty::doSub(int);
-
-
 };
 
 enum PropertyType

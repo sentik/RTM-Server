@@ -14,7 +14,7 @@ void CMD::veh(int playerid, char* params)
 	{
 		GetPlayerPos(playerid, &Player[ playerid ].pPosX, &Player[ playerid ].pPosY, &Player[ playerid ].pPosZ);
 		GetPlayerFacingAngle(playerid, &Player[ playerid ].pPosR);
-		int veh = CreateVehicle(model, Player[ playerid ].pPosX, Player[ playerid ].pPosY, Player[ playerid ].pPosZ, Player[ playerid ].pPosR, cone, ctwo, -1);
+		int veh = world::Vehicles::sCreateVehicle(model, Player[playerid].pPosX, Player[playerid].pPosY, Player[playerid].pPosZ, Player[playerid].pPosR, cone, ctwo, -1);
 		//-------------------------------------------------------------------
 		SetVehicleParamsEx(veh, true, true, false, false, false, false, false);
 		world::Vehicles::Vehicle[ veh ].Engine = true;

@@ -11,6 +11,7 @@ class cHouses
 	static void cHouses::loadHouses();
 	static void cHouses::loadHouseInteriors();
 	static void cHouses::createHouseInterior(int);
+	static void cHouses::updateText(const int, const int);
 	//-------------------------------------------
 };
 

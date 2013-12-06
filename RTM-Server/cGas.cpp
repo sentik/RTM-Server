@@ -95,7 +95,9 @@ void gasProperty::cGas::fillingVehicleProcess(const int u, const int i)
 	char msg[64];
 	const int d = Property[i].link;
 	const int car = Player[u].pCarid;
-	const int tmpText = StreamerCall::Native::CreateDynamic3DTextLabel("Заправка", -1, 0.0f, 0.0f, 0.5f, 20.0f, 65535, car);
+	const int tmpText = world::Vehicles::Vehicle[car].text3D;
+
+	StreamerCall::Native::UpdateDynamic3DTextLabelText(tmpText, -1, "Заправка");
 
 	cPlayer::givePlayerMoney(u, -Gas[i].cost * (100.0f - world::Vehicles::Vehicle[car].Fuel));
 
@@ -110,7 +112,7 @@ void gasProperty::cGas::fillingVehicleProcess(const int u, const int i)
 			case_fillingCancel:
 			StreamerCall::Native::UpdateDynamic3DTextLabelText(tmpText, -1, language::property::gas::fillingCancel);
 			Sleep(5000);
-			StreamerCall::Native::DestroyDynamic3DTextLabel(tmpText);
+			StreamerCall::Native::UpdateDynamic3DTextLabelText(tmpText, -1, "");
 		}
 		else
 		{
@@ -119,7 +121,7 @@ void gasProperty::cGas::fillingVehicleProcess(const int u, const int i)
 				world::Vehicles::Vehicle[car].Fuel = 100.0f;
 				StreamerCall::Native::UpdateDynamic3DTextLabelText(tmpText, -1, language::property::gas::fillingDone);
 				Sleep(5000);
-				StreamerCall::Native::DestroyDynamic3DTextLabel(tmpText);
+				StreamerCall::Native::UpdateDynamic3DTextLabelText(tmpText, -1, "");
 			}
 			else
 			{
@@ -134,4 +136,12 @@ void gasProperty::cGas::fillingVehicleProcess(const int u, const int i)
 	{
 		goto case_fillingCancel;
 	}
+}
+
+void gasProperty::cGas::updateText(const int p, const int u)
+{
+	char msg[256];
+	sprintf(Property[p].player, "%s %s", Player[u].uName, Player[u].sName);
+	sprintf(msg, "{FFFFFF}Заправка: {B7FF00}%s\n{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s", gasProperty::cGas::Gas[Property[p].link].name, cProperty::getZoneName(Property[p].region), Property[p].number, Property[p].player);
+	StreamerCall::Native::UpdateDynamic3DTextLabelText(Property[p].text, -1, msg);
 }

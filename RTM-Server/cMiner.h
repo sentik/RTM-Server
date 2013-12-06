@@ -47,6 +47,7 @@ namespace Jobs
 				static void actionPicks(const int);
 				static void onGUI(const int, const int);
 				static void updateInfotable(bool);
+				static void updateText(const int, const int);
 				static struct sMiner  cMiner::miner[MAX_SH];
 		};
 		enum minerRows

@@ -46,6 +46,7 @@ namespace fProperty
 			static void startFellerGame(const int);
 			static void onGUI(const int, const int);
 			static void actionTrees(const int);
+			static void updateText(const int, const int);
 			static int models[ 8 ];
 			static struct eFeller cFeller::Feller[MAX_FELL];
 	};
