@@ -59,17 +59,15 @@ namespace language
 		{
 			const char Header_Acc_MAKE[32]	 = "[Банк] Заведение счета";
 			const char Header_Acc_BILL[ 32 ] = "[Банк] Управление счетами";
-
-
-			
 			//----------------------------------------------------------------------------
-			const char percentHeader[48]	= "[Банк]: Информация о процентах";
-			const char percentCredit[64]	= "Проценты по кредитам: \t\t%0.1f%%\n";
-			const char percentSend[64]		= "Проценты по переводам:  \t\t%0.1f%%\n";
-			const char percentDeposi[64]	= "Проценты по вкладам:  \t\t%0.1f%%\n";
-			const char percentPay[64]		= "Проценты по оплате:  \t\t\t%0.1f%%\n";
+			const char percentHeader[32]	= "[Банк]: Информация о процентах";
+			const char percentCredit[64]	= "{FFFFFF}Проценты по кредитам: {84ecff}\t\t%0.1f%%\n";
+			const char percentSend[64]		= "{FFFFFF}Проценты по переводам:{84ecff}\t\t%0.1f%%\n";
+			const char percentDeposi[64]	= "{FFFFFF}Проценты по вкладам:  {84ecff}\t\t%0.1f%%\n";
+			const char percentPay[64]		= "{FFFFFF}Проценты по оплате:   {84ecff}\t\t%0.1f%%\n";
 			//----------------------------------------------------------------------------
-			const char Acc_Make[144]		= "Здравствуйте, %s %s, пожалуйста укажите Пин-Код.\nПин-код может состоять от 4 до 8 цифр.\nНапример, 787898 или 020190";
+			const char Acc_Make[176]		= "{FFFFFF}Здравствуйте {84ecff}%s %s, {FFFFFF}пожалуйста укажите Пин-Код.\nПин-код может состоять от 4 до 8 цифр.\nНапример: {84ecff}787898 {FFFFFF}или {84ecff}020190";
+			const char afterMake[88]		= "{FFFFFF}Ваш номер счёта: {84ecff}%d\n{FFFFFF}Ваш пин-код: {84ecff}%d";
 		}
 
 		namespace gas

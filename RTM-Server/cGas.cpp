@@ -150,8 +150,7 @@ void gasProperty::cGas::updateText(const int p, const int u = -1)
 
 void gasProperty::cGas::ownerMenu(const int u)
 {
-	char msg[128];
-	strcpy(msg, "");
+	char msg[128] = "";
 	dialogs::genDLGItem(1, "Информация", msg);
 	dialogs::genDLGItem(2, "Управление", msg);
 	ShowPlayerDialog(u, DIALOG_LIST::DLG_GAS_MAIN, GUI_LIST, gasProperty::cGas::Gas[Property[Player[u].inIndex].link].name, msg, language::dialogs::buttons::btnSelect, language::dialogs::buttons::btnCancel);
@@ -160,8 +159,7 @@ void gasProperty::cGas::ownerMenu(const int u)
 
 void gasProperty::cGas::onDLG(const int u, const int dialogid, const int response, const int listitem, const char* inputtext)
 {
-	char msg[256];
-	strcpy(msg, "");
+	char msg[256] = "";
 	const int p = Player[u].inIndex;
 	const int l = Property[p].link;
 
@@ -174,12 +172,7 @@ void gasProperty::cGas::onDLG(const int u, const int dialogid, const int respons
 				if (listitem == 0)
 				{
 					sprintf(msg, "{FFFFFF}Название: {00C0FF}%s\n{FFFFFF}Адрес: {00C0FF}%s {FFFFFF}д: {00C0FF}%d\n{FFFFFF}№ счёта: {00C0FF}%d\n{FFFFFF}Кол-во топлива: {00C0FF}%.2fL\n{FFFFFF}Стоимость литра:{00C0FF} %.2f$",
-								 Gas[l].name,
-								 cProperty::getZoneName(Property[p].region),
-								 Property[p].number,
-								 Property[p].bank,
-								 Gas[l].fuel,
-								 Gas[l].cost);
+								 Gas[l].name, cProperty::getZoneName(Property[p].region), Property[p].number, Property[p].bank, Gas[l].fuel, Gas[l].cost);
 					ShowPlayerDialog(u, DIALOG_LIST::DLG_GAS_EMTY, GUI_MSG, Gas[l].name, msg, language::dialogs::buttons::btnBack, "");
 				}
 				else
