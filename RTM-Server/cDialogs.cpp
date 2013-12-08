@@ -12,16 +12,16 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 			{
 			case_welcome:
 				char message[ 620 ];
-				strcpy(message, "{FFAF00}===========================================================\n");
-				strcat(message, "{FFFFFF}Здравствуйте, пожалуйста, укажите ваш логин ниже.\n");
+				strcpy(message, "{078ad6}===========================================================\n");
+				strcat(message, "{7d67dd}Здравствуйте, пожалуйста, укажите ваш логин ниже.\n");
 				strcat(message, "Создайте новый логин, если у вас сейчас его нету.\n");
-				strcat(message, "{FFFFFF}-{B7FF00}Логин может быть из символов латинского алфавита [A-Za-z]\n");
-				strcat(message, "{FFFFFF}-{B7FF00}Логин может так же содержать цифры [0-9] и спец. символ _\n");
-				strcat(message, "{FFFFFF}-{B7FF00}Логин должен быть не короче 4 и не длинее 16 символов\n");
-				strcat(message, "{FFFFFF}-{B7FF00}Логин не обходим для дальнейшего входа в игру.\n");
-				strcat(message, "{FFFFFF}-{B7FF00}Логин не является RP-ником.\n");
-				strcat(message, "{FFAF00}===========================================================\n");
-				strcat(message, "\t\t{B7FF00}Присоеденись к нам прямо сейчас!");
+				strcat(message, "{FFFFFF}-{5c84e9}Логин может быть из символов латинского алфавита [A-Za-z]\n");
+				strcat(message, "{FFFFFF}-{5c84e9}Логин может так же содержать цифры [0-9] и спец. символ _\n");
+				strcat(message, "{FFFFFF}-{5c84e9}Логин должен быть не короче 4 и не длинее 16 символов\n");
+				strcat(message, "{FFFFFF}-{5c84e9}Логин не обходим для дальнейшего входа в игру.\n");
+				strcat(message, "{FFFFFF}-{5c84e9}Логин не является RP-ником.\n");
+				strcat(message, "{078ad6}===========================================================\n");
+				strcat(message, "\t\t{7d67dd}Присоеденись к нам прямо сейчас!");
 				ShowPlayerDialog(playerid, DLG_LOGINFORM, GUI_INPUT, "[West-RP]: Форма авторизации", message, "Войти", "");
 				break;
 			}
@@ -40,26 +40,26 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 			case_login:
 				if (Player[ playerid ].pDB)
 				{
-					strcpy(message, "{FFAF00}===========================================================\n");
-					strcat(message, "{00DDFF}Мы рады вновь видеть вас на нашем сервере!\n");
+					strcpy(message, "{078ad6}===========================================================\n");
+					strcat(message, "{7d67dd}Мы рады вновь видеть вас на нашем сервере!\n");
 					strcat(message, "Пожалуйста, укажите ваш пароль ниже.\n");
-					strcat(message, "{FFAF00}===========================================================\n");
-					strcat(message, "{FFFFFF}-{00DDFF}Не забывайте, пароль чувствителен к регистру.\n");
-					strcat(message, "{FFFFFF}-{fc0fc0}Пароли qwerty и qWeRtY - это разные пароли!\n");
-					strcat(message, "{FFAF00}===========================================================");
+					strcat(message, "{078ad6}===========================================================\n");
+					strcat(message, "{FFFFFF}-{5c84e9}Не забывайте, пароль чувствителен к регистру.\n");
+					strcat(message, "{FFFFFF}-{5c84e9}Пароли qwerty и qWeRtY - это разные пароли!\n");
+					strcat(message, "{078ad6}===========================================================");
 				}
 				else
 				{
-					strcpy(message, "{FFAF00}===========================================================\n");
-					strcat(message, "{FFFFFF}Мы рады видеть вас на нашем сервере!\n");
+					strcpy(message, "{078ad6}===========================================================\n");
+					strcat(message, "{7d67dd}Мы рады видеть вас на нашем сервере!\n");
 					strcat(message, "Пожалуйста, укажите ваш пароль ниже.\n");
-					strcat(message, "{FFAF00}===========================================================\n");
-					strcat(message, "{FFFFFF}-{B7FF00}Пароль может быть из символов латинского алфавита [A-Za-z]\n");
-					strcat(message, "{FFFFFF}-{B7FF00}Пароль может так же содержать цифры [0-9] и спец. символ _\n");
-					strcat(message, "{FFFFFF}-{B7FF00}Пароль должен быть не короче 4 и не длинее 16 символов\n");
-					strcat(message, "{FFFFFF}-{B7FF00}Не забывайте, пароль чувствителен к регистру.\n");
-					strcat(message, "{FFFFFF}-{B7FF00}Пароли qwerty и qWeRtY - это разные пароли!\n");
-					strcat(message, "{FFAF00}===========================================================");
+					strcat(message, "{078ad6}===========================================================\n");
+					strcat(message, "{FFFFFF}-{5c84e9}Пароль может быть из символов латинского алфавита [A-Za-z]\n");
+					strcat(message, "{FFFFFF}-{5c84e9}Пароль может так же содержать цифры [0-9] и спец. символ _\n");
+					strcat(message, "{FFFFFF}-{5c84e9}Пароль должен быть не короче 4 и не длинее 16 символов\n");
+					strcat(message, "{FFFFFF}-{5c84e9}Не забывайте, пароль чувствителен к регистру.\n");
+					strcat(message, "{FFFFFF}-{5c84e9}Пароли qwerty и qWeRtY - это разные пароли!\n");
+					strcat(message, "{078ad6}===========================================================");
 				}
 				ShowPlayerDialog(playerid, DLG_AUTHPLAYER, GUI_INPUT, "[Информация]: Форма авторизации", message, "Войти", "Назад");
 				break;
@@ -190,9 +190,14 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 		cBanks::onDLG(playerid, dialogid, response, listitem, inputtext);
 	}
 	//---------------------------------------------------------------------------
-	else if (Player[ playerid ].isAction = PlayerAction::ACTION_AUTOSHOP)
+	else if (Player[ playerid ].isAction == PlayerAction::ACTION_AUTOSHOP)
 	{
 		Properties::Shops::ShopVehicle::onDLG(playerid, dialogid, response, listitem, inputtext);
+	}
+	//---------------------------------------------------------------------------
+	else if (Player[playerid].isAction == PlayerAction::ACTION_USEPROP_GAS)
+	{
+		gasProperty::cGas::onDLG(playerid, dialogid, response, listitem, inputtext);
 	}
 	//---------------------------------------------------------------------------
 	return true;

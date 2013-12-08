@@ -28,6 +28,8 @@ namespace gasProperty
 			static void cGas::fillingVehicle(const int);
 			static void cGas::fillingVehicleProcess(const int, const int);
 			static void cGas::updateText(const int, const int);
+			static void cGas::ownerMenu(const int);
+			static void cGas::onDLG(const int, const int, const int, const int, const char*);
 			static struct eGas cGas::Gas[MAX_GAS];
 	};
 

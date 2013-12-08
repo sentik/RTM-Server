@@ -42,7 +42,7 @@ void gasProperty::cGas::loadGas()
 		if (Property[countProperty].owner)
 		{
 			strcpy(Property[countProperty].player, row[gasProperty::rowsGas::pname]);
-			sprintf(query, "{FFFFFF}Заправка: {B7FF00}%s\n{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s", gasProperty::cGas::Gas[i].name, cProperty::getZoneName(Property[countProperty].region), Property[countProperty].number, Property[countProperty].player);
+			sprintf(query, "{FFFFFF}Заправка: {B7FF00}%s\n{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s\n{FFFFFF}Стоимость литра: {B7FF00}%.2f", gasProperty::cGas::Gas[i].name, cProperty::getZoneName(Property[countProperty].region), Property[countProperty].number, Property[countProperty].player, Gas[i].cost);
 			//=====================================================================================================
 			Property[countProperty].pick = StreamerCall::Native::CreateDynamicPickup(DOLLAR_PICKUP, 23,
 				Property[countProperty].posX,
@@ -95,11 +95,13 @@ void gasProperty::cGas::fillingVehicleProcess(const int u, const int i)
 	char msg[64];
 	const int d = Property[i].link;
 	const int car = Player[u].pCarid;
+	const float cost = Gas[d].cost * (100.0f - world::Vehicles::Vehicle[car].Fuel);
 	const int tmpText = world::Vehicles::Vehicle[car].text3D;
 
 	StreamerCall::Native::UpdateDynamic3DTextLabelText(tmpText, -1, "Заправка");
 
-	cPlayer::givePlayerMoney(u, -Gas[i].cost * (100.0f - world::Vehicles::Vehicle[car].Fuel));
+	cPlayer::givePlayerMoney(u, -cost);
+	cBanks::giveBalance(Property[i].bank, cost);
 
 	case_filling:
 
@@ -138,10 +140,171 @@ void gasProperty::cGas::fillingVehicleProcess(const int u, const int i)
 	}
 }
 
-void gasProperty::cGas::updateText(const int p, const int u)
+void gasProperty::cGas::updateText(const int p, const int u = -1)
 {
 	char msg[256];
-	sprintf(Property[p].player, "%s %s", Player[u].uName, Player[u].sName);
-	sprintf(msg, "{FFFFFF}Заправка: {B7FF00}%s\n{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s", gasProperty::cGas::Gas[Property[p].link].name, cProperty::getZoneName(Property[p].region), Property[p].number, Property[p].player);
+	if(u != -1) sprintf(Property[p].player, "%s %s", Player[u].uName, Player[u].sName);
+	sprintf(msg, "{FFFFFF}Заправка: {B7FF00}%s\n{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s\n{FFFFFF}Стоимость литра: {B7FF00}%.2f", gasProperty::cGas::Gas[Property[p].link].name, cProperty::getZoneName(Property[p].region), Property[p].number, Property[p].player, gasProperty::cGas::Gas[Property[p].link].cost);
 	StreamerCall::Native::UpdateDynamic3DTextLabelText(Property[p].text, -1, msg);
+}
+
+void gasProperty::cGas::ownerMenu(const int u)
+{
+	char msg[128];
+	strcpy(msg, "");
+	dialogs::genDLGItem(1, "Информация", msg);
+	dialogs::genDLGItem(2, "Управление", msg);
+	ShowPlayerDialog(u, DIALOG_LIST::DLG_GAS_MAIN, GUI_LIST, gasProperty::cGas::Gas[Property[Player[u].inIndex].link].name, msg, language::dialogs::buttons::btnSelect, language::dialogs::buttons::btnCancel);
+	Player[u].isAction = PlayerAction::ACTION_USEPROP_GAS;
+}
+
+void gasProperty::cGas::onDLG(const int u, const int dialogid, const int response, const int listitem, const char* inputtext)
+{
+	char msg[256];
+	strcpy(msg, "");
+	const int p = Player[u].inIndex;
+	const int l = Property[p].link;
+
+	switch (dialogid)
+	{
+		case DIALOG_LIST::DLG_GAS_MAIN:
+		{
+			if (response)
+			{
+				if (listitem == 0)
+				{
+					sprintf(msg, "{FFFFFF}Название: {00C0FF}%s\n{FFFFFF}Адрес: {00C0FF}%s {FFFFFF}д: {00C0FF}%d\n{FFFFFF}№ счёта: {00C0FF}%d\n{FFFFFF}Кол-во топлива: {00C0FF}%.2fL\n{FFFFFF}Стоимость литра:{00C0FF} %.2f$",
+								 Gas[l].name,
+								 cProperty::getZoneName(Property[p].region),
+								 Property[p].number,
+								 Property[p].bank,
+								 Gas[l].fuel,
+								 Gas[l].cost);
+					ShowPlayerDialog(u, DIALOG_LIST::DLG_GAS_EMTY, GUI_MSG, Gas[l].name, msg, language::dialogs::buttons::btnBack, "");
+				}
+				else
+				{
+	case_ctrldialog:
+					dialogs::genDLGItem(1, "Цена", msg);
+					dialogs::genDLGItem(2, "Название", msg);
+					dialogs::genDLGItem(3, "Номер счёта", msg);
+					ShowPlayerDialog(u, DIALOG_LIST::DLG_GAS_CTRL, GUI_LIST, Gas[l].name, msg, language::dialogs::buttons::btnSelect, language::dialogs::buttons::btnBack);
+				}
+			}
+			else
+			{
+				Player[u].isAction = PlayerAction::ACTION_NONE;
+			}
+			break;
+		}
+		case DIALOG_LIST::DLG_GAS_EMTY:
+		{
+	case_maindialog:
+			gasProperty::cGas::ownerMenu(u);
+			break;
+		}
+		case DIALOG_LIST::DLG_GAS_CTRL:
+		{
+			if (response)
+			{
+				if (listitem == 0)
+				{
+	case_costdialog:
+					sprintf(msg, "{FFFFFF}Введите цену за литр топлива.\nТекущая цена: {00C0FF}%.2f$", Gas[l].cost);
+					ShowPlayerDialog(u, DIALOG_LIST::DLG_GAS_CTRL_COST, GUI_INPUT, Gas[l].name, msg, language::dialogs::buttons::btnDone, language::dialogs::buttons::btnBack);
+				}
+				else if (listitem == 1)
+				{
+	case_namedialog:
+					sprintf(msg, "{FFFFFF}Введите название заправки.\nТекущие название: {00C0FF}%s", Gas[l].name);
+					ShowPlayerDialog(u, DIALOG_LIST::DLG_GAS_CTRL_NAME, GUI_INPUT, Gas[l].name, msg, language::dialogs::buttons::btnDone, language::dialogs::buttons::btnBack);
+				}
+				else if (listitem == 2)
+				{
+	case_bankdialog:
+					sprintf(msg, "{FFFFFF}Введите номер банковского счёта.\nТекущий счёт: {00C0FF}%d", Property[p].bank);
+					ShowPlayerDialog(u, DIALOG_LIST::DLG_GAS_CTRL_BANK, GUI_INPUT, Gas[l].name, msg, language::dialogs::buttons::btnDone, language::dialogs::buttons::btnBack);
+				}
+			}
+			else
+			{
+goto case_maindialog;
+			}
+			break;
+		}
+		case DIALOG_LIST::DLG_GAS_CTRL_COST:
+		{
+			if (response)
+			{
+				if (regex_match(inputtext, expFloat))
+				{
+					Gas[l].cost = atof(inputtext);
+					gasProperty::cGas::updateText(p);
+					sprintf(msg, "{FFFFFF}Цена установлна: {00C0FF}%.2f$", Gas[l].cost);
+					ShowPlayerDialog(u, DIALOG_LIST::DLG_GAS_EMTY, GUI_MSG, Gas[l].name, msg, language::dialogs::buttons::btnOK, "");
+				}
+				else
+				{
+goto case_costdialog;
+				}
+			}
+			else
+			{
+goto case_ctrldialog;
+			}
+			break;
+		}
+		case DIALOG_LIST::DLG_GAS_CTRL_NAME:
+		{
+			if (response)
+			{
+				if (regex_match(inputtext, expString))
+				{
+					strcpy(Gas[l].name, inputtext);
+					gasProperty::cGas::updateText(p);
+					sprintf(msg, "{FFFFFF}Название установлно: {00C0FF}%s", Gas[l].name);
+					ShowPlayerDialog(u, DIALOG_LIST::DLG_GAS_EMTY, GUI_MSG, Gas[l].name, msg, language::dialogs::buttons::btnOK, "");
+				}
+				else
+				{
+goto case_namedialog;
+				}
+			}
+			else
+			{
+goto case_ctrldialog;
+			}
+			break;
+		}
+		case DIALOG_LIST::DLG_GAS_CTRL_BANK:
+		{
+			if (response)
+			{
+				if (regex_match(inputtext, expNumber))
+				{
+					const int number = atoi(inputtext);
+
+					if (cBanks::isValidNumber(number))
+					{
+						Property[p].bank = number;
+						sprintf(msg, "{FFFFFF}Номер счёта установлен: {00C0FF}%d", number);
+						ShowPlayerDialog(u, DIALOG_LIST::DLG_GAS_EMTY, GUI_MSG, Gas[l].name, msg, language::dialogs::buttons::btnOK, "");
+					}
+					else
+					{
+goto case_bankdialog;
+					}
+				}
+				else
+				{
+goto case_bankdialog;
+				}
+			}
+			else
+			{
+goto case_ctrldialog;
+			}
+			break;
+		}
+	}
 }

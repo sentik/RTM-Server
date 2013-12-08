@@ -71,8 +71,6 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 	}
 	else if (strcmp("gotokk", cmd) == 0)
 	{
-		cPlayer::givePlayerMoney(playerid, 0.50f);
-
 		float pos[ 3 ];
 		int sub[ 2 ];
 		sub[ 0 ] = 0;
@@ -84,6 +82,25 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 			SetPlayerVirtualWorld(playerid, sub[ 1 ]);
 		}
 		else SendClientMessage(playerid, -1, "Use: /gotokk [Float:X] [Float:Y] [Float:Z] (optional [interiorid] [worldid])");
+	}
+	else if (strcmp("givemoney", cmd) == 0)
+	{
+		if (Admins::isAllow(playerid, 5))
+		{
+			int u;
+			float m;
+			if (sscanf(params, "%d %f", &u, &m) == 2)
+			{
+				if (IsPlayerConnected(u))
+				{
+					if (Player[u].isLogged)
+					{
+						cPlayer::givePlayerMoney(u, m);
+					}
+				}
+			}
+			else SendClientMessage(playerid, -1, "Use: /givemoney [playerid] [money]");
+		}
 	}
 	return true;
 }

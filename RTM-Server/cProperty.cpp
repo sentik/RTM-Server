@@ -156,6 +156,47 @@ void cProperty::enterProperty(const int u)
 					cProperty::buyMessage(u, i);
 					break;
 				}
+				else
+				{
+					if (Property[i].owner == Player[u].pDB)
+					{
+						Player[u].inIndex = i;
+						switch (Property[i].type)
+						{
+							case PropertyType::prHouse:		//Дома
+							{
+																//cHouses::updateText(p, owner);
+																break;
+							}
+							case PropertyType::prBank:		//Банки
+							{
+																//cBanks::updateText(p, owner);
+																break;
+							}
+							case PropertyType::prAutosalon:	//Автосалоны
+							{
+																//Properties::Shops::ShopVehicle::updateText(p, owner);
+																break;
+							}
+							case PropertyType::prGas:		//Заправки
+							{
+																gasProperty::cGas::ownerMenu(u);
+																break;
+							}
+							case PropertyType::prMiner:		//Шахты
+							{
+																//Jobs::Miner::cMiner::updateText(p, owner);
+																break;
+							}
+							case PropertyType::prFeller:	//Лесопилки
+							{
+																//fProperty::cFeller::updateText(p, owner);
+																break;
+							}
+						}
+						break;
+					}
+				}
 				//-----------------------------------------------------------------------------------------------
 				if (Property[ i ].status)
 				{

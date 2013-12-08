@@ -133,6 +133,10 @@ extern regex expLogin;
 extern regex expNames;
 extern regex expDate;
 extern regex expCode;
+
+extern regex expString;
+extern regex expFloat;
+extern regex expNumber;
 //======================================
 //TODO: MYSQL-соединение
 extern MYSQL *con;

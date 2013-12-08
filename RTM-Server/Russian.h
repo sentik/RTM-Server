@@ -111,6 +111,19 @@ namespace language
 			const char preActionTwo[56]		= "Вы пытаетесь повалить дерево ({B70000}Неудачно{FFFFFF})";
 		}
 	}
+
+	namespace dialogs
+	{
+		namespace buttons
+		{
+			const char btnOK[8]				= "Хорошо";
+			const char btnNext[8]			= "Далее";
+			const char btnBack[8]			= "Назад";
+			const char btnDone[8]			= "Готово";
+			const char btnCancel[8]			= "Отмена";
+			const char btnSelect[8]			= "Выбрать";
+		}
+	}
 }
 
 

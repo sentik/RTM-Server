@@ -33,6 +33,10 @@ regex expLogin;
 regex expNames;
 regex expDate;
 regex expCode;
+
+regex expString;
+regex expFloat;
+regex expNumber;
 //======================================
 char strSpeed[13] = "Выносливость";
 char strMuscular[13] = "Мускулатура";
@@ -105,6 +109,9 @@ static void buildRegex()
 	expDate = regex("(0[1-9]|[12][0-9]|3[01]).(0[1-9]|1[012]).(19|20)([0-9])([0-9])");
 	expCode = regex("([0-9]{4,8})");
 
+	expString = regex("([A-zА-я ]){3,20}");
+	expFloat = regex("([0-9]{1,5}[\\.]{1,1}[0-9]{1,4})");
+	expNumber = regex("([0-9]{1,11})");
 }
 
 double fint(double x) // округление в сторону нуля (т.е. меньшее по абсолютному значению)
@@ -190,17 +197,17 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerRequestClass(int playerid, int classid)
 	SpawnPlayer(playerid);
 	TogglePlayerSpectating(playerid, true);
 	//==========================================================================
-	char message[560];
+	char message[800];
 	//==========================================================================
-	strcpy(message, "{FFAF00}===========================================================");
-	strcat(message, "\n{7df9ff}ВЫ можете полностью окунуться в мир RolePlay, только у нас есть:");
-	strcat(message, "\n - Реалистичная экономика и гормоничный игровой мир");
-	strcat(message, "\n - Различные типы имущества (Дома, Гаражи, Магазины, Бизнесы)");
-	strcat(message, "\n - Различные виды работ (Продавец, уборщик, охранник, курьер)");
-	strcat(message, "\n - Множество различных банд, мафий и организаций");
-	strcat(message, "\n - Качественная и полноценная RP-отыгровка");
-	strcat(message, "\n{FFAF00}===========================================================");
-	strcat(message, "\n{08e8de}Присойденяйся к нам прямо сейчас, окунись в мир RolePlay!");
+	strcpy(message, "{078ad6}===========================================================");
+	strcat(message, "\n{7d67dd}Вы можете полностью окунуться в мир RolePlay, только у нас есть:");
+	strcat(message, "\n {ffffff}- {5c84e9}Реалистичная экономика и гормоничный игровой мир");
+	strcat(message, "\n {ffffff}- {5c84e9}Различные типы имущества (Дома, Гаражи, Магазины, Бизнесы)");
+	strcat(message, "\n {ffffff}- {5c84e9}Различные виды работ (Продавец, уборщик, охранник, курьер)");
+	strcat(message, "\n {ffffff}- {5c84e9}Множество различных банд, мафий и организаций");
+	strcat(message, "\n {ffffff}- {5c84e9}Качественная и полноценная RP-отыгровка");
+	strcat(message, "\n{078ad6}===========================================================");
+	strcat(message, "\n{7d67dd}Присойденяйся к нам прямо сейчас, окунись в мир RolePlay!");
 	//==========================================================================
 	ShowPlayerDialog(playerid, DLG_WELCOME, GUI_MSG, "[West-RP]: Приветствие", message, "Далее", "");
 	return true;
@@ -566,7 +573,8 @@ static void initTextDraws()
 	TextDrawSetSelectable(drawPlayerChar[ INVERTORY_BG ], 0);
 	//--------------------------------------------------------------------------------
 	//TODO: Server Name
-	drawPlayerChar[HEADER_BG] = TextDrawCreate(320.000000, 1.000000, "~w~World Of RPG ~p~[~w~worpg.ru~p~]");
+	drawPlayerChar[ HEADER_BG ] = TextDrawCreate(320.000000, 1.000000, "~w~West-RP ~p~[~w~west-rp.ru~p~]");
+	//drawPlayerChar[HEADER_BG] = TextDrawCreate(320.000000, 1.000000, "~w~World Of RPG ~p~[~w~worpg.ru~p~]");
 	TextDrawAlignment(drawPlayerChar[HEADER_BG], 2);
 	TextDrawBackgroundColor(drawPlayerChar[HEADER_BG], -1778346416);
 	TextDrawFont(drawPlayerChar[HEADER_BG], 1);
