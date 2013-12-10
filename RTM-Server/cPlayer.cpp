@@ -606,7 +606,7 @@ bool cPlayer::checkMoney(const int u, float value)
 	//=========================================
 	char msg[ 128 ];
 	//=========================================
-	sprintf(msg, "{FFFFFF}К сожаления у вас не хватает \t\t{FF0000}%.2f$\n{FFFFFF}Требуется всего: \t\t\t\t{FF0000}%.2f$", value - Player[ u ].pMoney, value);
+	sprintf(msg, "{FFFFFF}К сожаления у вас не хватает: \t\t\t{FF0000}%.2f$\n{FFFFFF}Требуется всего: \t\t\t\t{FF0000}%.2f$", value - Player[ u ].pMoney, value);
 	ShowPlayerDialog(u, DIALOG_LIST::DLG_NONE, GUI_MSG, "[Информация]: Недостаточно средств", msg, "Закрыть", "");
 	//=========================================
 	return false;

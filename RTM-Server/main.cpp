@@ -169,15 +169,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 	cHouses::loadHouses();
 	cHouses::loadHouseInteriors();
 	//-------------------------------------------------------------
-	cObjects::loadObjects("intdoma1");
-	cObjects::loadObjects("intdoma2");
-	cObjects::loadObjects("arendaauto");
-	cObjects::loadObjects("0bankint");
-	cObjects::loadObjects("waxta");
-	cObjects::loadObjects("waxta2");
-	cObjects::loadObjects("vagonreg");
-	cObjects::loadObjects("BOLNICA_10");
-	cObjects::loadObjects("feller1");
+	cObjects::loadObjects();
 	//-------------------------------------------------------------
 	world::Players::Admins::init();
 	world::Gangs::init();

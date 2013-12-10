@@ -68,6 +68,11 @@ namespace language
 			//----------------------------------------------------------------------------
 			const char Acc_Make[176]		= "{FFFFFF}Здравствуйте {84ecff}%s %s, {FFFFFF}пожалуйста укажите Пин-Код.\nПин-код может состоять от 4 до 8 цифр.\nНапример: {84ecff}787898 {FFFFFF}или {84ecff}020190";
 			const char afterMake[88]		= "{FFFFFF}Ваш номер счёта: {84ecff}%d\n{FFFFFF}Ваш пин-код: {84ecff}%d";
+			const char enterCode[64]		= "{FFFFFF}Введите ваш пин-код для номера: {84ecff}%d";
+			const char afterTake[64]		= "{FFFFFF}Снято:{84ecff}\t\t%.2f$\n{FFFFFF}Комиссия:{84ecff}\t%.2f$";
+			const char afterPay[48]			= "{FFFFFF}Пополнено на:{84ecff}\t%.2f$";
+			const char startTransfer[128]	= "{FFFFFF}Введите сумму перевода и номер счёта через пробел.\nТекущей баланс: {84ecff}%.2f$\n\n{FFFFFF}Пример: {84ecff}15.56 1";
+			const char afterTransfer[80]	= "{FFFFFF}Переведенно:{84ecff}\t%0.2f$\n{FFFFFF}Комиссия:{84ecff}\t%.2f$";
 		}
 
 		namespace gas

@@ -100,7 +100,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <ModuleDefinitionFile>Export.def</ModuleDefinitionFile>
-      <AdditionalDependencies>C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\sampgdk3.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\mysqlclient.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\streamer.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\boost\libboost_system-vc110-mt-1_50.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\tinyxml.lib</AdditionalDependencies>
+      <AdditionalDependencies>C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\sampgdk3.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\mysqlclient.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\streamer.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\boost\libboost_system-vc110-mt-1_50.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\boost\libboost_filesystem-vc110-mt-1_50.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\tinyxml.lib</AdditionalDependencies>
       <TurnOffAssemblyGeneration>true</TurnOffAssemblyGeneration>
       <LargeAddressAware>true</LargeAddressAware>
       <Driver>NotSet</Driver>

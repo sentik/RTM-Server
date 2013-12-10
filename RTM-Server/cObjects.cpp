@@ -1,42 +1,50 @@
 #include "main.h"
+#include <boost/filesystem.hpp>
+namespace bfs = boost::filesystem;
 
-void cObjects::loadObjects(char name[ ])
+void cObjects::loadObjects()
 {
 	char path[ 128 ];
-	sprintf(path, "scriptfiles/maps/%s.map", name);
-	//-----------------------------------
-	TiXmlDocument document;
-	//-----------------------------------
-	document.LoadFile(path);										// Загружаем xml
-	//-----------------------------------
-	TiXmlElement *map = document.FirstChildElement("map");			// Загружаем категорию MAP
-	//-----------------------------------
-	if (map)//dimension
+	sprintf(path, "%s\\scriptfiles\\maps", bfs::current_path().string());
+	for (bfs::recursive_directory_iterator rdib(path), rdie; rdib != rdie; ++rdib)
 	{
-		// Загружаем категорию "<object>" по этапно
-		for (TiXmlElement *obj = map->FirstChildElement("object"); obj; obj = obj->NextSiblingElement("object"))
+		char tmp[ 128 ];
+		sprintf(tmp, "%s\\%s", path, rdib->path().filename().string().c_str());
+		//logprintf(tmp);
+		//-----------------------------------
+		TiXmlDocument document;
+		//-----------------------------------
+		document.LoadFile(tmp);											// Загружаем xml
+		//-----------------------------------
+		TiXmlElement *map = document.FirstChildElement("map");			// Загружаем категорию MAP
+		//-----------------------------------
+		if (map)//dimension
 		{
-			// Получаем аргументы
-			//---------------------------------------------
-			const int	 model = atoi(obj->Attribute("model"));
-			//int			 posI  = atoi(obj->Attribute("interior"));
-			//int			 posW  = atoi(obj->Attribute("dimension"));
-			//---------------------------------------------
-			const double posX  = atof(obj->Attribute("posX"));
-			const double posY  = atof(obj->Attribute("posY"));
-			const double posZ  = atof(obj->Attribute("posZ"));
-			//---------------------------------------------
-			const double rotX = atof(obj->Attribute("rotX"));
-			const double rotY = atof(obj->Attribute("rotY"));
-			const double rotZ = atof(obj->Attribute("rotZ"));
-			//---------------------------------------------
-			//if (posI == 0) posI = -1;
-			//if (posW == 0) posW = -1;
-			StreamerCall::Native::CreateDynamicObject(model, posX, posY, posZ, rotX, rotY, rotZ /*posW, posI*/);
+			// Загружаем категорию "<object>" по этапно
+			for (TiXmlElement *obj = map->FirstChildElement("object"); obj; obj = obj->NextSiblingElement("object"))
+			{
+				// Получаем аргументы
+				//---------------------------------------------
+				const int	 model = atoi(obj->Attribute("model"));
+				int			 posI  = atoi(obj->Attribute("interior"));
+				int			 posW  = atoi(obj->Attribute("dimension"));
+				//---------------------------------------------
+				const double posX = atof(obj->Attribute("posX"));
+				const double posY = atof(obj->Attribute("posY"));
+				const double posZ = atof(obj->Attribute("posZ"));
+				//---------------------------------------------
+				const double rotX = atof(obj->Attribute("rotX"));
+				const double rotY = atof(obj->Attribute("rotY"));
+				const double rotZ = atof(obj->Attribute("rotZ"));
+				//---------------------------------------------
+				if (posI == 0) posI = -1;
+				if (posW == 0) posW = -1;
+				StreamerCall::Native::CreateDynamicObject(model, posX, posY, posZ, rotX, rotY, rotZ, posW, posI);
+			}
+			logprintf("[XML Objects]: %s загружен успешно", rdib->path().filename().string().c_str());
 		}
-		logprintf("[XML Objects]: %s загружен успешно", name);
+		else logprintf("[XML Objects]: Не удалось загрузить категорию map ! (%s)", rdib->path().filename().string().c_str());
 	}
-	else logprintf("[XML Objects]: Не удалось загрузить категорию map ! (%s)", name);
 }
 
 void cObjects::removeObjects(const int playerid)
