@@ -72,6 +72,17 @@ void gasProperty::cGas::loadGas()
 	logprintf("[Система Имущества]: \tБыло загруженно заправок \t- %d", i);
 }
 
+void gasProperty::cGas::saveGas()
+{
+	for (int i = 0; i < MAX_GAS; i++)
+	{
+		if (Gas[i].db == 0) continue;
+		char msg[128];
+		sprintf(msg, "UPDATE class_Gas SET fuel = %.2f, name = '%s', cost = %.2f WHERE id = %d", Gas[i].fuel, Gas[i].name, Gas[i].cost, Gas[i].db);
+		mysql_query(con, msg);
+	}
+}
+
 void gasProperty::cGas::fillingVehicle(const int u)
 {
 	const int car = Player[u].pCarid;
@@ -127,7 +138,9 @@ void gasProperty::cGas::fillingVehicleProcess(const int u, const int i)
 			}
 			else
 			{
-				world::Vehicles::Vehicle[car].Fuel += ((0.0f + rand() % 250) / 100);
+				const float fuel = ((0.0f + rand() % 250) / 100);
+				world::Vehicles::Vehicle[car].Fuel += fuel;
+				Gas[d].fuel -= fuel;
 				sprintf(msg, language::property::gas::fillingProcess, world::Vehicles::Vehicle[car].Fuel);
 				StreamerCall::Native::UpdateDynamic3DTextLabelText(tmpText, -1, msg);
 				goto case_filling;

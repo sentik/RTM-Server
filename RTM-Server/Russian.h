@@ -40,6 +40,16 @@ namespace language
 		}
 	}
 
+	namespace gang
+	{
+		const char stat_Name[ 64 ] = "Название банды: \t\t\t %s\n";
+		const char stat_RepLS[ 64 ] = "Репутация в LS: \t\t\t %d/%d\n";
+		const char stat_RepSF[ 64 ] = "Репутация в SF: \t\t\t %d/%d\n";
+		const char stat_RepLV[ 64 ] = "Репутация в LV: \t\t\t %d/%d\n";
+
+	}
+
+
 	namespace property
 	{
 

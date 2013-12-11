@@ -25,6 +25,7 @@ namespace gasProperty
 	{
 		public:
 			static void cGas::loadGas();
+			static void cGas::saveGas();
 			static void cGas::fillingVehicle(const int);
 			static void cGas::fillingVehicleProcess(const int, const int);
 			static void cGas::updateText(const int, const int);

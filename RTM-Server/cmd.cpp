@@ -57,7 +57,11 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 	else if (strcmp("mainmenu", cmd) == 0)		CMD::mm(playerid);
 	else if (strcmp("makegang", cmd) == 0)		CMD::makegang(playerid, params);
 	else if (strcmp("mg", cmd) == 0)			CMD::makegang(playerid, params);
-
+	else if (strcmp("gang", cmd) == 0)			world::Gangs::showMain(playerid);
+	else if (strcmp("saveandexit", cmd) == 0)
+	{
+		gasProperty::cGas::saveGas();
+	}
 	else if (strcmp("fill", cmd) == 0)
 	{
 		gasProperty::cGas::fillingVehicle(playerid);
