@@ -145,6 +145,7 @@ enum PlayerAction
 	ACTION_FELGAME,
 	ACTION_FELJOB,
 	ACTION_USEPROP_GAS,
+	ACTION_GANG_MAKE,
 };
 
 enum PlayerSkills

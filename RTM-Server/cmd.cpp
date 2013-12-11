@@ -1,6 +1,11 @@
 #include "main.h"
 using namespace world::Players;
 
+void CMD::makegang(int playerid, char* params)
+{
+	Player[ playerid ].isAction = PlayerAction::ACTION_GANG_MAKE;
+	ShowPlayerDialog(playerid, DLG_GANG_MAKE_INTRO, GUI_MSG, "[Создание банды] Информация", "Для создания банды необходимо пройти 3 этапа:\n1. Указать название банды \n2. Указать цвет банды \n3. Выбрать логово для банды", "Далее", "Отмена");
+}
 
 void CMD::veh(int playerid, char* params)
 {
@@ -50,12 +55,11 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 	if (strcmp("veh", cmd) == 0)				CMD::veh(playerid, params);
 	else if (strcmp("mm", cmd) == 0)			CMD::mm(playerid);
 	else if (strcmp("mainmenu", cmd) == 0)		CMD::mm(playerid);
-	
-	else if (strcmp("tfill", cmd) == 0)
+	else if (strcmp("makegang", cmd) == 0)		CMD::makegang(playerid, params);
+	else if (strcmp("mg", cmd) == 0)			CMD::makegang(playerid, params);
+
+	else if (strcmp("fill", cmd) == 0)
 	{
-		/*Player[ playerid ].pDB = 1;
-		world::Players::invertory::load(playerid);
-		world::Players::invertory::show(playerid);*/
 		gasProperty::cGas::fillingVehicle(playerid);
 	}
 	else if (strcmp("fel", cmd) == 0)
