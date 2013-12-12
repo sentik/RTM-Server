@@ -84,6 +84,8 @@ struct  pInfo
 	int		jSkills[3];
 	//Money draw
 	int		tCents;
+	// 3dtext hpbar & name
+	int pBar;
 	
 };
 //TODO: Структура игрока

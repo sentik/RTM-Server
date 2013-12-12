@@ -80,8 +80,7 @@ PLUGIN_EXPORT void PLUGIN_CALL ProcessTick()
 	{
 		uTime = getUnixTime();
 		//-----------------------------------
-		thread threadUpdater(cPlayer::update);
-		threadUpdater.join();
+		thread(cPlayer::update).detach();
 		//-----------------------------------
 		/*thread threadStream(StreamerCall::Tick);
 		threadStream.join();*/
@@ -181,6 +180,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 	EnableStuntBonusForAll(false);
 	sprintf(query, "RTM-GM v%s", GAME_VERSION);
 	SetGameModeText(query);
+	ShowNameTags(false);
 	return true;
 }
 //-------------------------------------------------------------------------------------------
@@ -209,6 +209,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerConnect(int playerid)
 {
 	if (IsPlayerNPC(playerid)) return true;
 	StreamerCall::Events::OnPlayerConnect(playerid);
+	Player[playerid].pBar = StreamerCall::Native::CreateDynamic3DTextLabel(" ", -1, 0.0f, 0.0f, 0.13f, 20.0f, playerid);
 	cObjects::removeObjects(playerid);
 	return true;
 }
@@ -219,6 +220,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerText(int u, const char *text)
 	char msg[ 144 ];
 	sprintf(msg, "%s %s [{FFAF00}%d{FFFFFF}] говорит: {FFAF00}%s", Player[ u ].uName, Player[ u ].sName, u, text);
 	cChat::ProxDetector(u, 10.0f, msg);
+	SetPlayerChatBubble(u, text, 0xFFAF00FF, 20.0f, 15000);
 	return false;
 }
 
@@ -228,6 +230,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerText(int u, const char *text)
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerDisconnect(int playerid, int reason)
 {
 	Player[playerid].isLogged = false;
+	StreamerCall::Native::DestroyDynamic3DTextLabel(Player[playerid].pBar);
 	StreamerCall::Events::OnPlayerDisconnect(playerid, reason);
 //	Player[playerid] = { { 0 } };
 	return true;

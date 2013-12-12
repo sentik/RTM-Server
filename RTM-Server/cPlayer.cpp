@@ -31,17 +31,24 @@ void cPlayer::update()
 
 	time_t rawtime;
 	struct tm * timeinfo;
-	char buffer[ 80 ];
+	char buffer[ 144 ];
 
 	time(&rawtime);
 	timeinfo = localtime(&rawtime);
 
-	strftime(buffer, 80, "~w~%d~p~.~w~%m~p~.~w~%Y %H~p~:~w~%M~p~:~w~%S", timeinfo);
+	strftime(buffer, 144, "~w~%d~p~.~w~%m~p~.~w~%Y %H~p~:~w~%M~p~:~w~%S", timeinfo);
 	TextDrawSetString(drawPlayerChar[HEADER_TIME], buffer);
 	//-------------------------------------------------
 	for (int i = 0; i < MAX_PLAYERS; i++)
 	{
 		if (Player[ i ].isLogged == false) continue;
+		float hp;
+		float ar;
+		GetPlayerHealth(i, &hp);
+		GetPlayerArmour(i, &ar);
+		sprintf(buffer, "(%d) %s %s [{B7FF00}%.2f%% {DCDCDC}%.2f%%{FFFFFF}]", i, Player[i].sName, Player[i].uName, hp, ar);
+		StreamerCall::Native::UpdateDynamic3DTextLabelText(Player[i].pBar, -1, buffer);
+
 		if (Player[ i ].isAction == PlayerAction::ACTION_FREZSETPOS)
 		{
 			Player[ i ].isAction = PlayerAction::ACTION_NONE;
