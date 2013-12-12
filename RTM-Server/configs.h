@@ -4,10 +4,10 @@
 
 
 /*----------------- MYSQL Connector -----------------*/
-#define		MYSQL_HOST					"37.140.192.26"
-#define		MYSQL_BASE					"u4599606_samp"
-#define		MYSQL_USER					"u4599606_dev"
-#define 	MYSQL_PASS					"dev1488"
+#define		MYSQL_HOST					"127.0.0.1"
+#define		MYSQL_BASE					"samp"
+#define		MYSQL_USER					"root"
+#define 	MYSQL_PASS					""
 /*----------------- MYSQL Connector -----------------*/
 
 #define	MAX_SH			2

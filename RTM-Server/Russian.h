@@ -133,6 +133,7 @@ namespace language
 			const char btnNext[8]			= "Далее";
 			const char btnBack[8]			= "Назад";
 			const char btnDone[8]			= "Готово";
+			const char btnClose[8]			= "Закрыть";
 			const char btnCancel[8]			= "Отмена";
 			const char btnSelect[8]			= "Выбрать";
 		}

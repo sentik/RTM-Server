@@ -61,6 +61,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 	else if (strcmp("saveandexit", cmd) == 0)
 	{
 		gasProperty::cGas::saveGas();
+		cBanks::saveBanks();
 	}
 	else if (strcmp("fill", cmd) == 0)
 	{
