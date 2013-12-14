@@ -341,11 +341,252 @@ void fProperty::cFeller::actionTrees(const int u)
 	}
 }
 
-void fProperty::cFeller::updateText(const int p, const int u)
+void fProperty::cFeller::updateText(const int p, const int u = -1)
 {
 	char msg[256];
-	sprintf(Property[p].player, "%s %s", Player[u].uName, Player[u].sName);
+	if(u != -1) sprintf(Property[p].player, "%s %s", Player[u].uName, Player[u].sName);
 	sprintf(msg, "{FFFFFF}Лесопилка: {B7FF00}%s\n{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s", fProperty::cFeller::Feller[Property[p].link].name, cProperty::getZoneName(Property[p].region), Property[p].number, Property[p].player);
 	//------------------------------------------------------------------
 	StreamerCall::Native::UpdateDynamic3DTextLabelText(Property[p].text, -1, msg);
+}
+
+void fProperty::cFeller::onDLG(int u, int dialogid, int response, int listitem, const char* inputtext)
+{
+	char msg[256];
+	const int p = Player[u].inIndex;
+	const int l = Property[p].link;
+
+	switch (dialogid)
+	{
+		case DIALOG_LIST::DLG_FELLEROWNER_MAIN:
+		{
+			if (response)
+			{
+				if (listitem == 0)
+				{
+					sprintf(msg, "Название: %s\nЗарплата: %.2f$\nКол-во древесины: %d\nНаличка: %.2f$\nНомер счёта: %d",
+									Feller[l].name, Feller[l].zp, Feller[l].am, Feller[l].fond, Property[p].bank);
+					ShowPlayerDialog(u, DLG_FELLEROWNER_EMTY, GUI_MSG, Feller[l].name, msg, language::dialogs::buttons::btnBack, "");
+				}
+				else if (listitem == 1)
+				{
+	case_setname:
+					sprintf(msg, "Введите название лесопилки.\nТекущие название: %s", Feller[l].name);
+					ShowPlayerDialog(u, DLG_FELLEROWNER_SETNAME, GUI_INPUT, Feller[l].name, msg, language::dialogs::buttons::btnDone, language::dialogs::buttons::btnBack);
+				}
+				else if (listitem == 2)
+				{
+	case_money:
+					dialogs::genDLGItem(1, "Зарплата", msg);
+					dialogs::genDLGItem(2, "Наличка", msg);
+					dialogs::genDLGItem(3, "Номер счёта", msg);
+					ShowPlayerDialog(u, DLG_FELLEROWNER_COSTS, GUI_LIST, Feller[l].name, msg, language::dialogs::buttons::btnSelect, language::dialogs::buttons::btnBack);
+				}
+			}
+			else
+			{
+				Player[u].isAction = PlayerAction::ACTION_NONE;
+			}
+			break;
+		}
+		case DIALOG_LIST::DLG_FELLEROWNER_EMTY:
+		{
+			fProperty::cFeller::ownerMenu(u);
+			break;
+		}
+		case DIALOG_LIST::DLG_FELLEROWNER_SETNAME:
+		{
+			if (response)
+			{
+				if (regex_match(inputtext, expString))
+				{
+					strcpy(Feller[l].name, inputtext);
+					fProperty::cFeller::updateText(p);
+					sprintf(msg, "Название установлено: %s", Feller[l].name);
+					ShowPlayerDialog(u, DLG_FELLEROWNER_EMTY, GUI_MSG, Feller[l].name, msg, language::dialogs::buttons::btnOK, "");
+				}
+				else
+				{
+goto case_setname;
+				}
+			}
+			else
+			{
+				fProperty::cFeller::ownerMenu(u);
+			}
+			break;
+		}
+		case DIALOG_LIST::DLG_FELLEROWNER_COSTS_EMTY:
+		{
+goto case_money;
+		}
+		case DIALOG_LIST::DLG_FELLEROWNER_COSTS:
+		{
+			if (response)
+			{
+				if (listitem == 0)
+				{
+	case_setzp:
+					sprintf(msg, "Введите цену за единицу древесины.\nТекущая цена: %.2$", Feller[l].zp);
+					ShowPlayerDialog(u, DLG_FELLEROWNER_COSTS_ZP, GUI_INPUT, Feller[l].name, msg, language::dialogs::buttons::btnDone, language::dialogs::buttons::btnBack);
+				}
+				else if (listitem == 1)
+				{
+	case_paydep:
+					dialogs::genDLGItem(1, "Снять", msg);
+					dialogs::genDLGItem(2, "Положить", msg);
+					ShowPlayerDialog(u, DLG_FELLEROWNER_COSTS_MN, GUI_LIST, Feller[l].name, msg, language::dialogs::buttons::btnSelect, language::dialogs::buttons::btnBack);
+				}
+				else if (listitem == 2)
+				{
+	case_setbank:
+					sprintf(msg, "Введите номер банского счёта.\nТекущей счёт: %d", Property[p].bank);
+					ShowPlayerDialog(u, DLG_FELLEROWNER_COSTS_BN, GUI_INPUT, Feller[l].name, msg, language::dialogs::buttons::btnDone, language::dialogs::buttons::btnBack);
+				}
+			}
+			else
+			{
+				fProperty::cFeller::ownerMenu(u);
+			}
+			break;
+		}
+		case DIALOG_LIST::DLG_FELLEROWNER_COSTS_ZP:
+		{
+			if (response)
+			{
+				if (regex_match(inputtext, expFloat))
+				{
+					Feller[l].zp = atof(inputtext);
+					sprintf(msg, "Зарплата установлена: %.2f$", Feller[l].zp);
+					ShowPlayerDialog(u, DLG_FELLEROWNER_COSTS_EMTY, GUI_MSG, Feller[l].name, msg, language::dialogs::buttons::btnOK, "");
+				}
+				else
+				{
+goto case_setzp;
+				}
+			}
+			else
+			{
+goto case_money;
+			}
+			break;
+		}
+		case DIALOG_LIST::DLG_FELLEROWNER_COSTS_BN:
+		{
+			if (response)
+			{
+				if (regex_match(inputtext, expCode))
+				{
+					Property[p].bank = atoi(inputtext);
+					sprintf(msg, "Номер счёта установлен: %d", Property[p].bank);
+					ShowPlayerDialog(u, DLG_FELLEROWNER_COSTS_EMTY, GUI_MSG, Feller[l].name, msg, language::dialogs::buttons::btnOK, "");
+				}
+				else
+				{
+goto case_setbank;
+				}
+			}
+			else
+			{
+goto case_money;
+			}
+			break;
+		}
+		case DIALOG_LIST::DLG_FELLEROWNER_COSTS_MN:
+		{
+			if (response)
+			{
+				if (listitem == 0)
+				{
+	case_opay:
+					sprintf(msg, "Введите сумму которую хотите снять.\nТекущей баланс: %.2f$", Feller[l].fond);
+					ShowPlayerDialog(u, DLG_FELLEROWNER_COSTS_MN_PAY, GUI_INPUT, Feller[l].name, msg, language::dialogs::buttons::btnDone, language::dialogs::buttons::btnBack);
+				}
+				else
+				{
+	case_odep:
+					sprintf(msg, "Введите сумму которую хотите положить.\nУ вас в кошельке: %.2f$", Player[u].pMoney);
+					ShowPlayerDialog(u, DLG_FELLEROWNER_COSTS_MN_DEP, GUI_INPUT, Feller[l].name, msg, language::dialogs::buttons::btnDone, language::dialogs::buttons::btnBack);
+				}
+			}
+			else
+			{
+goto case_money;
+			}
+			break;
+		}
+		case DIALOG_LIST::DLG_BANKOWNER_MONEY_PAY:
+		{
+			if (response)
+			{
+				if (regex_match(inputtext, expFloat))
+				{
+					const float value = atof(inputtext);
+					if (value <= Feller[l].fond && value > 0)
+					{
+						Feller[l].fond -= value;
+						cPlayer::givePlayerMoney(u, value);
+goto case_paydep;
+					}
+					else
+					{
+goto case_opay;
+					}
+				}
+				else
+				{
+goto case_opay;
+				}
+			}
+			else
+			{
+goto case_paydep;
+			}
+			break;
+		}
+		case DIALOG_LIST::DLG_BANKOWNER_MONEY_DEP:
+		{
+			if (response)
+			{
+				if (regex_match(inputtext, expFloat))
+				{
+					const float value = atof(inputtext);
+					if (value <= Player[u].pMoney && value > 0)
+					{
+						Feller[l].fond += value;
+						cPlayer::givePlayerMoney(u, -value);
+goto case_paydep;
+					}
+					else
+					{
+goto case_odep;
+					}
+				}
+				else
+				{
+goto case_odep;
+				}
+			}
+			else
+			{
+goto case_paydep;
+			}
+			break;
+		}
+	}
+}
+
+void fProperty::cFeller::ownerMenu(const int u)
+{
+	Player[u].isAction = PlayerAction::ACTION_USEFELLERDLG;
+	char msg[300] = "";
+	dialogs::genDLGItem(1, "Информация", msg);
+	dialogs::genDLGItem(2, "Название", msg);
+	dialogs::genDLGItem(3, "Финансы", msg);
+	ShowPlayerDialog(u, DLG_FELLEROWNER_MAIN, GUI_LIST, Feller[Property[Player[u].inIndex].link].name, msg, language::dialogs::buttons::btnSelect, language::dialogs::buttons::btnClose);
+}
+
+void fProperty::cFeller::clientMenu(const int u)
+{
+
 }

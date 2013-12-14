@@ -26,6 +26,13 @@ struct eFeller
 	float	maxX;
 	float	maxY;
 	float	maxZ;
+	float	fond;
+	float	itX;
+	float	itY;
+	float	itZ;
+	float	itRX;
+	float	itRY;
+	float	itRZ;
 	char	name[20];
 	eTrees	Trees[ MAX_FELL_TREE ];
 };
@@ -39,12 +46,15 @@ namespace fProperty
 		public:
 			static void loadFeller();
 			static void loadTrees();
+			static void ownerMenu(const int);
+			static void clientMenu(const int);
 			static void giveFellerTool(const int);
 			static void removeFellerTool(const int);
 			static bool getFellerTool(const int);
 			static void startPreFellerGame(const int);
 			static void startFellerGame(const int);
 			static void onGUI(const int, const int);
+			static void onDLG(int, int, int, int, const char*);
 			static void actionTrees(const int);
 			static void updateText(const int, const int);
 			static int models[ 8 ];

@@ -80,7 +80,7 @@
       <EnablePREfast>false</EnablePREfast>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <BrowseInformation>true</BrowseInformation>
-      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <MinimalRebuild>true</MinimalRebuild>
       <StringPooling>true</StringPooling>

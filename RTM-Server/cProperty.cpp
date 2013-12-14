@@ -158,45 +158,53 @@ void cProperty::enterProperty(const int u)
 				}
 				else
 				{
-					if (Property[i].owner == Player[u].pDB)
+					Player[u].inIndex = i;
+					switch (Property[i].type)
 					{
-						Player[u].inIndex = i;
-						switch (Property[i].type)
+						case PropertyType::prHouse:		//Дома
 						{
-							case PropertyType::prHouse:		//Дома
-							{
-																//cHouses::updateText(p, owner);
-																break;
-							}
-							case PropertyType::prBank:		//Банки
-							{
-																//cBanks::updateText(p, owner);
-																break;
-							}
-							case PropertyType::prAutosalon:	//Автосалоны
-							{
-																//Properties::Shops::ShopVehicle::updateText(p, owner);
-																break;
-							}
-							case PropertyType::prGas:		//Заправки
-							{
-																gasProperty::cGas::ownerMenu(u);
-																break;
-							}
-							case PropertyType::prMiner:		//Шахты
-							{
-																//Jobs::Miner::cMiner::updateText(p, owner);
-																break;
-							}
-							case PropertyType::prFeller:	//Лесопилки
-							{
-																//fProperty::cFeller::updateText(p, owner);
-																break;
-							}
+															goto enterToInterior;
+															break;
 						}
-						break;
+						case PropertyType::prBank:		//Банки
+						{
+															goto enterToInterior;
+															break;
+						}
+						case PropertyType::prAutosalon:	//Автосалоны
+						{
+															//Properties::Shops::ShopVehicle::updateText(p, owner);
+															break;
+						}
+						case PropertyType::prGas:		//Заправки
+						{
+															if (Property[i].owner == Player[u].pDB)
+															{
+																gasProperty::cGas::ownerMenu(u);
+															}
+															break;
+						}
+						case PropertyType::prMiner:		//Шахты
+						{
+															//Jobs::Miner::cMiner::updateText(p, owner);
+															break;
+						}
+						case PropertyType::prFeller:	//Лесопилки
+						{
+															if (Property[i].owner == Player[u].pDB)
+															{
+																fProperty::cFeller::ownerMenu(u);
+															}
+															else
+															{
+																fProperty::cFeller::clientMenu(u);
+															}
+															break;
+						}
 					}
+					break;
 				}
+	enterToInterior:
 				//-----------------------------------------------------------------------------------------------
 				if (Property[ i ].status)
 				{
@@ -209,7 +217,6 @@ void cProperty::enterProperty(const int u)
 				cPlayer::setCharAngle(u, Interior[ idx ].posR);
 				cPlayer::setCharWorld(u, i);
 				//-----------------------------------------------------------------------------------------------
-				Player[ u ].inIndex = i;
 				break;
 			}
 			//--------------------------------------------------------------------

@@ -84,7 +84,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 		int sub[ 2 ];
 		sub[ 0 ] = 0;
 		sub[ 1 ] = 0;
-		if (sscanf(params, "%f %f %f %d %d", &pos[ 0 ], &pos[ 1 ], &pos[ 2 ], &sub[ 0 ], &sub[ 1 ]) >= 3)
+		if (sscanf(params, "%[\\-]lf %[\\-]lf %[\\-]lf %d %d", &pos[ 0 ], &pos[ 1 ], &pos[ 2 ], &sub[ 0 ], &sub[ 1 ]) >= 3)
 		{
 			SetPlayerPos(playerid, pos[ 0 ], pos[ 1 ], pos[ 2 ]);
 			SetPlayerInterior(playerid, sub[ 0 ]);
