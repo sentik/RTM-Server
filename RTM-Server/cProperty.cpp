@@ -84,7 +84,7 @@ void cProperty::beforBuy(const int u)
 /// </summary>
 void cProperty::statusMessage(const int u, const int p)
 {
-
+	if (Property[ p ].status == 0 && Property[ p ].owner == 0)	cProperty::buyMessage(u, p);
 }
 
 
@@ -143,6 +143,7 @@ void cProperty::setStatus(const int p, const int status)
 /// Действие входа в недвижимость
 /// <param name="u">* Ид игрока</param>
 /// </summary>
+/*
 void cProperty::enterProperty(const int u)
 {
 		for (int i = 0; i < countProperty; i++)
@@ -159,6 +160,24 @@ void cProperty::enterProperty(const int u)
 				else
 				{
 					Player[u].inIndex = i;
+
+					if (Property[ i ].type == PropertyType::prGas) //Заправки
+					{
+						if (Property[ i ].owner == Player[ u ].pDB)
+						{
+							gasProperty::cGas::ownerMenu(u);
+						}
+						break;
+					}
+					else if (Property[ i ].type == PropertyType::prFeller)
+					{
+						if (Property[ i ].owner == Player[ u ].pDB)
+								fProperty::cFeller::ownerMenu(u);
+						else	fProperty::cFeller::clientMenu(u);
+						break;
+					}
+					
+					/*
 					switch (Property[i].type)
 					{
 						case PropertyType::prHouse:		//Дома
@@ -202,7 +221,8 @@ void cProperty::enterProperty(const int u)
 															break;
 						}
 					}
-					break;
+					
+					
 				}
 	enterToInterior:
 				//-----------------------------------------------------------------------------------------------
@@ -242,6 +262,78 @@ void cProperty::enterProperty(const int u)
 		}
 
 	
+
+}
+*/
+
+
+void cProperty::enterProperty(const int u)
+{
+	for (int i = 0; i < countProperty; i++)
+	{
+		const int idx = Property[ i ].style;
+		//-------------------------------------------------------------------------------------------------------
+		if (cPlayer::isRangeOfPoint(u, ENTER_RADIUS, Property[ i ].posX, Property[ i ].posY, Property[ i ].posZ))
+		{
+			//Вывод различных сообщений
+			if (Property[ i ].owner==0)
+			{
+				cProperty::statusMessage(u, i);
+				break;
+			}
+			//-----------------------------------------------------------------------------------------------
+			if (Property[ i ].type == PropertyType::prGas) //Заправки
+			{
+				if (Property[ i ].owner == Player[ u ].pDB)
+				{
+					gasProperty::cGas::ownerMenu(u);
+				}
+				break;
+			}
+			else if (Property[ i ].type == PropertyType::prFeller)
+			{
+				if (Property[ i ].owner == Player[ u ].pDB)
+					fProperty::cFeller::ownerMenu(u);
+				else	fProperty::cFeller::clientMenu(u);
+				break;
+			}
+			else if (Property[ i ].type == PropertyType::prMiner)
+			{
+				/*if (Property[ i ].owner == Player[ u ].pDB)
+					fProperty::cFeller::ownerMenu(u);
+				else	fProperty::cFeller::clientMenu(u);*/
+				break;
+			}
+			//-----------------------------------------------------------------------------------------------
+			cPlayer::setCharPos(u, Interior[ idx ].posX, Interior[ idx ].posY, Interior[ idx ].posZ, true);
+			cPlayer::setCharInterior(u, Interior[ idx ].posI);
+			cPlayer::setCharAngle(u, Interior[ idx ].posR);
+			cPlayer::setCharWorld(u, i);
+			//-----------------------------------------------------------------------------------------------
+			Player[u].inIndex = i;
+			break;
+		}
+		//--------------------------------------------------------------------
+		if (Player[ u ].pPosW != i) continue;	//Если игрок не в нужном мире
+		//--------------------------------------------------------------------
+		if (cPlayer::isRangeOfPoint(u, ENTER_RADIUS, Interior[ idx ].posX, Interior[ idx ].posY, Interior[ idx ].posZ))
+		{
+			cPlayer::setCharPos(u, Property[ i ].posX, Property[ i ].posY, Property[ i ].posZ, false);
+			cPlayer::setCharInterior(u, 0);
+			cPlayer::setCharWorld(u, 0);
+			cPlayer::setCharAngle(u, 0);
+		}
+		//--------------------------------------------------------------------
+		else if (cPlayer::isRangeOfPoint(u, ENTER_RADIUS, Interior[ idx ].actX, Interior[ idx ].actY, Interior[ idx ].actZ))
+		{
+			cProperty::doAct(u);
+		}
+		//--------------------------------------------------------------------
+		else if (cPlayer::isRangeOfPoint(u, ENTER_RADIUS, Interior[ idx ].subX, Interior[ idx ].subY, Interior[ idx ].subZ))
+		{
+			cProperty::doSub(u);
+		}
+	}
 
 }
 

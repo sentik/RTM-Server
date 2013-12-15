@@ -9,7 +9,7 @@ void CMD::makegang(int playerid, char* params)
 
 void CMD::veh(int playerid, char* params)
 {
-	if (Admins::isAllow(playerid, 5) == false) return ;
+	//if (Admins::isAllow(playerid, 5) == false) return ;
 	//------------------------------------------------------------
 	int model;
 	int cone = 0;
@@ -46,6 +46,12 @@ void CMD::mm(int playerid)
 }
 
 
+void CMD::addproperty(int playerid, char* params)
+{
+
+}
+
+
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cmdtext)
 {
 	char cmd[ 20 ];
@@ -67,15 +73,11 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 	{
 		gasProperty::cGas::fillingVehicle(playerid);
 	}
-	else if (strcmp("fel", cmd) == 0)
+	//----------------------------------------------------
+	else if (strcmp("tah", cmd) == 0)
 	{
-		if (fProperty::cFeller::getFellerTool(playerid))
+		if (Admins::isAllow(playerid, 5))
 		{
-			fProperty::cFeller::removeFellerTool(playerid);
-		}
-		else
-		{
-			fProperty::cFeller::giveFellerTool(playerid);
 		}
 	}
 	else if (strcmp("gotokk", cmd) == 0)
@@ -84,13 +86,15 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 		int sub[ 2 ];
 		sub[ 0 ] = 0;
 		sub[ 1 ] = 0;
-		if (sscanf(params, "%[\\-]lf %[\\-]lf %[\\-]lf %d %d", &pos[ 0 ], &pos[ 1 ], &pos[ 2 ], &sub[ 0 ], &sub[ 1 ]) >= 3)
+		if (sscanf(params, "%[\\-0-9\\.]lf %e %le %d %d", &pos[ 0 ], &pos[ 1 ], &pos[ 2 ], &sub[ 0 ], &sub[ 1 ]) >= 3)
 		{
 			SetPlayerPos(playerid, pos[ 0 ], pos[ 1 ], pos[ 2 ]);
 			SetPlayerInterior(playerid, sub[ 0 ]);
 			SetPlayerVirtualWorld(playerid, sub[ 1 ]);
 		}
-		else SendClientMessage(playerid, -1, "Use: /gotokk [Float:X] [Float:Y] [Float:Z] (optional [interiorid] [worldid])");
+		sprintf(params, "x: %.4f, y: %.4f, z: %.4f", pos[ 0 ], pos[ 1 ], pos[ 2 ]);
+		SendClientMessage(playerid, -1, params);
+		//else SendClientMessage(playerid, -1, "Use: /gotokk [Float:X] [Float:Y] [Float:Z] (optional [interiorid] [worldid])");
 	}
 	else if (strcmp("givemoney", cmd) == 0)
 	{
@@ -102,7 +106,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 			{
 				if (IsPlayerConnected(u))
 				{
-					if (Player[u].isLogged)
+					if (Player[ u ].isLogged)
 					{
 						cPlayer::givePlayerMoney(u, m);
 					}
@@ -110,6 +114,58 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 			}
 			else SendClientMessage(playerid, -1, "Use: /givemoney [playerid] [money]");
 		}
+	}
+	else if (strcmp("makeadmin", cmd) == 0)
+	{
+		int target = 0, value = 0;
+		if (Admins::isAllow(playerid, 5) == false) return true;
+		if (sscanf(params, "%d %d", &target, &value) == 2)
+		{
+			Admins::add(target, value);
+		}
+		else SendClientMessage(playerid, -1, "Используйте: /makeadmin [ид игрока] [уровень доступа]");
+	}
+	else if (strcmp("setint", cmd) == 0)
+	{
+		int target = 0, value = 0;
+		if (Admins::isAllow(playerid, 2) == false) return true;
+		if (sscanf(params, "%d %d", &target, &value) == 2)
+		{
+			sprintf(query, "[Информация]: игрок(%d) был перемещен в %d интерьер");
+			cPlayer::setCharInterior(target, value);
+			SendClientMessage(playerid, -1, query);
+		}
+		else SendClientMessage(playerid, -1, "Используйте: /setint [ид игрока] [ид интерьера]");
+	}
+	else if (strcmp("setworld", cmd) == 0)
+	{
+		int target = 0, value = 0;
+		if (Admins::isAllow(playerid, 2) == false) return true;
+		if (sscanf(params, "%d %d", &target, &value) == 2)
+		{
+			sprintf(query, "[Информация]: игрок(%d) был перемещен в %d вирт. мир");
+			cPlayer::setCharWorld(target, value);
+			SendClientMessage(playerid, -1, query);
+		}
+		else SendClientMessage(playerid, -1, "Используйте: /setint [ид игрока] [ид вирт. мир]");
+	}
+	//----------------------------------------------------
+	else if (strcmp("addproperty", cmd) == 0)
+	{
+		int target = 0,  price = 0;
+		//if (Admins::isAllow(playerid, 4) == false) return true;
+		if (sscanf(params, "%d %d", &target, &price) == 2)
+		{
+			GetPlayerPos(playerid, &Player[ playerid ].pPosX, &Player[ playerid ].pPosY, &Player[ playerid ].pPosZ);
+			if (target == PropertyType::prHouse)
+				cHouses::create(price, Player[ playerid ].pPosX, Player[ playerid ].pPosY, Player[ playerid ].pPosZ);
+			else if(target == PropertyType::prBank)
+				cBanks::create(price, Player[ playerid ].pPosX, Player[ playerid ].pPosY, Player[ playerid ].pPosZ);
+			/*if (target == PropertyType::prAutosalon)
+				Properties::Shops::ShopVehicle::create(price, Player[ playerid ].pPosX, Player[ playerid ].pPosY, Player[ playerid ].pPosZ);
+		*/
+		}
+		else SendClientMessage(playerid, -1, "Используйте: /setint [ид игрока] [ид вирт. мир]");
 	}
 	return true;
 }

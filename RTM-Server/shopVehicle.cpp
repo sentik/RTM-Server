@@ -15,7 +15,6 @@ struct eItem	  Properties::Shops::ShopVehicle::items[MAX_VEHSHOPS][20];
 
 
 
-
 void Properties::Shops::ShopVehicle::loadShop()
 {
 	int i = 0;
@@ -106,6 +105,33 @@ void Properties::Shops::ShopVehicle::loadShop()
 	logprintf("[Система Имущества]: \tБыло загруженно автосалонов \t- %d", i);
 }
 
+/*
+void Properties::Shops::ShopVehicle::create(int price, float x, float y, float z)
+{
+	sProperty tmp;
+	sVehicle vtmp;
+	//-----------------------------------------------
+	int interior = cInteriors::getRandom(PropertyType::prAutosalon);
+	//-----------------------------------------------
+	tmp.owner = tmp.status = tmp.bank = 0;
+	tmp.style = interior;
+	tmp.price = price;
+	tmp.posX = x;
+	tmp.posY = y;
+	tmp.posZ = z;
+	tmp.type = PropertyType::prBank;
+	//-----------------------------------------------
+	sprintf(query, "INSERT INTO class_Property SET `property` ='%d', type='%d', x='%f', y='%f', z='%f', price='%d'",
+			tmp.property, PropertyType::prBank, x, y, z, price);
+	mysql_query(con, query);
+	//-----------------------------------------------
+	tmp.db = mysql_insert_id(con);
+
+
+	//-----------------------------------------------
+	countProperty++;
+}
+*/
 
 void Properties::Shops::ShopVehicle::preView(const int u)
 {

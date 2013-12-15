@@ -54,5 +54,6 @@
 #define REG_SPAWN_INT	0
 #define REG_SPAWN_WOR	56
 
+#define INFOTABLE_MODEL 3077
 
 #endif 

@@ -1,6 +1,6 @@
 #include "main.h"
 
-struct Houses			Houses[ MAX_HOUSES ] = { { 0, 0 } };
+struct sHouses			Houses[ MAX_HOUSES ] = { { 0, 0 } };
 struct eHouseDesine		HouseDesine[ MAX_HOUSES ][ 96 ];
 int countHouses;
 
@@ -37,30 +37,9 @@ void cHouses::loadHouses()
 		//--------------------------------------------------------------
 		if (Property[ countProperty ].owner)
 		{
-			strcpy(Property[countProperty].player, row[Properties::Houses::HouseRows::oName]);
-			sprintf(query, "{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s", cProperty::getZoneName(Property[countProperty].region), Property[countProperty].number, Property[countProperty].player);
-			//=====================================================================================================
-			Property[countProperty].pick = StreamerCall::Native::CreateDynamicPickup(HOUSE_GREEN, 23,
-																					   Property[ countProperty ].posX,
-																					   Property[ countProperty ].posY,
-																					   Property[ countProperty ].posZ, 0, 0);
-			//=====================================================================================================
+			strcpy(Property[ countProperty ].player, row[ Properties::Houses::HouseRows::oName ]);
 		}
-		else
-		{
-			sprintf(query, "{FFFFFF}Адрес: {FF0000}%s {FFFFFF}д: {FF0000}%d\n{FFFFFF}Стоимость: {FF0000}%d$", cProperty::getZoneName(Property[countProperty].region), Property[countProperty].number, Property[countProperty].price);
-			//=====================================================================================================
-			Property[countProperty].pick = StreamerCall::Native::CreateDynamicPickup(HOUSE_RED, 23,
-																					   Property[ countProperty ].posX,
-																					   Property[ countProperty ].posY,
-																					   Property[ countProperty ].posZ, 0, 0);
-			//=====================================================================================================
-		}
-		//-----------------------------------------------------------------------------------------------------------
-		Property[ countProperty ].text = StreamerCall::Native::CreateDynamic3DTextLabel(query, -1,
-																						Property[ countProperty ].posX,
-																						Property[ countProperty ].posY,
-																						Property[ countProperty ].posZ, 30.0f);
+		cHouses::makePick();
 		//-----------------------------------------------------------------------------------------------------------
 		Houses[ i ].world = countProperty;
 		countProperty++;
@@ -110,6 +89,70 @@ void cHouses::loadHouseInteriors()
 		//	logprintf("house: %d || slot: %d || db: %d", house, slot, HouseDesine[ house ][ slot ].db);
 	}
 }
+
+
+void cHouses::makePick()
+{
+	if (Property[ countProperty ].owner)
+	{
+		sprintf(query, "{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s", cProperty::getZoneName(Property[ countProperty ].region), Property[ countProperty ].number, Property[ countProperty ].player);
+		//=====================================================================================================
+		Property[ countProperty ].pick = StreamerCall::Native::CreateDynamicPickup(HOUSE_GREEN, 23,
+																				   Property[ countProperty ].posX,
+																				   Property[ countProperty ].posY,
+																				   Property[ countProperty ].posZ, 0, 0);
+		//=====================================================================================================
+	}
+	else
+	{
+		sprintf(query, "{FFFFFF}Адрес: {FF0000}%s {FFFFFF}д: {FF0000}%d\n{FFFFFF}Стоимость: {FF0000}%d$", cProperty::getZoneName(Property[ countProperty ].region), Property[ countProperty ].number, Property[ countProperty ].price);
+		//=====================================================================================================
+		Property[ countProperty ].pick = StreamerCall::Native::CreateDynamicPickup(HOUSE_RED, 23,
+																				   Property[ countProperty ].posX,
+																				   Property[ countProperty ].posY,
+																				   Property[ countProperty ].posZ, 0, 0);
+		//=====================================================================================================
+	}
+	Property[ countProperty ].text = StreamerCall::Native::CreateDynamic3DTextLabel(query, -1,
+																					Property[ countProperty ].posX,
+																					Property[ countProperty ].posY,
+																					Property[ countProperty ].posZ, 30.0f);
+}
+
+void cHouses::create(int price, float x, float y, float z)
+{
+	sProperty tmp;
+	sHouses htmp;
+	int interior = cInteriors::getRandom(PropertyType::prHouse);
+	//--------------------------------------------------------------------------------------------
+	sprintf(query, "INSERT INTO class_Houses SET `style` ='%d'", interior), mysql_query(con, query);
+	htmp.db = mysql_insert_id(con);
+	htmp.style = interior;
+	//--------------------------------------------------------------------------------------------
+	tmp.owner		= tmp.status = tmp.bank = 0;
+	tmp.property	= htmp.db;
+	tmp.style		= interior;
+	tmp.price		= price;
+	tmp.posX = x;
+	tmp.posY = y;
+	tmp.posZ = z;
+	tmp.type = PropertyType::prHouse;
+	//--------------------------------------------------------------------------------------------
+	sprintf(query, "INSERT INTO class_Property SET `property` ='%d', type='%d', x='%f', y='%f', z='%f', price='%d'",
+			tmp.property, PropertyType::prHouse, x, y, z, price);
+	mysql_query(con, query);
+	//--------------------------------------------------------------------------------------------
+	tmp.link = countHouses;
+	tmp.db = mysql_insert_id(con);
+	Property[ countProperty ] = tmp;
+	Houses[ countHouses ] = htmp;
+	//--------------------------------------------------------------------------------------------
+	logprintf("db: %d[%d] || owner: %d || style: %d || xyz [%f || %f || %f]", tmp.db, tmp.property, tmp.owner, tmp.style, tmp.posX, tmp.posY, tmp.posZ);
+	cHouses::makePick();
+	countProperty++;
+	countHouses++;
+}
+
 
 void cHouses::updateText(const int p, const int u)
 {

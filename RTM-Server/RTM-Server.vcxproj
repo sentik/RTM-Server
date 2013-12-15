@@ -93,6 +93,7 @@
       <Parallelization>true</Parallelization>
       <UseIntelOptimizedHeaders>true</UseIntelOptimizedHeaders>
       <DisableLanguageExtensions>false</DisableLanguageExtensions>
+      <OmitDefaultLibName>true</OmitDefaultLibName>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -122,6 +123,7 @@
     <ClInclude Include="cGas.h" />
     <ClInclude Include="cHouses.h" />
     <ClInclude Include="cInteriors.h" />
+    <ClInclude Include="cJobs.h" />
     <ClInclude Include="cmd.h" />
     <ClInclude Include="cMiner.h" />
     <ClInclude Include="cObjects.h" />
@@ -153,6 +155,7 @@
     <ClCompile Include="cGas.cpp" />
     <ClCompile Include="cHouses.cpp" />
     <ClCompile Include="cInteriors.cpp" />
+    <ClCompile Include="cJobs.cpp" />
     <ClCompile Include="cmd.cpp" />
     <ClCompile Include="cMiner.cpp" />
     <ClCompile Include="cObjects.cpp" />

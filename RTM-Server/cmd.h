@@ -8,6 +8,6 @@ class CMD
 	static void invite(int, char*);
 	static void uninvite(int, char*);
 	static void makegang(int, char*);
-
+	static void addproperty(int, char*);
 };
 

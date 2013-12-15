@@ -200,7 +200,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 		gasProperty::cGas::onDLG(playerid, dialogid, response, listitem, inputtext);
 	}
 	//---------------------------------------------------------------------------
-	else if (Player[playerid].isAction == PlayerAction::ACTION_USEFELLERDLG)
+	else if (Player[playerid].isAction == PlayerAction::ACTION_USEFELLERDLG || Player[playerid].isAction == PlayerAction::ACTION_USEFELLERDLG_ONJOB)
 	{
 		fProperty::cFeller::onDLG(playerid, dialogid, response, listitem, inputtext);
 	}

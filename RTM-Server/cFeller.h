@@ -18,6 +18,7 @@ struct eTrees
 struct eFeller
 {
 	int		db;
+	int		obj;
 	float	zp;
 	float	am;
 	float	minX;
@@ -57,6 +58,7 @@ namespace fProperty
 			static void onDLG(int, int, int, int, const char*);
 			static void actionTrees(const int);
 			static void updateText(const int, const int);
+			static void updateInfotable(const int);
 			static int models[ 8 ];
 			static struct eFeller cFeller::Feller[MAX_FELL];
 	};
@@ -84,6 +86,13 @@ namespace fProperty
 		maxY,
 		maxZ,
 		name,
+		fond,
+		itX,
+		itY,
+		itZ,
+		itRX,
+		itRY,
+		itRZ,
 		pname,
 	};
 }

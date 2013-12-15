@@ -10,6 +10,7 @@ class cInteriors
 {
 	public:
 	static void cInteriors::loadInterioList();
+	static int cInteriors::getRandom(int);
 };
 
 

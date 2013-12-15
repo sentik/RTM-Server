@@ -12,17 +12,18 @@ class cHouses
 	static void cHouses::loadHouseInteriors();
 	static void cHouses::createHouseInterior(int);
 	static void cHouses::updateText(const int, const int);
-	static void cHouses::create(int, int, float, float, float);
+	static void cHouses::create(int, float, float, float);
+	static void cHouses::makePick();
 	//-------------------------------------------
 };
 
-struct Houses
+struct sHouses
 {
 	int db;
 	int style;
 	int world;
 };
-struct Houses extern Houses[ MAX_HOUSES ];
+struct sHouses extern Houses[ MAX_HOUSES ];
 extern int countHouses;
 
 struct eHouseDesine

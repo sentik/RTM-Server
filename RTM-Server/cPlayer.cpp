@@ -46,7 +46,7 @@ void cPlayer::update()
 		float ar;
 		GetPlayerHealth(i, &hp);
 		GetPlayerArmour(i, &ar);
-		sprintf(buffer, "(%d) %s %s [{B7FF00}%.2f%% {DCDCDC}%.2f%%{FFFFFF}]", i, Player[i].sName, Player[i].uName, hp, ar);
+		sprintf(buffer, "(%d) %s %s [{B7FF00}%.2f%% {DCDCDC}%.2f%%{FFFFFF}]", i, Player[ i ].uName, Player[ i ].sName, hp, ar);
 		StreamerCall::Native::UpdateDynamic3DTextLabelText(Player[i].pBar, -1, buffer);
 
 		if (Player[ i ].isAction == PlayerAction::ACTION_FREZSETPOS)
@@ -118,36 +118,52 @@ void cPlayer::update()
 //TODO: Проверить наличие аккаунта
 int cPlayer::checkLogin(const char* login)
 {
-	sprintf(query, "SELECT id FROM player_Accounts WHERE login ='%s' LIMIT 1", login);
-	mysql_query(con, query);
-	MYSQL_RES *result = mysql_store_result(con);
-	MYSQL_ROW row = mysql_fetch_row(result);
-	return (mysql_num_rows(result)) ? (atoi(row[0])) : (0);
+	char qqq[ 144 ];
+	sprintf(qqq, "SELECT id FROM player_Accounts WHERE login ='%s' LIMIT 1", login);
+	if (mysql_query(con, qqq) == 0)
+	{
+		MYSQL_RES *result = mysql_store_result(con);
+		if (mysql_num_rows(result) == 1)
+		{
+			MYSQL_ROW row = mysql_fetch_row(result);
+			return atoi(row[ 0 ]);
+		}
+	}
+	return 0;
 }
 
 //TODO: Проверить логин
 bool cPlayer::checkPass(int i, const char* passw)
 {
-	sprintf(query, "SELECT NULL FROM player_Accounts WHERE id = '%d' AND passw = MD5(CONCAT('%c', PASSWORD('%s'), '%c'))", i, passw[0], passw, passw[strlen(passw) - 1]);
-	mysql_query(con, query);
-	MYSQL_RES *result = mysql_store_result(con);
-	return (mysql_num_rows(result)) ? (true) : (false);
+	char qqq[ 144 ];
+	bool res = false;
+	sprintf(qqq, "SELECT NULL FROM player_Accounts WHERE id = '%d' AND passw = MD5(CONCAT('%c', PASSWORD('%s'), '%c'))", i, passw[ 0 ], passw, passw[ strlen(passw) - 1 ]);
+	if (mysql_query(con, qqq)==0)
+	{
+		MYSQL_RES *result = mysql_store_result(con);
+		res = ( mysql_num_rows(result) == 1 ) ? ( true ) : ( false );
+		mysql_free_result(result);
+	}
+	else res = false;
+	return res;
 }
 
 //TODO: Зарегестрировать аккаунт
 int cPlayer::regPlayer(const char* login, const char* passw)
 {
-	sprintf(query, "INSERT INTO player_Accounts SET `login` = '%s', passw = MD5(CONCAT('%c', PASSWORD('%s'), '%c'))", login, passw[0], passw, passw[strlen(passw) - 1]);
-	mysql_query(con, query);
+	char qqq[ 144 ];
+	sprintf(qqq, "INSERT INTO player_Accounts SET `login` = '%s', passw = MD5(CONCAT('%c', PASSWORD('%s'), '%c'))", login, passw[ 0 ], passw, passw[ strlen(passw) - 1 ]);
+	mysql_query(con, qqq);
 	return mysql_insert_id(con);
 }
 
 //TODO: Зарегестрировать персонажа
 int cPlayer::regChar(const int u)
 {
-	sprintf(query, "INSERT INTO player_Character (owner, uname, sname, money, class) VALUES ('%d', '%s', '%s', '%f', '%d')",
+	char qqq[ 144 ];
+	sprintf(qqq, "INSERT INTO player_Character (owner, uname, sname, money, class) VALUES ('%d', '%s', '%s', '%f', '%d')",
 		Player[u].pDB, Player[u].uName, Player[u].sName, Player[u].pMoney, Player[u].pClass);
-	mysql_query(con, query);
+	mysql_query(con, qqq);
 	//--------------------------------------------------------------------------------------------------------------------
 	Player[u].pPosX = REG_SPAWN_X;
 	Player[u].pPosY = REG_SPAWN_Y;
@@ -163,33 +179,48 @@ int cPlayer::regChar(const int u)
 /// </summary>
 void cPlayer::loadPlayerChar(int i, int pers)
 {
+
+	int zzz = 0;
+	char qqq[ 144 ];
+	start:
 	//-------------------------------------------------------------------------------------------------------------------
-	sprintf(query, "SELECT * FROM player_Character  WHERE owner = '%d' AND id = %d  LIMIT 1", Player[ i ].pDB, pers), mysql_query(con, query);
-	//-------------------------------------------------------------------------------------------------------------------
-	MYSQL_RES *result = mysql_store_result(con);
-	//-------------------------------------------------------------------------------------------------------------------
-	if (mysql_num_rows(result))
+	sprintf(qqq, "SELECT * FROM player_Character  WHERE owner = '%d' AND id = %d  LIMIT 1", Player[ i ].pDB, pers);
+	if (mysql_query(con, qqq) == 0)
 	{
-		MYSQL_ROW row = mysql_fetch_row(result);
-		Player[ i ].pDB = atoi(row[ PlayerRows::plDB ]);
-		Player[ i ].pMoney = atof(row[ PlayerRows::plMoney ]);
-		Player[ i ].pClass = atoi(row[ PlayerRows::plClass ]);
-		Player[ i ].pPosX = atof(row[ PlayerRows::plPosX ]);
-		Player[ i ].pPosY = atof(row[ PlayerRows::plPosY ]);
-		Player[ i ].pPosZ = atof(row[ PlayerRows::plPosZ ]);
-		Player[ i ].pPosR = atof(row[ PlayerRows::plPosR ]);
-		Player[ i ].pPosI = atoi(row[ PlayerRows::plPosI ]);
-		Player[ i ].pPosW = atoi(row[ PlayerRows::plPosW ]);
-		//------------------------------------------------
-		strcpy(Player[ i ].uName, row[ PlayerRows::pluName ]);
-		strcpy(Player[ i ].sName, row[ PlayerRows::plsName ]);
-		//------------------------------------------------
-		GivePlayerMoney(i, Player[ i ].pMoney);
-		cPlayer::setClassSkin(i);
-		//------------------------------------------------
-		world::Vehicles::loadPlayerVehs(i);
+		//-------------------------------------------------------------------------------------------------------------------
+		MYSQL_RES *result = mysql_store_result(con);
+		//-------------------------------------------------------------------------------------------------------------------
+		if (mysql_num_rows(result) == 1)
+		{
+			MYSQL_ROW row = mysql_fetch_row(result);
+			Player[ i ].pDB = atoi(row[ PlayerRows::plDB ]);
+			Player[ i ].pMoney = atof(row[ PlayerRows::plMoney ]);
+			Player[ i ].pClass = atoi(row[ PlayerRows::plClass ]);
+			Player[ i ].pPosX = atof(row[ PlayerRows::plPosX ]);
+			Player[ i ].pPosY = atof(row[ PlayerRows::plPosY ]);
+			Player[ i ].pPosZ = atof(row[ PlayerRows::plPosZ ]);
+			Player[ i ].pPosR = atof(row[ PlayerRows::plPosR ]);
+			Player[ i ].pPosI = atoi(row[ PlayerRows::plPosI ]);
+			Player[ i ].pPosW = atoi(row[ PlayerRows::plPosW ]);
+			Player[i].pJob1 = atoi(row[PlayerRows::plJob1]);
+			Player[i].pJob2 = atoi(row[PlayerRows::plJob2]);
+			//------------------------------------------------
+			strcpy(Player[ i ].uName, row[ PlayerRows::pluName ]);
+			strcpy(Player[ i ].sName, row[ PlayerRows::plsName ]);
+			//------------------------------------------------
+			GivePlayerMoney(i, Player[ i ].pMoney);
+			cPlayer::setClassSkin(i);
+			//------------------------------------------------
+			world::Vehicles::loadPlayerVehs(i);
+		}
+		mysql_free_result(result);
 	}
-	mysql_free_result(result);
+	else
+	{
+		zzz++;
+		if (zzz == 10) SendClientMessage(i, -1, "Произошла ошибка при загрузке списка персонажей! Сообщите об этом администрации...");
+		else 		goto start;
+	}
 }
 
 /// <summary>
@@ -677,4 +708,20 @@ bool cPlayer::isPlayerInCube(const int u, float minX, float minY, float minZ, fl
 	const float z = Player[u].pPosZ;
 	//================================================================================
 	return (x >= minX && x <= maxX && y >= minY && y <= maxY && z >= minZ && z <= maxZ) ? true : false;
+}
+
+void cPlayer::giveExp(const int u, const int exp)
+{
+	char msg[16];
+	if (exp > 0)
+	{
+		sprintf(msg, "~y~+%d EXP", exp);
+	}
+	else
+	{
+		sprintf(msg, "~r~%d EXP", exp);
+	}
+	Player[u].pExp += exp;
+	SetPlayerScore(u, Player[u].pExp);
+	GameTextForPlayer(u, msg, 3500, 5);
 }

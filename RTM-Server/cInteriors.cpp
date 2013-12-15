@@ -122,3 +122,14 @@ void cInteriors::loadInterioList()
 	countInteriors = i;
 }
 
+int cInteriors::getRandom(int type)
+{
+	int i = 0;
+	while (true)
+	{
+		int rnd = rand() % countInteriors;
+		if (Interior[ rnd ].Type == type) return rnd;
+		if (i == 20) return 0;
+		i++;
+	}
+}

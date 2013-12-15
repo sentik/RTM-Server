@@ -35,6 +35,13 @@ void fProperty::cFeller::loadFeller()
 		fProperty::cFeller::Feller[i].minX	= atof(row[fProperty::rowsFeller::minX]);
 		fProperty::cFeller::Feller[i].minY	= atof(row[fProperty::rowsFeller::minY]);
 		fProperty::cFeller::Feller[i].minZ	= atof(row[fProperty::rowsFeller::minZ]);
+		fProperty::cFeller::Feller[i].fond	= atof(row[fProperty::rowsFeller::fond]);
+		fProperty::cFeller::Feller[i].itX	= atof(row[fProperty::rowsFeller::itX]);
+		fProperty::cFeller::Feller[i].itY	= atof(row[fProperty::rowsFeller::itY]);
+		fProperty::cFeller::Feller[i].itZ	= atof(row[fProperty::rowsFeller::itZ]);
+		fProperty::cFeller::Feller[i].itRX	= atof(row[fProperty::rowsFeller::itRX]);
+		fProperty::cFeller::Feller[i].itRY	= atof(row[fProperty::rowsFeller::itRY]);
+		fProperty::cFeller::Feller[i].itRZ	= atof(row[fProperty::rowsFeller::itRZ]);
 		//--------------------------------------------------------------
 		strcpy(fProperty::cFeller::Feller[i].name, row[fProperty::rowsFeller::name]);
 		//--------------------------------------------------------------
@@ -62,11 +69,20 @@ void fProperty::cFeller::loadFeller()
 			//=====================================================================================================
 		}
 		//-----------------------------------------------------------------------------------------------------------
+		fProperty::cFeller::Feller[i].obj = StreamerCall::Native::CreateDynamicObject(INFOTABLE_MODEL, 
+			fProperty::cFeller::Feller[i].itX,
+			fProperty::cFeller::Feller[i].itY,
+			fProperty::cFeller::Feller[i].itZ,
+			fProperty::cFeller::Feller[i].itRX,
+			fProperty::cFeller::Feller[i].itRY,
+			fProperty::cFeller::Feller[i].itRZ);
+		//-----------------------------------------------------------------------------------------------------------
 		Property[countProperty].text = StreamerCall::Native::CreateDynamic3DTextLabel(query, -1,
 			Property[countProperty].posX,
 			Property[countProperty].posY,
 			Property[countProperty].posZ, 30.0f);
 		//-----------------------------------------------------------------------------------------------------------
+		fProperty::cFeller::updateInfotable(i);
 		countProperty++;
 		i++;
 	}
@@ -573,6 +589,117 @@ goto case_paydep;
 			}
 			break;
 		}
+		case DIALOG_LIST::DLG_FELLER_MAIN:
+		{
+			if (response)
+			{
+				if (listitem == 0)
+				{
+					if (fProperty::cFeller::getFellerTool(u))
+					{
+						fProperty::cFeller::removeFellerTool(u);
+					}
+					else
+					{
+						fProperty::cFeller::giveFellerTool(u);
+					}
+					fProperty::cFeller::clientMenu(u);
+				}
+				else
+				{
+	case_clientmoney:
+					dialogs::genDLGItem(1, "Наличный расчёт", msg);
+					dialogs::genDLGItem(2, "Банковский перевод", msg);
+					ShowPlayerDialog(u, DLG_FELLER_MONEY, GUI_LIST, Feller[l].name, msg, language::dialogs::buttons::btnSelect, language::dialogs::buttons::btnBack);
+				}
+			}
+			else
+			{
+				if (Player[u].isAction == PlayerAction::ACTION_USEFELLERDLG_ONJOB)
+					Player[u].isAction = ACTION_FELJOB;
+				else
+					Player[u].isAction = PlayerAction::ACTION_NONE;
+			}
+			break;
+		}
+		case DIALOG_LIST::DLG_FELLER_MONEY:
+		{
+			if (response)
+			{
+				if (listitem == 0)
+				{
+					const float money = Feller[l].zp * Player[u].aMinerA;
+					const int exp = floor(Player[u].aMinerA / 10);
+					if (Feller[l].fond > money)
+					{
+						cPlayer::givePlayerMoney(u, money);
+					}
+					cPlayer::giveExp(u, exp);
+					Feller[l].am += Player[u].aMinerA;
+					fProperty::cFeller::updateInfotable(l);
+					sprintf(msg, "{FFFFFF}Кол-во древесины: {FFAF00}%d\n{FFFFFF}Заработано: {FFAF00}%.2f$ {FFFFFF}+ ({FFAF00}%d EXP{FFFFFF})", Player[u].aMinerA, money, exp);
+					ShowPlayerDialog(u, DLG_FELLER_EMTY, GUI_MSG, Feller[l].name, msg, language::dialogs::buttons::btnOK, "");
+					Player[u].aMinerA = 0;
+				}
+				else
+				{
+	case_paybank:
+					const float money = Feller[l].zp * Player[u].aMinerA;
+					const int exp = floor(Player[u].aMinerA / 10);
+					sprintf(msg, "{FFFFFF}Введите номер банского счёта на который будет произведена оплата.\nКол-во древесины: {FFAF00}%d\n{FFFFFF}Заработано: {FFAF00}%.2f$ {FFFFFF}+ ({FFAF00}%d EXP{FFFFFF})", Player[u].aMinerA, money, exp);
+					ShowPlayerDialog(u, DLG_FELLER_MONEYBANK, GUI_INPUT, Feller[l].name, msg, language::dialogs::buttons::btnDone, language::dialogs::buttons::btnBack);
+				}
+			}
+			else
+			{
+				fProperty::cFeller::clientMenu(u);
+			}
+			break;
+		}
+		case DIALOG_LIST::DLG_FELLER_MONEYBANK:
+		{
+			if (response)
+			{
+				if (regex_match(inputtext, expCode))
+				{
+					const int num = atoi(inputtext);
+					if (cBanks::isValidNumber(num))
+					{
+						const float money = Feller[l].zp * Player[u].aMinerA;
+						const int exp = floor(Player[u].aMinerA / 10);
+						double value; 
+						cBanks::getBalance(Property[p].bank, &value);
+						if (value > money)
+						{
+							cBanks::giveBalance(Property[p].bank, -money);
+							cBanks::giveBalance(num, money);
+						}
+						cPlayer::giveExp(u, exp);
+						Feller[l].am += Player[u].aMinerA;
+						Player[u].aMinerA = 0;
+						fProperty::cFeller::updateInfotable(l);
+						ShowPlayerDialog(u, DLG_FELLER_EMTY, GUI_MSG, Feller[l].name, "{FFFFFF}Операция успешно завершена.\nПримечание: {FF0000}если на счету лесопилки недостаточно средств они выплачены не были.", language::dialogs::buttons::btnOK, "");
+					}
+					else
+					{
+goto case_paybank;
+					}
+				}
+				else
+				{
+goto case_paybank;
+				}
+			}
+			else
+			{
+goto case_clientmoney;
+			}
+			break;
+		}
+		case DIALOG_LIST::DLG_FELLER_EMTY:
+		{
+			fProperty::cFeller::clientMenu(u);
+		}
 	}
 }
 
@@ -588,5 +715,36 @@ void fProperty::cFeller::ownerMenu(const int u)
 
 void fProperty::cFeller::clientMenu(const int u)
 {
+	if (cPlayer::Jobs::cJobs::isInJob(u, cPlayer::Jobs::PlayerJob::JOB_FELLER))
+	{
+		if (Player[u].isAction == PlayerAction::ACTION_FELJOB) 
+			Player[u].isAction = PlayerAction::ACTION_USEFELLERDLG_ONJOB;
+		else if (Player[u].isAction == PlayerAction::ACTION_NONE)
+			Player[u].isAction = PlayerAction::ACTION_USEFELLERDLG;
+		char msg[300] = "";
+		dialogs::genDLGItem(1, "Переодется", msg);
+		dialogs::genDLGItem(2, "Зарплата", msg);
+		ShowPlayerDialog(u, DLG_FELLER_MAIN, GUI_LIST, Feller[Property[Player[u].inIndex].link].name, msg, language::dialogs::buttons::btnSelect, language::dialogs::buttons::btnClose);
+	}
+	else
+		SendClientMessage(u, -1, "{FF0000}Ошибка: {FFFFFF}вы не лесоруб!");
+}
 
+void fProperty::cFeller::updateInfotable(const int l)
+{
+	char msg[300] = "";
+	sprintf(msg, "Информация\n\n\nСтоимость единицы древесины: {B7FF00}%.2f$\n{FFFFFF}Количество древесины на складе: {B7FF00}%d", Feller[l].zp, Feller[l].am);
+
+	StreamerCall::Native::ObjectText tmp;
+
+	tmp.backColor = 0xFF000000;
+	tmp.fontColor = 0xFFFFFFFF;
+	tmp.bold = true;
+	tmp.fontFace = "Arial";
+	tmp.fontSize = 25;
+	tmp.materialSize = 130;
+	tmp.textAlignment = 1;
+	tmp.materialText = msg;
+
+	StreamerCall::Native::SetDynamicObjectMaterialText(Feller[l].obj, 0, tmp);
 }

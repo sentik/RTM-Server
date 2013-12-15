@@ -96,6 +96,7 @@
 #include "cState.h"
 #include "cMiner.h"
 #include "cChat.h"
+#include "cJobs.h"
 #include "cGang.h"
 #include "cBank.h"
 #include "cGas.h"

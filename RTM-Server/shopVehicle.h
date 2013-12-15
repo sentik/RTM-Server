@@ -44,6 +44,7 @@ namespace Properties
 			static struct eItem		ShopVehicle::items[MAX_VEHSHOPS][20];
 			static int count;
 			static void ShopVehicle::loadShop();
+			static void ShopVehicle::create(int, float, float, float);
 			static void ShopVehicle::preView(const int);
 			static void ShopVehicle::viewList(const int, const int);
 			static void ShopVehicle::viewCam(const int);

@@ -26,3 +26,4 @@ EXPORTS
 	OnPlayerLeaveCheckpoint
 	OnPlayerEnterRaceCheckpoint
 	OnPlayerLeaveRaceCheckpoint
+	OnPlayerDeath

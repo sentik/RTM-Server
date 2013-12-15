@@ -50,6 +50,10 @@ enum DIALOG_LIST
 	DLG_FELLEROWNER_EMTY,
 	//^^^^^^^^^^^^^^^^^^^^^^^^^^
 	//--------------------------] Feller client dialogs
+	DLG_FELLER_MAIN,
+	DLG_FELLER_MONEY,
+	DLG_FELLER_MONEYBANK,
+	DLG_FELLER_EMTY,
 	//^^^^^^^^^^^^^^^^^^^^^^^^^^
 	DLG_VEHICLE_BUY,
 	DLG_VEHICLE_PAY,

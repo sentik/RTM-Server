@@ -6,6 +6,39 @@
 #define MAX_CHARS		5
 
 
+namespace cPlayer
+{
+	int	checkLogin(const char*);
+	bool checkPass(int, const char*);
+	bool loadChars(int);
+	void unloadChars(int);
+	void setRegClassSkin(int, char);
+	void setClassSkin(int);
+	void showCharMaker(int);
+	void preSelectClass(int, int);
+	int  regPlayer(const char*, const char*);
+	int	regChar(const int);
+	void hideRegDraws(const int);
+	void destRegDraws(const int);
+	void loadPlayerChar(int, int);
+	void SpawnChar(const int);
+	void setCharAngle(const int, float);
+	void setCharInterior(const int, const int);
+	void setCharWorld(const int, const int);
+	void setCharPos(const int, float, float, float, bool);
+	void camSelectChar(int);
+	bool isRangeOfPoint(int, float, float, float, float);
+	bool checkMoney(const int, float);
+	void update();
+	void getPlayerPos(const int);
+	void givePlayerMoney(const int, float);
+	void updatePos(const int);
+	bool isPlayerInCube(const int, float, float, float, float, float, float);
+	void updateMoney(const int);
+	void giveExp(const int, const int);
+}
+
+/*
 //Класс игрока
 class cPlayer
 {
@@ -38,7 +71,7 @@ public:
 	static bool cPlayer::isPlayerInCube(const int, float, float, float, float, float, float);
 	static void cPlayer::updateMoney(const int);
 
-};
+};*/
 
 int extern drawPlayerChar[15];
 
@@ -85,7 +118,10 @@ struct  pInfo
 	//Money draw
 	int		tCents;
 	// 3dtext hpbar & name
-	int pBar;
+	int		pBar;
+	//Jobs
+	char	pJob1;
+	char	pJob2;
 	
 };
 //TODO: Структура игрока
@@ -132,6 +168,9 @@ enum PlayerRows
 	plPosR,			//Позиция. R	персонажа
 	plPosI,			//Позиция. I	персонажа
 	plPosW,			//Позиция. W	персонажа
+	plPosP,
+	plJob1,
+	plJob2,
 };
 
 enum PlayerAction
@@ -149,6 +188,7 @@ enum PlayerAction
 	ACTION_USEPROP_GAS,
 	ACTION_GANG_MAKE,
 	ACTION_USEFELLERDLG,
+	ACTION_USEFELLERDLG_ONJOB,
 };
 
 enum PlayerSkills

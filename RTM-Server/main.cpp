@@ -134,6 +134,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData)
 	//===============================================================================
 	mysql_real_connect(con, MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_BASE, 0, NULL, CLIENT_MULTI_STATEMENTS);
 	mysql_query(con, "SET NAMES cp1251");
+	mysql_set_character_set(con, "cp1251");
 	//===============================================================================
 	buildRegex();
 	//===============================================================================
@@ -226,6 +227,19 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerText(int u, const char *text)
 
 
 
+PLUGIN_EXPORT bool PLUGIN_CALL  OnPlayerDeath(int playerid, int killerid, int reason)
+{
+	if (Player[ playerid ].isLogged)
+		SendClientMessage(playerid, -1, "Вы авторизованны!");
+	//-------------------------------------
+	Player[ playerid ].pPosX = 1170.984f;
+	Player[ playerid ].pPosY = -1323.432f;
+	Player[ playerid ].pPosZ = 15.298f;
+	//-------------------------------------
+	SendClientMessage(playerid, -1, "Вы умерли =((");
+	return true;
+}
+
 //-------------------------------------------------------------------------------------------
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerDisconnect(int playerid, int reason)
 {
@@ -267,7 +281,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerUpdate(int playerid)
 		world::Vehicles::updateSpeed(playerid);
 	}
 	uCount++;
-	//if (Player[playerid].isLogged && uCount > 10)
+	if (Player[playerid].isLogged && uCount > 10)
 	{
 		StreamerCall::Native::Update(playerid);
 		/*thread threadKey(StreamerCall::Native::Update, playerid);
