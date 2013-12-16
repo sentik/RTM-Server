@@ -9,5 +9,17 @@ class CMD
 	static void uninvite(int, char*);
 	static void makegang(int, char*);
 	static void addproperty(int, char*);
+	static void givemoney(int, char*);
+	static void makeadmin(int, char*);
+	static void setint(int, char*);
+	static void setworld(int, char*);
+	static void gotokk(int, char*); 
+	static void cmd_goto( int, char* );
+	static void shout(int, char*);
+	static void whisper(int, char*);
+	static void me(int, char*);
+	static void domake(int, char*);
+	static void dotry(int, char*);
+	
 };
 

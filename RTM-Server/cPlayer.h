@@ -36,6 +36,9 @@ namespace cPlayer
 	bool isPlayerInCube(const int, float, float, float, float, float, float);
 	void updateMoney(const int);
 	void giveExp(const int, const int);
+	void PreloadAnimLib(const int);
+	void getName(const int, char[]);
+	void Train(const int);
 }
 
 /*
@@ -189,6 +192,7 @@ enum PlayerAction
 	ACTION_GANG_MAKE,
 	ACTION_USEFELLERDLG,
 	ACTION_USEFELLERDLG_ONJOB,
+	ACTION_Death,
 };
 
 enum PlayerSkills

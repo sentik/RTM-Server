@@ -187,31 +187,38 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 //-------------------------------------------------------------------------------------------
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerRequestClass(int playerid, int classid)
 {
-	SpawnPlayer(playerid);
-	TogglePlayerSpectating(playerid, true);
-	//==========================================================================
-	char message[800];
-	//==========================================================================
-	strcpy(message, "{078ad6}===========================================================");
-	strcat(message, "\n{7d67dd}Вы можете полностью окунуться в мир RolePlay, только у нас есть:");
-	strcat(message, "\n {ffffff}- {5c84e9}Реалистичная экономика и гормоничный игровой мир");
-	strcat(message, "\n {ffffff}- {5c84e9}Различные типы имущества (Дома, Гаражи, Магазины, Бизнесы)");
-	strcat(message, "\n {ffffff}- {5c84e9}Различные виды работ (Продавец, уборщик, охранник, курьер)");
-	strcat(message, "\n {ffffff}- {5c84e9}Множество различных банд, мафий и организаций");
-	strcat(message, "\n {ffffff}- {5c84e9}Качественная и полноценная RP-отыгровка");
-	strcat(message, "\n{078ad6}===========================================================");
-	strcat(message, "\n{7d67dd}Присойденяйся к нам прямо сейчас, окунись в мир RolePlay!");
-	//==========================================================================
-	ShowPlayerDialog(playerid, DLG_WELCOME, GUI_MSG, "[West-RP]: Приветствие", message, "Далее", "");
+	if (IsPlayerNPC(playerid) == false)
+	{
+		SpawnPlayer(playerid);
+		TogglePlayerSpectating(playerid, true);
+		//==========================================================================
+		char message[ 800 ];
+		//==========================================================================
+		strcpy(message, "{078ad6}===========================================================");
+		strcat(message, "\n{7d67dd}Вы можете полностью окунуться в мир RolePlay, только у нас есть:");
+		strcat(message, "\n {ffffff}- {5c84e9}Реалистичная экономика и гормоничный игровой мир");
+		strcat(message, "\n {ffffff}- {5c84e9}Различные типы имущества (Дома, Гаражи, Магазины, Бизнесы)");
+		strcat(message, "\n {ffffff}- {5c84e9}Различные виды работ (Продавец, уборщик, охранник, курьер)");
+		strcat(message, "\n {ffffff}- {5c84e9}Множество различных банд, мафий и организаций");
+		strcat(message, "\n {ffffff}- {5c84e9}Качественная и полноценная RP-отыгровка");
+		strcat(message, "\n{078ad6}===========================================================");
+		strcat(message, "\n{7d67dd}Присойденяйся к нам прямо сейчас, окунись в мир RolePlay!");
+		//==========================================================================
+		ShowPlayerDialog(playerid, DLG_WELCOME, GUI_MSG, "[West-RP]: Приветствие", message, "Далее", "");
+	}
 	return true;
 }
 //-------------------------------------------------------------------------------------------
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerConnect(int playerid)
 {
-	if (IsPlayerNPC(playerid)) return true;
-	StreamerCall::Events::OnPlayerConnect(playerid);
-	Player[playerid].pBar = StreamerCall::Native::CreateDynamic3DTextLabel(" ", -1, 0.0f, 0.0f, 0.13f, 20.0f, playerid);
-	cObjects::removeObjects(playerid);
+	if (IsPlayerNPC(playerid) == false)
+	{
+
+		StreamerCall::Events::OnPlayerConnect(playerid);
+		Player[ playerid ].pBar = StreamerCall::Native::CreateDynamic3DTextLabel(" ", -1, 0.0f, 0.0f, 0.13f, 20.0f, playerid);
+		cObjects::removeObjects(playerid);
+		cPlayer::PreloadAnimLib(playerid);
+	}
 	return true;
 }
 
@@ -231,13 +238,14 @@ PLUGIN_EXPORT bool PLUGIN_CALL  OnPlayerDeath(int playerid, int killerid, int re
 {
 	if (Player[ playerid ].isLogged)
 		SendClientMessage(playerid, -1, "Вы авторизованны!");
+	Player[ playerid ].isAction = PlayerAction::ACTION_Death;
 	//-------------------------------------
 	Player[ playerid ].pPosX = 1170.984f;
 	Player[ playerid ].pPosY = -1323.432f;
 	Player[ playerid ].pPosZ = 15.298f;
 	//-------------------------------------
 	SendClientMessage(playerid, -1, "Вы умерли =((");
-	return true;
+	return false;
 }
 
 //-------------------------------------------------------------------------------------------
@@ -271,8 +279,14 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSpawn(int playerid)
 		TextDrawShowForPlayer(playerid, drawPlayerChar[HEADER_BG]);
 		TextDrawShowForPlayer(playerid, drawPlayerChar[HEADER_TIME]);
 	}
+	else
+	
+		logprintf("npc suka! %d", playerid);
+
 	return true;
 }
+
+
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerUpdate(int playerid)
 {
@@ -606,6 +620,34 @@ static void initTextDraws()
 	TextDrawSetOutline(drawPlayerChar[HEADER_TIME], 1);
 	TextDrawSetProportional(drawPlayerChar[HEADER_TIME], 1);
 	TextDrawSetSelectable(drawPlayerChar[HEADER_TIME], 0);
+	
+	//--------------------------------------------------------------------------------
+	/*Эффект фильма*/
+	drawPlayerChar[ HIGHT_TOP ] = TextDrawCreate(0.000000, 2.000000, "-");
+	drawPlayerChar[ HIGHT_BOTTOM ] = TextDrawCreate(1.000000, 384.000000, "-");
+	TextDrawUseBox(drawPlayerChar[ HIGHT_TOP ], 1);
+	TextDrawBoxColor(drawPlayerChar[ HIGHT_TOP ], 0x000000ff);
+	TextDrawTextSize(drawPlayerChar[ HIGHT_TOP ], 640.000000, 7.000000);
+	TextDrawUseBox(drawPlayerChar[ HIGHT_BOTTOM ], 1);
+	TextDrawBoxColor(drawPlayerChar[ HIGHT_BOTTOM ], 0x000000ff);
+	TextDrawTextSize(drawPlayerChar[ HIGHT_BOTTOM ], 640.000000, 8.000000);
+	TextDrawAlignment(drawPlayerChar[ HIGHT_TOP ], 0);
+	TextDrawAlignment(drawPlayerChar[ HIGHT_BOTTOM ], 0);
+	TextDrawBackgroundColor(drawPlayerChar[ HIGHT_TOP ], 0x000000ff);
+	TextDrawBackgroundColor(drawPlayerChar[ HIGHT_BOTTOM ], 0x000000ff);
+	TextDrawFont(drawPlayerChar[ HIGHT_TOP ], 3);
+	TextDrawLetterSize(drawPlayerChar[ HIGHT_TOP ], 2.000000, 7.899999);
+	TextDrawFont(drawPlayerChar[ HIGHT_BOTTOM ], 3);
+	TextDrawLetterSize(drawPlayerChar[ HIGHT_BOTTOM ], 1.000000, 8.100000);
+	TextDrawColor(drawPlayerChar[ HIGHT_TOP ], 0x000000ff);
+	TextDrawColor(drawPlayerChar[ HIGHT_BOTTOM ], 0x000000ff);
+	TextDrawSetOutline(drawPlayerChar[ HIGHT_TOP ], 1);
+	TextDrawSetOutline(drawPlayerChar[ HIGHT_BOTTOM ], 1);
+	TextDrawSetProportional(drawPlayerChar[ HIGHT_TOP ], 1);
+	TextDrawSetProportional(drawPlayerChar[ HIGHT_BOTTOM ], 1);
+	TextDrawSetShadow(drawPlayerChar[ HIGHT_TOP ], 1);
+	TextDrawSetShadow(drawPlayerChar[ HIGHT_BOTTOM ], 1);
+
 
 
 }

@@ -11,6 +11,17 @@ namespace language
 
 	namespace player
 	{
+		namespace actions
+		{
+			const char tryMSG[ 2 ][ 100 ] = { "* %s пытается %s (Удачно)", "* %s пытается %s (Не удачно)" };
+			const char tryBuble[ 2 ][ 100 ] = { "* пытается %s (Удачно)", "* пытается %s (Не удачно)" };
+
+
+			
+
+		}
+
+
 		namespace admin
 		{
 			const char noPermision[80]		= "{FF0000}Ошибка: {FFFFFF}Вы не можете воспользоваться возможностями группы: %s";

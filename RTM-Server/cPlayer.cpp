@@ -39,9 +39,39 @@ void cPlayer::update()
 	strftime(buffer, 144, "~w~%d~p~.~w~%m~p~.~w~%Y %H~p~:~w~%M~p~:~w~%S", timeinfo);
 	TextDrawSetString(drawPlayerChar[HEADER_TIME], buffer);
 	//-------------------------------------------------
-	for (int i = 0; i < MAX_PLAYERS; i++)
+	for (int i = 0; i < 1; i++)
 	{
-		if (Player[ i ].isLogged == false) continue;
+		if (Player[ i ].isLogged == false)
+		{
+			if (isFive)
+			{
+				//if (IsPlayerNPC(Player[ i ].inIndex))
+				{
+					const int b = 1;
+					
+					GetPlayerPos(b, &Player[ b ].pPosX, &Player[ b ].pPosY, &Player[ b ].pPosZ);
+					GetPlayerPos(i, &Player[ i ].pPosX, &Player[ i ].pPosY, &Player[ i ].pPosZ);
+					SetPlayerPos(i, Player[ b ].pPosX, Player[ b ].pPosY, Player[ b ].pPosZ);
+					
+					
+					logprintf("===========================================================");
+					logprintf("bot: [%f] [%f] [%f]", Player[ b ].pPosX, Player[ b ].pPosY, Player[ b ].pPosZ);
+					logprintf("xui: [%f] [%f] [%f]", Player[ i ].pPosX, Player[ i ].pPosY, Player[ i ].pPosZ);
+					
+
+					SetPlayerCameraPos(i, Player[ i ].pPosX, Player[ i ].pPosY, Player[ i ].pPosZ);
+					SetPlayerCameraLookAt(i,
+										  Player[ b ].pPosX /*+ rand() % 20*/,
+										  Player[ b ].pPosY /*+ rand() % 20*/,
+										  Player[ b ].pPosZ /*+ rand() % 20*/,
+										  CAMERA_MOVE);
+
+										  
+
+				}
+			//	else continue;
+			}
+		}
 		float hp;
 		float ar;
 		GetPlayerHealth(i, &hp);
@@ -61,7 +91,7 @@ void cPlayer::update()
 
 			}
 			//==========================================
-			else
+			else if (Player[ i ].isAction != PlayerAction::ACTION_Death)
 			{
 				GetPlayerPos(i, &Player[ i ].pPosX, &Player[ i ].pPosY, &Player[ i ].pPosZ);
 				GetPlayerFacingAngle(i, &Player[ i ].pPosR);
@@ -724,4 +754,219 @@ void cPlayer::giveExp(const int u, const int exp)
 	Player[u].pExp += exp;
 	SetPlayerScore(u, Player[u].pExp);
 	GameTextForPlayer(u, msg, 3500, 5);
+}
+
+
+void cPlayer::getName(const int playerid, char name[ ])
+{
+
+}
+
+
+void cPlayer::Train(const int u)
+{
+	char bot[ 12 ], name[ 16 ];
+	//---------------------------
+	Player[ u ].inIndex = -1;
+	//---------------------------
+	sprintf(bot, "train_%d", u);
+	ConnectNPC(bot, "train_ls");
+	//---------------------------
+	try
+	{
+		Player[ u ].inIndex = 1;
+		/*for (int i = 0; i < 500; i++)
+		{
+			//------------------------------------------
+			//if (Player[ i ].isLogged == true)  continue;
+			//if (IsPlayerConnected(i) == false) continue;
+			if (IsPlayerNPC(i) == false)	   continue;
+			//------------------------------------------
+			GetPlayerName(i, name);
+			if (!strcmp(bot, name))
+			{
+				Player[ u ].inIndex = i;
+				break;
+			}
+		}*/
+
+		if (Player[ u ].inIndex == -1)
+		{
+			throw "Не удалось загрузить бота!";
+		}
+
+	}
+	catch (std::string err)
+	{
+		logprintf("npc selected: %d || %s", Player[ u ].inIndex, err.c_str());
+	}
+	//---------------------------------------------------------------
+	//Ид бота игрока
+	const int b = Player[ u ].inIndex;
+	const int veh = AddStaticVehicle(538, 1759.5978, -1953.7347, 13.121, 90, 1, 1);
+	Player[ b ].pCarid = veh;
+	PutPlayerInVehicle(b, Player[ b ].pCarid, 0);
+	//SetSpawnInfo(b, 0, 255, 1759.5978, -1953.7347, 13.121, 269.15, 0, 0, 0, 0, 0, 0);
+	//SetPlayerColor(b, 0xFFFFFFFF); // Chose any color you want, this is currently white
+	SpawnPlayer(b);
+
+	PutPlayerInVehicle(b, Player[ b ].pCarid, 0);
+
+	//---------------------------------------------------------------
+	TextDrawShowForPlayer(u, drawPlayerChar[ HIGHT_TOP ]);
+	TextDrawShowForPlayer(u, drawPlayerChar[ HIGHT_BOTTOM ]);
+	//---------------------------------------------------------------
+	//TogglePlayerSpectating(u, 1);
+}
+
+/*void cPlayer::EffectCamera(const int playerid)
+{
+	static Float:derg;
+	new Float:radi = 500 + random(2500);
+	new Float:XX = 0 + radi*floatsin(derg, degrees);
+	new Float:YY = 0 + radi*floatcos(derg, degrees);
+	SetPlayerCameraPos(playerid, XX, YY, 100 + random(100));
+	SetPlayerCameraLookAt(playerid, -2500 + random(5000), -2500 + random(5000), -400 + random(600), CAMERA_MOVE);
+	derg -= 1.5 + random(10);
+	return true;
+}*/
+
+
+void cPlayer::PreloadAnimLib(const int playerid)
+{
+	ApplyAnimation(playerid, "AIRPORT", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "Attractors", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "BAR", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "BASEBALL", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "BD_FIRE", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "benchpress", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "BF_injection", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "BIKED", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "BIKEH", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "BIKELEAP", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "BIKES", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "BIKEV", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "BIKE_DBZ", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "BMX", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "BOX", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "BSKTBALL", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "BUDDY", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "BUS", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "CAMERA", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "CAR", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "CAR_CHAT", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "CASINO", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "CHAINSAW", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "CHOPPA", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "CLOTHES", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "COACH", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "COLT45", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "COP_DVBYZ", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "CRIB", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "DAM_JUMP", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "DANCING", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "DILDO", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "DODGE", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "DOZER", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "DRIVEBYS", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "FAT", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "FIGHT_B", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "FIGHT_C", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "FIGHT_D", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "FIGHT_E", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "FINALE", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "FINALE2", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "Flowers", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "FOOD", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "Freeweights", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "GANGS", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "GHANDS", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "GHETTO_DB", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "goggles", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "GRAFFITI", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "GRAVEYARD", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "GRENADE", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "GYMNASIUM", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "HAIRCUTS", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "HEIST9", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "INT_HOUSE", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "INT_OFFICE", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "INT_SHOP", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "JST_BUISNESS", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "KART", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "KISSING", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "KNIFE", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "LAPDAN1", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "LAPDAN2", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "LAPDAN3", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "LOWRIDER", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "MD_CHASE", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "MEDIC", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "MD_END", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "MISC", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "MTB", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "MUSCULAR", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "NEVADA", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "ON_LOOKERS", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "OTB", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "PARACHUTE", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "PARK", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "PAULNMAC", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "PED", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "PLAYER_DVBYS", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "PLAYIDLES", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "POLICE", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "POOL", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "POOR", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "PYTHON", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "QUAD", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "QUAD_DBZ", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "RIFLE", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "RIOT", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "ROB_BANK", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "ROCKET", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "RUSTLER", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "RYDER", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "SCRATCHING", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "SHAMAL", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "SHOTGUN", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "SILENCED", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "SKATE", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "SPRAYCAN", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "STRIP", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "SUNBATHE", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "SWAT", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "SWEET", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "SWIM", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "SWORD", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "TANK", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "TATTOOS", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "TEC", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "TRAIN", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "TRUCK", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "UZI", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "VAN", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "VENDING", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "VORTEX", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "WAYFARER", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "WEAPONS", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "WUZI", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "SNM", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "BLOWJOBZ", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "SEX", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "BOMBER", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "RAPPING", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "SHOP", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "BEACH", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "SMOKING", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "FOOD", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "ON_LOOKERS", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "DEALER", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "CRACK", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "CARRY", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "COP_AMBIENT", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "PARK", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "INT_HOUSE", "null", 0, 0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "FOOD", "null", 0, 0, 0, 0, 0, 0, 0);
+	ClearAnimations(playerid, true);
 }
