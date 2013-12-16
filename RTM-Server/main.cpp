@@ -219,7 +219,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerConnect(int playerid)
 		cObjects::removeObjects(playerid);
 		cPlayer::PreloadAnimLib(playerid);
 	}
-	return true;
+	return false;
 }
 
 //SAMPGDK_CALLBACK_EXPORT bool SAMPGDK_CALLBACK_CALL OnPlayerText(int playerid, const char * text);
@@ -263,6 +263,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSpawn(int playerid)
 	if (Player[ playerid ].isLogged)
 	{
 		cPlayer::setClassSkin(playerid);
+		Player[ playerid ].isAction = PlayerAction::ACTION_NONE;
 		//-------------------------------------------------------
 		SetPlayerPos(playerid,
 			Player[playerid].pPosX,
@@ -279,8 +280,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSpawn(int playerid)
 		TextDrawShowForPlayer(playerid, drawPlayerChar[HEADER_BG]);
 		TextDrawShowForPlayer(playerid, drawPlayerChar[HEADER_TIME]);
 	}
-	else
-	
+	else if (sampgdk_IsPlayerNPC( playerid ))
 		logprintf("npc suka! %d", playerid);
 
 	return true;
@@ -651,3 +651,4 @@ static void initTextDraws()
 
 
 }
+

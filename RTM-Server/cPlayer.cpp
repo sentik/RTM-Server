@@ -43,12 +43,22 @@ void cPlayer::update()
 	{
 		if (Player[ i ].isLogged == false)
 		{
-			if (isFive)
+			if (isTen)
 			{
-				//if (IsPlayerNPC(Player[ i ].inIndex))
+				if (IsPlayerNPC(Player[ i ].inIndex))
 				{
-					const int b = 1;
+					//Ид бота
+					const int b = Player[ i ].inIndex;
 					
+					//Спавн бота в поезд
+					if (Player[ b ].isLogged == false)
+					{
+						PutPlayerInVehicle(b, Player[ b ].pCarid, 0);
+						Player[ b ].isLogged = true;
+					}
+					
+
+
 					GetPlayerPos(b, &Player[ b ].pPosX, &Player[ b ].pPosY, &Player[ b ].pPosZ);
 					GetPlayerPos(i, &Player[ i ].pPosX, &Player[ i ].pPosY, &Player[ i ].pPosZ);
 					SetPlayerPos(i, Player[ b ].pPosX, Player[ b ].pPosY, Player[ b ].pPosZ);
@@ -59,12 +69,29 @@ void cPlayer::update()
 					logprintf("xui: [%f] [%f] [%f]", Player[ i ].pPosX, Player[ i ].pPosY, Player[ i ].pPosZ);
 					
 
-					SetPlayerCameraPos(i, Player[ i ].pPosX, Player[ i ].pPosY, Player[ i ].pPosZ);
-					SetPlayerCameraLookAt(i,
-										  Player[ b ].pPosX /*+ rand() % 20*/,
-										  Player[ b ].pPosY /*+ rand() % 20*/,
-										  Player[ b ].pPosZ /*+ rand() % 20*/,
-										  CAMERA_MOVE);
+					const float tX = ( rand() % 2 == 1 ) ? ( rand() % 20 ) : ( -rand() % 20 );
+					const float tY = ( rand() % 2 == 1 ) ? ( rand() % 20 ) : ( -rand() % 20 );
+					const float tZ = ( rand() % 2 == 1 ) ? ( rand() % 100 ) : ( -rand() % 50 );
+
+
+					/*InterpolateCameraPos(i,
+									   Player[ i ].pPosX - tX,
+									   Player[ i ].pPosY - tY,
+									   Player[ i ].pPosZ + tZ,
+									   Player[ b ].pPosX,
+									   Player[ b ].pPosY,
+									   Player[ b ].pPosZ,
+									   100000,
+									   CAMERA_MOVE);
+					InterpolateCameraLookAt(i,
+											Player[ i ].pPosX - tX,
+											Player[ i ].pPosY - tY,
+											Player[ i ].pPosZ + tZ,
+											Player[ b ].pPosX,
+											Player[ b ].pPosY,
+											Player[ b ].pPosZ,
+											100000,
+											CAMERA_MOVE);*/
 
 										  
 
@@ -770,17 +797,13 @@ void cPlayer::Train(const int u)
 	Player[ u ].inIndex = -1;
 	//---------------------------
 	sprintf(bot, "train_%d", u);
-	ConnectNPC(bot, "train_ls");
+	//ConnectNPC(
+	sampgdk_ConnectNPC(bot, "train_sf");
 	//---------------------------
 	try
 	{
-		Player[ u ].inIndex = 1;
-		/*for (int i = 0; i < 500; i++)
+		for (int i = 0; i < 500; i++)
 		{
-			//------------------------------------------
-			//if (Player[ i ].isLogged == true)  continue;
-			//if (IsPlayerConnected(i) == false) continue;
-			if (IsPlayerNPC(i) == false)	   continue;
 			//------------------------------------------
 			GetPlayerName(i, name);
 			if (!strcmp(bot, name))
@@ -788,8 +811,7 @@ void cPlayer::Train(const int u)
 				Player[ u ].inIndex = i;
 				break;
 			}
-		}*/
-
+		}
 		if (Player[ u ].inIndex == -1)
 		{
 			throw "Не удалось загрузить бота!";
@@ -811,7 +833,6 @@ void cPlayer::Train(const int u)
 	SpawnPlayer(b);
 
 	PutPlayerInVehicle(b, Player[ b ].pCarid, 0);
-
 	//---------------------------------------------------------------
 	TextDrawShowForPlayer(u, drawPlayerChar[ HIGHT_TOP ]);
 	TextDrawShowForPlayer(u, drawPlayerChar[ HIGHT_BOTTOM ]);
