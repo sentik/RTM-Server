@@ -58,9 +58,10 @@
 #include <map>
 #include <unordered_map>
 //--------------------------------------------
+#include <sampgdk/a_samp.h>
 #include <sampgdk/a_players.h>
 #include <sampgdk/a_vehicles.h>
-#include <sampgdk/a_samp.h>
+#include <sampgdk/a_objects.h>
 #include <sampgdk/core.h>
 #include <sampgdk/plugin.h>
 //--------------------------------------------
@@ -89,6 +90,9 @@
 #include "cPlayer.h"
 #include "cAdmins.h"
 #include "cRadio.h"
+//-------------------------] Intro
+#include "cIntro.h"
+
 
 #include "saZones.h"
 #include "cFeller.h"

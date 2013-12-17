@@ -623,32 +623,23 @@ static void initTextDraws()
 	
 	//--------------------------------------------------------------------------------
 	/*Ёффект фильма*/
-	drawPlayerChar[ HIGHT_TOP ] = TextDrawCreate(0.000000, 2.000000, "-");
-	drawPlayerChar[ HIGHT_BOTTOM ] = TextDrawCreate(1.000000, 384.000000, "-");
-	TextDrawUseBox(drawPlayerChar[ HIGHT_TOP ], 1);
-	TextDrawBoxColor(drawPlayerChar[ HIGHT_TOP ], 0x000000ff);
-	TextDrawTextSize(drawPlayerChar[ HIGHT_TOP ], 640.000000, 7.000000);
-	TextDrawUseBox(drawPlayerChar[ HIGHT_BOTTOM ], 1);
-	TextDrawBoxColor(drawPlayerChar[ HIGHT_BOTTOM ], 0x000000ff);
-	TextDrawTextSize(drawPlayerChar[ HIGHT_BOTTOM ], 640.000000, 8.000000);
-	TextDrawAlignment(drawPlayerChar[ HIGHT_TOP ], 0);
-	TextDrawAlignment(drawPlayerChar[ HIGHT_BOTTOM ], 0);
-	TextDrawBackgroundColor(drawPlayerChar[ HIGHT_TOP ], 0x000000ff);
-	TextDrawBackgroundColor(drawPlayerChar[ HIGHT_BOTTOM ], 0x000000ff);
-	TextDrawFont(drawPlayerChar[ HIGHT_TOP ], 3);
-	TextDrawLetterSize(drawPlayerChar[ HIGHT_TOP ], 2.000000, 7.899999);
-	TextDrawFont(drawPlayerChar[ HIGHT_BOTTOM ], 3);
-	TextDrawLetterSize(drawPlayerChar[ HIGHT_BOTTOM ], 1.000000, 8.100000);
-	TextDrawColor(drawPlayerChar[ HIGHT_TOP ], 0x000000ff);
-	TextDrawColor(drawPlayerChar[ HIGHT_BOTTOM ], 0x000000ff);
-	TextDrawSetOutline(drawPlayerChar[ HIGHT_TOP ], 1);
-	TextDrawSetOutline(drawPlayerChar[ HIGHT_BOTTOM ], 1);
-	TextDrawSetProportional(drawPlayerChar[ HIGHT_TOP ], 1);
-	TextDrawSetProportional(drawPlayerChar[ HIGHT_BOTTOM ], 1);
-	TextDrawSetShadow(drawPlayerChar[ HIGHT_TOP ], 1);
-	TextDrawSetShadow(drawPlayerChar[ HIGHT_BOTTOM ], 1);
 
+	drawPlayerChar[HIGHT_TOP] = TextDrawCreate(320.000000, 0.000000, "_");
+	TextDrawAlignment(drawPlayerChar[HIGHT_TOP], 2);
+	TextDrawFont(drawPlayerChar[HIGHT_TOP], 1);
+	TextDrawLetterSize(drawPlayerChar[HIGHT_TOP], 0.500000, 10.000000);
+	TextDrawUseBox(drawPlayerChar[HIGHT_TOP], 1);
+	TextDrawBoxColor(drawPlayerChar[HIGHT_TOP], 255);
+	TextDrawTextSize(drawPlayerChar[HIGHT_TOP], 1.000000, 640.000000);
+	TextDrawSetSelectable(drawPlayerChar[HIGHT_TOP], 0);
 
-
+	drawPlayerChar[HIGHT_BOTTOM] = TextDrawCreate(320.000000, 360.000000, "_");
+	TextDrawAlignment(drawPlayerChar[HIGHT_BOTTOM], 2);
+	TextDrawFont(drawPlayerChar[HIGHT_BOTTOM], 1);
+	TextDrawLetterSize(drawPlayerChar[HIGHT_BOTTOM], 0.500000, 10.000000);
+	TextDrawUseBox(drawPlayerChar[HIGHT_BOTTOM], 1);
+	TextDrawBoxColor(drawPlayerChar[HIGHT_BOTTOM], 255);
+	TextDrawTextSize(drawPlayerChar[HIGHT_BOTTOM], 1.000000, 640.000000);
+	TextDrawSetSelectable(drawPlayerChar[HIGHT_BOTTOM], 0);
 }
 

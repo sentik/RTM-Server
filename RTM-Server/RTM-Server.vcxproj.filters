@@ -168,6 +168,9 @@
     <ClInclude Include="cJobs.h">
       <Filter>Заголовочные файлы\player</Filter>
     </ClInclude>
+    <ClInclude Include="cIntro.h">
+      <Filter>Заголовочные файлы\player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -246,6 +249,9 @@
       <Filter>Файлы исходного кода\property\vehicles</Filter>
     </ClCompile>
     <ClCompile Include="cJobs.cpp">
+      <Filter>Файлы исходного кода\player</Filter>
+    </ClCompile>
+    <ClCompile Include="cIntro.cpp">
       <Filter>Файлы исходного кода\player</Filter>
     </ClCompile>
   </ItemGroup>

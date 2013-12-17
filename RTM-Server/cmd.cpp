@@ -255,6 +255,11 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 	{
 		if (Admins::isAllow(playerid, 2)) CMD::cmd_goto(playerid, params);
 	}
+	else if (strcmp("testintro", cmd) == 0)
+	{
+		TogglePlayerSpectating(playerid, true);
+		cPlayer::Intro::cIntro::initTrain(playerid);
+	}
 
 	return true;
 }

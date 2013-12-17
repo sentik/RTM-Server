@@ -43,60 +43,13 @@ void cPlayer::update()
 	{
 		if (Player[ i ].isLogged == false)
 		{
-			if (isTen)
+			if (isFive)
 			{
-				if (IsPlayerNPC(Player[ i ].inIndex))
+				if (IsPlayerNPC(Player[i].inIndex))
 				{
-					//Ид бота
-					const int b = Player[ i ].inIndex;
-					
-					//Спавн бота в поезд
-					if (Player[ b ].isLogged == false)
-					{
-						PutPlayerInVehicle(b, Player[ b ].pCarid, 0);
-						Player[ b ].isLogged = true;
-					}
-					
-
-
-					GetPlayerPos(b, &Player[ b ].pPosX, &Player[ b ].pPosY, &Player[ b ].pPosZ);
-					GetPlayerPos(i, &Player[ i ].pPosX, &Player[ i ].pPosY, &Player[ i ].pPosZ);
-					SetPlayerPos(i, Player[ b ].pPosX, Player[ b ].pPosY, Player[ b ].pPosZ);
-					
-					
-					logprintf("===========================================================");
-					logprintf("bot: [%f] [%f] [%f]", Player[ b ].pPosX, Player[ b ].pPosY, Player[ b ].pPosZ);
-					logprintf("xui: [%f] [%f] [%f]", Player[ i ].pPosX, Player[ i ].pPosY, Player[ i ].pPosZ);
-					
-
-					const float tX = ( rand() % 2 == 1 ) ? ( rand() % 20 ) : ( -rand() % 20 );
-					const float tY = ( rand() % 2 == 1 ) ? ( rand() % 20 ) : ( -rand() % 20 );
-					const float tZ = ( rand() % 2 == 1 ) ? ( rand() % 100 ) : ( -rand() % 50 );
-
-
-					/*InterpolateCameraPos(i,
-									   Player[ i ].pPosX - tX,
-									   Player[ i ].pPosY - tY,
-									   Player[ i ].pPosZ + tZ,
-									   Player[ b ].pPosX,
-									   Player[ b ].pPosY,
-									   Player[ b ].pPosZ,
-									   100000,
-									   CAMERA_MOVE);
-					InterpolateCameraLookAt(i,
-											Player[ i ].pPosX - tX,
-											Player[ i ].pPosY - tY,
-											Player[ i ].pPosZ + tZ,
-											Player[ b ].pPosX,
-											Player[ b ].pPosY,
-											Player[ b ].pPosZ,
-											100000,
-											CAMERA_MOVE);*/
-
-										  
-
+					cPlayer::Intro::cIntro::updateIntro(i);
+					continue;
 				}
-			//	else continue;
 			}
 		}
 		float hp;
@@ -787,57 +740,6 @@ void cPlayer::giveExp(const int u, const int exp)
 void cPlayer::getName(const int playerid, char name[ ])
 {
 
-}
-
-
-void cPlayer::Train(const int u)
-{
-	char bot[ 12 ], name[ 16 ];
-	//---------------------------
-	Player[ u ].inIndex = -1;
-	//---------------------------
-	sprintf(bot, "train_%d", u);
-	//ConnectNPC(
-	sampgdk_ConnectNPC(bot, "train_sf");
-	//---------------------------
-	try
-	{
-		for (int i = 0; i < 500; i++)
-		{
-			//------------------------------------------
-			GetPlayerName(i, name);
-			if (!strcmp(bot, name))
-			{
-				Player[ u ].inIndex = i;
-				break;
-			}
-		}
-		if (Player[ u ].inIndex == -1)
-		{
-			throw "Не удалось загрузить бота!";
-		}
-
-	}
-	catch (std::string err)
-	{
-		logprintf("npc selected: %d || %s", Player[ u ].inIndex, err.c_str());
-	}
-	//---------------------------------------------------------------
-	//Ид бота игрока
-	const int b = Player[ u ].inIndex;
-	const int veh = AddStaticVehicle(538, 1759.5978, -1953.7347, 13.121, 90, 1, 1);
-	Player[ b ].pCarid = veh;
-	PutPlayerInVehicle(b, Player[ b ].pCarid, 0);
-	//SetSpawnInfo(b, 0, 255, 1759.5978, -1953.7347, 13.121, 269.15, 0, 0, 0, 0, 0, 0);
-	//SetPlayerColor(b, 0xFFFFFFFF); // Chose any color you want, this is currently white
-	SpawnPlayer(b);
-
-	PutPlayerInVehicle(b, Player[ b ].pCarid, 0);
-	//---------------------------------------------------------------
-	TextDrawShowForPlayer(u, drawPlayerChar[ HIGHT_TOP ]);
-	TextDrawShowForPlayer(u, drawPlayerChar[ HIGHT_BOTTOM ]);
-	//---------------------------------------------------------------
-	//TogglePlayerSpectating(u, 1);
 }
 
 /*void cPlayer::EffectCamera(const int playerid)

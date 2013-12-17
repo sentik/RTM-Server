@@ -25,7 +25,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>Intel C++ Compiler XE 14.0</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -123,6 +123,7 @@
     <ClInclude Include="cGas.h" />
     <ClInclude Include="cHouses.h" />
     <ClInclude Include="cInteriors.h" />
+    <ClInclude Include="cIntro.h" />
     <ClInclude Include="cJobs.h" />
     <ClInclude Include="cmd.h" />
     <ClInclude Include="cMiner.h" />
@@ -155,6 +156,7 @@
     <ClCompile Include="cGas.cpp" />
     <ClCompile Include="cHouses.cpp" />
     <ClCompile Include="cInteriors.cpp" />
+    <ClCompile Include="cIntro.cpp" />
     <ClCompile Include="cJobs.cpp" />
     <ClCompile Include="cmd.cpp" />
     <ClCompile Include="cMiner.cpp" />
