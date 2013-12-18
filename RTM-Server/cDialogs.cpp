@@ -209,6 +209,10 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 	{
 		world::Gangs::onDLG(playerid, dialogid, response, listitem, inputtext);
 	}
+	else if (Player[playerid].isAction == PlayerAction::ACTION_USEJOBSDLG)
+	{
+		cPlayer::Jobs::cJobs::onDLG(playerid, dialogid, response, listitem, inputtext);
+	}
 	//---------------------------------------------------------------------------
 	return true;
 }
@@ -241,9 +245,9 @@ void dialogs::showDLGEnterName(const int u)
 	ShowPlayerDialog(u, DLG_REGISTER_NAME, GUI_INPUT, "[West-RP]: Регистрация перосанажа", message, "Далее", "Отмена");
 }
 
-void dialogs::genDLGItem(const int i, const char str[], char *res)
+void dialogs::genDLGItem(const int i, const char str[], char *res, const char * color1, const char * color2)
 {
 	char line[ 80 ];
-	sprintf(line, "{FFFFFF}[{84ecff}%d{FFFFFF}] {84ecff}%s\n", i, str);
+	sprintf(line, "{%s}[{%s}%d{%s}] {%s}%s\n", color2, color1, i, color2, color1, str);
 	strcat(res, line);
 }

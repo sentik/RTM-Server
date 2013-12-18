@@ -84,11 +84,11 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickPlayerTextDraw(const int u, const in
 			//================================
 			cPlayer::SpawnChar(u);
 			//==========================================================================
-			Player[u].tCents = CreatePlayerTextDraw(u, 636.300000, 77.000000, "$12345678.91");
+			Player[u].tCents = CreatePlayerTextDraw(u, 637.500000, 77.000000, "$12345678.91");
 			PlayerTextDrawAlignment(u, Player[u].tCents, 3);
 			PlayerTextDrawBackgroundColor(u, Player[u].tCents, 255);
 			PlayerTextDrawFont(u, Player[u].tCents, 3);
-			PlayerTextDrawLetterSize(u, Player[u].tCents, 0.589999, 2.299998);
+			PlayerTextDrawLetterSize(u, Player[u].tCents, 0.599999, 2.199998);
 			PlayerTextDrawColor(u, Player[u].tCents, 929443071);
 			PlayerTextDrawSetOutline(u, Player[u].tCents, 1);
 			PlayerTextDrawSetProportional(u, Player[u].tCents, 1);

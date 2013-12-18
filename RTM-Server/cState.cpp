@@ -32,6 +32,13 @@ void cState::callKeyStateChange(int playerid, int newkeys, int oldkeys)
 		case KEY_WALK:
 		{
 			cPlayer::getPlayerPos(playerid);
+
+			if ( cPlayer::isRangeOfPoint(playerid, 1.0f, TEMP_JOB_POS) )
+			{
+				cPlayer::Jobs::cJobs::showDLG(playerid);
+				break;
+			}
+
 			//==========================================================
 			thread threadProperty(cProperty::enterProperty, playerid);
 			threadProperty.join();

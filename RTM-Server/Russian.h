@@ -13,12 +13,11 @@ namespace language
 	{
 		namespace actions
 		{
-			const char tryMSG[ 2 ][ 100 ] = { "* %s пытается %s (Удачно)", "* %s пытается %s (Не удачно)" };
-			const char tryBuble[ 2 ][ 100 ] = { "* пытается %s (Удачно)", "* пытается %s (Не удачно)" };
+			const char tryMSG[ 2 ][ 128 ] = { "* %s пытается %s (Удачно)", "* %s пытается %s (Неудачно)" };
+			const char tryBuble[ 2 ][ 128 ] = { "* пытается %s (Удачно)", "* пытается %s (Неудачно)" };
 
-
-			
-
+			const char shoutMSG[ 128 ]		=  "{FFFFFF}%s кричит[ {FF0000}%d {FFFFFF} ]: {FADBB8}%s" ;
+			const char whisperMSG[ 128 ]	=  "{FFFFFF}%s шепчет[ {FF0000}%d {FFFFFF} ]: {FADBB8}%s";
 		}
 
 
@@ -88,6 +87,10 @@ namespace language
 
 	namespace jobs
 	{
+		namespace general
+		{
+			const char jobList[3][10]		= { "Нет", "Щахтёр", "Лесоруб" };
+		}
 		namespace miner
 		{
 			const char actionOne[ 96 ]		= "Вы добыли: {B700FF}%d {FFFFFF}грамм железа, всего {B700FF}%d{FFFFFF} грамм";

@@ -155,17 +155,68 @@ void CMD::cmd_goto(int playerid, char* params)
 
 void CMD::shout(int playerid, char* params)
 {
-
+	if (sscanf(params, "%64s", params) == 1)
+	{
+		char name[ 24 ] = "";
+		char msg[ sizeof( language::player::actions::shoutMSG ) ] = "";
+		//----------------------------------------------------------------
+		cPlayer::getName(playerid, name);
+		sprintf(msg, language::player::actions::shoutMSG, name, params);
+		//----------------------------------------------------------------
+		SetPlayerChatBubble(playerid, params, 0xDCDCDCFF, RADIUS_SHOUT, TIME_SHOUT);
+		cChat::ProxDetector(playerid, RADIUS_SHOUT, msg);
+	}
+	else SendClientMessage(playerid, -1, "Используйте: /s  [текст для крика]");
 }
 
 void CMD::whisper(int playerid, char* params)
 {
-
+	int target;
+	char name[ 24 ] = "";
+	cPlayer::getName(playerid, name);
+	char msg[ sizeof( language::player::actions::whisperMSG ) ] = "";
+	//----------------------------------------------------------------
+	if (sscanf(params, "%d %64s", &target, params) == 2)
+	{
+		sprintf(msg, "{FFFFFF}%s[ {FF0000}%d { FFFFFF } ] шепчет вам: {FADBB8}%s", name, params);
+		SendClientMessage(target, -1, msg);
+		//---------------------------------------------------------------------------------------
+		if (rand() % 2 == 1)
+		{
+			sprintf(msg, language::player::actions::whisperMSG, name, params);
+		}
+		else
+		{
+			sprintf(msg, "{ FFFFFF }%s[ {FF0000}%d { FFFFFF } ] что-то шепчет...", name);
+			SetPlayerChatBubble(playerid, "что-то шепчет", 0xDCDCDCFF, RADIUS_SHOUT, TIME_SHOUT);
+		}
+	}
+	else if (sscanf(params, "%64s", params) == 1)
+	{
+		sprintf(msg, language::player::actions::whisperMSG, name, params);
+	}
+	else
+	{
+		SendClientMessage(playerid, -1, "Используйте: /w (ид игрока) [текст] для шепота");
+		return;
+	}
+	//----------------------------------------------------------------
+	cChat::ProxDetector(playerid, RADIUS_WHISPER, msg);
 }
 
 void CMD::me(int playerid, char* params)
 {
-
+	if (sscanf(params, "%64s", params) == 1)
+	{
+		char name[ 24 ] = "";
+		cPlayer::getName(playerid, name);
+		char msg[ sizeof( language::player::actions::whisperMSG ) ] = "";
+		//----------------------------------------------------------------
+		SetPlayerChatBubble(playerid, params, ACTION_COLOR, RADIUS_ACTIONS, TIME_ACTIONS);
+		sprintf(msg, "* %s %s", name, params);
+		cChat::ProxDetector(playerid, RADIUS_ACTIONS, msg, ACTION_COLOR);
+	}
+	else SendClientMessage(playerid, -1, "Используйте: /me [text(Действие от первого лица)]");
 }
 
 void CMD::domake(int playerid, char* params)
@@ -259,6 +310,10 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 	{
 		TogglePlayerSpectating(playerid, true);
 		cPlayer::Intro::cIntro::initTrain(playerid);
+	}
+	else if (strcmp("hidecents", cmd) == 0)
+	{
+		PlayerTextDrawHide(playerid, Player[playerid].tCents);
 	}
 
 	return true;

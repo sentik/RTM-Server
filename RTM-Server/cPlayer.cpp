@@ -51,6 +51,7 @@ void cPlayer::update()
 					continue;
 				}
 			}
+			continue;
 		}
 		float hp;
 		float ar;

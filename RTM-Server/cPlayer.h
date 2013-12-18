@@ -193,6 +193,7 @@ enum PlayerAction
 	ACTION_USEFELLERDLG,
 	ACTION_USEFELLERDLG_ONJOB,
 	ACTION_Death,
+	ACTION_USEJOBSDLG,
 };
 
 enum PlayerSkills

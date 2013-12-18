@@ -74,6 +74,10 @@ enum DIALOG_LIST
 	DLG_GANG_MAKE_PROPERTY,
 	DLG_GANG_MENU_MAIN,
 	//^^^^^^^^^^^^^^^^^^^^^^^^^^
+	//--------------------------] Jobs dialogs
+	DLG_JOB_LIST,
+	DLG_JOB_MAIN,
+	DLG_JOB_LEAVE,
 };
 
 enum DIALOG_STYLYS
@@ -89,7 +93,7 @@ class dialogs
 public:
 	static void dialogs::showDLGEnterName(const int);
 	static void dialogs::showDLGEnterDate(const int);
-	static void dialogs::genDLGItem(const int i, const char str[ ], char *);
+	static void dialogs::genDLGItem(const int i, const char str[], char *, const char * = "84ecff", const char * = "FFFFFF");
 };
 
 #endif 

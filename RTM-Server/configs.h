@@ -32,6 +32,17 @@
 #define		CREG_SKIN_POS				1302.7f,-792.3f,96.5f
 #define		CREG_CAMR_POS				1300.4f,-791.0f,97.5f
 /*---------------Registration Character--------------*/
+
+
+#define RADIUS_SHOUT	70.0f
+#define RADIUS_WHISPER	5.0f
+#define RADIUS_ACTIONS	30.0f
+#define TIME_SHOUT		10 * 1000
+#define TIME_ACTIONS	10 * 1000
+
+
+
+
 #define	BANKOMAT_MODEL				2942
 
 #define ENTER_RADIUS	1.5f
@@ -55,5 +66,9 @@
 #define REG_SPAWN_WOR	56
 
 #define INFOTABLE_MODEL 3077
+
+#define ACTION_COLOR	-11490561
+
+#define TEMP_JOB_POS	-397.5255,179.5468,1008.3950
 
 #endif 

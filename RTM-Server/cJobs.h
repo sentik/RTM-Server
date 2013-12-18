@@ -12,6 +12,8 @@ namespace cPlayer
 			public:
 				static bool isInJob(const int, const int);
 				static bool setJob(const int, const int);
+				static void onDLG(const int, const int, const int, const int, const char *);
+				static void showDLG(const int);
 		};
 
 		enum PlayerJob

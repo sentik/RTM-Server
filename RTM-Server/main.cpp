@@ -182,6 +182,9 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 	sprintf(query, "RTM-GM v%s", GAME_VERSION);
 	SetGameModeText(query);
 	ShowNameTags(false);
+
+	StreamerCall::Native::CreateDynamicPickup(INFO_PICKUP, 23, TEMP_JOB_POS);
+	StreamerCall::Native::CreateDynamic3DTextLabel("Филиал трудо-занятности\nНажмите [ALT]", -1, TEMP_JOB_POS, 5.0f);
 	return true;
 }
 //-------------------------------------------------------------------------------------------
