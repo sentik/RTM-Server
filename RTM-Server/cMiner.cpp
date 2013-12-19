@@ -425,3 +425,94 @@ void Jobs::Miner::cMiner::updateText(const int p, const int u)
 	//------------------------------------------------------------------
 	StreamerCall::Native::UpdateDynamic3DTextLabelText(Property[p].text, -1, msg);
 }
+
+void Jobs::Miner::cMiner::showDLG(const int u)
+{
+	char msg[ 256 ] = "";
+	Player[ u ].isAction = PlayerAction::ACTION_USEMINERDLG;
+	if (Player[ u ].pDB == Property[ Player[ u ].inIndex ].owner)
+	{
+		dialogs::genDLGItem(1, "Информация", msg);
+		dialogs::genDLGItem(2, "Название", msg);
+		dialogs::genDLGItem(3, "Финансы", msg);
+		//----------------------------------------
+		ShowPlayerDialog
+			(
+				u, 
+				DLG_MINER_OWNER_MAIN, GUI_LIST, 
+				"Меню владельца шахты",			msg,
+				language::dialogs::buttons::btnSelect,
+				language::dialogs::buttons::btnClose
+			);
+		//----------------------------------------
+	}
+	else
+	{
+		dialogs::genDLGItem(1, "Информация", msg);
+		dialogs::genDLGItem(2, "Зарплата", msg);
+		dialogs::genDLGItem(3, "Инвертарь (Не работает)", msg);
+		dialogs::genDLGItem(4, "Закупка руды (Не работает)", msg);
+		//----------------------------------------
+		ShowPlayerDialog
+			(
+			u,
+			DLG_MINER_CLIENT_MAIN, GUI_LIST,
+			"Меню клиента шахты",			msg,
+			language::dialogs::buttons::btnSelect,
+			language::dialogs::buttons::btnClose
+			);
+		//----------------------------------------
+	}
+}
+
+void Jobs::Miner::cMiner::onDLG(const int u, const int dialogid, const int response, const int listitem, const char * inputtext)
+{
+	char msg[256] = "";
+	const int p = Player[u].inIndex;
+	const int l = Property[p].link;
+	const int w = Property[ p ].property-1;
+
+	switch (dialogid)
+	{
+		//=======================================
+		case DLG_MINER_CLIENT_MAIN:
+		case	DLG_MINER_OWNER_MAIN:
+		{
+			if (response)
+			{
+				if (listitem == 0)		//Информация
+				{
+					sprintf(msg, 
+							"Зарплата за %s: \t\t %f$\nЗарплата за %s: \t\t%f$",
+							language::jobs::miner::listMetall[ w ], miner[l].zp1,
+							language::jobs::miner::listMetall[ w + 1 ], miner[ l ].zp1
+					);
+					ShowPlayerDialog
+					(
+						u, 
+						DLG_MINER_OWNER_INFO, 
+						GUI_MSG, 
+						"Информация о шахте", 
+						msg,
+						language::dialogs::buttons::btnBack,
+						""
+					);
+				}
+				else if (listitem == 1)	//Название
+				{
+
+				}
+				else if (listitem == 2)	//Финансы
+				{
+
+				}
+			}
+			else
+			{
+				Player[ u ].isAction = PlayerAction::ACTION_NONE;
+			}
+			break;
+		}
+		//=======================================
+	}
+}

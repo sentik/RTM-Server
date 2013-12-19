@@ -299,9 +299,7 @@ void cProperty::enterProperty(const int u)
 			}
 			else if (Property[ i ].type == PropertyType::prMiner)
 			{
-				/*if (Property[ i ].owner == Player[ u ].pDB)
-					fProperty::cFeller::ownerMenu(u);
-				else	fProperty::cFeller::clientMenu(u);*/
+				Jobs::Miner::cMiner::showDLG(u);
 				break;
 			}
 			//-----------------------------------------------------------------------------------------------

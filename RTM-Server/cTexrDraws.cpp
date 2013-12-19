@@ -35,9 +35,13 @@ PLUGIN_EXPORT bool PLUGIN_CALL  OnPlayerClickTextDraw(const int u, const int dra
 		CancelSelectTextDraw(u);
 		TogglePlayerSpectating(u, true);
 		cPlayer::hideRegDraws(u);
+
+		Player[ u ].pClass = clamp(Player[ u ].pClass, 0, MAX_CLASES);
+		logprintf("on selct: %d", Player[ u ].pClass);
+
 		cPlayer::Intro::cIntro::initTrain(u);
 		//cPlayer::hideRegDraws(u), dialogs::showDLGEnterName(u);
-		//Player[u].pClass = clamp(Player[u].pClass, 0, MAX_CLASES);
+		
 		
 	}
 	else if (draw == drawPlayerChar[REG_RIGHT])		//Вперед

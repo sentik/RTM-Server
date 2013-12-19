@@ -194,6 +194,7 @@ enum PlayerAction
 	ACTION_USEFELLERDLG_ONJOB,
 	ACTION_Death,
 	ACTION_USEJOBSDLG,
+	ACTION_USEMINERDLG,
 };
 
 enum PlayerSkills

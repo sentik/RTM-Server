@@ -113,7 +113,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 					Player[ playerid ].isAction = PlayerAction::ACTION_NONE;
 					Player[ playerid ].isLogged = true;
 					//-----------------------------------------
-					cPlayer::SpawnChar(playerid);
+					//cPlayer::SpawnChar(playerid);
 				}
 				break;
 			}
@@ -212,6 +212,10 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 	else if (Player[playerid].isAction == PlayerAction::ACTION_USEJOBSDLG)
 	{
 		cPlayer::Jobs::cJobs::onDLG(playerid, dialogid, response, listitem, inputtext);
+	}
+	else if (Player[ playerid ].isAction == PlayerAction::ACTION_USEMINERDLG)
+	{
+		Jobs::Miner::cMiner::onDLG(playerid, dialogid, response, listitem, inputtext);
 	}
 	//---------------------------------------------------------------------------
 	return true;

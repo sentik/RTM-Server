@@ -39,10 +39,33 @@ void cPlayer::update()
 	strftime(buffer, 144, "~w~%d~p~.~w~%m~p~.~w~%Y %H~p~:~w~%M~p~:~w~%S", timeinfo);
 	TextDrawSetString(drawPlayerChar[HEADER_TIME], buffer);
 	//-------------------------------------------------
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		if (Player[ i ].isLogged == false)
 		{
+			if ( Player[i].inIndex == 5656) continue;
+			if (Player[ i ].pClass == 0)
+			{
+				if (IsPlayerNPC(i))
+				{
+					char name[ 16 ];
+					GetPlayerName(i, name);
+
+					strcpy(name, string(name).substr(5, 8).c_str());
+					const int p = atoi(name);
+					Player[ p ].inIndex = i;
+					Player[ i ].pClass = 1;
+
+					const int veh = AddStaticVehicle(538, 1759.5978, -1953.7347, 13.121, 270, 1, 1);
+
+					//Player[b].inType = CreateObject(19300, 0, 0, 0, 0, 0, 0, 10);
+					Player[ i ].pCarid = veh;
+					PutPlayerInVehicle(i, veh, 0);
+
+				}
+				else continue;
+			}
+			//----------------------------------------------------
 			if (isFive)
 			{
 				if (IsPlayerNPC(Player[i].inIndex))
@@ -740,7 +763,7 @@ void cPlayer::giveExp(const int u, const int exp)
 
 void cPlayer::getName(const int playerid, char name[ ])
 {
-
+	sprintf(name, "%s %s", Player[ playerid ].uName, Player[ playerid ].sName);
 }
 
 /*void cPlayer::EffectCamera(const int playerid)

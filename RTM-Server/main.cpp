@@ -71,16 +71,17 @@ AMX_NATIVE_INFO PluginNatives[] =
 PLUGIN_EXPORT void PLUGIN_CALL ProcessTick()
 {
 	tCount++;
-	StreamerCall::Tick();
+	
 	if (tCount == 100)
 	{
-		
+		StreamerCall::Tick();
 	}
 	else if (tCount==200)
 	{
 		uTime = getUnixTime();
 		//-----------------------------------
 		thread(cPlayer::update).detach();
+		StreamerCall::Tick();
 		//-----------------------------------
 		/*thread threadStream(StreamerCall::Tick);
 		threadStream.join();*/
@@ -182,7 +183,6 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 	sprintf(query, "RTM-GM v%s", GAME_VERSION);
 	SetGameModeText(query);
 	ShowNameTags(false);
-
 	StreamerCall::Native::CreateDynamicPickup(INFO_PICKUP, 23, TEMP_JOB_POS);
 	StreamerCall::Native::CreateDynamic3DTextLabel("Филиал трудо-занятности\nНажмите [ALT]", -1, TEMP_JOB_POS, 5.0f);
 	return true;

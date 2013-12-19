@@ -48,6 +48,8 @@ namespace Jobs
 				static void onGUI(const int, const int);
 				static void updateInfotable(bool);
 				static void updateText(const int, const int);
+				static void onDLG(const int, const int, const int, const int, const char*);
+				static void showDLG(const int);
 				static struct sMiner  cMiner::miner[MAX_SH];
 		};
 		enum minerRows

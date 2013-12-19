@@ -78,6 +78,15 @@ enum DIALOG_LIST
 	DLG_JOB_LIST,
 	DLG_JOB_MAIN,
 	DLG_JOB_LEAVE,
+	//^^^^^^^^^^^^^^^^^^^^^^^^^^
+	//--------------------------] Miner owner dialogs
+	DLG_MINER_OWNER_MAIN,
+	DLG_MINER_OWNER_INFO,
+	//^^^^^^^^^^^^^^^^^^^^^^^^^^
+	//--------------------------] Miner client dialogs
+	DLG_MINER_CLIENT_MAIN,
+	DLG_MINER_CLIENT_INFO,
+
 };
 
 enum DIALOG_STYLYS
