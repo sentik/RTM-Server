@@ -42,7 +42,7 @@
 #define DEFAULT_SPAWN 100.0f, 200.0f, 10.0f
 #define SELECT_COLORUS 0xDCDCDC88
 #define RANDOM_SEED	8 * getUnixTime() + 6 * clock()  - 123
-
+#define BOOST_THREAD_DONT_USE_CHRONO 1 
 
 
 #include <iostream>
@@ -73,6 +73,7 @@
 //#include<boost / system / cygwin_error.hpp>
 //#include<boost / system / linux_error.hpp>
 #include<boost/system/windows_error.hpp>
+//#include<boost/thread/thread.hpp>
 //--------------------------------------------
 #include "streamerlib.h"
 #include "cTexrDraws.h"

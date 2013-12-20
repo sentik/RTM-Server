@@ -44,26 +44,30 @@ void cPlayer::update()
 		if (Player[ i ].isLogged == false)
 		{
 			if ( Player[i].inIndex == 5656) continue;
-			if (Player[ i ].pClass == 0)
+			//if (Player[ i ].pClass == 0)
 			{
 				if (IsPlayerNPC(i))
 				{
-					char name[ 16 ];
-					GetPlayerName(i, name);
+					if (Player[ i ].pCarid == 0)
+					{
+						char name[ 16 ];
+						GetPlayerName(i, name);
 
-					strcpy(name, string(name).substr(5, 8).c_str());
-					const int p = atoi(name);
-					Player[ p ].inIndex = i;
-					Player[ i ].pClass = 1;
-
-					const int veh = AddStaticVehicle(538, 1759.5978, -1953.7347, 13.121, 270, 1, 1);
-
-					//Player[b].inType = CreateObject(19300, 0, 0, 0, 0, 0, 0, 10);
-					Player[ i ].pCarid = veh;
-					PutPlayerInVehicle(i, veh, 0);
-
+						//Получаем аттач к ид игрока
+						strcpy(name, string(name).substr(6, 9).c_str());
+						const int p = atoi(name);
+						//----------------------------------------------
+						//Аттач бота к игроку
+						Player[ p ].inIndex = i;
+						//----------------------------------------------
+						//Аттач поезда к боту
+						const int veh = AddStaticVehicle(538, 1759.5978, -1953.7347, 13.121, 270, 1, 1);
+						Player[ i ].pCarid = veh;
+						PutPlayerInVehicle(i, veh, 0);
+						logprintf("player: %d || bot: %d", p, i);
+					}
+					//----------------------------------------------
 				}
-				else continue;
 			}
 			//----------------------------------------------------
 			if (isFive)
