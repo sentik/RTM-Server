@@ -27,9 +27,9 @@ struct sProperty
 	float	posZ;			//Позиция z
 	int		bank;			//Ссылка на счет в банке
 	int		link;			//Ссылка на имущество (локальная)
-	char	style;
-	char	status;
-	char	type;			//Тип имущества
+	unsigned char	style;
+	unsigned char	status;
+	unsigned char	type;			//Тип имущества
 	char	player[16];		//Имя владельца
 	int		pick;
 	int		text;
@@ -66,6 +66,7 @@ enum PropertyType
 	prMiner,
 	prGas,
 	prFeller,
+	prFarms,
 };
 
 #endif 

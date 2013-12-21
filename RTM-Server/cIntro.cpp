@@ -316,9 +316,10 @@ void cPlayer::Intro::cIntro::drawIntro(const int u)
 	Sleep(1000);
 
 	A = 0;
-	char msg[256] = "";
 
 	case_story:
+	char msg[256] = "";
+	PlayerTextDrawSetString(u, Player[ u ].minerDraw[ IT_STORY ], "_");
 
 	if ( A == 0 )
 	{
@@ -404,6 +405,9 @@ void cPlayer::Intro::cIntro::drawIntro(const int u)
 	bA = 0;
 
 	cClass::fixText(msg, 256);
+
+
+
 	PlayerTextDrawSetString(u, Player[u].minerDraw[IT_STORY], msg);
 
 	case_showStory:

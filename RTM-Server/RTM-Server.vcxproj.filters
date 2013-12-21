@@ -171,6 +171,12 @@
     <ClInclude Include="cIntro.h">
       <Filter>Заголовочные файлы\player</Filter>
     </ClInclude>
+    <ClInclude Include="cFarmer.h">
+      <Filter>Заголовочные файлы\property\jobs</Filter>
+    </ClInclude>
+    <ClInclude Include="queries.h">
+      <Filter>Заголовочные файлы\general</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -253,6 +259,9 @@
     </ClCompile>
     <ClCompile Include="cIntro.cpp">
       <Filter>Файлы исходного кода\player</Filter>
+    </ClCompile>
+    <ClCompile Include="cFarmer.cpp">
+      <Filter>Файлы исходного кода\property\jobs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

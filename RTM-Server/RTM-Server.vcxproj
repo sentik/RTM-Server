@@ -118,6 +118,7 @@
     <ClInclude Include="cChat.h" />
     <ClInclude Include="cClass.h" />
     <ClInclude Include="cDialogs.h" />
+    <ClInclude Include="cFarmer.h" />
     <ClInclude Include="cFeller.h" />
     <ClInclude Include="cGang.h" />
     <ClInclude Include="cGas.h" />
@@ -141,6 +142,7 @@
     <ClInclude Include="invertory.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="cPlayer.h" />
+    <ClInclude Include="queries.h" />
     <ClInclude Include="Russian.h" />
     <ClInclude Include="saZones.h" />
     <ClInclude Include="shopVehicle.h" />
@@ -151,6 +153,7 @@
     <ClCompile Include="cChat.cpp" />
     <ClCompile Include="cClass.cpp" />
     <ClCompile Include="cDialogs.cpp" />
+    <ClCompile Include="cFarmer.cpp" />
     <ClCompile Include="cFeller.cpp" />
     <ClCompile Include="cGang.cpp" />
     <ClCompile Include="cGas.cpp" />

@@ -96,10 +96,10 @@ struct  pInfo
 	int		pPosW;				//Позиция	игрока World
 	int		pPosI;				//Позиция	игрока Interior
 	bool	isLogged;			//Авторизов игрок?
-	char	isAction;			//Действие	игрока
-	char	pCarid;				//Ид		транспорта
-	char	pSeatid;			//Ид		места в транспорте
-	char	pState;				//Состаяние	игрока
+	unsigned char	isAction;			//Действие	игрока
+	int	pCarid;				//Ид		транспорта
+	unsigned char	pSeatid;			//Ид		места в транспорте
+	unsigned char	pState;				//Состаяние	игрока
 	int		inType;
 	int		inIndex;
 	//Потом пихани куда надо, ок.
@@ -109,9 +109,9 @@ struct  pInfo
 	int		spdFuel;			//TextDraw
 	int		spdMilage;			//TextDraw
 	int		minerDraw[20];		//TextDraws miner
-	char	role;				//Роль игрока
+	unsigned char	role;				//Роль игрока
 	//--------------------------------------
-	char	memType;			//Тип банды/ мафии/ 
+	unsigned char	memType;			//Тип банды/ мафии/ 
 	int		memIndex;			//Ид банды/ мафии/
 	//Miner
 	int		aMinerA;
@@ -188,6 +188,7 @@ enum PlayerAction
 	ACTION_PREFELGAME,
 	ACTION_FELGAME,
 	ACTION_FELJOB,
+	ACTION_FAMER,
 	ACTION_USEPROP_GAS,
 	ACTION_GANG_MAKE,
 	ACTION_USEFELLERDLG,

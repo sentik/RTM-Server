@@ -169,6 +169,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 	cInteriors::loadInterioList();
 	cHouses::loadHouses();
 	cHouses::loadHouseInteriors();
+	property::farms::load();
 	//-------------------------------------------------------------
 	cObjects::loadObjects();
 	//-------------------------------------------------------------
