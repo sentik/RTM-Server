@@ -30,6 +30,7 @@ struct sMiner
 	int		a2;			//Кол-во 2го метала
 	float	procent;	//Процентая добавка к стоимости на продажу
 	int		infoTable;	//Обьект с информацией
+	double  fond;
 };
 
 namespace Jobs
@@ -71,6 +72,7 @@ namespace Jobs
 			a1,
 			a2,
 			proc,
+			fond,
 			oName,
 		};
 	}

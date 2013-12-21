@@ -164,8 +164,10 @@ namespace language
 		{
 			const char listMetall[ 6 ][ 16 ] = 
 			{ 
-				"Железо", "Серебро", 
-				"Медь", "Золото"
+				"Железо", //0
+				"Медь",  //1
+				"Серебро", //2
+				"Золото",  //3
 			};
 			//----------------------------------------------------------------------------
 			const char actionOne[ 96 ]		= "Вы добыли: {B700FF}%d {FFFFFF}грамм железа, всего {B700FF}%d{FFFFFF} грамм";
@@ -180,8 +182,8 @@ namespace language
 			//----------------------------------------------------------------------------
 			const char otherAction[32]		= "Вы добыли: {FFAF00}воздух";
 			//----------------------------------------------------------------------------
-			const char tableSH1[176]		= "Информация\nСтоимость грамма железа: {B700FF}%.2f$\n{FFFFFF}Стоимость грамма серебра: {B700FF}%.2f$\n{FFFFFF}Склад\nЖелеза грамм: {B700FF}%d\n{FFFFFF}Серебра грамм: {B700FF}%d";
-			const char tableSH2[176]		= "Информация\nСтоимость грамма меди: {B700FF}%.2f$\n{FFFFFF}Стоимость грамма золота: {B700FF}%.2f$\n{FFFFFF}Склад\nМеди грамм: {B700FF}%d\n{FFFFFF}Золота грамм: {B700FF}%d";
+			const char tableSH1[176]		= "Информация\nСтоимость грамма железа: {"MINER_MENU_COLOR"}%.2f$\n{FFFFFF}Стоимость грамма серебра: {"MINER_MENU_COLOR"}%.2f$\n{FFFFFF}Склад\nЖелеза грамм: {"MINER_MENU_COLOR"}%d\n{FFFFFF}Серебра грамм: {"MINER_MENU_COLOR"}%d";
+			const char tableSH2[176]		= "Информация\nСтоимость грамма меди: {"MINER_MENU_COLOR"}%.2f$\n{FFFFFF}Стоимость грамма золота: {"MINER_MENU_COLOR"}%.2f$\n{FFFFFF}Склад\nМеди грамм: {"MINER_MENU_COLOR"}%d\n{FFFFFF}Золота грамм: {"MINER_MENU_COLOR"}%d";
 		}
 
 		namespace feller

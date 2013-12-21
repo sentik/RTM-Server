@@ -26,8 +26,8 @@ void cObjects::loadObjects()
 				// Получаем аргументы
 				//---------------------------------------------
 				const int	 model = atoi(obj->Attribute("model"));
-				int			 posI = /*atoi(obj->Attribute("interior"));*/-1;
-				int			 posW = /*atoi(obj->Attribute("dimension"));*/-1;
+				int			 posI = atoi(obj->Attribute("interior"));
+				int			 posW = atoi(obj->Attribute("dimension"));
 				//---------------------------------------------
 				const double posX = atof(obj->Attribute("posX"));
 				const double posY = atof(obj->Attribute("posY"));

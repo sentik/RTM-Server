@@ -123,8 +123,10 @@ struct  pInfo
 	// 3dtext hpbar & name
 	int		pBar;
 	//Jobs
-	char	pJob1;
-	char	pJob2;
+	unsigned char	pJob1;
+	unsigned char	pJob2;
+	float	minerZP;
+
 	
 };
 //TODO: Структура игрока

@@ -50,7 +50,15 @@ void fProperty::cFeller::loadFeller()
 		if (Property[countProperty].owner)
 		{
 			strcpy(Property[countProperty].player, row[fProperty::rowsFeller::pname]);
-			sprintf(query, "{FFFFFF}Лесопилка: {B7FF00}%s\n{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s", fProperty::cFeller::Feller[i].name, cProperty::getZoneName(Property[countProperty].region), Property[countProperty].number, Property[countProperty].player);
+			sprintf
+			(
+				query, 
+				"{FFFFFF}Лесопилка: {B7FF00}%s\n{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s", 
+				fProperty::cFeller::Feller[i].name, 
+				cProperty::getZoneName(Property[countProperty].region), 
+				Property[countProperty].number, 
+				Property[countProperty].player
+			);
 			//=====================================================================================================
 			Property[countProperty].pick = StreamerCall::Native::CreateDynamicPickup(DOLLAR_PICKUP, 23,
 				Property[countProperty].posX,

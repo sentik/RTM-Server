@@ -48,6 +48,7 @@ void Jobs::Miner::cMiner::loadMiner()
 		miner[i].procent					= atof(row[Jobs::Miner::minerRows::proc]);
 		miner[i].zp1						= atof(row[Jobs::Miner::minerRows::zp1]);
 		miner[i].zp2						= atof(row[Jobs::Miner::minerRows::zp2]);
+		miner[i].fond						= atof(row[Jobs::Miner::minerRows::fond]);
 		//--------------------------------------------------------------
 		Property[countProperty].link		= i;
 		//--------------------------------------------------------------
@@ -301,57 +302,57 @@ void Jobs::Miner::cMiner::actionPicks(const int u)
 	{
 		action = 2;
 		Player[u].inIndex = 1;
-		SendClientMessage(u, -1, "Вы начали добывать, {B700FF}железо");
+		SendClientMessage(u, -1, "Вы начали добывать, {"MINER_MENU_COLOR"}железо");
 	}
 	else if (cPlayer::isRangeOfPoint(u, MINER_SH1_SILVER_RADIUS, MINER_SH1_SILVER))
 	{
 		action = 2;
 		Player[u].inIndex = 2;
-		SendClientMessage(u, -1, "Вы начали добывать, {B700FF}серебро");
+		SendClientMessage(u, -1, "Вы начали добывать, {"MINER_MENU_COLOR"}серебро");
 	}
 	else if (cPlayer::isRangeOfPoint(u, MINER_SH2_CUPRUM_RADIUS, MINER_SH2_CUPRUM))
 	{
 		action = 2;
 		Player[u].inIndex = 3;
-		SendClientMessage(u, -1, "Вы начали добывать, {B700FF}медь");
+		SendClientMessage(u, -1, "Вы начали добывать, {"MINER_MENU_COLOR"}медь");
 	}
 	else if (cPlayer::isRangeOfPoint(u, MINER_SH2_GOLD_RADIUS, MINER_SH2_GOLD))
 	{
 		action = 2;
 		Player[u].inIndex = 4;
-		SendClientMessage(u, -1, "Вы начали добывать, {B700FF}золото");
+		SendClientMessage(u, -1, "Вы начали добывать, {"MINER_MENU_COLOR"}золото");
 	}
 	else if (cPlayer::isRangeOfPoint(u, 2.5f, MINER_SH1_CHECKPOS))
 	{
-		sprintf(query, "\t\t\t\t\t{FFFFFF}Добыто {B700FF}[{FFFFFF}Заработано{B700FF}]\n\t{FFFFFF}Железо: {B700FF}%d [{FFFFFF}%.2f${B700FF}]\n\t{FFFFFF}Серебро: {B700FF}%d [{FFFFFF}%.2f${B700FF}]", 
+		sprintf(query, "\t\t\t\t\t{FFFFFF}Добыто {"MINER_MENU_COLOR"}[{FFFFFF}Заработано{"MINER_MENU_COLOR"}]\n\t{FFFFFF}Железо: {"MINER_MENU_COLOR"}%d [{FFFFFF}%.2f${"MINER_MENU_COLOR"}]\n\t{FFFFFF}Серебро: {"MINER_MENU_COLOR"}%d [{FFFFFF}%.2f${"MINER_MENU_COLOR"}]",
 						Player[u].aMinerA, Jobs::Miner::cMiner::miner[0].zp1*Player[u].aMinerA, 
 						Player[u].aMinerB, Jobs::Miner::cMiner::miner[0].zp2*Player[u].aMinerB);
 		ShowPlayerDialog(u, DLG_NONE, GUI_MSG, "Железно-серебряная шахта", query, "OK", "");
 		//----------------------------------------------------------------------------------------------------------------------
 		Jobs::Miner::cMiner::miner[0].a1 += Player[u].aMinerA;
 		Jobs::Miner::cMiner::miner[0].a2 += Player[u].aMinerB;
-		Player[u].aMinerA = 0;
-		Player[u].aMinerB = 0;
 		//----------------------------------------------------------------------------------------------------------------------
 		Jobs::Miner::cMiner::updateInfotable(false);
 		//----------------------------------------------------------------------------------------------------------------------
-		cPlayer::givePlayerMoney(u, (Jobs::Miner::cMiner::miner[0].zp1*Player[u].aMinerA + Jobs::Miner::cMiner::miner[0].zp2*Player[u].aMinerB));
+		Player[u].minerZP += ( Jobs::Miner::cMiner::miner[0].zp1*Player[u].aMinerA + Jobs::Miner::cMiner::miner[0].zp2*Player[u].aMinerB );
+		Player[u].aMinerA = 0;
+		Player[u].aMinerB = 0;
 	}
 	else if (cPlayer::isRangeOfPoint(u, 2.5f, MINER_SH2_CHECKPOS))
 	{
-		sprintf(query, "\t\t\t\t\t{FFFFFF}Добыто {B700FF}[{FFFFFF}Заработано{B700FF}]\n\t{FFFFFF}Медь: {B700FF}%d [{FFFFFF}%.2f${B700FF}]\n\t{FFFFFF}Золото: {B700FF}%d [{FFFFFF}%.2f${B700FF}]",
+		sprintf(query, "\t\t\t\t\t{FFFFFF}Добыто {"MINER_MENU_COLOR"}[{FFFFFF}Заработано{"MINER_MENU_COLOR"}]\n\t{FFFFFF}Медь: {"MINER_MENU_COLOR"}%d [{FFFFFF}%.2f${"MINER_MENU_COLOR"}]\n\t{FFFFFF}Золото: {"MINER_MENU_COLOR"}%d [{FFFFFF}%.2f${"MINER_MENU_COLOR"}]",
 			Player[u].aMinerA, Jobs::Miner::cMiner::miner[1].zp1*Player[u].aMinerA,
 			Player[u].aMinerB, Jobs::Miner::cMiner::miner[1].zp2*Player[u].aMinerB);
 		ShowPlayerDialog(u, DLG_NONE, GUI_MSG, "Золото-медная шахта", query, "OK", "");
 		//----------------------------------------------------------------------------------------------------------------------
 		Jobs::Miner::cMiner::miner[1].a1 += Player[u].aMinerA;
 		Jobs::Miner::cMiner::miner[1].a2 += Player[u].aMinerB;
-		Player[u].aMinerA = 0;
-		Player[u].aMinerB = 0;
 		//----------------------------------------------------------------------------------------------------------------------
 		Jobs::Miner::cMiner::updateInfotable(true);
 		//----------------------------------------------------------------------------------------------------------------------
-		cPlayer::givePlayerMoney(u, (Jobs::Miner::cMiner::miner[1].zp1*Player[u].aMinerA + Jobs::Miner::cMiner::miner[1].zp2*Player[u].aMinerB));
+		Player[u].minerZP += ( Jobs::Miner::cMiner::miner[1].zp1*Player[u].aMinerA + Jobs::Miner::cMiner::miner[1].zp2*Player[u].aMinerB );
+		Player[u].aMinerA = 0;
+		Player[u].aMinerB = 0;
 	}
 
 	if (action == 1)
@@ -432,9 +433,9 @@ void Jobs::Miner::cMiner::showDLG(const int u)
 	Player[ u ].isAction = PlayerAction::ACTION_USEMINERDLG;
 	if (Player[ u ].pDB == Property[ Player[ u ].inIndex ].owner)
 	{
-		dialogs::genDLGItem(1, "Информация", msg);
-		dialogs::genDLGItem(2, "Название", msg);
-		dialogs::genDLGItem(3, "Финансы", msg);
+		dialogs::genDLGItem(1, "Информация", msg, MINER_MENU_COLOR);
+		dialogs::genDLGItem(2, "Финансы", msg, MINER_MENU_COLOR);
+		dialogs::genDLGItem(3, "Клиент-меню (для разрабов)", msg, MINER_MENU_COLOR);
 		//----------------------------------------
 		ShowPlayerDialog
 			(
@@ -448,10 +449,10 @@ void Jobs::Miner::cMiner::showDLG(const int u)
 	}
 	else
 	{
-		dialogs::genDLGItem(1, "Информация", msg);
-		dialogs::genDLGItem(2, "Зарплата", msg);
-		dialogs::genDLGItem(3, "Инвертарь (Не работает)", msg);
-		dialogs::genDLGItem(4, "Закупка руды (Не работает)", msg);
+		dialogs::genDLGItem(1, "Информация", msg, MINER_MENU_COLOR);
+		dialogs::genDLGItem(2, "Зарплата", msg, MINER_MENU_COLOR);
+		dialogs::genDLGItem(3, "Инвертарь (Не работает)", msg, MINER_MENU_COLOR);
+		dialogs::genDLGItem(4, "Закупка руды (Не работает)", msg, MINER_MENU_COLOR);
 		//----------------------------------------
 		ShowPlayerDialog
 			(
@@ -470,22 +471,147 @@ void Jobs::Miner::cMiner::onDLG(const int u, const int dialogid, const int respo
 	char msg[256] = "";
 	const int p = Player[u].inIndex;
 	const int l = Property[p].link;
-	const int w = Property[ p ].property-1;
 
 	switch (dialogid)
 	{
-		//=======================================
+		//------------------------------------------------------------------------------------------] Client
 		case DLG_MINER_CLIENT_MAIN:
-		case	DLG_MINER_OWNER_MAIN:
+		{
+			if ( response )
+			{
+				if ( listitem == 0 )
+				{
+					sprintf
+					(	
+						msg,
+						"Зарплата за %s: \t\t %f$\nЗарплата за %s: \t\t%f$",
+						language::jobs::miner::listMetall[l], miner[l].zp1,
+						language::jobs::miner::listMetall[l+2], miner[l].zp1
+					);
+					ShowPlayerDialog
+					(
+						u,
+						DLG_MINER_CLIENT_INFO,
+						GUI_MSG,
+						"Информация о шахте",
+						msg,
+						language::dialogs::buttons::btnBack,
+						""
+					);
+				}
+				else if ( listitem == 1 )
+				{
+					dialogs::genDLGItem(1, "Обналичить", msg, MINER_MENU_COLOR);
+					dialogs::genDLGItem(2, "Банковский перевод", msg, MINER_MENU_COLOR);
+					ShowPlayerDialog(u, DLG_MINER_CLIENT_MONEY, GUI_LIST, "Зарплата", msg, language::dialogs::buttons::btnSelect, language::dialogs::buttons::btnBack);
+				}
+			}
+			else
+			{
+				Player[u].isAction = PlayerAction::ACTION_NONE;
+			}
+			break;
+		}
+		case DLG_MINER_CLIENT_MONEY:
+		{
+			if ( response )
+			{
+				if ( listitem == 0 )
+				{
+					const float money = Player[u].minerZP;
+					const int exp = floor(money / 100);
+
+					sprintf(msg, "{FFFFFF}Заработано: {"MINER_MENU_COLOR"}%.2f$ {FFFFFF}+ ({"MINER_MENU_COLOR"}%d EXP{FFFFFF})", money, exp);
+
+					if ( Jobs::Miner::cMiner::miner[l].fond > money )
+					{
+						cPlayer::giveExp(u, exp);
+						Jobs::Miner::cMiner::miner[l].fond -= money;
+						cPlayer::givePlayerMoney(u, money);
+						Player[u].minerZP = 0;
+					}
+					else
+					{
+						SendClientMessage(u, -1, "{FF0000}Ошибка: {FFFFFF}шахта не может оплатить ваш труд.");
+					}
+
+					ShowPlayerDialog(u, DLG_MINER_CLIENT_INFO, GUI_MSG, "Зарплата", msg, language::dialogs::buttons::btnOK, "");
+				}
+				else if ( listitem == 1 )
+				{
+	case_bank:
+					ShowPlayerDialog(u, DLG_MINER_CLIENT_MONEY_BANK, GUI_INPUT, "Зарплата", "{FFFFFF}Введите номер банкского счёта", language::dialogs::buttons::btnDone, language::dialogs::buttons::btnBack);
+				}
+			}
+			else
+			{
+				Jobs::Miner::cMiner::showDLG(u);
+			}
+			break;
+		}
+		case DLG_MINER_CLIENT_MONEY_BANK:
+		{
+			if ( response )
+			{
+				if ( regex_match(inputtext, expCode) )
+				{
+					const int num = atoi(inputtext);
+					if ( cBanks::isValidNumber(num) )
+					{
+						const float money = Player[u].minerZP;
+						const int exp = floor(money / 100);
+						double value;
+						cBanks::getBalance(Property[p].bank, &value);
+
+						sprintf(msg, "{FFFFFF}Заработано: {"MINER_MENU_COLOR"}%.2f$ {FFFFFF}+ ({"MINER_MENU_COLOR"}%d EXP{FFFFFF})", money, exp);
+
+						if ( value > money )
+						{
+							cPlayer::giveExp(u, exp);
+							cBanks::giveBalance(Property[p].bank, -money);
+							cBanks::giveBalance(num, money);
+							Player[u].minerZP = 0;
+						}
+						else
+						{
+							SendClientMessage(u, -1, "{FF0000}Ошибка: {FFFFFF}шахта не может оплатить ваш труд.");
+						}
+
+						ShowPlayerDialog(u, DLG_MINER_CLIENT_INFO, GUI_MSG, "Зарплата", msg, language::dialogs::buttons::btnOK, "");
+					}
+					else
+					{
+goto case_bank;
+					}
+				}
+				else
+				{
+goto case_bank;
+				}
+			}
+			else
+			{
+				Jobs::Miner::cMiner::showDLG(u);
+			}
+			break;
+		}
+		case DLG_MINER_OWNER_INFO:
+		case DLG_MINER_CLIENT_INFO:
+		{
+			Jobs::Miner::cMiner::showDLG(u);
+			break;
+		}
+		//------------------------------------------------------------------------------------------] Owner
+		case DLG_MINER_OWNER_MAIN:
 		{
 			if (response)
 			{
 				if (listitem == 0)		//Информация
 				{
 					sprintf(msg, 
-							"Зарплата за %s: \t\t %f$\nЗарплата за %s: \t\t%f$",
-							language::jobs::miner::listMetall[ w ], miner[l].zp1,
-							language::jobs::miner::listMetall[ w + 1 ], miner[ l ].zp1
+							"Зарплата за %s: \t\t %.2f$\nЗарплата за %s: \t\t%.2f$",
+							language::jobs::miner::listMetall[l], miner[l].zp1,
+							language::jobs::miner::listMetall[l+2], miner[l].zp2
 					);
 					ShowPlayerDialog
 					(
@@ -498,13 +624,32 @@ void Jobs::Miner::cMiner::onDLG(const int u, const int dialogid, const int respo
 						""
 					);
 				}
-				else if (listitem == 1)	//Название
+				else if (listitem == 1)	//Финансы
 				{
-
+	case_finans:
+					strcpy(msg, "");
+					dialogs::genDLGItem(1, "Наличные", msg, MINER_MENU_COLOR);
+					dialogs::genDLGItem(2, "Номер счёта", msg, MINER_MENU_COLOR);
+					dialogs::genDLGItem(3, "Зарплата", msg, MINER_MENU_COLOR);
+					dialogs::genDLGItem(4, "Процент продажи", msg, MINER_MENU_COLOR);
+					ShowPlayerDialog(u, DLG_MINER_OWNER_FINANS, GUI_LIST, "sdsad", msg, language::dialogs::buttons::btnSelect, language::dialogs::buttons::btnBack);
 				}
-				else if (listitem == 2)	//Финансы
+				else if ( listitem == 2 )
 				{
-
+					dialogs::genDLGItem(1, "Информация", msg, MINER_MENU_COLOR);
+					dialogs::genDLGItem(2, "Зарплата", msg, MINER_MENU_COLOR);
+					dialogs::genDLGItem(3, "Инвертарь (Не работает)", msg, MINER_MENU_COLOR);
+					dialogs::genDLGItem(4, "Закупка руды (Не работает)", msg, MINER_MENU_COLOR);
+					//----------------------------------------
+					ShowPlayerDialog
+					(
+						u,
+						DLG_MINER_CLIENT_MAIN, GUI_LIST,
+						"Меню клиента шахты", msg,
+						language::dialogs::buttons::btnSelect,
+						language::dialogs::buttons::btnClose
+					);
+					//----------------------------------------
 				}
 			}
 			else
@@ -513,6 +658,159 @@ void Jobs::Miner::cMiner::onDLG(const int u, const int dialogid, const int respo
 			}
 			break;
 		}
-		//=======================================
+		case DLG_MINER_OWNER_FINANS:
+		{
+			if ( response )
+			{
+				if ( listitem == 0 )
+				{
+	case_omoney:
+					strcpy(msg, "");
+					dialogs::genDLGItem(1, "Снять", msg, MINER_MENU_COLOR);
+					dialogs::genDLGItem(2, "Положить", msg, MINER_MENU_COLOR);
+					ShowPlayerDialog(u, DLG_MINER_OWNER_MONEY, GUI_LIST, "Наличные", msg, language::dialogs::buttons::btnSelect, language::dialogs::buttons::btnBack);
+				}
+				else if ( listitem == 1 )
+				{
+	case_oBN:
+					sprintf(msg, "{FFFFFF}Введите номер банкского счёта который будет привязан к шахте.\nТекущей счёт: {"MINER_MENU_COLOR"}%d", Property[p].bank);
+					ShowPlayerDialog(u, DLG_MINER_OWNER_BN, GUI_INPUT, "Банковский счёт", msg, language::dialogs::buttons::btnDone, language::dialogs::buttons::btnBack);
+				}
+				else if ( listitem == 2 )
+				{
+	case_oZP:
+					sprintf(msg, "{FFFFFF}[{"MINER_MENU_COLOR"}%.2f${FFFFFF}]\t{"MINER_MENU_COLOR"}%s\n{FFFFFF}[{"MINER_MENU_COLOR"}%.2f${FFFFFF}]\t{"MINER_MENU_COLOR"}%s", 
+							miner[l].zp1, language::jobs::miner::listMetall[l],
+							miner[l].zp2, language::jobs::miner::listMetall[l+2]);
+					ShowPlayerDialog(u, DLG_MINER_OWNER_ZP, GUI_LIST, "Зарплата", msg, language::dialogs::buttons::btnSelect, language::dialogs::buttons::btnBack);
+				}
+				else if ( listitem == 3 )
+				{
+					sprintf(msg, "{FFFFFF}Введите процент продажи.\nТекущей процент: {"MINER_MENU_COLOR"}%.1f%%", miner[l].procent);
+					ShowPlayerDialog(u, DLG_MINER_OWNER_SELLP, GUI_INPUT, "Процент продажи", msg, language::dialogs::buttons::btnDone, language::dialogs::buttons::btnBack);
+				}
+			}
+			else
+			{
+				Jobs::Miner::cMiner::showDLG(u);
+			}
+			break;
+		}
+		case DLG_MINER_OWNER_MONEY:
+		{
+			if ( response )
+			{
+				if ( listitem == 0 )
+				{
+	case_oPay:
+					sprintf(msg, "{FFFFFF}Введите сумму которую хотите снять.\nБаланс шахты: {"MINER_MENU_COLOR"}%.2f$", miner[l].fond);
+					ShowPlayerDialog(u, DLG_MINER_OWNER_MONEY_PAY, GUI_INPUT, "Снять", msg, language::dialogs::buttons::btnDone, language::dialogs::buttons::btnBack);
+				}
+				else
+				{
+	case_oDep:
+					sprintf(msg, "{FFFFFF}Введите сумму которую хотите положить.\nУ вас в кошельке: {"MINER_MENU_COLOR"}%.2f$", Player[u].pMoney);
+					ShowPlayerDialog(u, DLG_MINER_OWNER_MONEY_DEP, GUI_INPUT, "Снять", msg, language::dialogs::buttons::btnDone, language::dialogs::buttons::btnBack);
+				}
+			}
+			else
+			{
+goto case_finans;
+			}
+			break;
+		}
+		case DLG_MINER_OWNER_MONEY_PAY:
+		{
+			if ( response )
+			{
+				if ( regex_match(inputtext, expFloat) )
+				{
+					const float money = atof(inputtext);
+					if ( money > 0 && miner[l].fond > money )
+					{
+						miner[l].fond -= money;
+						cPlayer::givePlayerMoney(u, money);
+goto case_finans;
+					}
+					else
+					{
+goto case_oPay;
+					}
+				}
+				else
+				{
+goto case_oPay;
+				}
+			}
+			else
+			{
+goto case_omoney;
+			}
+			break;
+		}
+		case DLG_MINER_OWNER_MONEY_DEP:
+		{
+			if ( response )
+			{
+				if ( regex_match(inputtext, expFloat) )
+				{
+					const float money = atof(inputtext);
+					if ( money > 0 && Player[u].pMoney > money )
+					{
+						miner[l].fond += money;
+						cPlayer::givePlayerMoney(u, -money);
+						goto case_finans;
+					}
+					else
+					{
+goto case_oDep;
+					}
+				}
+				else
+				{
+goto case_oDep;
+				}
+			}
+			else
+			{
+goto case_omoney;
+			}
+			break;
+		}
+		case DLG_MINER_OWNER_BN:
+		{
+			if ( response )
+			{
+				if ( regex_match(inputtext, expCode) )
+				{
+					const int num = atoi(inputtext);
+					if ( cBanks::isValidNumber(num) )
+					{
+						Property[p].bank = num;
+						goto case_finans;
+					}
+					else
+					{
+goto case_oBN;
+					}
+				}
+				else
+				{
+goto case_oBN;
+				}
+			}
+			else
+			{
+goto case_finans;
+			}
+			break;
+		}
+		case DLG_MINER_OWNER_ZP:
+		case DLG_MINER_OWNER_SELLP:
+		{
+									  SendClientMessage(u, -1, "In dev");
+									  goto case_finans;
+									  break;
+		}
 	}
 }

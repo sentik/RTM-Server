@@ -217,6 +217,10 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerConnect(int playerid)
 {
 	if (IsPlayerNPC(playerid) == false)
 	{
+		for (int i = 0; i < property::farms::count; i++)
+		{
+			GangZoneShowForPlayer(playerid, property::farms::Farm[ i ].zome, 0x00ff6c96);
+		}
 
 		StreamerCall::Events::OnPlayerConnect(playerid);
 		Player[ playerid ].pBar = StreamerCall::Native::CreateDynamic3DTextLabel(" ", -1, 0.0f, 0.0f, 0.13f, 20.0f, playerid);

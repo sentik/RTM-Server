@@ -275,6 +275,7 @@ void cProperty::enterProperty(const int u)
 		//-------------------------------------------------------------------------------------------------------
 		if (cPlayer::isRangeOfPoint(u, ENTER_RADIUS, Property[ i ].posX, Property[ i ].posY, Property[ i ].posZ))
 		{
+			Player[u].inIndex = i;
 			//Вывод различных сообщений
 			if (Property[ i ].owner==0)
 			{
@@ -308,7 +309,6 @@ void cProperty::enterProperty(const int u)
 			cPlayer::setCharAngle(u, Interior[ idx ].posR);
 			cPlayer::setCharWorld(u, i);
 			//-----------------------------------------------------------------------------------------------
-			Player[u].inIndex = i;
 			break;
 		}
 		//--------------------------------------------------------------------

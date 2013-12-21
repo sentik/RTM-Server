@@ -71,4 +71,6 @@
 
 #define TEMP_JOB_POS	-397.5255,179.5468,1008.3950
 
+#define MINER_MENU_COLOR	"C4DD0E"
+
 #endif 
