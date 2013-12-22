@@ -88,6 +88,8 @@ enum DIALOG_LIST
 	DLG_MINER_OWNER_MONEY_DEP,
 	DLG_MINER_OWNER_BN,
 	DLG_MINER_OWNER_ZP,
+	DLG_MINER_OWNER_ZP_M1,
+	DLG_MINER_OWNER_ZP_M2,
 	DLG_MINER_OWNER_SELLP,
 	//^^^^^^^^^^^^^^^^^^^^^^^^^^
 	//--------------------------] Miner client dialogs

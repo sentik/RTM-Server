@@ -435,7 +435,7 @@ void Jobs::Miner::cMiner::showDLG(const int u)
 	{
 		dialogs::genDLGItem(1, "Информация", msg, MINER_MENU_COLOR);
 		dialogs::genDLGItem(2, "Финансы", msg, MINER_MENU_COLOR);
-		dialogs::genDLGItem(3, "Клиент-меню (для разрабов)", msg, MINER_MENU_COLOR);
+		dialogs::genDLGItem(3, "Клиент-меню {FF0000}(для разрабов)", msg, MINER_MENU_COLOR);
 		//----------------------------------------
 		ShowPlayerDialog
 			(
@@ -451,8 +451,8 @@ void Jobs::Miner::cMiner::showDLG(const int u)
 	{
 		dialogs::genDLGItem(1, "Информация", msg, MINER_MENU_COLOR);
 		dialogs::genDLGItem(2, "Зарплата", msg, MINER_MENU_COLOR);
-		dialogs::genDLGItem(3, "Инвертарь (Не работает)", msg, MINER_MENU_COLOR);
-		dialogs::genDLGItem(4, "Закупка руды (Не работает)", msg, MINER_MENU_COLOR);
+		dialogs::genDLGItem(3, "Инвертарь {FF0000}(Не работает)", msg, MINER_MENU_COLOR);
+		dialogs::genDLGItem(4, "Закупка руды {FF0000}(Не работает)", msg, MINER_MENU_COLOR);
 		//----------------------------------------
 		ShowPlayerDialog
 			(
@@ -504,6 +504,10 @@ void Jobs::Miner::cMiner::onDLG(const int u, const int dialogid, const int respo
 					dialogs::genDLGItem(1, "Обналичить", msg, MINER_MENU_COLOR);
 					dialogs::genDLGItem(2, "Банковский перевод", msg, MINER_MENU_COLOR);
 					ShowPlayerDialog(u, DLG_MINER_CLIENT_MONEY, GUI_LIST, "Зарплата", msg, language::dialogs::buttons::btnSelect, language::dialogs::buttons::btnBack);
+				}
+				else
+				{
+					Jobs::Miner::cMiner::showDLG(u);
 				}
 			}
 			else
@@ -686,6 +690,7 @@ goto case_bank;
 				}
 				else if ( listitem == 3 )
 				{
+	case_oProcent:
 					sprintf(msg, "{FFFFFF}Введите процент продажи.\nТекущей процент: {"MINER_MENU_COLOR"}%.1f%%", miner[l].procent);
 					ShowPlayerDialog(u, DLG_MINER_OWNER_SELLP, GUI_INPUT, "Процент продажи", msg, language::dialogs::buttons::btnDone, language::dialogs::buttons::btnBack);
 				}
@@ -806,11 +811,113 @@ goto case_finans;
 			break;
 		}
 		case DLG_MINER_OWNER_ZP:
+		{
+			if ( response )
+			{
+				if ( listitem == 0 )
+				{
+	case_metalOne:
+					sprintf(msg, "{FFFFFF}Введите стоимость оплаты труда за {"MINER_MENU_COLOR"}1 {FFFFFF}грамм {"MINER_MENU_COLOR"}%s.\n{FFFFFF}Текущая стоимость: {"MINER_MENU_COLOR"}%.2f$", language::jobs::miner::listMetall[l], Jobs::Miner::cMiner::miner[l].zp1);
+					ShowPlayerDialog(u, DLG_MINER_OWNER_ZP_M1, GUI_INPUT, "Зарплата", msg, language::dialogs::buttons::btnDone, language::dialogs::buttons::btnBack);
+				}
+				else
+				{
+	case_metalTwo:
+					sprintf(msg, "{FFFFFF}Введите стоимость оплаты труда за {"MINER_MENU_COLOR"}1 {FFFFFF}грамм {"MINER_MENU_COLOR"}%s.\n{FFFFFF}Текущая стоимость: {"MINER_MENU_COLOR"}%.2f$", language::jobs::miner::listMetall[l+2], Jobs::Miner::cMiner::miner[l].zp2);
+					ShowPlayerDialog(u, DLG_MINER_OWNER_ZP_M2, GUI_INPUT, "Зарплата", msg, language::dialogs::buttons::btnDone, language::dialogs::buttons::btnBack);
+				}
+			}
+			else
+			{
+goto case_finans;
+			}
+			break;
+		}
+		case DLG_MINER_OWNER_ZP_M1:
+		{
+			if ( response )
+			{
+				if ( regex_match(inputtext, expFloat) )
+				{
+					const float cost = atof(inputtext);
+					if ( cost > 0.00f && cost < 10.0f )
+					{
+						Jobs::Miner::cMiner::miner[l].zp1 = cost;
+						Jobs::Miner::cMiner::updateInfotable(l);
+goto case_finans;
+					}
+					else
+					{
+goto case_metalOne;
+					}
+				}
+				else
+				{
+goto case_metalOne;
+				}
+			}
+			else
+			{
+goto case_oZP;
+			}
+			break;
+		}
+		case DLG_MINER_OWNER_ZP_M2:
+		{
+			if ( response )
+			{
+				if ( regex_match(inputtext, expFloat) )
+				{
+					const float cost = atof(inputtext);
+					if ( cost > 0.00f && cost < 10.0f )
+					{
+						Jobs::Miner::cMiner::miner[l].zp2 = cost;
+						Jobs::Miner::cMiner::updateInfotable(l);
+goto case_finans;
+					}
+					else
+					{
+goto case_metalTwo;
+					}
+				}
+				else
+				{
+goto case_metalTwo;
+				}
+			}
+			else
+			{
+goto case_oZP;
+			}
+			break;
+		}
 		case DLG_MINER_OWNER_SELLP:
 		{
-									  SendClientMessage(u, -1, "In dev");
-									  goto case_finans;
-									  break;
+			if ( response )
+			{
+				if ( regex_match(inputtext, expFloat) )
+				{
+					const float procent = atof(inputtext);
+					if ( procent > 0.00f && procent < 100.0f )
+					{
+						Jobs::Miner::cMiner::miner[l].procent = procent;
+goto case_finans;
+					}
+					else
+					{
+goto case_oProcent;
+					}
+				}
+				else
+				{
+goto case_oProcent;
+				}
+			}
+			else
+			{
+goto case_finans;
+			}
+			break;
 		}
 	}
 }
