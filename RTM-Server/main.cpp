@@ -5,26 +5,12 @@ http://ru.wikibooks.org/wiki/%D0%A1%D0%B8++
 Язык содержит слишком много возможностей, они могут быть опасны. © Википедия
 */
 
-/*
-Нужно сделать на 30.11.2013:
-1. Сделать получение зарплаты на шахтах (пока из воздуха)   !!!
-2. Сделать лесопилки (зарплаты пока из воздуха)				!!!
-3. Магазины 24x7 ( можно пока без покупки товара)			???
-4. Автозаправки ( желательно с разделением топлива)			!!!
-5. Сделать пробег для авто									!!!
-6. Сделать бензин для авто									!!!
-7. Сделать заправку авто на ЗАПРАВКЕ.						!!!
-8. Сделать взаимоедействия с банкоматами					???
-==============================
-*Сделать Дополнително:
-1. Добавление недвижимости									!!!
-2. Сделать систему граффити									?!?
-3. Перевести игровые команды на C++							?!?
-4. Сделать управление бизнессами (назначение цен)			???
-*/
-
 MYSQL *con;
-std::mutex gMutex;
+std::mutex mutexStreamGlobal;
+std::mutex mutexStreamPlayer;
+std::mutex mutexMYSQL;
+
+
 logprintf_t logprintf;
 //======================================
 regex expLogin;
@@ -52,9 +38,9 @@ int uTime;
 
 int safe_query(MYSQL *conn, char query[ ])
 {
-	gMutex.lock();
+	mutexMYSQL.lock();
 	int res = 	mysql_query(conn, query);
-	gMutex.unlock();
+	mutexMYSQL.unlock();
 	return res;
 }
 
@@ -81,7 +67,9 @@ PLUGIN_EXPORT void PLUGIN_CALL ProcessTick()
 	
 	if (tCount == 100)
 	{
+		mutexStreamGlobal.lock();
 		StreamerCall::Tick();
+		mutexStreamGlobal.unlock();
 	}
 	else if (tCount==200)
 	{
@@ -183,7 +171,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 	cObjects::loadObjects();
 	//-------------------------------------------------------------
 	world::Players::Admins::init();
-	world::Gangs::init();
+	world::gangs::load();
 	world::DropedGuns::loadGuns();
 	world::pickups::cPickups::loadPickups();
 	world::radio::cRadio::loadRadio();
@@ -308,17 +296,21 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSpawn(int playerid)
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerUpdate(int playerid)
 {
-	if (Player[playerid].pState == PLAYER_STATE_DRIVER)
+	if (Player[ playerid ].isLogged)
 	{
-		world::Vehicles::updateSpeed(playerid);
-	}
-	uCount++;
-	if (Player[playerid].isLogged && uCount > 10)
-	{
-		StreamerCall::Native::Update(playerid);
-		/*thread threadKey(StreamerCall::Native::Update, playerid);
-		threadKey.join();*/
-		uCount = 0;
+		uCount++;
+		if (Player[playerid].pState == PLAYER_STATE_DRIVER)
+		{
+			world::Vehicles::updateSpeed(playerid);
+		}
+		//================================================
+		if(uCount > 10)
+		{
+			mutexStreamPlayer.lock();
+			StreamerCall::Native::Update(playerid);
+			mutexStreamPlayer.unlock();
+			uCount = 0;
+		}
 	}
 	return true;
 }

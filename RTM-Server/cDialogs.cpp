@@ -207,7 +207,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 	//---------------------------------------------------------------------------
 	else if (Player[ playerid ].isAction == PlayerAction::ACTION_GANG_MAKE)
 	{
-		world::Gangs::onDLG(playerid, dialogid, response, listitem, inputtext);
+		world::gangs::onDLG(playerid, dialogid, response, listitem, inputtext);
 	}
 	else if (Player[playerid].isAction == PlayerAction::ACTION_USEJOBSDLG)
 	{

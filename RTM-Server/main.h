@@ -61,6 +61,7 @@
 #include <stack>
 #include <map>
 #include <unordered_map>
+#include <mutex>
 //--------------------------------------------
 #include <sampgdk/a_samp.h>
 #include <sampgdk/a_players.h>
@@ -130,8 +131,10 @@
 #include "German.h"
 #endif
 //---------------------
-#include <mutex>          // std::mutex
-std::mutex extern gMutex;           // mutex for critical section
+std::mutex extern mutexStreamGlobal;		// STREAMER MUTEX
+std::mutex extern mutexStreamPlayer;		// STREAMER MUTEX
+std::mutex extern mutexMYSQL;		// STREAMER MUTEX
+
 int safe_query(MYSQL *conn, char query[ ]);
 //--------------------------------------------
 using namespace std;
