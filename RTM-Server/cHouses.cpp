@@ -13,7 +13,7 @@ void cHouses::loadHouses()
 	int i = 0;
 	MYSQL_ROW row;
 	//------------------------------------------------------------
-	mysql_query(con, "SELECT class_Property.*, class_Houses.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Houses  WHERE class_Property.property = class_Houses.db AND class_Property.type = 1");
+	safe_query(con, "SELECT class_Property.*, class_Houses.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Houses  WHERE class_Property.property = class_Houses.db AND class_Property.type = 1");
 	MYSQL_RES *result = mysql_store_result(con);
 	//------------------------------------------------------------
 	while (( row = mysql_fetch_row(result) ))
@@ -54,7 +54,7 @@ void cHouses::loadHouseInteriors()
 	int house = 0;
 	MYSQL_ROW row;
 	//------------------------------------------------------------
-	mysql_query(con, "SELECT * FROM interior_House ORDER BY house");
+	safe_query(con, "SELECT * FROM interior_House ORDER BY house");
 	MYSQL_RES *result = mysql_store_result(con);
 	//------------------------------------------------------------	
 	while (( row = mysql_fetch_row(result) ))
@@ -125,7 +125,7 @@ void cHouses::create(int price, float x, float y, float z)
 	sHouses htmp;
 	int interior = cInteriors::getRandom(PropertyType::prHouse);
 	//--------------------------------------------------------------------------------------------
-	sprintf(query, "INSERT INTO class_Houses SET `style` ='%d'", interior), mysql_query(con, query);
+	sprintf(query, "INSERT INTO class_Houses SET `style` ='%d'", interior), safe_query(con, query);
 	htmp.db = mysql_insert_id(con);
 	htmp.style = interior;
 	//--------------------------------------------------------------------------------------------
@@ -140,7 +140,7 @@ void cHouses::create(int price, float x, float y, float z)
 	//--------------------------------------------------------------------------------------------
 	sprintf(query, "INSERT INTO class_Property SET `property` ='%d', type='%d', x='%f', y='%f', z='%f', price='%d'",
 			tmp.property, PropertyType::prHouse, x, y, z, price);
-	mysql_query(con, query);
+	safe_query(con, query);
 	//--------------------------------------------------------------------------------------------
 	tmp.link = countHouses;
 	tmp.db = mysql_insert_id(con);

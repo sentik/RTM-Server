@@ -10,7 +10,7 @@ void cClass::loadVehicleClass()
 	int i = 0;
 	MYSQL_ROW row;
 	//------------------------------------------------------------
-	mysql_query(con, "SELECT * FROM class_Vehicles ORDER BY id LIMIT 212");
+	safe_query(con, "SELECT * FROM class_Vehicles ORDER BY id LIMIT 212");
 	MYSQL_RES *result = mysql_store_result(con);
 	//------------------------------------------------------------	
 	while (( row = mysql_fetch_row(result) ))
@@ -31,7 +31,7 @@ void cClass::loadPlayerClass()
 	int i = 0;
 	MYSQL_ROW row;
 	//------------------------------------------------------------
-	mysql_query(con, "SELECT * FROM `class_Players` LIMIT 300");
+	safe_query(con, "SELECT * FROM `class_Players` LIMIT 300");
 	MYSQL_RES *result = mysql_store_result(con);
 	//------------------------------------------------------------	
 	while ((row = mysql_fetch_row(result)))

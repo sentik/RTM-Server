@@ -121,8 +121,7 @@ unsigned long createRGBA(int r, int g, int b, int a)
 
 void cPlayer::Intro::cIntro::drawIntro(const int u)
 {
-
-	Sleep(5000);
+	std::this_thread::sleep_for(std::chrono::seconds(5));//sleep(boost::posix_time::seconds(5));
 
 	PlayAudioStreamForPlayer(u, "https://dl.dropboxusercontent.com/u/69743126/intro.mp3");
 
@@ -142,7 +141,7 @@ void cPlayer::Intro::cIntro::drawIntro(const int u)
 		PlayerTextDrawBoxColor(u, Player[u].minerDraw[IT_BG], bggg);
 		PlayerTextDrawShow(u, Player[u].minerDraw[IT_BG]);
 
-		Sleep(25);
+		std::this_thread::sleep_for(std::chrono::milliseconds(25));
 
 		goto case_bg;
 	}
@@ -208,13 +207,13 @@ void cPlayer::Intro::cIntro::drawIntro(const int u)
 		PlayerTextDrawSetSelectable(u, Player[u].minerDraw[IT_SERINC], 0);
 		PlayerTextDrawShow(u, Player[u].minerDraw[IT_SERINC]);
 
-		Sleep(15);
+		std::this_thread::sleep_for(std::chrono::milliseconds(15));
 
 		goto case_sentike;
 	}
 
 
-	Sleep(5000);
+	std::this_thread::sleep_for(std::chrono::seconds(5));
 
 	bA = 0;
 
@@ -245,12 +244,12 @@ void cPlayer::Intro::cIntro::drawIntro(const int u)
 		PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[IT_PRESENT], createRGBA(bR, bG, bB, bA));
 		PlayerTextDrawShow(u, Player[u].minerDraw[IT_PRESENT]);
 
-		Sleep(15);
+		std::this_thread::sleep_for(std::chrono::milliseconds(15));
 
 		goto case_hide;
 	}
 
-	Sleep(5000);
+	std::this_thread::sleep_for(std::chrono::seconds(5));
 
 	int tA = 0;
 
@@ -274,12 +273,12 @@ void cPlayer::Intro::cIntro::drawIntro(const int u)
 		PlayerTextDrawBoxColor(u, Player[u].minerDraw[IT_SNAME], createRGBA(50, 0, 50, A));
 		PlayerTextDrawShow(u, Player[u].minerDraw[IT_SNAME]);
 
-		Sleep(15);
+		std::this_thread::sleep_for(std::chrono::milliseconds(15));
 
 		goto case_server;
 	}
 
-	Sleep(10000);
+	std::this_thread::sleep_for(std::chrono::seconds(10));
 
 	X = 230.0f;
 
@@ -308,12 +307,12 @@ void cPlayer::Intro::cIntro::drawIntro(const int u)
 		PlayerTextDrawSetSelectable(u, Player[u].minerDraw[IT_SNAME], 0);
 		PlayerTextDrawShow(u, Player[u].minerDraw[IT_SNAME]);
 
-		Sleep(20);
+		std::this_thread::sleep_for(std::chrono::milliseconds(20));
 
 		goto case_end;
 	}
 
-	Sleep(1000);
+	std::this_thread::sleep_for(std::chrono::seconds(1));
 
 	A = 0;
 
@@ -422,12 +421,12 @@ void cPlayer::Intro::cIntro::drawIntro(const int u)
 		PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[IT_STORY], createRGBA(50, 0, 50, bA));
 		PlayerTextDrawShow(u, Player[u].minerDraw[IT_STORY]);
 
-		Sleep(5);
+		std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
 		goto case_showStory;
 	}
 
-	Sleep(20000);
+	std::this_thread::sleep_for(std::chrono::seconds(20));
 
 	AA = 255;
 	bA = 50;
@@ -444,7 +443,7 @@ void cPlayer::Intro::cIntro::drawIntro(const int u)
 		PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[IT_STORY], createRGBA(50, 0, 50, bA));
 		PlayerTextDrawShow(u, Player[u].minerDraw[IT_STORY]);
 
-		Sleep(5);
+		std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
 		goto case_hideStory;
 	}
@@ -466,7 +465,7 @@ void cPlayer::Intro::cIntro::drawIntro(const int u)
 		PlayerTextDrawBoxColor(u, Player[u].minerDraw[IT_BG], bggg);
 		PlayerTextDrawShow(u, Player[u].minerDraw[IT_BG]);
 
-		Sleep(25);
+		std::this_thread::sleep_for(std::chrono::milliseconds(25));
 
 		goto case_bgg;
 	}
@@ -490,7 +489,7 @@ void cPlayer::Intro::cIntro::drawIntro(const int u)
 
 	dialogs::showDLGEnterName(u);
 
-	Sleep(2000);
+	std::this_thread::sleep_for(std::chrono::seconds(2));
 
 	case_bggg:
 
@@ -501,7 +500,7 @@ void cPlayer::Intro::cIntro::drawIntro(const int u)
 		PlayerTextDrawBoxColor(u, Player[u].minerDraw[IT_BG], bggg);
 		PlayerTextDrawShow(u, Player[u].minerDraw[IT_BG]);
 
-		Sleep(25);
+		std::this_thread::sleep_for(std::chrono::milliseconds(25));
 
 		goto case_bggg;
 	}
@@ -536,14 +535,7 @@ void cPlayer::Intro::cIntro::updateIntro(const int u)
 	else if (Player[u].aMinerA != 56)
 	{		
 		Player[u].aMinerA = 56;
-	
-		//boost::thread(cPlayer::Intro::cIntro::drawIntro, u).detach();
-		
-		//boost::thread t(&cPlayer::Intro::cIntro::drawIntro, u);
-		//t.detach();
-
-		thread draw(cPlayer::Intro::cIntro::drawIntro, u);
-		draw.detach();
+		std::thread(cPlayer::Intro::cIntro::drawIntro, u).detach();
 	}
 
 	const float radius = 200.0f + (rand() % 10000) / 100;

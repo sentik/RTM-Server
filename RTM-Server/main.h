@@ -42,7 +42,11 @@
 #define DEFAULT_SPAWN 100.0f, 200.0f, 10.0f
 #define SELECT_COLORUS 0xDCDCDC88
 #define RANDOM_SEED	8 * getUnixTime() + 6 * clock()  - 123
-#define BOOST_THREAD_DONT_USE_CHRONO 1 
+//#define BOOST_THREAD_DONT_USE_CHRONO 1 
+
+
+#include "Mutex.h"
+
 
 
 #include <iostream>
@@ -67,13 +71,6 @@
 //--------------------------------------------
 #include <mysql.h>
 #include <tinyxml/tinyxml.h>
-//--------------------------------------------
-#include<boost/system/error_code.hpp>
-#include<boost/system/system_error.hpp>
-//#include<boost / system / cygwin_error.hpp>
-//#include<boost / system / linux_error.hpp>
-#include<boost/system/windows_error.hpp>
-//#include<boost/thread/thread.hpp>
 //--------------------------------------------
 #include "streamerlib.h"
 #include "cTexrDraws.h"
@@ -113,6 +110,13 @@
 #include <functional>
 #include <stdexcept>
 #include <type_traits>
+
+
+#include <boost/system/error_code.hpp>
+#include <boost/system/system_error.hpp>
+//#include<boost / system / cygwin_error.hpp>
+//#include<boost / system / linux_error.hpp>
+#include <boost/system/windows_error.hpp>
 //---------------------
 #ifdef DEFAULT_RUSSIAN
 #include "Russian.h"
@@ -126,7 +130,9 @@
 #include "German.h"
 #endif
 //---------------------
-
+#include <mutex>          // std::mutex
+std::mutex extern gMutex;           // mutex for critical section
+int safe_query(MYSQL *conn, char query[ ]);
 //--------------------------------------------
 using namespace std;
 //--------------------------------------------

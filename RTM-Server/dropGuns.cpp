@@ -7,7 +7,7 @@ void world::DropedGuns::loadGuns()
 	int i = 0;
 	MYSQL_ROW row;
 	//------------------------------------------------------------
-	mysql_query(con, "SELECT * FROM world_DropedGuns");
+	safe_query(con, "SELECT * FROM world_DropedGuns");
 	MYSQL_RES *result = mysql_store_result(con);
 	//------------------------------------------------------------	
 	while (( row = mysql_fetch_row(result) ))
@@ -52,7 +52,7 @@ void world::DropedGuns::loadGuns()
 	int i = 0;
 	MYSQL_ROW row;
 	//------------------------------------------------------------
-	mysql_query(con, "SELECT * FROM ");
+	safe_query(con, "SELECT * FROM ");
 	MYSQL_RES *result = mysql_store_result(con);
 	//------------------------------------------------------------	
 	while (( row = mysql_fetch_row(result) ))

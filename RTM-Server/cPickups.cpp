@@ -7,7 +7,7 @@ void world::pickups::cPickups::loadPickups()
 	MYSQL_ROW row;
 	MYSQL_RES *result;
 	//--------------------------------------------------------------------------------------
-	mysql_query(con, "SELECT * FROM class_Pickups ORDER BY id");
+	safe_query(con, "SELECT * FROM class_Pickups ORDER BY id");
 	result = mysql_store_result(con);
 	while (row = mysql_fetch_row(result))
 	{

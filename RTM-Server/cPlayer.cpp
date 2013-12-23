@@ -158,7 +158,7 @@ int cPlayer::checkLogin(const char* login)
 {
 	char qqq[ 144 ];
 	sprintf(qqq, "SELECT id FROM player_Accounts WHERE login ='%s' LIMIT 1", login);
-	if (mysql_query(con, qqq) == 0)
+	if (safe_query(con, qqq) == 0)
 	{
 		MYSQL_RES *result = mysql_store_result(con);
 		if (mysql_num_rows(result) == 1)
@@ -176,7 +176,7 @@ bool cPlayer::checkPass(int i, const char* passw)
 	char qqq[ 144 ];
 	bool res = false;
 	sprintf(qqq, "SELECT NULL FROM player_Accounts WHERE id = '%d' AND passw = MD5(CONCAT('%c', PASSWORD('%s'), '%c'))", i, passw[ 0 ], passw, passw[ strlen(passw) - 1 ]);
-	if (mysql_query(con, qqq)==0)
+	if (safe_query(con, qqq)==0)
 	{
 		MYSQL_RES *result = mysql_store_result(con);
 		res = ( mysql_num_rows(result) == 1 ) ? ( true ) : ( false );
@@ -191,7 +191,7 @@ int cPlayer::regPlayer(const char* login, const char* passw)
 {
 	char qqq[ 144 ];
 	sprintf(qqq, "INSERT INTO player_Accounts SET `login` = '%s', passw = MD5(CONCAT('%c', PASSWORD('%s'), '%c'))", login, passw[ 0 ], passw, passw[ strlen(passw) - 1 ]);
-	mysql_query(con, qqq);
+	safe_query(con, qqq);
 	return mysql_insert_id(con);
 }
 
@@ -201,7 +201,7 @@ int cPlayer::regChar(const int u)
 	char qqq[ 144 ];
 	sprintf(qqq, "INSERT INTO player_Character (owner, uname, sname, money, class) VALUES ('%d', '%s', '%s', '%f', '%d')",
 		Player[u].pDB, Player[u].uName, Player[u].sName, Player[u].pMoney, Player[u].pClass);
-	mysql_query(con, qqq);
+	safe_query(con, qqq);
 	//--------------------------------------------------------------------------------------------------------------------
 	Player[u].pPosX = REG_SPAWN_X;
 	Player[u].pPosY = REG_SPAWN_Y;
@@ -223,7 +223,7 @@ void cPlayer::loadPlayerChar(int i, int pers)
 	start:
 	//-------------------------------------------------------------------------------------------------------------------
 	sprintf(qqq, "SELECT * FROM player_Character  WHERE owner = '%d' AND id = %d  LIMIT 1", Player[ i ].pDB, pers);
-	if (mysql_query(con, qqq) == 0)
+	if (safe_query(con, qqq) == 0)
 	{
 		//-------------------------------------------------------------------------------------------------------------------
 		MYSQL_RES *result = mysql_store_result(con);
@@ -293,7 +293,7 @@ bool cPlayer::loadChars(int i)
 	int c = 0;
 	char tmp[32];
 	MYSQL_ROW row;
-	sprintf(query, "SELECT id, `class`, money, uname, sname  FROM player_Character WHERE owner = '%d' LIMIT %d", Player[i].pDB, MAX_CHARS), mysql_query(con, query);
+	sprintf(query, "SELECT id, `class`, money, uname, sname  FROM player_Character WHERE owner = '%d' LIMIT %d", Player[i].pDB, MAX_CHARS), safe_query(con, query);
 	//---------------------------------------------
 	MYSQL_RES *result = mysql_store_result(con);
 	int num_fields = mysql_num_rows(result);
@@ -704,7 +704,7 @@ void cPlayer::givePlayerMoney(const int u, float value)
 	Player[ u ].pMoney += value;
 	//=============================
 	sprintf(query, "UPDATE player_Character SET money = '%f' WHERE id = '%d'", Player[ u ].pMoney, Player[ u ].pDB);
-	mysql_query(con, query);
+	safe_query(con, query);
 	//=============================
 	cPlayer::updateMoney(u);
 }
@@ -730,7 +730,7 @@ void cPlayer::updatePos(const int u)
 			Player[ u ].pPosX, Player[ u ].pPosY, Player[ u ].pPosZ, Player[ u ].pPosR, Player[ u ].pPosI, Player[ u ].pPosW,
 			Player[ u ].inIndex, Player[ u ].pDB);
 	//================================================================================
-	mysql_query(con, query);
+	safe_query(con, query);
 }
 
 

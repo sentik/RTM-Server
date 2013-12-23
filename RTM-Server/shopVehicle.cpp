@@ -30,7 +30,7 @@ void Properties::Shops::ShopVehicle::loadShop()
 	cClass::fixText(Group[ 2 ], 16);
 	cClass::fixText(Group[ 3 ], 16);*/
 	//------------------------------------------------------------
-	mysql_query(con, "SELECT class_Property.*, class_Shop_vehicle.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Shop_vehicle  WHERE class_Property.property = class_Shop_vehicle.db AND class_Property.type = 3");
+	safe_query(con, "SELECT class_Property.*, class_Shop_vehicle.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Shop_vehicle  WHERE class_Property.property = class_Shop_vehicle.db AND class_Property.type = 3");
 	MYSQL_RES *result = mysql_store_result(con);
 	//------------------------------------------------------------
 	while (( row = mysql_fetch_row(result) ))
@@ -87,7 +87,7 @@ void Properties::Shops::ShopVehicle::loadShop()
 		//-----------------------------------------------------------------------------------------------------------
 		v = 0;
 		sprintf(query, "SELECT id,model,cost,amount FROM class_Shop_vehicle_items WHERE sid = %d", vehicle[i].db);
-		mysql_query(con, query);
+		safe_query(con, query);
 		MYSQL_RES *subres = mysql_store_result(con);
 		MYSQL_ROW subrow;
 		while ((subrow = mysql_fetch_row(subres)))
@@ -123,7 +123,7 @@ void Properties::Shops::ShopVehicle::create(int price, float x, float y, float z
 	//-----------------------------------------------
 	sprintf(query, "INSERT INTO class_Property SET `property` ='%d', type='%d', x='%f', y='%f', z='%f', price='%d'",
 			tmp.property, PropertyType::prBank, x, y, z, price);
-	mysql_query(con, query);
+	safe_query(con, query);
 	//-----------------------------------------------
 	tmp.db = mysql_insert_id(con);
 
@@ -285,7 +285,7 @@ void Properties::Shops::ShopVehicle::onDLG(int u, int dialogid, int response, in
 				tmp.Owner, tmp.Model, tmp.posX, tmp.posY, tmp.posZ, tmp.posR, tmp.posI, tmp.posW, tmp.color1, tmp.color1, tmp.paint, tmp.Heal, tmp.Fuel, tmp.Dist, tmp.vNumber, false, false, false, false, false);
 				logprintf(query);
 				//----------------------------------------------------
-				mysql_query(con, query);
+				safe_query(con, query);
 				tmp.db = mysql_insert_id(con);
 				//----------------------------------------------------
 				world::Vehicles::Vehicle[ veh ] = tmp;

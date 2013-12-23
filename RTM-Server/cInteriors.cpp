@@ -12,7 +12,7 @@ void cInteriors::loadInterioList()
 	int i = 0;
 	MYSQL_ROW row;
 	//------------------------------------------------------------
-	mysql_query(con, "SELECT * FROM class_Interiors");
+	safe_query(con, "SELECT * FROM class_Interiors");
 	MYSQL_RES *result = mysql_store_result(con);
 	//------------------------------------------------------------	
 	while (( row = mysql_fetch_row(result) ))

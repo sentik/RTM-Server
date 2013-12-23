@@ -7,7 +7,7 @@ void gasProperty::cGas::loadGas()
 	int i = 0;
 	MYSQL_ROW row;
 	//------------------------------------------------------------
-	mysql_query(con, "SELECT class_Property.*, class_Gas.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Gas  WHERE class_Property.property = class_Gas.id AND class_Property.type = 5");
+	safe_query(con, "SELECT class_Property.*, class_Gas.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Gas  WHERE class_Property.property = class_Gas.id AND class_Property.type = 5");
 	MYSQL_RES *result = mysql_store_result(con);
 	//------------------------------------------------------------
 	while ((row = mysql_fetch_row(result)))
@@ -79,7 +79,7 @@ void gasProperty::cGas::saveGas()
 		if (Gas[i].db == 0) continue;
 		char msg[128];
 		sprintf(msg, "UPDATE class_Gas SET fuel = %.2f, name = '%s', cost = %.2f WHERE id = %d", Gas[i].fuel, Gas[i].name, Gas[i].cost, Gas[i].db);
-		mysql_query(con, msg);
+		safe_query(con, msg);
 	}
 }
 

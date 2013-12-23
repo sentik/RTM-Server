@@ -7,7 +7,7 @@ void world::radio::cRadio::loadRadio()
 	int i = 0;
 	MYSQL_ROW row;
 	MYSQL_RES *result;
-	mysql_query(con, "SELECT * FROM class_Radio ORDER BY id");
+	safe_query(con, "SELECT * FROM class_Radio ORDER BY id");
 	result = mysql_store_result(con);
 
 	while (row = mysql_fetch_row(result))

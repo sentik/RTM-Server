@@ -23,10 +23,8 @@ http://ru.wikibooks.org/wiki/%D0%A1%D0%B8++
 4. Сделать управление бизнессами (назначение цен)			???
 */
 
-
-
-
 MYSQL *con;
+std::mutex gMutex;
 logprintf_t logprintf;
 //======================================
 regex expLogin;
@@ -50,6 +48,15 @@ char query[512];
 int tCount;
 int uCount;
 int uTime;
+
+
+int safe_query(MYSQL *conn, char query[ ])
+{
+	gMutex.lock();
+	int res = 	mysql_query(conn, query);
+	gMutex.unlock();
+	return res;
+}
 
 
 PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports()
@@ -131,10 +138,12 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData)
 	sampgdk_initialize_plugin(ppPluginData);
 	logprintf = (logprintf_t)ppPluginData[PLUGIN_DATA_LOGPRINTF];
 	//===============================================================================
+	cout << "\a";
 	logprintf("\n\n*** Rulezz Team GameMode v%s By SeNTike & Serinc ***\n", GAME_VERSION);
+	cout << "\a";
 	//===============================================================================
 	mysql_real_connect(con, MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_BASE, 0, NULL, CLIENT_MULTI_STATEMENTS);
-	mysql_query(con, "SET NAMES cp1251");
+	safe_query(con, "SET NAMES cp1251");
 	mysql_set_character_set(con, "cp1251");
 	//===============================================================================
 	buildRegex();
@@ -186,6 +195,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 	ShowNameTags(false);
 	StreamerCall::Native::CreateDynamicPickup(INFO_PICKUP, 23, TEMP_JOB_POS);
 	StreamerCall::Native::CreateDynamic3DTextLabel("Филиал трудо-занятности\nНажмите [ALT]", -1, TEMP_JOB_POS, 5.0f);
+	cout << "\a";
 	return true;
 }
 //-------------------------------------------------------------------------------------------

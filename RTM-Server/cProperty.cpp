@@ -92,7 +92,7 @@ void cProperty::setOwner(const int p, const int owner)
 {
 	Property[p].owner = Player[owner].pDB;
 	sprintf(query, "UPDATE class_Property SET owner = '%d' WHERE id = %d", Property[p].owner, Property[p].db);
-	mysql_query(con, query); 
+	safe_query(con, query); 
 
 	switch (Property[p].type)
 	{
@@ -134,7 +134,7 @@ void cProperty::setStatus(const int p, const int status)
 {
 	Property[ p ].status = status;
 	sprintf(query, "UPDATE class_Property SET status = '%d' WHERE id = %d", status, Property[ p ].db);
-	mysql_query(con, query);
+	safe_query(con, query);
 }
 
 

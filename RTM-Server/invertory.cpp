@@ -12,7 +12,7 @@ void invertory::load(const int u)
 	loot[ u ].reserve(12);
 	//=========================================================================
 	sprintf(query, "SELECT * FROM player_Invertory WHERE owner = %d", Player[u].pDB);
-	mysql_query(con, query);
+	safe_query(con, query);
 	//=========================================================================
 	MYSQL_RES *result = mysql_store_result(con);
 	while (( row = mysql_fetch_row(result) ))
@@ -31,7 +31,7 @@ void invertory::load(const int u)
 	mysql_free_result(result);
 	//--------------------------------------------------------------------------------
 	sprintf(query, "SELECT * FROM player_Loot WHERE owner = %d", Player[ u ].pDB);
-	mysql_query(con, query);
+	safe_query(con, query);
 	//=========================================================================
 	result = mysql_store_result(con);
 	while (( row = mysql_fetch_row(result) ))

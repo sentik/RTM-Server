@@ -101,7 +101,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <ModuleDefinitionFile>Export.def</ModuleDefinitionFile>
-      <AdditionalDependencies>C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\sampgdk3.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\mysqlclient.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\streamer.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\boost\libboost_system-vc110-mt-1_50.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\boost\libboost_filesystem-vc110-mt-1_50.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\tinyxml.lib</AdditionalDependencies>
+      <AdditionalDependencies>C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\sampgdk3.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\mysqlclient.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\streamer.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\boost\libboost_iostreams-vc110-mt-1_50.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\boost\libboost_system-vc110-mt-1_50.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\boost\libboost_filesystem-vc110-mt-1_50.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\tinyxml.lib</AdditionalDependencies>
       <TurnOffAssemblyGeneration>true</TurnOffAssemblyGeneration>
       <LargeAddressAware>true</LargeAddressAware>
       <Driver>NotSet</Driver>
@@ -142,6 +142,7 @@
     <ClInclude Include="invertory.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="cPlayer.h" />
+    <ClInclude Include="Mutex.h" />
     <ClInclude Include="queries.h" />
     <ClInclude Include="Russian.h" />
     <ClInclude Include="saZones.h" />
@@ -174,6 +175,7 @@
     <ClCompile Include="invertory.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="cPlayer.cpp" />
+    <ClCompile Include="Mutex.cpp" />
     <ClCompile Include="saZones.cpp" />
     <ClCompile Include="shopVehicle.cpp" />
   </ItemGroup>

@@ -24,7 +24,7 @@ void Jobs::Miner::cMiner::loadMiner()
 	world::Vehicles::locked(0, true);
 
 	//------------------------------------------------------------
-	mysql_query(con, "SELECT class_Property.*, class_Miners.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Miners  WHERE class_Property.property = class_Miners.id AND class_Property.type = 4");
+	safe_query(con, "SELECT class_Property.*, class_Miners.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Miners  WHERE class_Property.property = class_Miners.id AND class_Property.type = 4");
 	MYSQL_RES *result = mysql_store_result(con);
 	//------------------------------------------------------------
 	while ((row = mysql_fetch_row(result)))
@@ -843,7 +843,7 @@ goto case_finans;
 					if ( cost > 0.00f && cost < 10.0f )
 					{
 						Jobs::Miner::cMiner::miner[l].zp1 = cost;
-						Jobs::Miner::cMiner::updateInfotable(l);
+						Jobs::Miner::cMiner::updateInfotable(( l ? ( true ) : ( false ) ));
 goto case_finans;
 					}
 					else
@@ -872,7 +872,7 @@ goto case_oZP;
 					if ( cost > 0.00f && cost < 10.0f )
 					{
 						Jobs::Miner::cMiner::miner[l].zp2 = cost;
-						Jobs::Miner::cMiner::updateInfotable(l);
+						Jobs::Miner::cMiner::updateInfotable(( l ? ( true ) : ( false ) ));
 goto case_finans;
 					}
 					else
