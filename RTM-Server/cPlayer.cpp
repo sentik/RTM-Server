@@ -87,6 +87,11 @@ void cPlayer::update()
 		sprintf(buffer, "(%d) %s %s [{B7FF00}%.2f%% {DCDCDC}%.2f%%{FFFFFF}]", i, Player[ i ].uName, Player[ i ].sName, hp, ar);
 		StreamerCall::Native::UpdateDynamic3DTextLabelText(Player[i].pBar, -1, buffer);
 
+
+		char vers[32];
+		GetPlayerVersion(i, vers);
+		logprintf("vers: [%d]%s", i, vers);
+
 		if (Player[ i ].isAction == PlayerAction::ACTION_FREZSETPOS)
 		{
 			Player[ i ].isAction = PlayerAction::ACTION_NONE;

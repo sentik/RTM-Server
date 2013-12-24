@@ -1,6 +1,6 @@
 #include "main.h"
 
-struct eMetal Properties::Factory::Metal::Factm[MAX_FACT_M];
+//struct eMetal Properties::Factory::Metal::Factm[MAX_FACT_M];
 
 void Properties::Factory::Metal::func::load()
 {

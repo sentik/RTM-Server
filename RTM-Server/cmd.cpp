@@ -4,7 +4,16 @@ using namespace world::Players;
 void CMD::makegang(int playerid, char* params)
 {
 	Player[ playerid ].isAction = PlayerAction::ACTION_GANG_MAKE;
-	ShowPlayerDialog(playerid, DLG_GANG_MAKE_INTRO, GUI_MSG, "[Создание банды] Информация", "Для создания банды необходимо пройти 3 этапа:\n1. Указать название банды \n2. Указать цвет банды \n3. Выбрать логово для банды", "Далее", "Отмена");
+	ShowPlayerDialog
+	(
+		playerid, 
+		DLG_GANG_MAKE_INTRO, 
+		GUI_MSG, 
+		language::gang::make_Header_Intro,
+		language::gang::make_Info_Intro,
+		"Далее", 
+		"Отмена"
+	);
 }
 
 void CMD::veh(int playerid, char* params)

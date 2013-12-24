@@ -38,15 +38,25 @@ void cState::callKeyStateChange(int playerid, int newkeys, int oldkeys)
 				cPlayer::Jobs::cJobs::showDLG(playerid);
 				break;
 			}
-
-			//==========================================================
-			thread threadProperty(cProperty::enterProperty, playerid);
-			threadProperty.join();
-
+			//================================================================
+			//¬ход/ выход в дома
+			thread(cProperty::enterProperty, playerid).join();
 			thread(world::pickups::cPickups::actionPickups, playerid).join();
 			//==========================================================
-			Jobs::Miner::cMiner::actionPicks(playerid);
-			if (Player[playerid].isAction == PlayerAction::ACTION_FELJOB) fProperty::cFeller::actionTrees(playerid);
+			//¬зимодействи€ с работами
+			if (Player[ playerid ].isAction == PlayerAction::ACTION_FELJOB)
+			{
+				fProperty::cFeller::actionTrees(playerid);
+			}
+			else if (Player[ playerid ].isAction == PlayerAction::ACTION_FARMER)
+			{
+				property::farms::onAction(playerid);
+			}
+			else
+			{
+				Jobs::Miner::cMiner::actionPicks(playerid);
+				property::farms::onPickUp(playerid);
+			}
 			//==========================================================
 			for (auto it = world::DropedGuns::DropedGun.begin(); it != world::DropedGuns::DropedGun.end(); ++it)
 			{
