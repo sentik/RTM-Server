@@ -357,13 +357,20 @@ void Jobs::Miner::cMiner::actionPicks(const int u)
 
 	if (action == 1)
 	{
-		if (Jobs::Miner::cMiner::getMinerInstrument(u))
+		if ( cPlayer::Jobs::cJobs::isInJob(u, cPlayer::Jobs::PlayerJob::JOB_MINER) )
 		{
-			Jobs::Miner::cMiner::removeMinerInstrument(u);
+			if ( Jobs::Miner::cMiner::getMinerInstrument(u) )
+			{
+				Jobs::Miner::cMiner::removeMinerInstrument(u);
+			}
+			else
+			{
+				Jobs::Miner::cMiner::giveMinerInstrument(u);
+			}
 		}
 		else
 		{
-			Jobs::Miner::cMiner::giveMinerInstrument(u);
+			SendClientMessage(u, -1, "{FF0000}Ошибка: {FFFFFF}вы не шахтёр.");
 		}
 	}
 	else if (action == 2)
@@ -484,9 +491,11 @@ void Jobs::Miner::cMiner::onDLG(const int u, const int dialogid, const int respo
 					sprintf
 					(	
 						msg,
-						"Зарплата за %s: \t\t %f$\nЗарплата за %s: \t\t%f$",
-						language::jobs::miner::listMetall[l], miner[l].zp1,
-						language::jobs::miner::listMetall[l+2], miner[l].zp1
+						"\t\t{FFFFFF}Зарплата\n{"MINER_MENU_COLOR"}%.2f$\t\t{FFFFFF}%s\n{"MINER_MENU_COLOR"}%.2f$\t\t{FFFFFF}%s\n\t\t{FFFFFF}Покупка\n{"MINER_MENU_COLOR"}%.2f$\t\t{FFFFFF}%s\n{"MINER_MENU_COLOR"}%.2f$\t\t{FFFFFF}%s",
+						miner[l].zp1, language::jobs::miner::listMetall[l],
+						miner[l].zp2, language::jobs::miner::listMetall[l + 2],
+						miner[l].zp1 + ( ( miner[l].zp1 / 100 ) * miner[l].procent ), language::jobs::miner::listMetall[l],
+						miner[l].zp2 + ( ( miner[l].zp2 / 100 ) * miner[l].procent ), language::jobs::miner::listMetall[l + 2]
 					);
 					ShowPlayerDialog
 					(
@@ -501,9 +510,17 @@ void Jobs::Miner::cMiner::onDLG(const int u, const int dialogid, const int respo
 				}
 				else if ( listitem == 1 )
 				{
-					dialogs::genDLGItem(1, "Обналичить", msg, MINER_MENU_COLOR);
-					dialogs::genDLGItem(2, "Банковский перевод", msg, MINER_MENU_COLOR);
-					ShowPlayerDialog(u, DLG_MINER_CLIENT_MONEY, GUI_LIST, "Зарплата", msg, language::dialogs::buttons::btnSelect, language::dialogs::buttons::btnBack);
+					if ( cPlayer::Jobs::cJobs::isInJob(u, cPlayer::Jobs::PlayerJob::JOB_MINER) )
+					{
+						dialogs::genDLGItem(1, "Обналичить", msg, MINER_MENU_COLOR);
+						dialogs::genDLGItem(2, "Банковский перевод", msg, MINER_MENU_COLOR);
+						ShowPlayerDialog(u, DLG_MINER_CLIENT_MONEY, GUI_LIST, "Зарплата", msg, language::dialogs::buttons::btnSelect, language::dialogs::buttons::btnBack);
+					}
+					else
+					{
+						SendClientMessage(u, -1, "{FF0000}Ошибка: {FFFFFF}вы не шахтёр.");
+						Jobs::Miner::cMiner::showDLG(u);
+					}
 				}
 				else
 				{
@@ -612,10 +629,14 @@ goto case_bank;
 			{
 				if (listitem == 0)		//Информация
 				{
-					sprintf(msg, 
-							"Зарплата за %s: \t\t %.2f$\nЗарплата за %s: \t\t%.2f$",
-							language::jobs::miner::listMetall[l], miner[l].zp1,
-							language::jobs::miner::listMetall[l+2], miner[l].zp2
+					sprintf
+					(
+						msg,
+						"\t\t{FFFFFF}Зарплата\n{"MINER_MENU_COLOR"}%.2f$\t\t{FFFFFF}%s\n{"MINER_MENU_COLOR"}%.2f$\t\t{FFFFFF}%s\n\t\t{FFFFFF}Покупка\n{"MINER_MENU_COLOR"}%.2f$\t\t{FFFFFF}%s\n{"MINER_MENU_COLOR"}%.2f$\t\t{FFFFFF}%s",
+						miner[l].zp1, language::jobs::miner::listMetall[l],
+						miner[l].zp2, language::jobs::miner::listMetall[l+2],
+						miner[l].zp1 + ( ( miner[l].zp1 / 100 ) * miner[l].procent ), language::jobs::miner::listMetall[l],
+						miner[l].zp2 + ( ( miner[l].zp2 / 100 ) * miner[l].procent ), language::jobs::miner::listMetall[l+2]
 					);
 					ShowPlayerDialog
 					(
@@ -636,7 +657,7 @@ goto case_bank;
 					dialogs::genDLGItem(2, "Номер счёта", msg, MINER_MENU_COLOR);
 					dialogs::genDLGItem(3, "Зарплата", msg, MINER_MENU_COLOR);
 					dialogs::genDLGItem(4, "Процент продажи", msg, MINER_MENU_COLOR);
-					ShowPlayerDialog(u, DLG_MINER_OWNER_FINANS, GUI_LIST, "sdsad", msg, language::dialogs::buttons::btnSelect, language::dialogs::buttons::btnBack);
+					ShowPlayerDialog(u, DLG_MINER_OWNER_FINANS, GUI_LIST, "Финансы", msg, language::dialogs::buttons::btnSelect, language::dialogs::buttons::btnBack);
 				}
 				else if ( listitem == 2 )
 				{

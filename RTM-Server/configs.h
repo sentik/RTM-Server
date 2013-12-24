@@ -15,9 +15,13 @@
 #define		MYSQL_USER					"u7301517_dev"
 #define 	MYSQL_PASS					"dev1488"
 
-
-
 /*----------------- MYSQL Connector -----------------*/
+
+//DEBUG
+//#define DEBUG_GANG 0
+
+
+
 
 #define	MAX_SH			2
 #define MAX_GAS			10
@@ -27,6 +31,7 @@
 #define MAX_DIS_OBJ		96
 #define MAX_PROPERTY	550
 #define MAX_FELL_TREE	32
+#define MAX_FACT_M		10
 
 /*---------------Registration Character--------------*/
 #define		CREG_SKIN_POS				1302.7f,-792.3f,96.5f

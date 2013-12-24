@@ -72,7 +72,7 @@ enum DIALOG_LIST
 	DLG_GANG_MAKE_COLOR,
 	DLG_GANG_MAKE_PRE_PROPERTY,
 	DLG_GANG_MAKE_PROPERTY,
-	DLG_GANG_MENU_MAIN,
+	DLG_GANG_OWNER_MAIN,
 	//^^^^^^^^^^^^^^^^^^^^^^^^^^
 	//--------------------------] Jobs dialogs
 	DLG_JOB_LIST,

@@ -25,7 +25,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>Intel C++ Compiler XE 14.0</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -118,6 +118,7 @@
     <ClInclude Include="cChat.h" />
     <ClInclude Include="cClass.h" />
     <ClInclude Include="cDialogs.h" />
+    <ClInclude Include="cFactoryMetal.h" />
     <ClInclude Include="cFarmer.h" />
     <ClInclude Include="cFeller.h" />
     <ClInclude Include="cGang.h" />
@@ -142,7 +143,6 @@
     <ClInclude Include="invertory.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="cPlayer.h" />
-    <ClInclude Include="Mutex.h" />
     <ClInclude Include="queries.h" />
     <ClInclude Include="Russian.h" />
     <ClInclude Include="saZones.h" />
@@ -154,6 +154,7 @@
     <ClCompile Include="cChat.cpp" />
     <ClCompile Include="cClass.cpp" />
     <ClCompile Include="cDialogs.cpp" />
+    <ClCompile Include="cFactoryMetal.cpp" />
     <ClCompile Include="cFarmer.cpp" />
     <ClCompile Include="cFeller.cpp" />
     <ClCompile Include="cGang.cpp" />
@@ -175,7 +176,6 @@
     <ClCompile Include="invertory.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="cPlayer.cpp" />
-    <ClCompile Include="Mutex.cpp" />
     <ClCompile Include="saZones.cpp" />
     <ClCompile Include="shopVehicle.cpp" />
   </ItemGroup>

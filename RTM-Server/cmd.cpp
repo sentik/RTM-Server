@@ -158,7 +158,7 @@ void CMD::shout(int playerid, char* params)
 	if (sscanf(params, "%64s", params) == 1)
 	{
 		char name[ 24 ] = "";
-		char msg[ sizeof( language::player::actions::shoutMSG ) ] = "";
+		char msg[ sizeof( language::player::actions::shoutMSG ) + 64 ] = "";
 		//----------------------------------------------------------------
 		cPlayer::getName(playerid, name);
 		sprintf(msg, language::player::actions::shoutMSG, name, params);
@@ -174,7 +174,7 @@ void CMD::whisper(int playerid, char* params)
 	int target;
 	char name[ 24 ] = "";
 	cPlayer::getName(playerid, name);
-	char msg[ sizeof( language::player::actions::whisperMSG ) ] = "";
+	char msg[ sizeof( language::player::actions::whisperMSG ) + 64 ] = "";
 	//----------------------------------------------------------------
 	if (sscanf(params, "%d %64s", &target, params) == 2)
 	{
@@ -210,7 +210,7 @@ void CMD::me(int playerid, char* params)
 	{
 		char name[ 24 ] = "";
 		cPlayer::getName(playerid, name);
-		char msg[ sizeof( language::player::actions::whisperMSG ) ] = "";
+		char msg[ sizeof( language::player::actions::whisperMSG ) + 64 ] = "";
 		//----------------------------------------------------------------
 		SetPlayerChatBubble(playerid, params, ACTION_COLOR, RADIUS_ACTIONS, TIME_ACTIONS);
 		sprintf(msg, "* %s %s", name, params);
@@ -234,6 +234,52 @@ void CMD::dotry(int playerid, char* params)
 	cChat::ProxDetector(playerid, 50.0f, msg);
 }
 
+void CMD::gethere(const int u, const char * params)
+{
+	int id;
+	char msg[144] = "";
+
+	if ( sscanf(params, "veh %d", &id) == 1 )
+	{
+		if ( IsValidVehicle(id) )
+		{
+	case_getCar:
+			SetVehiclePos(id, Player[u].pPosX, Player[u].pPosY, Player[u].pPosZ);
+			SetVehicleVirtualWorld(id, Player[u].pPosW);
+			LinkVehicleToInterior(id, Player[u].pPosI);
+		}
+		else
+		{
+			SendClientMessage(u, -1, "{FF0000}Ошибка: {FFFFFF}транспорт не найден.");
+		}
+	}
+	else if ( sscanf(params, "%d", &id) == 1 )
+	{
+		if ( IsPlayerConnected(id) )
+		{
+			cPlayer::setCharInterior(id, Player[u].pPosI);
+			cPlayer::setCharWorld(id, Player[u].pPosW);
+
+			if ( Player[id].pState == PLAYER_STATE_DRIVER )
+			{
+				id = Player[id].pCarid;
+				goto case_getCar;
+			}
+			else
+			{
+				cPlayer::setCharPos(id, Player[u].pPosX, Player[u].pPosY, Player[u].pPosZ, true);
+			}
+		}
+		else
+		{
+			SendClientMessage(u, -1, "{FF0000}Ошибка: {FFFFFF}игрок не найден.");
+		}
+	}
+	else
+	{
+		SendClientMessage(u, -1, "Используте: /gethere [ид игрока] или veh [ид транспорта]");
+	}
+}
 
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cmdtext)
@@ -306,14 +352,9 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 	{
 		if (Admins::isAllow(playerid, 2)) CMD::cmd_goto(playerid, params);
 	}
-	else if (strcmp("testintro", cmd) == 0)
+	else if ( strcmp("gethere", cmd) == 0 )
 	{
-		TogglePlayerSpectating(playerid, true);
-		cPlayer::Intro::cIntro::initTrain(playerid);
-	}
-	else if (strcmp("hidecents", cmd) == 0)
-	{
-		PlayerTextDrawHide(playerid, Player[playerid].tCents);
+		if ( Admins::isAllow(playerid, 3) ) CMD::gethere(playerid, params);
 	}
 
 	return true;

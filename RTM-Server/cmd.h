@@ -20,6 +20,7 @@ class CMD
 	static void me(int, char*);
 	static void domake(int, char*);
 	static void dotry(int, char*);
+	static void gethere(const int, const char *);
 	
 };
 

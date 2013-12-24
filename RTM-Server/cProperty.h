@@ -67,6 +67,7 @@ enum PropertyType
 	prGas,
 	prFeller,
 	prFarms,
+	prFactMetal,
 };
 
 #endif 
