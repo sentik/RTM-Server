@@ -50,12 +50,12 @@ void cState::callKeyStateChange(int playerid, int newkeys, int oldkeys)
 			}
 			else if (Player[ playerid ].isAction == PlayerAction::ACTION_FARMER)
 			{
-				property::farms::onAction(playerid);
+				Properties::Farms::onAction(playerid);
 			}
 			else
 			{
 				Jobs::Miner::cMiner::actionPicks(playerid);
-				property::farms::onPickUp(playerid);
+				Properties::Farms::onPickUp(playerid);
 			}
 			//==========================================================
 			for (auto it = world::DropedGuns::DropedGun.begin(); it != world::DropedGuns::DropedGun.end(); ++it)

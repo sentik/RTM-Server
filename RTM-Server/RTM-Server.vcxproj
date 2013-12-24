@@ -115,6 +115,7 @@
   <ItemGroup>
     <ClInclude Include="cAdmins.h" />
     <ClInclude Include="cBank.h" />
+    <ClInclude Include="cBelay.h" />
     <ClInclude Include="cChat.h" />
     <ClInclude Include="cClass.h" />
     <ClInclude Include="cDialogs.h" />
@@ -151,6 +152,7 @@
   <ItemGroup>
     <ClCompile Include="cAdmins.cpp" />
     <ClCompile Include="cBank.cpp" />
+    <ClCompile Include="cBelay.cpp" />
     <ClCompile Include="cChat.cpp" />
     <ClCompile Include="cClass.cpp" />
     <ClCompile Include="cDialogs.cpp" />

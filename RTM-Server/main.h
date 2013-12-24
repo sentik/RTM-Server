@@ -84,7 +84,6 @@
 #include "cPickups.h"
 #include "cFarmer.h"
 #include "cFactoryMetal.h"
-
 #include "cVehicle.h"
 #include "cHouses.h"
 #include "configs.h"
@@ -93,7 +92,7 @@
 #include "cRadio.h"
 //-------------------------] Intro
 #include "cIntro.h"
-
+#include "cBelay.h"
 
 #include "saZones.h"
 #include "cFeller.h"

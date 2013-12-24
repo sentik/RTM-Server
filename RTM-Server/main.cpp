@@ -166,7 +166,8 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 	cInteriors::loadInterioList();
 	cHouses::loadHouses();
 	cHouses::loadHouseInteriors();
-	property::farms::load();
+	Properties::Farms::load();
+	Properties::Belays::load();
 	//-------------------------------------------------------------
 	cObjects::loadObjects();
 	//-------------------------------------------------------------
@@ -215,9 +216,9 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerConnect(int playerid)
 {
 	if (IsPlayerNPC(playerid) == false)
 	{
-		for (int i = 0; i < property::farms::count; i++)
+		for (int i = 0; i < Properties::Farms::count; i++)
 		{
-			GangZoneShowForPlayer(playerid, property::farms::Farm[ i ].zome, 0x00ff6c96);
+			GangZoneShowForPlayer(playerid, Properties::Farms::Farm[ i ].zome, 0x00ff6c96);
 		}
 
 		StreamerCall::Events::OnPlayerConnect(playerid);

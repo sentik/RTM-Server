@@ -59,15 +59,16 @@ public:
 
 enum PropertyType
 {
-	prNone,
-	prHouse,
-	prBank,
-	prAutosalon,
-	prMiner,
-	prGas,
-	prFeller,
-	prFarms,
-	prFactMetal,
+	prNone,				// Нету
+	prHouse,			// Дома
+	prBank,				// Банки
+	prAutosalon,		// Автосалоны
+	prMiner,			// Шахты
+	prGas,				// Заправки
+	prFeller,			// Лесопилки
+	prFarms,			// Фермы
+	prFactMetal,		// Заводы
+	prBelays,			// Страховые компании
 };
 
 #endif 

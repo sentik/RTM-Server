@@ -180,6 +180,9 @@
     <ClInclude Include="cFactoryMetal.h">
       <Filter>Заголовочные файлы\property</Filter>
     </ClInclude>
+    <ClInclude Include="cBelay.h">
+      <Filter>Заголовочные файлы\property</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -267,6 +270,9 @@
       <Filter>Файлы исходного кода\property\jobs</Filter>
     </ClCompile>
     <ClCompile Include="cFactoryMetal.cpp">
+      <Filter>Файлы исходного кода\property</Filter>
+    </ClCompile>
+    <ClCompile Include="cBelay.cpp">
       <Filter>Файлы исходного кода\property</Filter>
     </ClCompile>
   </ItemGroup>
