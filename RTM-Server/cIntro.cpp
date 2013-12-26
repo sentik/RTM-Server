@@ -123,7 +123,7 @@ void cPlayer::Intro::cIntro::drawIntro(const int u)
 {
 	std::this_thread::sleep_for(std::chrono::seconds(5));//sleep(boost::posix_time::seconds(5));
 
-	PlayAudioStreamForPlayer(u, "https://dl.dropboxusercontent.com/u/69743126/intro.mp3");
+	PlayAudioStreamForPlayer(u, "https://dl.dropboxusercontent.com/u/69743126/intro.mp3", 0.0, 0.0, 0.0, 50.0, false);
 
 	for ( int i = 0; i < 20; i++ )
 	{

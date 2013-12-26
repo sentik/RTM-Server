@@ -356,15 +356,21 @@ void cProperty::doSub(int u)
 	switch (Property[ idx ].type)
 	{
 		//----------------------------------------
-		case 2:	//Банк. Управление счетом
+		case PropertyType::prBank:	//Банк. Управление счетом
 		{
 			cBanks::actBill(u);
 		}
 		break;
 		//----------------------------------------
-		case 3:
+		case PropertyType::prAutosalon:
 		{
 			Properties::Shops::ShopVehicle::preView(u);
+		}
+		break;
+		//----------------------------------------
+		case PropertyType::prBelays:
+		{
+			Properties::Belays::onAction(u);
 		}
 		break;
 		//----------------------------------------

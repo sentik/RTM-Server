@@ -37,6 +37,8 @@ namespace Properties
 		//------------------------------------------------
 		void load();
 		void makePick();
+		void onAction(const int);
+		void onDLG(int, int, int, int, const char*);
 
 		enum rowBelays
 		{

@@ -126,8 +126,10 @@ struct  pInfo
 	unsigned char	pJob1;
 	unsigned char	pJob2;
 	float	minerZP;
-
-	
+	//for mini-game
+	bool	isKeyGame;
+	unsigned char	kgUD;
+	unsigned char	kgLR;
 };
 //TODO: Структура игрока
 struct pInfo extern Player[MAX_PLAYERS];

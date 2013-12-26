@@ -116,6 +116,8 @@ double fint(double x) // округление в сторону нуля (т.е. меньшее по абсолютному 
 		: ceil(x);
 }
 
+
+
 //-------------------------------------------------------------------------------------------------------------------
 //TODO: Загружаем сервер
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData)
@@ -124,6 +126,8 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData)
 	StreamerCall::Load();
 	//===========================================
 	sampgdk_initialize_plugin(ppPluginData);
+	//sampgdk_initialize_plugin(ppPluginData);
+
 	logprintf = (logprintf_t)ppPluginData[PLUGIN_DATA_LOGPRINTF];
 	//===============================================================================
 	cout << "\a";
@@ -147,6 +151,27 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData)
 	cClass::fixText(strMuscular, 13);
 	cClass::fixText(strAgility, 13);
 	//===============================================================================
+
+
+	/*char *p = "...";
+	const char* pc = "Hello, World!"; // pointer to a constant
+	pc = p;      // okay
+
+	logprintf(pc);*/
+
+	/*char *res;
+	res = (char*)( &language::player::biography::familyPartOne[ 0 ] );
+
+	*( (char)( &language::player::biography::familyPartOne[ 0 ] ) ) = "xuita";
+
+
+	logprintf(language::player::biography::familyPartOne[ 0 ]);
+	*/
+	/*char *res = const_cast<char*>( language::player::biography::familyPartOne[0] );
+	cClass::fixText(res, 256);*/
+	
+	
+	
 	srand(RANDOM_SEED);
 	return true;
 }

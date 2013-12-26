@@ -252,7 +252,7 @@ void CMD::gethere(const int u, const char * params)
 	{
 		if ( IsValidVehicle(id) )
 		{
-	case_getCar:
+			case_getCar:
 			SetVehiclePos(id, Player[u].pPosX, Player[u].pPosY, Player[u].pPosZ);
 			SetVehicleVirtualWorld(id, Player[u].pPosW);
 			LinkVehicleToInterior(id, Player[u].pPosI);
@@ -365,6 +365,36 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 	{
 		if ( Admins::isAllow(playerid, 3) ) CMD::gethere(playerid, params);
 	}
-
+	else if ( strcmp("testtd", cmd) == 0 )
+	{
+		std::thread(cClass::keyGame, playerid).detach();
+	}
+	else if (strcmp("belay", cmd) == 0)
+	{
+		char msg[512];
+		sprintf
+		(
+			msg,
+			"Здравствуйте вы хотите застраховать свою жизнь за %d$\
+			\nДанная страховка будет покрывать часть стоимости лечения.\
+			\nПри попадении в ДТП:  \t\t\t%d%%\
+			\nПри огнестрельном ранении: \t\t%d%%\
+			\nПри ножевом ранении ранении: \t\t%d%%\
+			\nПри травмах и переломах: \t\t%d%%\
+			\nПри различных заболеваниях: \t\t%d%%"
+		);
+		//******************************************
+		ShowPlayerDialog
+		(
+			playerid,
+			DLG_BELAY_OWNER_MAIN,
+			GUI_LIST,
+			"[Страховая компания]: Меню владельца",
+			msg,
+			language::dialogs::buttons::btnNext,
+			language::dialogs::buttons::btnClose
+		);
+		//******************************************
+	}
 	return true;
 }

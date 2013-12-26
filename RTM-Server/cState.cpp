@@ -81,7 +81,8 @@ void cState::callStateChange(int playerid, int newstate, int oldstate)
 	{
 		Player[playerid].pCarid = GetPlayerVehicleID(playerid);
 		Player[playerid].pSeatid = GetPlayerVehicleSeat(playerid);
-		PlayAudioStreamForPlayer(playerid, world::radio::cRadio::Radio.at(world::Vehicles::Vehicle[Player[playerid].pCarid].radio).url);
+		PlayAudioStreamForPlayer(playerid, world::radio::cRadio::Radio.at(world::Vehicles::Vehicle[Player[playerid].pCarid].radio).url,
+		 0.0, 0.0, 0.0, 50.0, false);
 		if (newstate == 2)
 		{
 			world::Vehicles::showSpeed(playerid);

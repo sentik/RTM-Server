@@ -92,6 +92,11 @@ void cPlayer::update()
 		GetPlayerVersion(i, vers);
 		logprintf("vers: [%d]%s", i, vers);
 
+		if ( Player[i].isKeyGame == true )
+		{
+			cClass::updateKeyGame(i);
+		}
+
 		if (Player[ i ].isAction == PlayerAction::ACTION_FREZSETPOS)
 		{
 			Player[ i ].isAction = PlayerAction::ACTION_NONE;

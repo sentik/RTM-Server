@@ -756,6 +756,7 @@ goto case_finans;
 					{
 						miner[l].fond -= money;
 						cPlayer::givePlayerMoney(u, money);
+						cClass::sqlSetFloat("class_Miners", "fond", miner[l].fond, miner[l].db);
 goto case_finans;
 					}
 					else
@@ -785,7 +786,8 @@ goto case_omoney;
 					{
 						miner[l].fond += money;
 						cPlayer::givePlayerMoney(u, -money);
-						goto case_finans;
+						cClass::sqlSetFloat("class_Miners", "fond", miner[l].fond, miner[l].db);
+goto case_finans;
 					}
 					else
 					{
@@ -812,7 +814,10 @@ goto case_omoney;
 					const int num = atoi(inputtext);
 					if ( cBanks::isValidNumber(num) )
 					{
-						Property[p].bank = num;
+						if ( cClass::sqlSetInt("class_Property", "bank", num, Property[p].db) )
+						{
+							Property[p].bank = num;
+						}
 						goto case_finans;
 					}
 					else
@@ -863,8 +868,11 @@ goto case_finans;
 					const float cost = atof(inputtext);
 					if ( cost > 0.00f && cost < 10.0f )
 					{
-						Jobs::Miner::cMiner::miner[l].zp1 = cost;
-						Jobs::Miner::cMiner::updateInfotable(( l ? ( true ) : ( false ) ));
+						if ( cClass::sqlSetFloat("class_Miners", "zp1", cost, miner[l].db) )
+						{
+							Jobs::Miner::cMiner::miner[l].zp1 = cost;
+							Jobs::Miner::cMiner::updateInfotable(( l ? ( true ) : ( false ) ));
+						}
 goto case_finans;
 					}
 					else
@@ -892,8 +900,11 @@ goto case_oZP;
 					const float cost = atof(inputtext);
 					if ( cost > 0.00f && cost < 10.0f )
 					{
-						Jobs::Miner::cMiner::miner[l].zp2 = cost;
-						Jobs::Miner::cMiner::updateInfotable(( l ? ( true ) : ( false ) ));
+						if ( cClass::sqlSetFloat("class_Miners", "zp2", cost, miner[l].db) )
+						{
+							Jobs::Miner::cMiner::miner[l].zp2 = cost;
+							Jobs::Miner::cMiner::updateInfotable(( l ? ( true ) : ( false ) ));
+						}						
 goto case_finans;
 					}
 					else
@@ -921,7 +932,10 @@ goto case_oZP;
 					const float procent = atof(inputtext);
 					if ( procent > 0.00f && procent < 100.0f )
 					{
-						Jobs::Miner::cMiner::miner[l].procent = procent;
+						if ( cClass::sqlSetFloat("class_Miners", "proc", procent, miner[l].db) )
+						{
+							Jobs::Miner::cMiner::miner[l].procent = procent;
+						}
 goto case_finans;
 					}
 					else
