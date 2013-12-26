@@ -4,7 +4,7 @@
 //--------------------------------------------------------
 struct pClass PlayerClass[MAX_CLASES] = { { 0, 0 } };
 struct vClass VehicleClass[ VEH_CLASES ] = { { 0, 0 } };
-struct kgText kgPlayerText[MAX_PLAYERS][32];
+struct kgText kgPlayerText[MAX_PLAYERS][16];
 //--------------------------------------------------------
 void cClass::loadVehicleClass()
 {
@@ -224,9 +224,6 @@ bool cClass::sqlSetString(const char * table, const char * field, const char * v
 }
 
 //Mini-Game lowrider style
-
-#define tocolor(r, g, b, a) ( ( r & 0xff ) << 24 ) + ( ( g & 0xff ) << 16 ) + ( ( b & 0xff ) << 8 ) + ( a & 0xff )
-
 void cClass::keyGame(const int u)
 {
 	Player[u].isKeyGame = true;
@@ -269,7 +266,7 @@ void cClass::keyGame(const int u)
 		PlayerTextDrawSetSelectable(u, kgPlayerText[u][t].tid, 0);
 	}
 	//300.000000, 270.000000
-	for ( int i = 0; i < 10000; i++ )
+	for ( int i = 0; i < 5000; i++ )
 	{
 		for ( int t = 1; t < 12; t++ )
 		{
@@ -362,6 +359,27 @@ void cClass::keyGame(const int u)
 		}
 		std::this_thread::sleep_for(std::chrono::milliseconds(30));
 	}
+
+	Player[u].isKeyGame = false;
+	for ( int i = 0; i < 256; i++ )
+	{
+		for ( int t = 0; t < 12; t++ )
+		{
+			if ( kgPlayerText[u][t].alpha > 0 ) kgPlayerText[u][t].alpha -= 1;
+			PlayerTextDrawHide(u, kgPlayerText[u][t].tid);
+			PlayerTextDrawColor(u, kgPlayerText[u][t].tid, tocolor(255, 255, 255, kgPlayerText[u][t].alpha));
+			if ( t == 0 ) PlayerTextDrawBackgroundColor(u, kgPlayerText[u][0].tid, tocolor(0, 0, 0, kgPlayerText[u][t].alpha));
+			PlayerTextDrawShow(u, kgPlayerText[u][t].tid);
+		}
+		std::this_thread::sleep_for(std::chrono::milliseconds(5));
+	}
+
+	for ( int t = 0; t < 12; t++ )
+	{
+		PlayerTextDrawDestroy(u, kgPlayerText[u][t].tid);
+	}
+
+	GameTextForPlayer(u, "~y~MINI-GAME DONE!", 3000, 3);
 }
 
 void cClass::updateKeyGame(const int u)
@@ -372,7 +390,7 @@ void cClass::updateKeyGame(const int u)
 
 	GetPlayerKeys(u, &key, &ud, &lr);
 
-	if ( Player[u].kgLR == 0 && Player[u].kgUD == 0 && ud == 0 && lr == 0 )
+	if ( Player[u].kgLR == 0 && Player[u].kgUD == 0)
 	{
 		GameTextForPlayer(u, "~y~NULL 1", 1000, 3);
 	}

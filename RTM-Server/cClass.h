@@ -41,7 +41,7 @@ struct kgText
 	float			y;
 };
 
-struct kgText extern kgPlayerText[MAX_PLAYERS][32];
+struct kgText extern kgPlayerText[MAX_PLAYERS][16];
 
 const char kgKeys[10][16] = 
 {

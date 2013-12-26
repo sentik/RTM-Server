@@ -43,7 +43,7 @@
 #define SELECT_COLORUS 0xDCDCDC88
 #define RANDOM_SEED	8 * getUnixTime() + 6 * clock()  - 123
 //#define BOOST_THREAD_DONT_USE_CHRONO 1 
-
+#define tocolor(r, g, b, a) ( ( r & 0xff ) << 24 ) + ( ( g & 0xff ) << 16 ) + ( ( b & 0xff ) << 8 ) + ( a & 0xff )
 
 #include "Mutex.h"
 
