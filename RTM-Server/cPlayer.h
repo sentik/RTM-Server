@@ -39,6 +39,11 @@ namespace cPlayer
 	void PreloadAnimLib(const int);
 	void getName(const int, char[]);
 	void Train(const int);
+	void setCharHealth(const int, const float);
+	void setCharArmour(const int, const float);
+	void updateHealthBar(const int);
+	void onPlayerGiveDamage(const int, const int, const float, const unsigned char);
+	void onPlayerTakeDamage(const int, const int, const float, const unsigned char);
 }
 
 /*
@@ -77,6 +82,12 @@ public:
 };*/
 
 int extern drawPlayerChar[15];
+
+struct sAC
+{
+	float	Health;
+	float	Armour;
+};
 
 struct  pInfo
 {
@@ -130,6 +141,7 @@ struct  pInfo
 	bool	isKeyGame;
 	unsigned char	kgUD;
 	unsigned char	kgLR;
+	sAC		AC;
 };
 //TODO: Структура игрока
 struct pInfo extern Player[MAX_PLAYERS];

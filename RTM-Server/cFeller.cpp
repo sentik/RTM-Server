@@ -178,7 +178,6 @@ void fProperty::cFeller::onGUI(const int u, const int draw)
 	else
 	{
 		char minerAmount;
-		float ftmp;
 		for (int i = 0; i < 20; i++)
 		{
 			if (draw == Player[u].minerDraw[i])
@@ -205,8 +204,7 @@ void fProperty::cFeller::onGUI(const int u, const int draw)
 				else if (minerColor == 5)
 				{
 					const float hpAmount = (1.0f + rand() % 300) / 100;
-					GetPlayerHealth(u, &ftmp);
-					SetPlayerHealth(u, ftmp - hpAmount);
+					cPlayer::setCharHealth(u, Player[u].AC.Health - hpAmount);
 					sprintf(msg, language::jobs::feller::actionFour, hpAmount);
 					PlayerTextDrawColor(u, Player[u].minerDraw[i], 0xB700B788);
 				}

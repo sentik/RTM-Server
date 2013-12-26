@@ -280,6 +280,18 @@ PLUGIN_EXPORT bool PLUGIN_CALL  OnPlayerDeath(int playerid, int killerid, int re
 	return false;
 }
 
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerTakeDamage(int playerid, int issuerid, float amount, int weaponid)
+{
+	cPlayer::onPlayerTakeDamage(playerid, issuerid, amount, weaponid);
+	return true;
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerGiveDamage(int playerid, int damagedid, float amount, int weaponid)
+{
+	cPlayer::onPlayerTakeDamage(playerid, damagedid, amount, weaponid);
+	return true;
+}
+
 //-------------------------------------------------------------------------------------------
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerDisconnect(int playerid, int reason)
 {

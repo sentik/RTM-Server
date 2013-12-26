@@ -80,12 +80,14 @@ void cPlayer::update()
 			}
 			continue;
 		}
+		/*
 		float hp;
 		float ar;
 		GetPlayerHealth(i, &hp);
 		GetPlayerArmour(i, &ar);
 		sprintf(buffer, "(%d) %s %s [{B7FF00}%.2f%% {DCDCDC}%.2f%%{FFFFFF}]", i, Player[ i ].uName, Player[ i ].sName, hp, ar);
 		StreamerCall::Native::UpdateDynamic3DTextLabelText(Player[i].pBar, -1, buffer);
+		*/
 
 
 		char vers[32];
@@ -930,4 +932,122 @@ void cPlayer::PreloadAnimLib(const int playerid)
 	ApplyAnimation(playerid, "INT_HOUSE", "null", 0, 0, 0, 0, 0, 0, 0);
 	ApplyAnimation(playerid, "FOOD", "null", 0, 0, 0, 0, 0, 0, 0);
 	ClearAnimations(playerid, true);
+}
+
+//sAC
+
+void cPlayer::updateHealthBar(const int u)
+{
+	char msg[88];
+	sprintf(msg, "(%d) %s %s [{B7FF00}%.2f%% {DCDCDC}%.2f%%{FFFFFF}]", u, Player[u].uName, Player[u].sName, Player[u].AC.Health, Player[u].AC.Armour);
+	StreamerCall::Native::UpdateDynamic3DTextLabelText(Player[u].pBar, -1, msg);
+}
+
+void cPlayer::setCharHealth(const int u, const float value)
+{
+	Player[u].AC.Health = value;
+	SetPlayerHealth(u, value);
+	cPlayer::updateHealthBar(u);
+}
+
+void cPlayer::setCharArmour(const int u, const float value)
+{
+	Player[u].AC.Armour = value;
+	SetPlayerArmour(u, value);
+	cPlayer::updateHealthBar(u);
+}
+
+void cPlayer::onPlayerGiveDamage(const int u, const int damagedid, const float amount, const unsigned char weaponid)
+{
+	float hp;
+
+	if ( weaponid == 0 || weaponid == 1 || ( weaponid >= 10 && weaponid <= 14 ) )
+	{
+		hp = (0.0f + rand() % 400) / 100;
+	}
+	else if ( weaponid == 2 || weaponid == 3 || ( weaponid >= 5 && weaponid <= 7 ) || weaponid == 15 )
+	{
+		hp = ( 2.0f + rand() % 400 ) / 100;
+	}
+	else if ( weaponid == 4 || weaponid == 8 )
+	{
+		hp = ( 8.0f + rand() % 1000 ) / 100;
+	}
+	else if ( weaponid == 22 || weaponid == 23 )
+	{
+		hp = ( 15.0f + rand() % 500 ) / 100;
+	}
+	else if ( weaponid == 24 )
+	{
+		hp = ( 20.0f + rand() % 600 ) / 100;
+	}
+	else if ( weaponid == 25 )
+	{
+		hp = ( 35.0f + rand() % 2000 ) / 100;
+	}
+	else if ( weaponid == 26 )
+	{
+		hp = ( 50.0f + rand() % 2500 ) / 100;
+	}
+	else if ( weaponid == 27 )
+	{
+		hp = ( 30.0f + rand() % 1000 ) / 100;
+	}
+	else if ( weaponid == 28 || weaponid == 32 )
+	{
+		hp = ( 5.0f + rand() % 1000 ) / 100;
+	}
+	else if ( weaponid == 29 )
+	{
+		hp = ( 10.0f + rand() % 500 ) / 100;
+	}
+	else if ( weaponid == 30 ) //AK47
+	{
+		hp = ( 30.0f + rand() % 1500 ) / 100;
+	}
+	else if ( weaponid == 31 ) //M16
+	{
+		hp = ( 20.0f + rand() % 1500 ) / 100;
+	}
+	else if ( weaponid == 33 )
+	{
+		hp = ( 30.0f + rand() % 500 ) / 100;
+	}
+	else if ( weaponid == 34 )
+	{
+		hp = ( 100.0f + rand() % 5000 ) / 100;
+	}
+	else if ( weaponid == 35 || weaponid == 36 )
+	{
+		hp = ( 150.0f + rand() % 10000 ) / 100;
+	}
+	else if ( weaponid == 39 )
+	{
+		hp = ( 150.0f + rand() % 5000 ) / 100;
+	}
+	else if ( weaponid == 41 || weaponid == 42 )
+	{
+		hp = 0.1f;
+	}
+	else if ( u != INVALID_PLAYER_ID )
+	{
+		hp = ( amount + rand() % 1000 ) / 100;
+	}
+
+	if ( Player[damagedid].AC.Armour > 0.00f )
+	{
+		hp = hp / 2;
+		Player[damagedid].AC.Armour -= (hp / 5);
+		SetPlayerArmour(damagedid, Player[damagedid].AC.Armour);
+	}
+
+	cPlayer::setCharHealth(damagedid, Player[damagedid].AC.Health - hp);
+}
+
+void cPlayer::onPlayerTakeDamage(const int u, const int issuerid, const float amount, const unsigned char weaponid)
+{
+	if ( weaponid <= 0 || weaponid >= 42 )
+	{
+		cPlayer::setCharHealth(u, Player[u].AC.Health - amount);
+	}
 }

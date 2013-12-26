@@ -27,3 +27,5 @@ EXPORTS
 	OnPlayerEnterRaceCheckpoint
 	OnPlayerLeaveRaceCheckpoint
 	OnPlayerDeath
+	OnPlayerTakeDamage
+	OnPlayerGiveDamage
