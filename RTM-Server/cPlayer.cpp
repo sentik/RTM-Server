@@ -43,7 +43,8 @@ void cPlayer::update()
 	{
 		if (Player[ i ].isLogged == false)
 		{
-			if ( Player[i].inIndex == 5656) continue;
+
+			/*if ( Player[i].inIndex == 5656) continue;
 			//if (Player[ i ].pClass == 0)
 			{
 				if (IsPlayerNPC(i))
@@ -77,7 +78,7 @@ void cPlayer::update()
 					cPlayer::Intro::cIntro::updateIntro(i);
 					continue;
 				}
-			}
+			}*/
 			continue;
 		}
 		/*
@@ -88,18 +89,6 @@ void cPlayer::update()
 		sprintf(buffer, "(%d) %s %s [{B7FF00}%.2f%% {DCDCDC}%.2f%%{FFFFFF}]", i, Player[ i ].uName, Player[ i ].sName, hp, ar);
 		StreamerCall::Native::UpdateDynamic3DTextLabelText(Player[i].pBar, -1, buffer);
 		*/
-
-
-
-
-		char vers[32];
-		GetPlayerVersion(i, vers);
-		logprintf("vers: [%d]%s", i, vers);
-
-		if ( Player[i].isKeyGame == true )
-		{
-			cClass::updateKeyGame(i);
-		}
 
 		if (Player[ i ].isAction == PlayerAction::ACTION_FREZSETPOS)
 		{
@@ -735,16 +724,17 @@ void cPlayer::updateMoney(const int u)
 
 void cPlayer::updatePos(const int u)
 {
+	char qqq[2565];
 	GetPlayerPos(u, &Player[ u ].pPosX, &Player[ u ].pPosY, &Player[ u ].pPosZ);
 	GetPlayerFacingAngle( u, &Player[ u ].pPosR );
 	Player[ u ].pPosW = GetPlayerVirtualWorld(u);
 	Player[ u ].pPosI = GetPlayerInterior(u);
 	//================================================================================
-	sprintf(query, "UPDATE player_Character SET posx='%f', posy='%f', posz='%f', posr='%f', posi='%d', posw='%d', posp='%d' WHERE id = '%d'", 
+	sprintf(qqq, "UPDATE player_Character SET posx='%f', posy='%f', posz='%f', posr='%f', posi='%d', posw='%d', posp='%d' WHERE id = '%d'", 
 			Player[ u ].pPosX, Player[ u ].pPosY, Player[ u ].pPosZ, Player[ u ].pPosR, Player[ u ].pPosI, Player[ u ].pPosW,
 			Player[ u ].inIndex, Player[ u ].pDB);
 	//================================================================================
-	safe_query(con, query);
+	safe_query(con, qqq);
 }
 
 

@@ -113,14 +113,7 @@ struct  pInfo
 	unsigned char	pState;				//Состаяние	игрока
 	int		inType;
 	int		inIndex;
-	//Потом пихани куда надо, ок.
-	int		spdSpeed;			//TextDraw
-	int		spdState;			//TextDraw
-	int		spdTitle;			//TextDraw
-	int		spdFuel;			//TextDraw
-	int		spdMilage;			//TextDraw
-	int		minerDraw[20];		//TextDraws miner
-	unsigned char	role;				//Роль игрока
+	int		belay;
 	//--------------------------------------
 	unsigned char	memType;			//Тип банды/ мафии/ 
 	int		memIndex;			//Ид банды/ мафии/
@@ -143,6 +136,14 @@ struct  pInfo
 	unsigned char	kgLR;
 	sAC		AC;
 	int		pDraw;
+
+	//Потом пихани куда надо, ок.
+	int		spdSpeed;			//TextDraw
+	int		spdState;			//TextDraw
+	int		spdTitle;			//TextDraw
+	int		spdFuel;			//TextDraw
+	int		spdMilage;			//TextDraw
+	int		minerDraw[20];		//TextDraws miner
 };
 //TODO: Структура игрока
 struct pInfo extern Player[MAX_PLAYERS];
@@ -213,6 +214,7 @@ enum PlayerAction
 	ACTION_Death,
 	ACTION_USEJOBSDLG,
 	ACTION_USEMINERDLG,
+	ACTION_Belay,
 };
 
 enum PlayerSkills

@@ -218,6 +218,10 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 		Jobs::Miner::cMiner::onDLG(playerid, dialogid, response, listitem, inputtext);
 	}
 	//---------------------------------------------------------------------------
+	else if (Player[ playerid ].isAction == PlayerAction::ACTION_Belay)
+	{
+		Properties::Belays::onDLG(playerid, dialogid, response, listitem, inputtext);
+	}
 	return true;
 }
 

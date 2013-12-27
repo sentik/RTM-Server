@@ -32,6 +32,8 @@ struct pClass
 //TODO: Классы игроков
 struct pClass extern PlayerClass[MAX_CLASES];
 
+std::mutex extern keyGameMutex;
+
 struct kgText
 {
 	int				tid;

@@ -10,6 +10,8 @@ std::mutex mutexStreamGlobal;
 std::mutex mutexStreamPlayer;
 std::mutex mutexMYSQL;
 
+std::mutex mutexTTD;
+
 
 logprintf_t logprintf;
 //======================================
@@ -75,7 +77,7 @@ PLUGIN_EXPORT void PLUGIN_CALL ProcessTick()
 	{
 		uTime = getUnixTime();
 		//-----------------------------------
-		thread(cPlayer::update).detach();
+		thread(cPlayer::update).join();
 		StreamerCall::Tick();
 		//-----------------------------------
 		/*thread threadStream(StreamerCall::Tick);
@@ -179,6 +181,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData)
 //-------------------------------------------------------------------------------------------
 PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 {
+
 	//"demo"( );
 	Properties::Shops::ShopVehicle::loadShop();
 	Jobs::Miner::cMiner::loadMiner();
@@ -209,6 +212,12 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 	ShowNameTags(false);
 	StreamerCall::Native::CreateDynamicPickup(INFO_PICKUP, 23, TEMP_JOB_POS);
 	StreamerCall::Native::CreateDynamic3DTextLabel("Филиал трудо-занятности\nНажмите [ALT]", -1, TEMP_JOB_POS, 5.0f);
+	/*
+	#pragma omp parallel
+	{
+		cout << "Hello World\n";
+	}
+	*/
 	cout << "\a";
 	return true;
 }
@@ -269,13 +278,13 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerText(int u, const char *text)
 
 PLUGIN_EXPORT bool PLUGIN_CALL  OnPlayerDeath(int playerid, int killerid, int reason)
 {
-	if (Player[ playerid ].isLogged)
-		SendClientMessage(playerid, -1, "Вы авторизованны!");
 	Player[ playerid ].isAction = PlayerAction::ACTION_Death;
 	//-------------------------------------
 	Player[ playerid ].pPosX = 1170.984f;
 	Player[ playerid ].pPosY = -1323.432f;
 	Player[ playerid ].pPosZ = 15.298f;
+	Player[ playerid ].pPosI = 0;
+	Player[ playerid ].pPosW = 0;
 	//-------------------------------------
 	SendClientMessage(playerid, -1, "Вы умерли =((");
 	return false;
@@ -308,17 +317,41 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSpawn(int playerid)
 	if (Player[ playerid ].isLogged)
 	{
 		cPlayer::setClassSkin(playerid);
+		//-------------------------------------------------------
+		if(Player[ playerid ].isAction == PlayerAction::ACTION_Death)
+		{
+			Player[ playerid ].pPosX = 1170.984f;
+			Player[ playerid ].pPosY = -1323.432f;
+			Player[ playerid ].pPosZ = 15.298f;
+			Player[ playerid ].pPosI = 0;
+			Player[ playerid ].pPosW = 0;
+		}
 		Player[ playerid ].isAction = PlayerAction::ACTION_NONE;
-		//-------------------------------------------------------
-		SetPlayerPos(playerid,
-			Player[playerid].pPosX,
-			Player[playerid].pPosY,
-			Player[playerid].pPosZ);
-		//-------------------------------------------------------
-		SetPlayerFacingAngle(playerid, Player[playerid].pPosR);
 		//-------------------------------------------------------
 		SetPlayerInterior(playerid, Player[playerid].pPosI);
 		SetPlayerVirtualWorld(playerid, Player[playerid].pPosW);
+		//-------------------------------------------------------
+		cPlayer::setCharPos
+		(
+			playerid,
+			Player[playerid].pPosX,
+			Player[playerid].pPosY,
+			Player[playerid].pPosZ,
+			true
+		);
+		//-------------------------------------------------------
+		StreamerCall::Native::UpdateEx
+		(
+			playerid,
+			Player[playerid].pPosX,
+			Player[playerid].pPosY,
+			Player[playerid].pPosZ,
+			Player[playerid].pPosI,
+			Player[playerid].pPosW
+		);
+		SendClientMessage(playerid, -1, "stremed!");
+		//-------------------------------------------------------
+		SetPlayerFacingAngle(playerid, Player[playerid].pPosR);
 		//-------------------------------------------------------
 		cPlayer::updateMoney(playerid);
 		PlayerTextDrawShow(playerid, Player[playerid].tCents);
@@ -341,6 +374,10 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerUpdate(int playerid)
 		if (Player[playerid].pState == PLAYER_STATE_DRIVER)
 		{
 			world::Vehicles::updateSpeed(playerid);
+		}
+		if ( Player[playerid].isKeyGame == true )
+		{
+			cClass::updateKeyGame(playerid);
 		}
 		//================================================
 		if(uCount > 10)

@@ -39,6 +39,8 @@ namespace Properties
 		void makePick();
 		void onAction(const int);
 		void onDLG(int, int, int, int, const char*);
+		void regPlayer(int, int);
+		bool checkPlayer(int);
 
 		enum rowBelays
 		{

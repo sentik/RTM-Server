@@ -408,12 +408,15 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 	{
 		const int draw = extrimeDraws::func::create("By Serinc");
 		extrimeDraws::func::setBeginPosition(draw, 100.0f, 320.0f);
-		extrimeDraws::func::setEndPosition(draw, 600.0f, 400.0f);
-		extrimeDraws::func::setBeginColorText(draw, tocolor(150, 0, 150, 255));
+		extrimeDraws::func::setEndPosition(draw, 500.0f, 400.0f);
+		extrimeDraws::func::setBeginColorText(draw, tocolor(0, 0, 150, 0));
+		extrimeDraws::func::setEndColorText(draw, tocolor(150, 0, 150, 255));
+		extrimeDraws::func::setSpeedColorText(draw, tocolor(1, 0, 0, 1));
 		extrimeDraws::func::setBeginTextSize(draw, 1.0f, 1.5f);
 		extrimeDraws::func::setFont(draw, 1);
-		extrimeDraws::func::setSpeedTextPos(draw, 0.5f, 0.05f);
+		extrimeDraws::func::setSpeedTextPos(draw, 0.5f, 0.5f);
 		extrimeDraws::func::toggleOutline(draw, true);
+		extrimeDraws::func::toggleBox(draw, false);
 		extrimeDraws::func::initDraw(playerid, draw);
 	}
 	else if ( strcmp("sethp", cmd) == 0 )

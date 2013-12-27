@@ -136,6 +136,11 @@ std::mutex extern mutexStreamGlobal;		// STREAMER MUTEX
 std::mutex extern mutexStreamPlayer;		// STREAMER MUTEX
 std::mutex extern mutexMYSQL;		// STREAMER MUTEX
 
+
+std::mutex extern mutexTTD;		// STREAMER MUTEX
+
+
+
 int safe_query(MYSQL *conn, char query[ ]);
 //--------------------------------------------
 using namespace std;

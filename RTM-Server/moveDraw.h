@@ -88,6 +88,7 @@ namespace extrimeDraws
 	namespace variables
 	{
 		struct serDraws extern extrDraw[10];
+		std::mutex extern extrMutex;
 	}
 
 	class func

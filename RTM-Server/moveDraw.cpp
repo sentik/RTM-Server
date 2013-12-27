@@ -5,6 +5,7 @@ namespace extrimeDraws
 	namespace variables
 	{
 		struct serDraws extrDraw[10];
+		std::mutex extrMutex;
 	}
 
 //========================================================================================] General
@@ -155,6 +156,9 @@ namespace extrimeDraws
 			variables::extrDraw[draw].colBg.cur[u] = variables::extrDraw[draw].colBg.begin;
 
 			variables::extrDraw[draw].textPos.anim[u] = true;
+			variables::extrDraw[draw].colFont.anim[u] = true;
+
+			variables::extrDraw[draw].id[u] = CreatePlayerTextDraw(u, variables::extrDraw[draw].textPos.cur[u].x, variables::extrDraw[draw].textPos.cur[u].y, variables::extrDraw[draw].text);
 
 			std::thread(func::animateDraw, u, draw).detach();
 		}
@@ -164,7 +168,36 @@ namespace extrimeDraws
 
 			if ( variables::extrDraw[draw].id[u] != INVALID_TEXT_DRAW )
 			{
+				variables::extrMutex.lock();
 				PlayerTextDrawDestroy(u, variables::extrDraw[draw].id[u]);
+				variables::extrMutex.unlock();
+			}
+
+			if ( variables::extrDraw[draw].colFont.anim[u] == true )
+			{
+				if ( variables::extrDraw[draw].colFont.cur[u] == variables::extrDraw[draw].colFont.end )
+				{
+					variables::extrDraw[draw].colFont.anim[u] = false;
+				}
+				else
+				{
+					if ( variables::extrDraw[draw].colFont.cur[u] < variables::extrDraw[draw].colFont.end && variables::extrDraw[draw].colFont.begin < variables::extrDraw[draw].colFont.end )
+					{
+						variables::extrDraw[draw].colFont.cur[u] += variables::extrDraw[draw].colFont.speed;
+						if ( variables::extrDraw[draw].colFont.cur[u] > variables::extrDraw[draw].colFont.end )
+						{
+							variables::extrDraw[draw].colFont.cur[u] = variables::extrDraw[draw].colFont.end;
+						}
+					}
+					else
+					{
+						variables::extrDraw[draw].colFont.cur[u] -= variables::extrDraw[draw].colFont.speed;
+						if ( variables::extrDraw[draw].colFont.cur[u] < variables::extrDraw[draw].colFont.end )
+						{
+							variables::extrDraw[draw].colFont.cur[u] = variables::extrDraw[draw].colFont.end;
+						}
+					}
+				}
 			}
 
 			if ( variables::extrDraw[draw].textPos.anim[u] == true )
@@ -202,10 +235,8 @@ namespace extrimeDraws
 					}
 				}
 			}
-			else
-			{
-				std::this_thread::yield();
-			}
+
+			variables::extrMutex.lock();
 
 			variables::extrDraw[draw].id[u] = CreatePlayerTextDraw(u, variables::extrDraw[draw].textPos.cur[u].x, variables::extrDraw[draw].textPos.cur[u].y, variables::extrDraw[draw].text);
 			PlayerTextDrawAlignment(u, variables::extrDraw[draw].id[u], variables::extrDraw[draw].alignment);
@@ -220,12 +251,20 @@ namespace extrimeDraws
 			PlayerTextDrawTextSize(u, variables::extrDraw[draw].id[u], variables::extrDraw[draw].textBoxSize.cur[u].x, variables::extrDraw[draw].textBoxSize.cur[u].y);
 			PlayerTextDrawShow(u, variables::extrDraw[draw].id[u]);
 
+			variables::extrMutex.unlock();
+
 			std::this_thread::sleep_for(std::chrono::milliseconds(30));
 
 			if ( variables::extrDraw[draw].textPos.anim[u] )
 				goto case_start;
 
-			GameTextForPlayer(u, "~r~end thread", 1000, 1);
+			variables::extrMutex.lock();
+			if ( variables::extrDraw[draw].id[u] != INVALID_TEXT_DRAW )
+			{
+				PlayerTextDrawDestroy(u, variables::extrDraw[draw].id[u]);
+				GameTextForPlayer(u, "~r~end thread", 1000, 3);
+			}
+			variables::extrMutex.unlock();
 		}
 }
 /*

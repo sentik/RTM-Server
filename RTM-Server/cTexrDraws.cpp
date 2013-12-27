@@ -37,9 +37,19 @@ PLUGIN_EXPORT bool PLUGIN_CALL  OnPlayerClickTextDraw(const int u, const int dra
 		cPlayer::hideRegDraws(u);
 
 		Player[ u ].pClass = clamp(Player[ u ].pClass, 0, MAX_CLASES);
-		logprintf("on selct: %d", Player[ u ].pClass);
+	
+		cPlayer::SpawnChar(u);
+		cPlayer::setClassSkin(u);
+		cPlayer::setCharPos(u, REG_SPAWN_X, REG_SPAWN_Y, REG_SPAWN_Z, false);
+		cPlayer::setCharInterior(u, REG_SPAWN_INT);
+		cPlayer::setCharWorld(u, REG_SPAWN_WOR);
 
-		cPlayer::Intro::cIntro::initTrain(u);
+		Player[ u ].isAction = PlayerAction::ACTION_NONE;
+
+		dialogs::showDLGEnterName(u);
+
+
+	//	cPlayer::Intro::cIntro::initTrain(u);
 		//cPlayer::hideRegDraws(u), dialogs::showDLGEnterName(u);
 		
 		

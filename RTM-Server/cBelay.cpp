@@ -122,12 +122,13 @@ namespace Properties
 		//-----------------------------------------------------------------------------
 		void onAction(const int u)
 		{
-			
-			const int idx = Player[ u ].inIndex;
+			const int idx = Player[ u ].inIndex;		// Ид проперти
+			const int bdx = Player[ u ].inIndex;		// Ид страховой
+			Player[u].isAction = PlayerAction::ACTION_Belay;
 			//---------------------------------
-			if (Property[ idx ].owner == Player[ u ].pDB)
+			if (Property[ idx ].owner != Player[ u ].pDB)
 			{
-				char msg[ 256 ];
+				char msg[ 256 ] = "";
 				//******************************************
 				dialogs::genDLGItem(1, "Информация", msg);
 				dialogs::genDLGItem(2, "Статистика", msg);
@@ -149,25 +150,31 @@ namespace Properties
 			//=============================================
 			else
 			{
-				char msg[ 512 ];
+				char msg[ 512 ] = "";
 				sprintf
 				(
 					msg, 
-					"Здравствуйте вы хотите застраховать свою жизнь за %d$\
+					"Здравствуйте, вы хотите застраховать свою жизнь за %d$?\
 					\nДанная страховка будет покрывать часть стоимости лечения.\
-					\nПри попадении в ДТП:  \t\t\t%d%%\
-					\nПри огнестрельном ранении: \t\t\t%d%%\
-					\nПри ножевом ранении ранении: \t\t%d%%\
-					\nПри травмах и переломах: \t\t\t%d%%\
-					\nПри различных заболеваниях: \t\t%d%%"
+					\nПри попадении в ДТП:  \t\t\t\t\t%d%%\
+					\nПри огнестрельном ранении: \t\t\t\t%d%%\
+					\nПри ножевом ранении: \t\t\t\t\t\t\t%d%%\
+					\nПри травмах и переломах: \t\t\t\t\t%d%%\
+					\nПри различных заболеваниях: \t\t\t\t%d%%",
+					Belay[bdx].price,
+					Belay[bdx].perDrive,
+					Belay[bdx].perFire,
+					Belay[bdx].perStab,
+					Belay[bdx].perFight,
+					Belay[bdx].perSick
 				);
 				//******************************************
 				ShowPlayerDialog
 				(
 					u,
-					DLG_BELAY_OWNER_MAIN,
+					DLG_BELAY_CLIENT_MAIN,
 					GUI_MSG,
-					"[Страховая компания]: Меню владельца",
+					"[Страховая компания]: Страхование жизни",
 					msg,
 					language::dialogs::buttons::btnNext,
 					language::dialogs::buttons::btnClose
@@ -178,6 +185,10 @@ namespace Properties
 		//-----------------------------------------------------------------------------
 		void onDLG(int u, int dialogid, int response, int listitem, const char* inputtext)
 		{
+			char msg[ 512 ] = "";
+			const int idx = Player[ u ].inIndex;		// Ид проперти
+			const int bdx = Property[idx].link;		// Ид страховой
+
 			if (dialogid == DLG_BELAY_OWNER_MAIN)
 			{
 				if (response)
@@ -185,43 +196,360 @@ namespace Properties
 					//===============================
 					if (listitem == 0)					//Информация
 					{
-						
+						sprintf
+						(
+							msg, 
+							"Данная страховка будет покрывать часть стоимости лечения.\
+							\nПри попадении в ДТП:  \t\t\t\t%d%%\
+							\nПри огнестрельном ранении: \t\t\t\t%d%%\
+							\nПри ножевом ранении: \t\t\t\t%d%%\
+							\nПри травмах и переломах: \t\t\t\t%d%%\
+							\nПри различных заболеваниях: \t\t\t%d%%\
+							\nСтоимость недельного страхования: \t\t\t%d$",
+							Belay[bdx].perDrive,
+							Belay[bdx].perFire,
+							Belay[bdx].perStab,
+							Belay[bdx].perFight,
+							Belay[bdx].perSick,
+							Belay[bdx].price
+						);
+						//******************************************
+						ShowPlayerDialog
+						(
+							u, 
+							DLG_BELAY_OWNER_INFO, 
+							GUI_MSG,
+							"[Меню владельца]: Информация",	msg,
+							language::dialogs::buttons::btnBack,
+							""
+						);
+						//******************************************
 					}
 					//===============================
 					else if (listitem == 1)				//Статистика
 					{
-
+						//******************************************
+						ShowPlayerDialog
+						(
+							u, 
+							DLG_BELAY_OWNER_STATS, 
+							GUI_MSG,
+							"[Меню владельца]: Статистика",
+							"Данный раздел находится в разработке",
+							language::dialogs::buttons::btnBack,
+							""
+						);
+						//******************************************
 					}
 					//===============================
 					else if (listitem == 2)				//Финансирование
 					{
-
+						msg_Finance:
+						strcpy(msg, "");
+						dialogs::genDLGItem(1, "Выплаты при ДТП", msg);
+						dialogs::genDLGItem(2, "Выплаты при огнестрельном ранении", msg);
+						dialogs::genDLGItem(3, "Выплаты при различных заболеваниях", msg);
+						dialogs::genDLGItem(4, "Выплаты при травмах и переломах", msg);
+						dialogs::genDLGItem(5, "Выплаты при ножевом ранении", msg);
+						dialogs::genDLGItem(6, "Назначить стоимость страховки", msg);
+						//******************************************
+						ShowPlayerDialog
+						(
+							u, 
+							DLG_BELAY_OWNER_FINANCE, 
+							GUI_LIST,
+							"[Меню владельца]: Финансирование",	msg,
+							language::dialogs::buttons::btnNext,
+							language::dialogs::buttons::btnBack
+						);
+						//******************************************						
 					}
 					//===============================
 					else if (listitem == 4)				//Остальное
 					{
-
+						msg_ETC:
+						strcpy(msg, "");
+						dialogs::genDLGItem(1, "Изменить название", msg);
+						dialogs::genDLGItem(2, "Изменить номер счета", msg);
+						dialogs::genDLGItem(3, "Изменить время работы", msg);
+						dialogs::genDLGItem(4, "Положить на счет", msg);
+						dialogs::genDLGItem(5, "Снять со счета", msg);
+						//******************************************
+						ShowPlayerDialog
+						(
+							u, 
+							DLG_BELAY_OWNER_ETC, 
+							GUI_LIST,
+							"[Меню владельца]: Остальное",	msg,
+							language::dialogs::buttons::btnNext,
+							language::dialogs::buttons::btnBack
+						);
+						//******************************************			
 					}
 					//===============================
 				}
 				else
 				{
-
+					Player[u].isAction = PlayerAction::ACTION_NONE;
 				}
 			}
 			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			else if (dialogid == DLG_BELAY_OWNER_MAIN)
+			else if (dialogid == DLG_BELAY_OWNER_ETC)
 			{
-				if (response)
+				if(response)
 				{
+					if (listitem == 0)			// Изменить название
+					{
 
+					}
+					else if (listitem == 1)		// Изменить номер счета
+					{
+
+					}
+					else if (listitem == 1)		// Изменить время работы
+					{
+
+					}
 				}
 				else
 				{
-
+					onAction(u);
 				}
 			}
 			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			else if (dialogid == DLG_BELAY_OWNER_INFO)
+			{
+				onAction(u);
+			}
+			else if (dialogid == DLG_BELAY_OWNER_STATS)
+			{
+				onAction(u);
+			}
+			else if (dialogid == DLG_BELAY_OWNER_FINANCE)
+			{
+				if(response)
+				{
+					if (listitem == 0)			// Выплаты при ДТП
+					{
+						msg_Drive:
+						ShowPlayerDialog
+						(
+							u,
+							DLG_BELAY_OWNER_FINANCE_AUTO,
+							GUI_INPUT,
+							language::property::belay::finance_HEADER,
+							language::property::belay::finance_DriveBy,
+							language::dialogs::buttons::btnNext,
+							language::dialogs::buttons::btnBack
+						);
+					}
+					else if (listitem == 1)		// Выплаты при различных заболеваниях
+					{
+						msg_Fire:
+						ShowPlayerDialog
+						(
+							u,
+							DLG_BELAY_OWNER_FINANCE_Fire,
+							GUI_INPUT,
+							language::property::belay::finance_HEADER,
+							language::property::belay::finance_perFire,
+							language::dialogs::buttons::btnNext,
+							language::dialogs::buttons::btnBack
+						);
+					}
+					else if (listitem == 2)		// Выплаты при различных заболеваниях
+					{
+						msg_Sick:
+						ShowPlayerDialog
+						(
+							u,
+							DLG_BELAY_OWNER_FINANCE_Sick,
+							GUI_INPUT,
+							language::property::belay::finance_HEADER,
+							language::property::belay::finance_perSick,
+							language::dialogs::buttons::btnNext,
+							language::dialogs::buttons::btnBack
+						);
+					}
+					else if (listitem == 3)		// Выплаты при травмах и переломах
+					{
+						msg_Fight:
+						ShowPlayerDialog
+						(
+							u,
+							DLG_BELAY_OWNER_FINANCE_Fight,
+							GUI_INPUT,
+							language::property::belay::finance_HEADER,
+							language::property::belay::finance_perFight,
+							language::dialogs::buttons::btnNext,
+							language::dialogs::buttons::btnBack
+						);
+					}			
+					else if (listitem == 4)		// Выплаты при  ножевом ранении
+					{
+						msg_Stab:
+						ShowPlayerDialog
+						(
+							u,
+							DLG_BELAY_OWNER_FINANCE_Stab,
+							GUI_INPUT,
+							language::property::belay::finance_HEADER,
+							language::property::belay::finance_perStab,
+							language::dialogs::buttons::btnNext,
+							language::dialogs::buttons::btnBack
+						);
+					}				
+					else if (listitem == 5)		// стоимость страховки
+					{
+						msg_Price:
+						ShowPlayerDialog
+						(
+							u,
+							DLG_BELAY_OWNER_FINANCE_Price,
+							GUI_INPUT,
+							language::property::belay::finance_HEADER,
+							language::property::belay::finance_Price,
+							language::dialogs::buttons::btnNext,
+							language::dialogs::buttons::btnBack
+						);			
+					}
+				}
+				else
+				{
+					 onAction(u);
+				}
+			}
+			else if (dialogid == DLG_BELAY_OWNER_FINANCE_AUTO)
+			{
+				if (response)
+				{
+					if(sscanf(inputtext, "%d", &Belay[bdx].perDrive) == 1)
+					{
+						cClass::sqlSetInt("class_Belay", "perDrive", Belay[bdx].perDrive,   Belay[bdx].db);
+					}
+					else goto msg_Drive;
+				}
+				goto msg_Finance;
+			}
+			else if (dialogid == DLG_BELAY_OWNER_FINANCE_Fire)
+			{
+				if (response)
+				{
+					if(sscanf(inputtext, "%d", &Belay[bdx].perFire) == 1)
+					{
+						cClass::sqlSetInt("class_Belay", "perFire", Belay[bdx].perFire,   Belay[bdx].db);
+					}
+					else goto msg_Fire;
+				}
+				goto msg_Finance;
+			}
+			else if (dialogid == DLG_BELAY_OWNER_FINANCE_Sick)
+			{
+				if (response)
+				{
+					if(sscanf(inputtext, "%d", &Belay[bdx].perSick) == 1)
+					{
+						cClass::sqlSetInt("class_Belay", "perSick", Belay[bdx].perSick,   Belay[bdx].db);
+					}
+					else goto msg_Sick;
+				}
+				goto msg_Finance;
+			}	
+			else if (dialogid == DLG_BELAY_OWNER_FINANCE_Fight)
+			{
+				if (response)
+				{
+					if(sscanf(inputtext, "%d", &Belay[bdx].perFight) == 1)
+					{
+						cClass::sqlSetInt("class_Belay", "perFight", Belay[bdx].perFight,   Belay[bdx].db);
+					}
+					else goto msg_Fight;
+				}
+				goto msg_Finance;
+			}
+			else if (dialogid == DLG_BELAY_OWNER_FINANCE_Stab)
+			{
+				if (response)
+				{
+					if(sscanf(inputtext, "%d", &Belay[bdx].perStab) == 1)
+					{
+						cClass::sqlSetInt("class_Belay", "perStab", Belay[bdx].perStab,   Belay[bdx].db);
+					}
+					else goto msg_Stab;
+				}
+				goto msg_Finance;
+			}
+
+			else if (dialogid == DLG_BELAY_OWNER_FINANCE_Price)
+			{
+				if (response)
+				{
+					if(sscanf(inputtext, "%d", &Belay[bdx].price) == 1)
+					{
+						cClass::sqlSetInt("class_Belay", "price", Belay[bdx].price,   Belay[bdx].db);
+					}
+					else goto msg_Price;
+				}
+				goto msg_Finance;
+			}
+			else if (dialogid == DLG_BELAY_CLIENT_MAIN)
+			{
+				if (response)
+				{
+					if(cPlayer::checkMoney(u, Belay[bdx].price))
+					{
+						SendClientMessage(u, -1, "Спасибо, что выбрали именно нашу компанию!");
+						cPlayer::givePlayerMoney(u, -Belay[bdx].price);
+						regPlayer(u, Belay[bdx].db);
+					}
+				}
+				Player[u].isAction = PlayerAction::ACTION_NONE;
+			}
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		}
+		//=========================================================================
+		void regPlayer(int u, int idb)
+		{
+			if(checkPlayer(u))
+			{
+				sprintf
+				(
+					query, 
+					"UPDATE Belay_Clients SET belay=%d, tstart=NOW(), tend=NOW()+7 WHERE player = '%d'",
+					idb, Player[u].pDB
+				);
+				//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+				safe_query(con, query);
+			}
+			else
+			{
+				sprintf
+				(
+					query, 
+					"INSERT INTO Belay_Clients SET belay=%d, player=%d, tstart=NOW(), tend=NOW()+7",
+					idb, Player[u].pDB
+				);
+				//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+				safe_query(con, query);
+				//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+				Player[u].belay = mysql_insert_id(con);
+			}
+		}	
+		bool checkPlayer(int u)
+		{
+			sprintf
+			(
+				query, 
+				"SELECT NULL FROM Belay_Clients WHERE player = '%d' LIMIT 1",
+				Player[u].pDB
+			);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			safe_query(con,  query);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			MYSQL_RES *result = mysql_store_result(con);
+			int num_rows = mysql_num_rows(result);
+			mysql_free_result(result);
+			return (num_rows == 1) ? (true) : (false);
 		}
 	}
 }

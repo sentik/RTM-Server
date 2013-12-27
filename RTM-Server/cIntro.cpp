@@ -176,18 +176,23 @@ void cPlayer::Intro::cIntro::drawIntro(const int u)
 
 	if (Y < 300.0f)
 	{
+		check_Sentike:
 		PlayerTextDrawDestroy(u, Player[u].minerDraw[IT_SENTIKE]);
 		Player[u].minerDraw[IT_SENTIKE] = CreatePlayerTextDraw(u, Y, 211.0, "Sentike");
-		PlayerTextDrawAlignment(u, Player[u].minerDraw[IT_SENTIKE], 2);
-		PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[IT_SENTIKE], createRGBA(bR, bG, bB, bA));
-		PlayerTextDrawFont(u, Player[u].minerDraw[IT_SENTIKE], 1);
-		PlayerTextDrawLetterSize(u, Player[u].minerDraw[IT_SENTIKE], 0.500000, 1.000000);
-		PlayerTextDrawColor(u, Player[u].minerDraw[IT_SENTIKE], createRGBA(R, G, B, A));
-		PlayerTextDrawSetOutline(u, Player[u].minerDraw[IT_SENTIKE], 0);
-		PlayerTextDrawSetProportional(u, Player[u].minerDraw[IT_SENTIKE], 1);
-		PlayerTextDrawSetShadow(u, Player[u].minerDraw[IT_SENTIKE], 1);
-		PlayerTextDrawSetSelectable(u, Player[u].minerDraw[IT_SENTIKE], 0);
-		PlayerTextDrawShow(u, Player[u].minerDraw[IT_SENTIKE]);
+		if(Player[u].minerDraw[IT_SENTIKE] )
+		{
+			PlayerTextDrawAlignment(u, Player[u].minerDraw[IT_SENTIKE], 2);
+			PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[IT_SENTIKE], createRGBA(bR, bG, bB, bA));
+			PlayerTextDrawFont(u, Player[u].minerDraw[IT_SENTIKE], 1);
+			PlayerTextDrawLetterSize(u, Player[u].minerDraw[IT_SENTIKE], 0.500000, 1.000000);
+			PlayerTextDrawColor(u, Player[u].minerDraw[IT_SENTIKE], createRGBA(R, G, B, A));
+			PlayerTextDrawSetOutline(u, Player[u].minerDraw[IT_SENTIKE], 0);
+			PlayerTextDrawSetProportional(u, Player[u].minerDraw[IT_SENTIKE], 1);
+			PlayerTextDrawSetShadow(u, Player[u].minerDraw[IT_SENTIKE], 1);
+			PlayerTextDrawSetSelectable(u, Player[u].minerDraw[IT_SENTIKE], 0);
+			PlayerTextDrawShow(u, Player[u].minerDraw[IT_SENTIKE]);
+		}
+		else goto check_Sentike;
 
 		PlayerTextDrawHide(u, Player[u].minerDraw[IT_AND]);
 		PlayerTextDrawColor(u, Player[u].minerDraw[IT_AND], createRGBA(R, RR, B, AA));
@@ -535,14 +540,15 @@ void cPlayer::Intro::cIntro::updateIntro(const int u)
 	else if (Player[u].aMinerA != 56)
 	{		
 		Player[u].aMinerA = 56;
-		std::thread(cPlayer::Intro::cIntro::drawIntro, u).detach();
+		std::thread(cPlayer::Intro::cIntro::drawIntro, u).join();
+		
 	}
 
 	const float radius = 200.0f + (rand() % 10000) / 100;
 
 	GetPlayerPos(b, &x, &y, &z);
 	
-		GetVehicleZAngle(Player[b].pCarid, &a);
+	GetVehicleZAngle(Player[b].pCarid, &a);
 
 	a += 90.0f;
 
