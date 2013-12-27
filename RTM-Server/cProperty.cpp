@@ -341,12 +341,17 @@ void cProperty::doAct(int u)
 	switch (Property[idx].type)
 	{
 		//----------------------------------------
-		case 2:	//Банк. Хранилише
+		case PropertyType::prBank:	//Банк. Хранилише
 		{
 			cBanks::actStuff(u);
 		}
 		break;
 		//----------------------------------------
+		case PropertyType::prBelays:
+		{
+			Properties::Belays::onAction(u);
+		}
+		break;
 	}
 }
 

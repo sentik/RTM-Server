@@ -246,6 +246,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerConnect(int playerid)
 			GangZoneShowForPlayer(playerid, Properties::Farms::Farm[ i ].zome, 0x00ff6c96);
 		}
 
+		cPlayer::setCharHealth(playerid, 100.0f);
 		StreamerCall::Events::OnPlayerConnect(playerid);
 		Player[ playerid ].pBar = StreamerCall::Native::CreateDynamic3DTextLabel(" ", -1, 0.0f, 0.0f, 0.13f, 20.0f, playerid);
 		cObjects::removeObjects(playerid);

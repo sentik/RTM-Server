@@ -90,6 +90,8 @@ void cPlayer::update()
 		*/
 
 
+
+
 		char vers[32];
 		GetPlayerVersion(i, vers);
 		logprintf("vers: [%d]%s", i, vers);

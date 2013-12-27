@@ -93,6 +93,7 @@
 //-------------------------] Intro
 #include "cIntro.h"
 #include "cBelay.h"
+#include "moveDraw.h"
 
 #include "saZones.h"
 #include "cFeller.h"

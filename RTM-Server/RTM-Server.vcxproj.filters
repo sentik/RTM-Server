@@ -183,6 +183,9 @@
     <ClInclude Include="cBelay.h">
       <Filter>Заголовочные файлы\property</Filter>
     </ClInclude>
+    <ClInclude Include="moveDraw.h">
+      <Filter>Заголовочные файлы\gui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -274,6 +277,9 @@
     </ClCompile>
     <ClCompile Include="cBelay.cpp">
       <Filter>Файлы исходного кода\property</Filter>
+    </ClCompile>
+    <ClCompile Include="moveDraw.cpp">
+      <Filter>Файлы исходного кода\gui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

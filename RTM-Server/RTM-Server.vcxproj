@@ -144,6 +144,7 @@
     <ClInclude Include="invertory.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="cPlayer.h" />
+    <ClInclude Include="moveDraw.h" />
     <ClInclude Include="queries.h" />
     <ClInclude Include="Russian.h" />
     <ClInclude Include="saZones.h" />
@@ -178,6 +179,7 @@
     <ClCompile Include="invertory.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="cPlayer.cpp" />
+    <ClCompile Include="moveDraw.cpp" />
     <ClCompile Include="saZones.cpp" />
     <ClCompile Include="shopVehicle.cpp" />
   </ItemGroup>

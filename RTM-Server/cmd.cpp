@@ -290,6 +290,41 @@ void CMD::gethere(const int u, const char * params)
 	}
 }
 
+void CMD::set_hp(const int u, const char * params)
+{
+	int id;
+	float hp;
+	float ar;
+
+	if ( sscanf(params, "%d %f %f", &id, &hp, &ar) == 3 )
+	{
+		if ( IsPlayerConnected(id) )
+		{
+			cPlayer::setCharHealth(id, hp);
+			cPlayer::setCharArmour(id, ar);
+		}
+		else
+		{
+			SendClientMessage(u, -1, "{FF0000}Ошибка: {FFFFFF}игрок не найден.");
+		}
+	}
+	else if ( sscanf(params, "%d %f", &id, &hp) == 2 )
+	{
+		if ( IsPlayerConnected(id) )
+		{
+			cPlayer::setCharHealth(id, hp);
+		}
+		else
+		{
+			SendClientMessage(u, -1, "{FF0000}Ошибка: {FFFFFF}игрок не найден.");
+		}
+	}
+	else
+	{
+		SendClientMessage(u, -1, "Используйте: /sethp [ид игрока] [кол-во здоровья] (опционально [кол-во брони])");
+	}
+}
+
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cmdtext)
 {
@@ -368,6 +403,22 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 	else if ( strcmp("testtd", cmd) == 0 )
 	{
 		std::thread(cClass::keyGame, playerid).detach();
+	}
+	else if ( strcmp("testtd2", cmd) == 0 )
+	{
+		const int draw = extrimeDraws::func::create("By Serinc");
+		extrimeDraws::func::setBeginPosition(draw, 100.0f, 320.0f);
+		extrimeDraws::func::setEndPosition(draw, 600.0f, 400.0f);
+		extrimeDraws::func::setBeginColorText(draw, tocolor(150, 0, 150, 255));
+		extrimeDraws::func::setBeginTextSize(draw, 1.0f, 1.5f);
+		extrimeDraws::func::setFont(draw, 1);
+		extrimeDraws::func::setSpeedTextPos(draw, 0.5f, 0.05f);
+		extrimeDraws::func::toggleOutline(draw, true);
+		extrimeDraws::func::initDraw(playerid, draw);
+	}
+	else if ( strcmp("sethp", cmd) == 0 )
+	{
+		if ( Admins::isAllow(playerid, 3) ) CMD::set_hp(playerid, params);
 	}
 	else if (strcmp("belay", cmd) == 0)
 	{

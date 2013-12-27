@@ -122,11 +122,12 @@ namespace Properties
 		//-----------------------------------------------------------------------------
 		void onAction(const int u)
 		{
-			char msg[ 256 ];
+			
 			const int idx = Player[ u ].inIndex;
 			//---------------------------------
 			if (Property[ idx ].owner == Player[ u ].pDB)
 			{
+				char msg[ 256 ];
 				//******************************************
 				dialogs::genDLGItem(1, "Информация", msg);
 				dialogs::genDLGItem(2, "Статистика", msg);
@@ -148,6 +149,7 @@ namespace Properties
 			//=============================================
 			else
 			{
+				char msg[ 512 ];
 				sprintf
 				(
 					msg, 
@@ -164,7 +166,7 @@ namespace Properties
 				(
 					u,
 					DLG_BELAY_OWNER_MAIN,
-					GUI_LIST,
+					GUI_MSG,
 					"[Страховая компания]: Меню владельца",
 					msg,
 					language::dialogs::buttons::btnNext,
