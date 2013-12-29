@@ -231,7 +231,7 @@ void cClass::keyGame(const int u)
 
 	Player[u].isKeyGame = true;
 
-	char msg[144];
+	//char msg[144];
 
 	kgPlayerText[u][0].tid = CreatePlayerTextDraw(u, 280.000000, 250.000000, "LD_BEAT:cring");
 	PlayerTextDrawAlignment(u, kgPlayerText[u][0].tid, 2);
@@ -247,8 +247,12 @@ void cClass::keyGame(const int u)
 	PlayerTextDrawTextSize(u, kgPlayerText[u][0].tid, 80.000000, 80.000000);
 	PlayerTextDrawSetSelectable(u, kgPlayerText[u][0].tid, 0);
 	PlayerTextDrawShow(u, kgPlayerText[u][0].tid);
+
+	keyGameMutex.unlock();
+
 	for ( int t = 1; t < 12; t++ )
 	{
+		keyGameMutex.lock();
 		kgPlayerText[u][t].y = 274.0f;
 		kgPlayerText[u][t].x = 450.0f + (80.0f * t);
 		kgPlayerText[u][t].key = rand() % 8;
@@ -267,16 +271,17 @@ void cClass::keyGame(const int u)
 		PlayerTextDrawBoxColor(u, kgPlayerText[u][t].tid, 255);
 		PlayerTextDrawTextSize(u, kgPlayerText[u][t].tid, 30.000000, 30.000000);
 		PlayerTextDrawSetSelectable(u, kgPlayerText[u][t].tid, 0);
+		keyGameMutex.unlock();
 	}
 
-	keyGameMutex.unlock();
+	
 
 	//300.000000, 270.000000
 	for ( int i = 0; i < 5000; i++ )
 	{
+		keyGameMutex.lock();
 		for ( int t = 1; t < 12; t++ )
 		{
-			keyGameMutex.lock();
 			if ( kgPlayerText[u][t].x < 100.0f )
 			{
 				kgPlayerText[u][t].x = 450.0f + (80.0f * t);
@@ -286,7 +291,7 @@ void cClass::keyGame(const int u)
 			{
 				Player[u].kgUD = 0;
 				Player[u].kgLR = 0;
-				SendClientMessage(u, -1, "Current key: null");
+				//SendClientMessage(u, -1, "Current key: null");
 			}
 			else if ( kgPlayerText[u][t].x == 320.0f)
 			{
@@ -330,8 +335,8 @@ void cClass::keyGame(const int u)
 					Player[u].kgUD = -128;
 					Player[u].kgLR = 128;
 				}
-				sprintf(msg, "Current key: %s", kgKeys[kgPlayerText[u][t].key]);
-				SendClientMessage(u, -1, msg);
+				//sprintf(msg, "Current key: %s", kgKeys[kgPlayerText[u][t].key]);
+				//SendClientMessage(u, -1, msg);
 			}
 			else if ( kgPlayerText[u][t].x < 430.0f && kgPlayerText[u][t].x > 300.5f)
 			{
@@ -363,8 +368,8 @@ void cClass::keyGame(const int u)
 			PlayerTextDrawTextSize(u, kgPlayerText[u][t].tid, 30.000000, 30.000000);
 			PlayerTextDrawSetSelectable(u, kgPlayerText[u][t].tid, 0);
 			PlayerTextDrawShow(u, kgPlayerText[u][t].tid);
-			keyGameMutex.unlock();
 		}
+		keyGameMutex.unlock();
 		std::this_thread::sleep_for(std::chrono::milliseconds(30));
 	}
 
@@ -374,18 +379,16 @@ void cClass::keyGame(const int u)
 
 	for ( int i = 0; i < 256; i++ )
 	{
+		keyGameMutex.lock();
 		for ( int t = 0; t < 12; t++ )
 		{
-			keyGameMutex.lock();
-
 			if ( kgPlayerText[u][t].alpha > 0 ) kgPlayerText[u][t].alpha -= 1;
 			PlayerTextDrawHide(u, kgPlayerText[u][t].tid);
 			PlayerTextDrawColor(u, kgPlayerText[u][t].tid, tocolor(255, 255, 255, kgPlayerText[u][t].alpha));
 			if ( t == 0 ) PlayerTextDrawBackgroundColor(u, kgPlayerText[u][0].tid, tocolor(0, 0, 0, kgPlayerText[u][t].alpha));
 			PlayerTextDrawShow(u, kgPlayerText[u][t].tid);
-
-			keyGameMutex.unlock();
 		}
+		keyGameMutex.unlock();
 		std::this_thread::sleep_for(std::chrono::milliseconds(5));
 	}
 

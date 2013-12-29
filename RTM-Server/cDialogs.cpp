@@ -164,7 +164,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 					{
 						if (Player[i].pCarid == vid)
 						{
-							PlayAudioStreamForPlayer(playerid, world::radio::cRadio::Radio.at(listitem).url, 0.0, 0.0, 0.0, 50.0, false);
+							PlayAudioStreamForPlayer(i, world::radio::cRadio::Radio.at(listitem).url, 0.0, 0.0, 0.0, 50.0, false);
 						}
 					}
 				}

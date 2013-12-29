@@ -38,6 +38,7 @@
 #define		CREG_CAMR_POS				1300.4f,-791.0f,97.5f
 /*---------------Registration Character--------------*/
 
+#define DEFAULT_HEAL_PRICE 75
 
 #define RADIUS_SHOUT	70.0f
 #define RADIUS_WHISPER	5.0f
@@ -61,7 +62,7 @@
 #define HOUSE_GREEN		1273	// green house
 #define HOUSE_RED		1272	// blue house
 
-#define	TREE_SPEED		0.005f	// Default: 0.005f
+#define	TREE_SPEED		0.5f	// Default: 0.005f
 #define TREE_OFFSET		24
 
 #define	REG_SPAWN_X		1700.0f

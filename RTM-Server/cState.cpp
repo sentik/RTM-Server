@@ -1,21 +1,15 @@
 #include "cState.h"
 #include "main.h"
 
-
-
-/*if (Player[ playerid ].pSeatid == 0)
-{
-
-	cVehicle::menuVehicle(playerid);
-
-}
-*/
+std::mutex callKeyMutex;
+std::mutex callStateMutex;
 
 
 void cState::callKeyStateChange(int playerid, int newkeys, int oldkeys)
 {
-	sprintf(query, "player: %d || key: %d||%d", playerid, newkeys, oldkeys);
-	SendClientMessage(playerid, -1, query);
+	callKeyMutex.lock();
+//	sprintf(query, "player: %d || key: %d||%d", playerid, newkeys, oldkeys);
+//	SendClientMessage(playerid, -1, query);
 	switch (newkeys)
 	{
 		//-------------------------------------------------------------------------------------
@@ -70,12 +64,14 @@ void cState::callKeyStateChange(int playerid, int newkeys, int oldkeys)
 		}
 		//-------------------------------------------------------------------------------------
 	}
+	callKeyMutex.unlock();
 }
 
 void cState::callStateChange(int playerid, int newstate, int oldstate)
 {
-	sprintf(query, "player: %d || state: %d||%d", playerid, newstate, oldstate);
-	SendClientMessage(playerid, -1, query);
+//	sprintf(query, "player: %d || state: %d||%d", playerid, newstate, oldstate);
+//	SendClientMessage(playerid, -1, query);
+	callStateMutex.lock();
 	Player[playerid].pState = newstate;
 	if (newstate == 2 || newstate == 3)
 	{
@@ -97,4 +93,5 @@ void cState::callStateChange(int playerid, int newstate, int oldstate)
 			world::Vehicles::hideSpeed(playerid);
 		}
 	}
+	callStateMutex.unlock();
 }

@@ -9,15 +9,18 @@
 struct pChar PlayerChar[MAX_PLAYERS][MAX_CHARS] = { { 0, 0 } };
 struct rChar RegChar[MAX_PLAYERS] = { { 0, 0 } };
 struct pInfo Player[MAX_PLAYERS] = { { 0, 0 } };
-int drawPlayerChar[15];
+int drawPlayerChar[20];
+std::mutex mutexUpdate;
 
 void cPlayer::update()
 {
+	mutexUpdate.lock();
 	//-------------------------------------------------
 	const bool isTwo = uTime % 2 == 0;		//Кратность 2  UNIX-Time
 	const bool isFive = uTime % 5 == 0;		//Кратность 5  UNIX-Time
 	const bool isTen = isTwo & isFive;		//Кратность 10 UNIX-Time 
 	//-------------------------------------------------
+
 	/*time_t rawtime;
 	tm* timeinfo;
 	char buffer[48];
@@ -38,6 +41,8 @@ void cPlayer::update()
 
 	strftime(buffer, 144, "~w~%d~p~.~w~%m~p~.~w~%Y %H~p~:~w~%M~p~:~w~%S", timeinfo);
 	TextDrawSetString(drawPlayerChar[HEADER_TIME], buffer);
+
+	mutexUpdate.unlock();
 	//-------------------------------------------------
 	for (int i = 0; i < 10; i++)
 	{
@@ -89,6 +94,8 @@ void cPlayer::update()
 		sprintf(buffer, "(%d) %s %s [{B7FF00}%.2f%% {DCDCDC}%.2f%%{FFFFFF}]", i, Player[ i ].uName, Player[ i ].sName, hp, ar);
 		StreamerCall::Native::UpdateDynamic3DTextLabelText(Player[i].pBar, -1, buffer);
 		*/
+
+		mutexUpdate.lock();
 
 		if (Player[ i ].isAction == PlayerAction::ACTION_FREZSETPOS)
 		{
@@ -153,6 +160,7 @@ void cPlayer::update()
 				cPlayer::updatePos(i);
 			}
 		}
+		mutexUpdate.unlock();
 	}
 }
 
@@ -245,6 +253,10 @@ void cPlayer::loadPlayerChar(int i, int pers)
 			Player[ i ].pPosW = atoi(row[ PlayerRows::plPosW ]);
 			Player[i].pJob1 = atoi(row[PlayerRows::plJob1]);
 			Player[i].pJob2 = atoi(row[PlayerRows::plJob2]);
+			//------------------------------------------------
+			Player[ i ].AC.Health = atof(row[ PlayerRows::plHealth ]);
+			Player[ i ].AC.Armour = atof(row[ PlayerRows::plArmour ]);
+			if(Player[ i ].AC.Health < 5) Player[ i ].AC.Health = 5;
 			//------------------------------------------------
 			strcpy(Player[ i ].uName, row[ PlayerRows::pluName ]);
 			strcpy(Player[ i ].sName, row[ PlayerRows::plsName ]);
@@ -379,6 +391,7 @@ void cPlayer::setClassSkin(int p)
 /// </summary>
 void cPlayer::setRegClassSkin(int p, char c)
 {
+	SetPlayerVirtualWorld(p, p);
 	SetPlayerSkin(p, PlayerClass[PlayerChar[p][c].pClass].cSkin);
 }
 
@@ -693,7 +706,7 @@ bool cPlayer::checkMoney(const int u, float value)
 
 void cPlayer::givePlayerMoney(const int u, float value)
 {
-	char msg[16];
+	char msg[80];
 	if (value > 0.0f)
 	{
 		sprintf(msg, "~g~+%.2f", value);
@@ -706,8 +719,8 @@ void cPlayer::givePlayerMoney(const int u, float value)
 	//=============================
 	Player[ u ].pMoney += value;
 	//=============================
-	sprintf(query, "UPDATE player_Character SET money = '%f' WHERE id = '%d'", Player[ u ].pMoney, Player[ u ].pDB);
-	safe_query(con, query);
+	sprintf(msg, "UPDATE player_Character SET money = '%.2f' WHERE id = '%d'", Player[u].pMoney, Player[u].pDB);
+	safe_query(con, msg);
 	//=============================
 	cPlayer::updateMoney(u);
 }
@@ -724,16 +737,16 @@ void cPlayer::updateMoney(const int u)
 
 void cPlayer::updatePos(const int u)
 {
-	char qqq[2565];
+	char qqq[256];
 	GetPlayerPos(u, &Player[ u ].pPosX, &Player[ u ].pPosY, &Player[ u ].pPosZ);
 	GetPlayerFacingAngle( u, &Player[ u ].pPosR );
 	Player[ u ].pPosW = GetPlayerVirtualWorld(u);
 	Player[ u ].pPosI = GetPlayerInterior(u);
 	//================================================================================
-	sprintf(qqq, "UPDATE player_Character SET posx='%f', posy='%f', posz='%f', posr='%f', posi='%d', posw='%d', posp='%d' WHERE id = '%d'", 
-			Player[ u ].pPosX, Player[ u ].pPosY, Player[ u ].pPosZ, Player[ u ].pPosR, Player[ u ].pPosI, Player[ u ].pPosW,
+	sprintf(qqq, "UPDATE player_Character SET posx='%.4f', posy='%.4f', posz='%.4f', posr='%.2f', posi='%d', posw='%d', posp='%d', pHP='%.2f' WHERE id = '%d'", 
+			Player[ u ].pPosX, Player[ u ].pPosY, Player[ u ].pPosZ, Player[ u ].pPosR, Player[ u ].pPosI, Player[ u ].pPosW, Player[ u ].AC.Health,
 			Player[ u ].inIndex, Player[ u ].pDB);
-	//================================================================================
+	//================================================================================	
 	safe_query(con, qqq);
 }
 
@@ -769,7 +782,7 @@ void cPlayer::giveExp(const int u, const int exp)
 }
 
 
-void cPlayer::getName(const int playerid, char name[ ])
+void cPlayer::getName(const int playerid, char name[])
 {
 	sprintf(name, "%s %s", Player[ playerid ].uName, Player[ playerid ].sName);
 }
@@ -1042,4 +1055,18 @@ void cPlayer::onPlayerTakeDamage(const int u, const int issuerid, const float am
 	{
 		cPlayer::setCharHealth(u, Player[u].AC.Health - amount);
 	}
+}
+
+
+
+int cPlayer::getDeathType(int reason)
+{
+	if(reason == 15)					return DeathTypes::reason_Fight;
+	if(reason == 8)						return DeathTypes::reason_Stab;
+	if(reason == 9)						return DeathTypes::reason_Stab;
+	if(reason == 4)						return DeathTypes::reason_Stab;
+	if(reason >= 0 && reason <=7)		return DeathTypes::reason_Fight;
+	if(reason >= 51 && reason <=54)		return DeathTypes::reason_Fight;
+	if(reason == 49 || reason == 50)	return DeathTypes::reason_Drive;	
+	return DeathTypes::reason_Fire;
 }

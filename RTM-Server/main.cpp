@@ -19,6 +19,7 @@ regex expLogin;
 regex expNames;
 regex expDate;
 regex expCode;
+regex expTitlus;
 
 regex expString;
 regex expFloat;
@@ -100,15 +101,15 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxUnload(AMX *amx)
 //TODO: Инициализирум регулярные выражения
 static void buildRegex()
 {
-	expLogin = regex("([A-Za-z0-9]){4,16}");
-	expNames = regex("([A-ZА-Я]{1,1}[a-zа-я]{2,9}) ([A-ZА-Я]{1,1}[a-zа-яё]{2,9})");
-	//expDate  = regex("(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d");
-	expDate = regex("(0[1-9]|[12][0-9]|3[01]).(0[1-9]|1[012]).(19|20)([0-9])([0-9])");
-	expCode = regex("([0-9]{4,8})");
+	expLogin	= regex("([A-Za-z0-9]){4,16}");
+	expNames	= regex("([A-ZА-Я]{1,1}[a-zа-я]{2,9}) ([A-ZА-Я]{1,1}[a-zа-яё]{2,9})");
+	expDate		= regex("(0[1-9]|[12][0-9]|3[01]).(0[1-9]|1[012]).(19|20)([0-9])([0-9])");
+	expCode		= regex("([0-9]{4,8})");
+	expTitlus	= regex("([A-Za-zА-Яа-я0-9_]){4,32}");
+	expString	= regex("([A-zА-я ]){3,20}");
+	expFloat	= regex("([0-9]{1,5}[\\.]{1,1}[0-9]{1,4})");
+	expNumber	= regex("([0-9]{1,11})");
 
-	expString = regex("([A-zА-я ]){3,20}");
-	expFloat = regex("([0-9]{1,5}[\\.]{1,1}[0-9]{1,4})");
-	expNumber = regex("([0-9]{1,11})");
 }
 
 double fint(double x) // округление в сторону нуля (т.е. меньшее по абсолютному значению)
@@ -218,6 +219,19 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 		cout << "Hello World\n";
 	}
 	*/
+
+	extrimeDraws::func::create("By Serinc");
+	extrimeDraws::func::setBeginPosition(0, 100.0f, 320.0f);
+	extrimeDraws::func::setEndPosition(0, 500.0f, 400.0f);
+	extrimeDraws::func::setBeginColorText(0, tocolor(0, 0, 150, 0));
+	extrimeDraws::func::setEndColorText(0, tocolor(150, 0, 150, 255));
+	extrimeDraws::func::setSpeedColorText(0, tocolor(1, 0, 0, 1));
+	extrimeDraws::func::setBeginTextSize(0, 1.0f, 1.5f);
+	extrimeDraws::func::setFont(0, 1);
+	extrimeDraws::func::setSpeedTextPos(0, 0.5f, 0.5f);
+	extrimeDraws::func::toggleOutline(0, true);
+	extrimeDraws::func::toggleBox(0, false);
+
 	cout << "\a";
 	return true;
 }
@@ -254,8 +268,6 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerConnect(int playerid)
 		{
 			GangZoneShowForPlayer(playerid, Properties::Farms::Farm[ i ].zome, 0x00ff6c96);
 		}
-
-		cPlayer::setCharHealth(playerid, 100.0f);
 		StreamerCall::Events::OnPlayerConnect(playerid);
 		Player[ playerid ].pBar = StreamerCall::Native::CreateDynamic3DTextLabel(" ", -1, 0.0f, 0.0f, 0.13f, 20.0f, playerid);
 		cObjects::removeObjects(playerid);
@@ -267,8 +279,9 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerConnect(int playerid)
 //SAMPGDK_CALLBACK_EXPORT bool SAMPGDK_CALLBACK_CALL OnPlayerText(int playerid, const char * text);
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerText(int u, const char *text)
 {
-	char msg[ 144 ];
-	sprintf(msg, "%s %s [{FFAF00}%d{FFFFFF}] говорит: {FFAF00}%s", Player[ u ].uName, Player[ u ].sName, u, text);
+	char msg[ 184 ];
+	cPlayer::getName(u, msg);
+	sprintf(msg, "%s [{FFAF00}%d{FFFFFF}] говорит: {FFAF00}%s", msg, u, text);
 	cChat::ProxDetector(u, 10.0f, msg);
 	SetPlayerChatBubble(u, text, 0xFFAF00FF, 20.0f, 15000);
 	return false;
@@ -279,14 +292,8 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerText(int u, const char *text)
 PLUGIN_EXPORT bool PLUGIN_CALL  OnPlayerDeath(int playerid, int killerid, int reason)
 {
 	Player[ playerid ].isAction = PlayerAction::ACTION_Death;
+	Player[playerid].reason = reason;
 	//-------------------------------------
-	Player[ playerid ].pPosX = 1170.984f;
-	Player[ playerid ].pPosY = -1323.432f;
-	Player[ playerid ].pPosZ = 15.298f;
-	Player[ playerid ].pPosI = 0;
-	Player[ playerid ].pPosW = 0;
-	//-------------------------------------
-	SendClientMessage(playerid, -1, "Вы умерли =((");
 	return false;
 }
 
@@ -308,7 +315,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerDisconnect(int playerid, int reason)
 	Player[playerid].isLogged = false;
 	StreamerCall::Native::DestroyDynamic3DTextLabel(Player[playerid].pBar);
 	StreamerCall::Events::OnPlayerDisconnect(playerid, reason);
-//	Player[playerid] = { { 0 } };
+	Player[playerid] = pInfo();
 	return true;
 }
 //-------------------------------------------------------------------------------------------
@@ -320,6 +327,11 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSpawn(int playerid)
 		//-------------------------------------------------------
 		if(Player[ playerid ].isAction == PlayerAction::ACTION_Death)
 		{
+			Player[playerid].belay = 0;
+			if(Player[playerid].belay != -1)
+			{
+				Properties::Belays::purchase(playerid);
+			}
 			Player[ playerid ].pPosX = 1170.984f;
 			Player[ playerid ].pPosY = -1323.432f;
 			Player[ playerid ].pPosZ = 15.298f;
@@ -327,6 +339,9 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSpawn(int playerid)
 			Player[ playerid ].pPosW = 0;
 		}
 		Player[ playerid ].isAction = PlayerAction::ACTION_NONE;
+		if(Player[playerid].AC.Health < 5) Player[playerid].AC.Health = 5;
+		//-------------------------------------------------------
+		cPlayer::setCharHealth(playerid, Player[playerid].AC.Health);
 		//-------------------------------------------------------
 		SetPlayerInterior(playerid, Player[playerid].pPosI);
 		SetPlayerVirtualWorld(playerid, Player[playerid].pPosW);
@@ -349,7 +364,6 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSpawn(int playerid)
 			Player[playerid].pPosI,
 			Player[playerid].pPosW
 		);
-		SendClientMessage(playerid, -1, "stremed!");
 		//-------------------------------------------------------
 		SetPlayerFacingAngle(playerid, Player[playerid].pPosR);
 		//-------------------------------------------------------
@@ -357,6 +371,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSpawn(int playerid)
 		PlayerTextDrawShow(playerid, Player[playerid].tCents);
 		TextDrawShowForPlayer(playerid, drawPlayerChar[HEADER_BG]);
 		TextDrawShowForPlayer(playerid, drawPlayerChar[HEADER_TIME]);
+		cPlayer::updateHealthBar(playerid);
 	}
 	else if (sampgdk_IsPlayerNPC( playerid ))
 		logprintf("npc suka! %d", playerid);
@@ -375,7 +390,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerUpdate(int playerid)
 		{
 			world::Vehicles::updateSpeed(playerid);
 		}
-		if ( Player[playerid].isKeyGame == true )
+		else if ( Player[playerid].isKeyGame == true )
 		{
 			cClass::updateKeyGame(playerid);
 		}
@@ -384,8 +399,8 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerUpdate(int playerid)
 		{
 			mutexStreamPlayer.lock();
 			StreamerCall::Native::Update(playerid);
-			mutexStreamPlayer.unlock();
 			uCount = 0;
+			mutexStreamPlayer.unlock();
 		}
 	}
 	return true;
@@ -396,15 +411,13 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerUpdate(int playerid)
 //-------------------------------------------------------------------------------------------
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerKeyStateChange(int playerid, int newkeys, int oldkeys)
 {
-	thread threadKey(cState::callKeyStateChange, playerid, newkeys, oldkeys);
-	threadKey.join();
+	thread(cState::callKeyStateChange, playerid, newkeys, oldkeys).join();
 	return true;
 }
 //-------------------------------------------------------------------------------------------
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerStateChange(int playerid, int newstate, int oldstate)
 {
-	thread threadKey(cState::callStateChange, playerid, newstate, oldstate);
-	threadKey.join();
+	thread(cState::callStateChange, playerid, newstate, oldstate).join();
 	return true;
 }
 

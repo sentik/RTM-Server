@@ -69,7 +69,7 @@ void world::Players::Admins::add(int u, int a)
 	tmp.player = db;
 	tmp.asses = a;
 	//-----------------------------
-	Admin.insert(Admin.end(), tmp);
+	Admin.push_back(tmp);
 }
 
 /// <summary>

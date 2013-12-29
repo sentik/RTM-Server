@@ -135,7 +135,8 @@
 std::mutex extern mutexStreamGlobal;		// STREAMER MUTEX
 std::mutex extern mutexStreamPlayer;		// STREAMER MUTEX
 std::mutex extern mutexMYSQL;		// STREAMER MUTEX
-
+std::mutex extern callKeyMutex;
+std::mutex extern callStateMutex;
 
 std::mutex extern mutexTTD;		// STREAMER MUTEX
 
@@ -155,6 +156,9 @@ extern regex expLogin;
 extern regex expNames;
 extern regex expDate;
 extern regex expCode;
+
+extern regex expTitlus;
+
 
 extern regex expString;
 extern regex expFloat;

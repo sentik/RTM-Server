@@ -65,6 +65,8 @@ void CMD::addproperty(int playerid, char* params)
 			cHouses::create(price, Player[ playerid ].pPosX, Player[ playerid ].pPosY, Player[ playerid ].pPosZ);
 		else if (target == PropertyType::prBank)
 			cBanks::create(price, Player[ playerid ].pPosX, Player[ playerid ].pPosY, Player[ playerid ].pPosZ);
+		else if (target == PropertyType::prBelays)
+			Properties::Belays::create(price, Player[ playerid ].pPosX, Player[ playerid ].pPosY, Player[ playerid ].pPosZ);	
 		/*if (target == PropertyType::prAutosalon)
 		Properties::Shops::ShopVehicle::create(price, Player[ playerid ].pPosX, Player[ playerid ].pPosY, Player[ playerid ].pPosZ);
 		*/
@@ -164,15 +166,15 @@ void CMD::cmd_goto(int playerid, char* params)
 
 void CMD::shout(int playerid, char* params)
 {
-	if (sscanf(params, "%64s", params) == 1)
+	char tmp[64];
+	if (strcpy(tmp, params))
 	{
-		char name[ 24 ] = "";
-		char msg[ sizeof( language::player::actions::shoutMSG ) + 64 ] = "";
+		char msg[144] = "";
 		//----------------------------------------------------------------
-		cPlayer::getName(playerid, name);
-		sprintf(msg, language::player::actions::shoutMSG, name, params);
+		cPlayer::getName(playerid, msg);
+		sprintf(msg, language::player::actions::shoutMSG, msg, playerid, tmp);
 		//----------------------------------------------------------------
-		SetPlayerChatBubble(playerid, params, 0xDCDCDCFF, RADIUS_SHOUT, TIME_SHOUT);
+		SetPlayerChatBubble(playerid, tmp, 0xDCDCDCFF, RADIUS_SHOUT, TIME_SHOUT);
 		cChat::ProxDetector(playerid, RADIUS_SHOUT, msg);
 	}
 	else SendClientMessage(playerid, -1, "Используйте: /s  [текст для крика]");
@@ -181,18 +183,19 @@ void CMD::shout(int playerid, char* params)
 void CMD::whisper(int playerid, char* params)
 {
 	int target;
+	char tmp[64];
 	char name[ 24 ] = "";
 	cPlayer::getName(playerid, name);
 	char msg[ sizeof( language::player::actions::whisperMSG ) + 64 ] = "";
 	//----------------------------------------------------------------
-	if (sscanf(params, "%d %64s", &target, params) == 2)
+	if (sscanf(params, "%d %64s", &target, &tmp) == 2)
 	{
-		sprintf(msg, "{FFFFFF}%s[ {FF0000}%d { FFFFFF } ] шепчет вам: {FADBB8}%s", name, params);
+		sprintf(msg, "{FFFFFF}%s[ {FF0000}%d { FFFFFF } ] шепчет вам: {FADBB8}%s", name, tmp);
 		SendClientMessage(target, -1, msg);
 		//---------------------------------------------------------------------------------------
 		if (rand() % 2 == 1)
 		{
-			sprintf(msg, language::player::actions::whisperMSG, name, params);
+			sprintf(msg, language::player::actions::whisperMSG, name, tmp);
 		}
 		else
 		{
@@ -200,9 +203,9 @@ void CMD::whisper(int playerid, char* params)
 			SetPlayerChatBubble(playerid, "что-то шепчет", 0xDCDCDCFF, RADIUS_SHOUT, TIME_SHOUT);
 		}
 	}
-	else if (sscanf(params, "%64s", params) == 1)
+	else if (sscanf(params, "%64s", &tmp) == 1)
 	{
-		sprintf(msg, language::player::actions::whisperMSG, name, params);
+		sprintf(msg, language::player::actions::whisperMSG, name, tmp);
 	}
 	else
 	{
@@ -215,14 +218,15 @@ void CMD::whisper(int playerid, char* params)
 
 void CMD::me(int playerid, char* params)
 {
-	if (sscanf(params, "%64s", params) == 1)
+	char tmp[64];
+	if (sscanf(params, "%64s", &tmp) == 1)
 	{
 		char name[ 24 ] = "";
 		cPlayer::getName(playerid, name);
 		char msg[ sizeof( language::player::actions::whisperMSG ) + 64 ] = "";
 		//----------------------------------------------------------------
-		SetPlayerChatBubble(playerid, params, ACTION_COLOR, RADIUS_ACTIONS, TIME_ACTIONS);
-		sprintf(msg, "* %s %s", name, params);
+		SetPlayerChatBubble(playerid, tmp, ACTION_COLOR, RADIUS_ACTIONS, TIME_ACTIONS);
+		sprintf(msg, "* %s %s", name, tmp);
 		cChat::ProxDetector(playerid, RADIUS_ACTIONS, msg, ACTION_COLOR);
 	}
 	else SendClientMessage(playerid, -1, "Используйте: /me [text(Действие от первого лица)]");
@@ -332,7 +336,10 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 	char params[ 128 ];
 	sscanf(cmdtext, "/%20s %128[0-9a-zA-Zа-яА-Я\\-\\. ]s", &cmd, &params);
 	//==============================================================
-	if (strcmp("veh", cmd) == 0)				CMD::veh(playerid, params);
+	if ( strcmp("veh", cmd) == 0 )
+	{
+		if ( Admins::isAllow(playerid, 3) ) CMD::veh(playerid, params);
+	}
 	else if (strcmp("mm", cmd) == 0)			CMD::mm(playerid);
 	else if (strcmp("mainmenu", cmd) == 0)		CMD::mm(playerid);
 	else if (strcmp("makegang", cmd) == 0)		CMD::makegang(playerid, params);
@@ -351,7 +358,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 	{
 		CMD::shout(playerid, params);
 	}
-	else if (!strcmp("w", cmd) || !strcmp("whisper", cmd))
+	/*else if (!strcmp("w", cmd) || !strcmp("whisper", cmd))
 	{
 		CMD::whisper(playerid, params);
 	}
@@ -366,7 +373,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 	else if (strcmp("try", cmd) == 0)
 	{
 		CMD::dotry( playerid, params );
-	}
+	}*/
 	//----------------------------------------------------
 	else if (strcmp("gotokk", cmd) == 0)
 	{
@@ -400,28 +407,21 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 	{
 		if ( Admins::isAllow(playerid, 3) ) CMD::gethere(playerid, params);
 	}
-	else if ( strcmp("testtd", cmd) == 0 )
+	/*else if ( strcmp("testtd", cmd) == 0 )
 	{
 		std::thread(cClass::keyGame, playerid).detach();
-	}
-	else if ( strcmp("testtd2", cmd) == 0 )
+	}*/
+	else if ( strcmp("testtd", cmd) == 0 )
 	{
-		const int draw = extrimeDraws::func::create("By Serinc");
-		extrimeDraws::func::setBeginPosition(draw, 100.0f, 320.0f);
-		extrimeDraws::func::setEndPosition(draw, 500.0f, 400.0f);
-		extrimeDraws::func::setBeginColorText(draw, tocolor(0, 0, 150, 0));
-		extrimeDraws::func::setEndColorText(draw, tocolor(150, 0, 150, 255));
-		extrimeDraws::func::setSpeedColorText(draw, tocolor(1, 0, 0, 1));
-		extrimeDraws::func::setBeginTextSize(draw, 1.0f, 1.5f);
-		extrimeDraws::func::setFont(draw, 1);
-		extrimeDraws::func::setSpeedTextPos(draw, 0.5f, 0.5f);
-		extrimeDraws::func::toggleOutline(draw, true);
-		extrimeDraws::func::toggleBox(draw, false);
-		extrimeDraws::func::initDraw(playerid, draw);
+		extrimeDraws::func::initDraw(playerid, 0);
 	}
 	else if ( strcmp("sethp", cmd) == 0 )
 	{
 		if ( Admins::isAllow(playerid, 3) ) CMD::set_hp(playerid, params);
+	}
+	else if ( strcmp("makeadmin", cmd) == 0 )
+	{
+		if ( Admins::isAllow(playerid, 5) ) CMD::makeadmin(playerid, params);
 	}
 	else if (strcmp("belay", cmd) == 0)
 	{
@@ -450,5 +450,6 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 		);
 		//******************************************
 	}
+
 	return true;
 }

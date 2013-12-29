@@ -43,9 +43,6 @@
     <Filter Include="Заголовочные файлы\property\vehicles">
       <UniqueIdentifier>{82edee41-a655-4d65-a892-9441c27fb617}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Файлы исходного кода\player">
-      <UniqueIdentifier>{fc60ae4d-bd97-4c97-b898-be6ce22fe14f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Заголовочные файлы\player">
       <UniqueIdentifier>{91cabca9-0da7-44de-93cc-050690b3ec56}</UniqueIdentifier>
     </Filter>
@@ -75,6 +72,9 @@
     </Filter>
     <Filter Include="Файлы исходного кода\property\jobs">
       <UniqueIdentifier>{c18bd527-be24-4ee4-b450-6a1a2031bba5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\player">
+      <UniqueIdentifier>{fc60ae4d-bd97-4c97-b898-be6ce22fe14f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

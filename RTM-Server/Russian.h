@@ -16,7 +16,7 @@ namespace language
 			const char tryMSG[ 2 ][ 128 ] = { "* %s пытается %s (Удачно)", "* %s пытается %s (Неудачно)" };
 			const char tryBuble[ 2 ][ 128 ] = { "* пытается %s (Удачно)", "* пытается %s (Неудачно)" };
 
-			const char shoutMSG[ 128 ]		=  "{FFFFFF}%s кричит[ {FF0000}%d {FFFFFF} ]: {FADBB8}%s" ;
+			const char shoutMSG[ 64 ]		=  "{FFFFFF}%s [{FFAF00}%d{FFFFFF}] кричит: {DCDCDC}%s" ;
 			const char whisperMSG[ 128 ]	=  "{FFFFFF}%s шепчет[ {FF0000}%d {FFFFFF} ]: {FADBB8}%s";
 		}
 
@@ -157,6 +157,11 @@ namespace language
 			const char finance_perFire[]= "Укажите какую часть лечения будет оплачивать страховка, \n\t\tпри огнестрельном ранении\n Необходимо указать в процентах от 0 до 100";
 			const char finance_perStab[]= "Укажите какую часть лечения будет оплачивать страховка, \n\t\tпри ножевом ранении\n Необходимо указать в процентах от 0 до 100";
 			const char finance_perFight[]="Укажите какую часть лечения будет оплачивать страховка, \n\t\tпри переломах и травмах\n Необходимо указать в процентах от 0 до 100";
+	
+			const char etc_Name[] = "Укажите название для вашей страховой копании ниже:";
+			const char etc_Bank[] = "Укажите номер банковского счета для страховой компании:";
+		
+
 		}
 
 		namespace shop

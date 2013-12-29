@@ -162,6 +162,7 @@ void cBanks::create(int price, float x, float y, float z)
 	tmp.posY = y;
 	tmp.posZ = z;
 	tmp.type = PropertyType::prBank;
+	tmp.region = tmp.number = 0;
 	//--------------------------------------------------------------------------------------------
 	sprintf(query, "INSERT INTO class_Property SET `property` ='%d', type='%d', x='%f', y='%f', z='%f', price='%d'",
 			tmp.property, PropertyType::prBank, x, y, z, price);

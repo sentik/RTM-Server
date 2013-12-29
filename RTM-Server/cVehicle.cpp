@@ -2,6 +2,8 @@
 //----------------------------------------
 //std::vector<eVehicle> Vehicle;
 struct eVehicle  world::Vehicles::Vehicle[ MAX_VEHICLES ];
+std::mutex mutexSpidak;
+std::mutex world::createVehicleMutex;
 //----------------------------------------
 
 
@@ -155,6 +157,7 @@ void world::Vehicles::hideSpeed(int u)
 
 void world::Vehicles::updateSpeed(int u)
 {
+	mutexSpidak.lock();
 	const int car = Player[u].pCarid;
 	if (Vehicle[car].Fuel <= 0.0f)
 	{
@@ -203,6 +206,7 @@ void world::Vehicles::updateSpeed(int u)
 		PlayerTextDrawSetString(u, Player[ u ].spdState, tmp);
 		//======================================================	
 	}
+	mutexSpidak.unlock();
 }
 
 
@@ -260,12 +264,14 @@ bool world::Vehicles::isVehicleInCube(const int v, float minX, float minY, float
 
 int world::Vehicles::sCreateVehicle(const int model, const float x, const float y, const float z, const float a, const int c1, const int c2, const int res)
 {
+	world::createVehicleMutex.lock();
 	const int i = CreateVehicle(model, x, y, z, a, c1, c2, res);
 	Vehicle[i].Model = model;
 	Vehicle[i].color1 = c1;
 	Vehicle[i].color2 = c2;
 	Vehicle[i].paint = -1;
 	Vehicle[i].text3D = StreamerCall::Native::CreateDynamic3DTextLabel("", -1, 0.0f, 0.0f, 0.5f, 20.0f, 65535, i);
+	world::createVehicleMutex.unlock();
 	return i;
 }
 

@@ -41,6 +41,9 @@ namespace Properties
 		void onDLG(int, int, int, int, const char*);
 		void regPlayer(int, int);
 		bool checkPlayer(int);
+		void purchase(int u);
+		int searchLocal(int);
+		void create(int price, float x, float y, float z);
 
 		enum rowBelays
 		{

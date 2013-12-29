@@ -164,107 +164,109 @@ namespace extrimeDraws
 		}
 	void func::animateDraw(const int u, const int draw)
 		{
-	case_start: //for test
-
-			if ( variables::extrDraw[draw].id[u] != INVALID_TEXT_DRAW )
+			for ( ;; )
 			{
-				variables::extrMutex.lock();
-				PlayerTextDrawDestroy(u, variables::extrDraw[draw].id[u]);
-				variables::extrMutex.unlock();
-			}
-
-			if ( variables::extrDraw[draw].colFont.anim[u] == true )
-			{
-				if ( variables::extrDraw[draw].colFont.cur[u] == variables::extrDraw[draw].colFont.end )
+				if ( variables::extrDraw[draw].id[u] != INVALID_TEXT_DRAW )
 				{
-					variables::extrDraw[draw].colFont.anim[u] = false;
+					variables::extrMutex.lock();
+					PlayerTextDrawDestroy(u, variables::extrDraw[draw].id[u]);
+					variables::extrMutex.unlock();
 				}
-				else
+
+				if ( variables::extrDraw[draw].colFont.anim[u] == true )
 				{
-					if ( variables::extrDraw[draw].colFont.cur[u] < variables::extrDraw[draw].colFont.end && variables::extrDraw[draw].colFont.begin < variables::extrDraw[draw].colFont.end )
+					if ( variables::extrDraw[draw].colFont.cur[u] == variables::extrDraw[draw].colFont.end )
 					{
-						variables::extrDraw[draw].colFont.cur[u] += variables::extrDraw[draw].colFont.speed;
-						if ( variables::extrDraw[draw].colFont.cur[u] > variables::extrDraw[draw].colFont.end )
-						{
-							variables::extrDraw[draw].colFont.cur[u] = variables::extrDraw[draw].colFont.end;
-						}
+						variables::extrDraw[draw].colFont.anim[u] = false;
 					}
 					else
 					{
-						variables::extrDraw[draw].colFont.cur[u] -= variables::extrDraw[draw].colFont.speed;
-						if ( variables::extrDraw[draw].colFont.cur[u] < variables::extrDraw[draw].colFont.end )
+						if ( variables::extrDraw[draw].colFont.cur[u] < variables::extrDraw[draw].colFont.end && variables::extrDraw[draw].colFont.begin < variables::extrDraw[draw].colFont.end )
 						{
-							variables::extrDraw[draw].colFont.cur[u] = variables::extrDraw[draw].colFont.end;
+							variables::extrDraw[draw].colFont.cur[u] += variables::extrDraw[draw].colFont.speed;
+							if ( variables::extrDraw[draw].colFont.cur[u] > variables::extrDraw[draw].colFont.end )
+							{
+								variables::extrDraw[draw].colFont.cur[u] = variables::extrDraw[draw].colFont.end;
+							}
+						}
+						else
+						{
+							variables::extrDraw[draw].colFont.cur[u] -= variables::extrDraw[draw].colFont.speed;
+							if ( variables::extrDraw[draw].colFont.cur[u] < variables::extrDraw[draw].colFont.end )
+							{
+								variables::extrDraw[draw].colFont.cur[u] = variables::extrDraw[draw].colFont.end;
+							}
 						}
 					}
 				}
-			}
 
-			if ( variables::extrDraw[draw].textPos.anim[u] == true )
-			{
-				if ( variables::extrDraw[draw].textPos.cur[u].x == variables::extrDraw[draw].textPos.end.x && variables::extrDraw[draw].textPos.cur[u].y == variables::extrDraw[draw].textPos.end.y )
+				if ( variables::extrDraw[draw].textPos.anim[u] == true )
 				{
-					variables::extrDraw[draw].textPos.anim[u] = false;
+					if ( variables::extrDraw[draw].textPos.cur[u].x == variables::extrDraw[draw].textPos.end.x && variables::extrDraw[draw].textPos.cur[u].y == variables::extrDraw[draw].textPos.end.y )
+					{
+						variables::extrDraw[draw].textPos.anim[u] = false;
+					}
+					else
+					{
+						if ( variables::extrDraw[draw].textPos.cur[u].x != variables::extrDraw[draw].textPos.end.x )
+						{
+							variables::extrDraw[draw].textPos.cur[u].x += variables::extrDraw[draw].textPos.speed.x;
+							if ( variables::extrDraw[draw].textPos.cur[u].x > variables::extrDraw[draw].textPos.end.x && variables::extrDraw[draw].textPos.end.x > variables::extrDraw[draw].textPos.begin.x )
+							{
+								variables::extrDraw[draw].textPos.cur[u].x = variables::extrDraw[draw].textPos.end.x;
+							}
+							else if ( variables::extrDraw[draw].textPos.cur[u].x < variables::extrDraw[draw].textPos.end.x && variables::extrDraw[draw].textPos.end.x < variables::extrDraw[draw].textPos.begin.x )
+							{
+								variables::extrDraw[draw].textPos.cur[u].x = variables::extrDraw[draw].textPos.end.x;
+							}
+						}
+
+						if ( variables::extrDraw[draw].textPos.cur[u].y != variables::extrDraw[draw].textPos.end.y )
+						{
+							variables::extrDraw[draw].textPos.cur[u].y += variables::extrDraw[draw].textPos.speed.y;
+							if ( variables::extrDraw[draw].textPos.cur[u].y > variables::extrDraw[draw].textPos.end.y && variables::extrDraw[draw].textPos.end.y > variables::extrDraw[draw].textPos.begin.y )
+							{
+								variables::extrDraw[draw].textPos.cur[u].y = variables::extrDraw[draw].textPos.end.y;
+							}
+							else if ( variables::extrDraw[draw].textPos.cur[u].y < variables::extrDraw[draw].textPos.end.y && variables::extrDraw[draw].textPos.end.y < variables::extrDraw[draw].textPos.begin.y )
+							{
+								variables::extrDraw[draw].textPos.cur[u].y = variables::extrDraw[draw].textPos.end.y;
+							}
+						}
+					}
 				}
-				else
+
+				variables::extrMutex.lock();
+
+				variables::extrDraw[draw].id[u] = CreatePlayerTextDraw(u, variables::extrDraw[draw].textPos.cur[u].x, variables::extrDraw[draw].textPos.cur[u].y, variables::extrDraw[draw].text);
+				PlayerTextDrawAlignment(u, variables::extrDraw[draw].id[u], variables::extrDraw[draw].alignment);
+				PlayerTextDrawBackgroundColor(u, variables::extrDraw[draw].id[u], variables::extrDraw[draw].colBg.cur[u]);
+				PlayerTextDrawFont(u, variables::extrDraw[draw].id[u], variables::extrDraw[draw].font);
+				PlayerTextDrawLetterSize(u, variables::extrDraw[draw].id[u], variables::extrDraw[draw].textSize.cur[u].x, variables::extrDraw[draw].textSize.cur[u].y);
+				PlayerTextDrawColor(u, variables::extrDraw[draw].id[u], variables::extrDraw[draw].colFont.cur[u]);
+				PlayerTextDrawSetOutline(u, variables::extrDraw[draw].id[u], variables::extrDraw[draw].outline);
+				PlayerTextDrawSetShadow(u, variables::extrDraw[draw].id[u], variables::extrDraw[draw].shadow);
+				PlayerTextDrawUseBox(u, variables::extrDraw[draw].id[u], variables::extrDraw[draw].box);
+				PlayerTextDrawBoxColor(u, variables::extrDraw[draw].id[u], variables::extrDraw[draw].colBox.cur[u]);
+				PlayerTextDrawTextSize(u, variables::extrDraw[draw].id[u], variables::extrDraw[draw].textBoxSize.cur[u].x, variables::extrDraw[draw].textBoxSize.cur[u].y);
+				PlayerTextDrawShow(u, variables::extrDraw[draw].id[u]);
+
+				variables::extrMutex.unlock();
+
+				std::this_thread::sleep_for(std::chrono::milliseconds(30));
+
+				if ( variables::extrDraw[draw].textPos.anim[u] == false && variables::extrDraw[draw].colFont.anim[u] == false )
 				{
-					if ( variables::extrDraw[draw].textPos.cur[u].x != variables::extrDraw[draw].textPos.end.x )
+					variables::extrMutex.lock();
+					if ( variables::extrDraw[draw].id[u] != INVALID_TEXT_DRAW )
 					{
-						variables::extrDraw[draw].textPos.cur[u].x += variables::extrDraw[draw].textPos.speed.x;
-						if ( variables::extrDraw[draw].textPos.cur[u].x > variables::extrDraw[draw].textPos.end.x && variables::extrDraw[draw].textPos.end.x > variables::extrDraw[draw].textPos.begin.x )
-						{
-							variables::extrDraw[draw].textPos.cur[u].x = variables::extrDraw[draw].textPos.end.x;
-						}
-						else if ( variables::extrDraw[draw].textPos.cur[u].x < variables::extrDraw[draw].textPos.end.x && variables::extrDraw[draw].textPos.end.x < variables::extrDraw[draw].textPos.begin.x )
-						{
-							variables::extrDraw[draw].textPos.cur[u].x = variables::extrDraw[draw].textPos.end.x;
-						}
+						PlayerTextDrawDestroy(u, variables::extrDraw[draw].id[u]);
+						GameTextForPlayer(u, "~r~end thread", 1000, 3);
 					}
-
-					if ( variables::extrDraw[draw].textPos.cur[u].y != variables::extrDraw[draw].textPos.end.y )
-					{
-						variables::extrDraw[draw].textPos.cur[u].y += variables::extrDraw[draw].textPos.speed.y;
-						if ( variables::extrDraw[draw].textPos.cur[u].y > variables::extrDraw[draw].textPos.end.y && variables::extrDraw[draw].textPos.end.y > variables::extrDraw[draw].textPos.begin.y )
-						{
-							variables::extrDraw[draw].textPos.cur[u].y = variables::extrDraw[draw].textPos.end.y;
-						}
-						else if ( variables::extrDraw[draw].textPos.cur[u].y < variables::extrDraw[draw].textPos.end.y && variables::extrDraw[draw].textPos.end.y < variables::extrDraw[draw].textPos.begin.y )
-						{
-							variables::extrDraw[draw].textPos.cur[u].y = variables::extrDraw[draw].textPos.end.y;
-						}
-					}
+					variables::extrMutex.unlock();
+					break;
 				}
 			}
-
-			variables::extrMutex.lock();
-
-			variables::extrDraw[draw].id[u] = CreatePlayerTextDraw(u, variables::extrDraw[draw].textPos.cur[u].x, variables::extrDraw[draw].textPos.cur[u].y, variables::extrDraw[draw].text);
-			PlayerTextDrawAlignment(u, variables::extrDraw[draw].id[u], variables::extrDraw[draw].alignment);
-			PlayerTextDrawBackgroundColor(u, variables::extrDraw[draw].id[u], variables::extrDraw[draw].colBg.cur[u]);
-			PlayerTextDrawFont(u, variables::extrDraw[draw].id[u], variables::extrDraw[draw].font);
-			PlayerTextDrawLetterSize(u, variables::extrDraw[draw].id[u], variables::extrDraw[draw].textSize.cur[u].x, variables::extrDraw[draw].textSize.cur[u].y);
-			PlayerTextDrawColor(u, variables::extrDraw[draw].id[u], variables::extrDraw[draw].colFont.cur[u]);
-			PlayerTextDrawSetOutline(u, variables::extrDraw[draw].id[u], variables::extrDraw[draw].outline);
-			PlayerTextDrawSetShadow(u, variables::extrDraw[draw].id[u], variables::extrDraw[draw].shadow);
-			PlayerTextDrawUseBox(u, variables::extrDraw[draw].id[u], variables::extrDraw[draw].box);
-			PlayerTextDrawBoxColor(u, variables::extrDraw[draw].id[u], variables::extrDraw[draw].colBox.cur[u]);
-			PlayerTextDrawTextSize(u, variables::extrDraw[draw].id[u], variables::extrDraw[draw].textBoxSize.cur[u].x, variables::extrDraw[draw].textBoxSize.cur[u].y);
-			PlayerTextDrawShow(u, variables::extrDraw[draw].id[u]);
-
-			variables::extrMutex.unlock();
-
-			std::this_thread::sleep_for(std::chrono::milliseconds(30));
-
-			if ( variables::extrDraw[draw].textPos.anim[u] )
-				goto case_start;
-
-			variables::extrMutex.lock();
-			if ( variables::extrDraw[draw].id[u] != INVALID_TEXT_DRAW )
-			{
-				PlayerTextDrawDestroy(u, variables::extrDraw[draw].id[u]);
-				GameTextForPlayer(u, "~r~end thread", 1000, 3);
-			}
-			variables::extrMutex.unlock();
 		}
 }
 /*

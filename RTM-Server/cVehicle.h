@@ -29,9 +29,11 @@ struct eVehicle
 	bool Bonnet;		//Статус капота
 };
 
+std::mutex extern mutexSpidak;
+
 namespace world
 {
-
+	std::mutex extern createVehicleMutex;
 	class Vehicles
 	{
 		public:

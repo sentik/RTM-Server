@@ -14,11 +14,13 @@ bool cPlayer::Jobs::cJobs::setJob(const int u, const int j)
 	if (Player[u].pJob1 == cPlayer::Jobs::PlayerJob::JOB_NONE)
 	{
 		Player[u].pJob1 = j;
+		cClass::sqlSetInt("player_Character", "job1", j, Player[u].pDB);
 		return true;
 	}
 	else if (Player[u].pJob2 == cPlayer::Jobs::PlayerJob::JOB_NONE)
 	{
 		Player[u].pJob2 = j;
+		cClass::sqlSetInt("player_Character", "job2", j, Player[u].pDB);
 		return true;
 	}
 	return false;

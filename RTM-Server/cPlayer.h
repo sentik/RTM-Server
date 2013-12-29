@@ -37,13 +37,14 @@ namespace cPlayer
 	void updateMoney(const int);
 	void giveExp(const int, const int);
 	void PreloadAnimLib(const int);
-	void getName(const int, char[]);
+	void getName(const int, char []);
 	void Train(const int);
 	void setCharHealth(const int, const float);
 	void setCharArmour(const int, const float);
 	void updateHealthBar(const int);
 	void onPlayerGiveDamage(const int, const int, const float, const unsigned char);
 	void onPlayerTakeDamage(const int, const int, const float, const unsigned char);
+	int getDeathType(int);
 }
 
 /*
@@ -81,7 +82,7 @@ public:
 
 };*/
 
-int extern drawPlayerChar[15];
+int extern drawPlayerChar[20];
 
 struct sAC
 {
@@ -136,6 +137,8 @@ struct  pInfo
 	unsigned char	kgLR;
 	sAC		AC;
 	int		pDraw;
+	int reason;
+
 
 	//Потом пихани куда надо, ок.
 	int		spdSpeed;			//TextDraw
@@ -192,6 +195,8 @@ enum PlayerRows
 	plPosP,
 	plJob1,
 	plJob2,
+	plHealth,
+	plArmour,
 };
 
 enum PlayerAction
@@ -217,9 +222,22 @@ enum PlayerAction
 	ACTION_Belay,
 };
 
+enum DeathTypes
+{
+	reason_NONE,		// Нету
+	reason_Fight,		// Переломы
+	reason_Fire,		// Огестрел
+	reason_Stab,		// Ножевые
+	reason_Drive,		// Drive By
+};
+
+
 enum PlayerSkills
 {
 	SKILL_MINER,
 	SKILL_FELLER,
 };
+
+std::mutex extern mutexUpdate;
+
 #endif 

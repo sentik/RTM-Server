@@ -21,6 +21,8 @@ struct eGas
 
 namespace gasProperty
 {
+	std::mutex extern fillingVehicle;
+
 	class cGas
 	{
 		public:

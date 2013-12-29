@@ -540,7 +540,7 @@ void cPlayer::Intro::cIntro::updateIntro(const int u)
 	else if (Player[u].aMinerA != 56)
 	{		
 		Player[u].aMinerA = 56;
-		std::thread(cPlayer::Intro::cIntro::drawIntro, u).join();
+		std::thread(cPlayer::Intro::cIntro::drawIntro, u).detach();
 		
 	}
 

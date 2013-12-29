@@ -48,6 +48,7 @@ namespace Properties
 				Belay[ count ].perFire	= atoi(row[ rowBelays::perFire ]);
 				Belay[ count ].perSick	= atoi(row[ rowBelays::perSick ]);
 				Belay[ count ].perStab	= atoi(row[ rowBelays::perStab ]);
+				Property[countProperty].link = count;
 				//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 				strcpy(Belay[ count ].name, row[ rowBelays::name]);
 				//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -188,7 +189,6 @@ namespace Properties
 			char msg[ 512 ] = "";
 			const int idx = Player[ u ].inIndex;		// Ид проперти
 			const int bdx = Property[idx].link;		// Ид страховой
-
 			if (dialogid == DLG_BELAY_OWNER_MAIN)
 			{
 				if (response)
@@ -265,7 +265,7 @@ namespace Properties
 						//******************************************						
 					}
 					//===============================
-					else if (listitem == 4)				//Остальное
+					else if (listitem == 3)				//Остальное
 					{
 						msg_ETC:
 						strcpy(msg, "");
@@ -300,15 +300,35 @@ namespace Properties
 				{
 					if (listitem == 0)			// Изменить название
 					{
-
+						msg_ETC_Name:
+						ShowPlayerDialog
+						(
+							u,
+							DLG_BELAY_OWNER_ETC_NAME,
+							GUI_INPUT,
+							"[Страховая компания]: Название",
+							language::property::belay::etc_Name,
+							language::dialogs::buttons::btnNext,
+							language::dialogs::buttons::btnBack
+						);				
 					}
 					else if (listitem == 1)		// Изменить номер счета
 					{
-
+						msg_ETC_Bank:
+						ShowPlayerDialog
+						(
+							u,
+							DLG_BELAY_OWNER_ETC_BANK,
+							GUI_INPUT,
+							"[Страховая компания]: Название",
+							language::property::belay::etc_Bank,
+							language::dialogs::buttons::btnNext,
+							language::dialogs::buttons::btnBack
+						);	
 					}
 					else if (listitem == 1)		// Изменить время работы
 					{
-
+						onAction(u);
 					}
 				}
 				else
@@ -317,14 +337,49 @@ namespace Properties
 				}
 			}
 			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			else if (dialogid == DLG_BELAY_OWNER_ETC_NAME)
+			{
+				if(response)
+				{
+					if(regex_match(inputtext, expTitlus))
+					{
+						strcpy(Belay[bdx].name, inputtext);
+						cClass::sqlSetString("class_Belay", "name", Belay[bdx].name,    Property[idx].db);
+						SendClientMessage(u, -1, "Вы успешно изменили название вашей страховой компании!");
+					}
+					else goto msg_ETC_Name;
+				}
+				else goto msg_ETC;
+				onAction(u);
+			}
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			else if (dialogid == DLG_BELAY_OWNER_ETC_BANK)
+			{
+				if(response)
+				{
+					const int res = atoi(inputtext);
+					if(res > 0)
+					{
+						Property[idx].bank = res;
+						cClass::sqlSetInt("class_Property", "bank", Property[idx].bank,    Property[idx].db);
+						SendClientMessage(u, -1, "Вы успешно изменили номер счета вашей страховой компании!");
+					}
+					else goto msg_ETC_Bank;
+				}
+				else goto msg_ETC;
+				onAction(u);
+			}
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			else if (dialogid == DLG_BELAY_OWNER_INFO)
 			{
 				onAction(u);
 			}
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			else if (dialogid == DLG_BELAY_OWNER_STATS)
 			{
 				onAction(u);
 			}
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			else if (dialogid == DLG_BELAY_OWNER_FINANCE)
 			{
 				if(response)
@@ -419,6 +474,7 @@ namespace Properties
 					 onAction(u);
 				}
 			}
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			else if (dialogid == DLG_BELAY_OWNER_FINANCE_AUTO)
 			{
 				if (response)
@@ -535,6 +591,80 @@ namespace Properties
 				Player[u].belay = mysql_insert_id(con);
 			}
 		}	
+
+		int searchLocal(int global)
+		{
+			for(int i = 0; i < count; i++)
+			{
+				if(global == Belay[i].db) return i;
+			}
+			return -1;
+		}
+
+		void purchase(int u)
+		{
+			double tBal;
+			int resPrice;
+			char msg[144];
+			const int price = DEFAULT_HEAL_PRICE;								
+			const int bdx = Player[u].belay;
+			const int reas = cPlayer::getDeathType(Player[u].reason);	
+			//------------------------------------------------------------------------
+			if(reas == DeathTypes::reason_Drive)
+				resPrice = (price * Properties::Belays::Belay[bdx].perDrive / 100);
+			//------------------------------------------------------------------------
+			else if(reas == DeathTypes::reason_Fight)
+				resPrice =  (price * Properties::Belays::Belay[bdx].perFight / 100);
+			//------------------------------------------------------------------------
+			else if(reas == DeathTypes::reason_Fire)
+				resPrice = (price * Properties::Belays::Belay[bdx].perFire / 100);
+			//------------------------------------------------------------------------
+			else if(reas == DeathTypes::reason_Stab)
+				resPrice = (price * Properties::Belays::Belay[bdx].perStab / 100);
+			//------------------------------------------------------------------------
+			if(Properties::Belays::Belay[bdx].fond >= resPrice)
+			{
+				Properties::Belays::Belay[bdx].fond -= resPrice;
+				msg_GOOD:
+				//------------------------------------------------------------------------
+				sprintf
+				(
+					msg, 
+					"Страховая компания %s оплатила %d/%d$ за лечение",
+					Properties::Belays::Belay[bdx].name,
+					resPrice, price
+				);
+				//-----------------------------------------------------------------------
+				if(tBal)
+				{
+					cBanks::giveBalance
+					(
+						Property[Player[u].inIndex].bank,
+						-resPrice
+					);
+				}
+			}
+			else
+			{
+				if(Property[Player[u].inIndex].bank)
+				{
+					cBanks::getBalance(Property[Player[u].inIndex].bank, &tBal);		
+					if(tBal >= resPrice) goto msg_GOOD;
+				}
+				resPrice = 0;
+				//------------------------------------------------------------------------
+				sprintf
+				(
+					msg, 
+					"К сожалению, страховая компания %s не смогла оплатить ваши расходы за лечение: %d$",
+					Properties::Belays::Belay[bdx].name, price
+				);
+				//------------------------------------------------------------------------
+			}
+			GivePlayerMoney(u, -(price-resPrice));
+			SendClientMessage(u, -1, msg);
+		}
+
 		bool checkPlayer(int u)
 		{
 			sprintf
@@ -551,5 +681,46 @@ namespace Properties
 			mysql_free_result(result);
 			return (num_rows == 1) ? (true) : (false);
 		}
+
+		void create(int price, float x, float y, float z)
+		{
+			sProperty tmp;
+			sBelay hBel;
+			int interior = cInteriors::getRandom(PropertyType::prBelays);
+			//--------------------------------------------------------------------------------------------
+			sprintf(query, "INSERT INTO class_Belay SET `style` ='%d'", interior), safe_query(con, query);
+			hBel.db = mysql_insert_id(con);
+			tmp.style = interior;
+			//--------------------------------------------------------------------------------------------
+			tmp.owner		= tmp.status = tmp.bank = 0;
+			tmp.property	= hBel.db;
+			tmp.style		= interior;
+			tmp.price		= price;
+			tmp.posX = x;
+			tmp.posY = y;
+			tmp.posZ = z;
+			tmp.type = PropertyType::prBelays;
+			tmp.region = tmp.number = 0;
+			//--------------------------------------------------------------------------------------------
+			sprintf(query, "INSERT INTO class_Property SET `property` ='%d', type='%d', x='%f', y='%f', z='%f', price='%d'",
+				tmp.property, PropertyType::prBelays, x, y, z, price);
+			safe_query(con, query);
+			//--------------------------------------------------------------------------------------------
+			tmp.link = countHouses;
+			tmp.db = mysql_insert_id(con);
+			Property[ countProperty ] = tmp;
+			Belay[count] = hBel;
+			//--------------------------------------------------------------------------------------------
+			logprintf("db: %d[%d] || owner: %d || style: %d || xyz [%f || %f || %f]", tmp.db, tmp.property, tmp.owner, tmp.style, tmp.posX, tmp.posY, tmp.posZ);
+			makePick();
+			countProperty++;
+			count++;
+		}
+
+
+	//-----------------------
 	}
 }
+
+
+

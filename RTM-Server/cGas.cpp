@@ -1,6 +1,7 @@
 #include "main.h"
 
 struct eGas  gasProperty::cGas::Gas[MAX_GAS];
+std::mutex gasProperty::fillingVehicle;
 
 void gasProperty::cGas::loadGas()
 {
@@ -103,20 +104,27 @@ void gasProperty::cGas::fillingVehicle(const int u)
 
 void gasProperty::cGas::fillingVehicleProcess(const int u, const int i)
 {
+	gasProperty::fillingVehicle.lock();
+
 	char msg[64];
 	const int d = Property[i].link;
 	const int car = Player[u].pCarid;
 	const float cost = Gas[d].cost * (100.0f - world::Vehicles::Vehicle[car].Fuel);
 	const int tmpText = world::Vehicles::Vehicle[car].text3D;
+	float fuel;
 
 	StreamerCall::Native::UpdateDynamic3DTextLabelText(tmpText, -1, "Заправка");
 
 	cPlayer::givePlayerMoney(u, -cost);
 	cBanks::giveBalance(Property[i].bank, cost);
 
+	gasProperty::fillingVehicle.unlock();
+
 	case_filling:
 
-	Sleep(1000);
+	std::this_thread::sleep_for(std::chrono::seconds(1));
+
+	gasProperty::fillingVehicle.lock();
 
 	if (world::Vehicles::isVehicleInCube(car, Gas[d].minX, Gas[d].minY, Gas[d].minZ, Gas[d].maxX, Gas[d].maxY, Gas[d].maxZ))
 	{
@@ -124,7 +132,7 @@ void gasProperty::cGas::fillingVehicleProcess(const int u, const int i)
 		{
 			case_fillingCancel:
 			StreamerCall::Native::UpdateDynamic3DTextLabelText(tmpText, -1, language::property::gas::fillingCancel);
-			Sleep(5000);
+			std::this_thread::sleep_for(std::chrono::seconds(5));
 			StreamerCall::Native::UpdateDynamic3DTextLabelText(tmpText, -1, "");
 		}
 		else
@@ -133,12 +141,12 @@ void gasProperty::cGas::fillingVehicleProcess(const int u, const int i)
 			{
 				world::Vehicles::Vehicle[car].Fuel = 100.0f;
 				StreamerCall::Native::UpdateDynamic3DTextLabelText(tmpText, -1, language::property::gas::fillingDone);
-				Sleep(5000);
+				std::this_thread::sleep_for(std::chrono::seconds(5));
 				StreamerCall::Native::UpdateDynamic3DTextLabelText(tmpText, -1, "");
 			}
 			else
 			{
-				const float fuel = ((0.0f + rand() % 250) / 100);
+				fuel = ((0.0f + rand() % 250) / 100);
 				world::Vehicles::Vehicle[car].Fuel += fuel;
 				Gas[d].fuel -= fuel;
 				sprintf(msg, language::property::gas::fillingProcess, world::Vehicles::Vehicle[car].Fuel);
@@ -151,6 +159,8 @@ void gasProperty::cGas::fillingVehicleProcess(const int u, const int i)
 	{
 		goto case_fillingCancel;
 	}
+
+	gasProperty::fillingVehicle.unlock();
 }
 
 void gasProperty::cGas::updateText(const int p, const int u = -1)
