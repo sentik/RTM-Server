@@ -281,7 +281,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerText(int u, const char *text)
 {
 	char msg[ 184 ];
 	cPlayer::getName(u, msg);
-	sprintf(msg, "%s [{FFAF00}%d{FFFFFF}] говорит: {FFAF00}%s", msg, u, text);
+	sprintf(msg, language::player::actions::talkMSG, msg, u, text);
 	cChat::ProxDetector(u, 10.0f, msg);
 	SetPlayerChatBubble(u, text, 0xFFAF00FF, 20.0f, 15000);
 	return false;

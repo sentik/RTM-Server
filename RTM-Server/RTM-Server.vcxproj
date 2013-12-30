@@ -107,7 +107,6 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>false</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
       <ModuleDefinitionFile>Export.def</ModuleDefinitionFile>
       <AdditionalDependencies>C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\sampgdk3.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\mysqlclient.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\boost\libboost_iostreams-vc110-mt-1_50.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\boost\libboost_system-vc110-mt-1_50.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\boost\libboost_filesystem-vc110-mt-1_50.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\tinyxml.lib</AdditionalDependencies>
       <TurnOffAssemblyGeneration>false</TurnOffAssemblyGeneration>
@@ -121,6 +120,7 @@
       <FunctionOrder>
       </FunctionOrder>
       <NoEntryPoint>false</NoEntryPoint>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>

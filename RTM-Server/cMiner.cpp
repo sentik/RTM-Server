@@ -72,7 +72,7 @@ void Jobs::Miner::cMiner::loadMiner()
 			strcpy(Property[countProperty].player, row[Jobs::Miner::minerRows::oName]);
 			sprintf(query, "%s\nАдрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s", 
 							query, 
-							cProperty::getZoneName(Property[countProperty].region), 
+							getSaZoneName(Property[countProperty].region), 
 							Property[countProperty].number, 
 							Property[countProperty].player);
 		}
@@ -80,7 +80,7 @@ void Jobs::Miner::cMiner::loadMiner()
 		{
 			sprintf(query, "%s\nАдрес: {FF0000}%s {FFFFFF}д: {FF0000}%d\n{FFFFFF}Стоимость: {FF0000}%d",
 							query,
-							cProperty::getZoneName(Property[countProperty].region),
+							getSaZoneName(Property[countProperty].region),
 							Property[countProperty].number,
 							Property[countProperty].price);
 		}
@@ -427,7 +427,7 @@ void Jobs::Miner::cMiner::updateText(const int p, const int u)
 	}
 	sprintf(msg, "%s\nАдрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s",
 		msg,
-		cProperty::getZoneName(Property[p].region),
+		getSaZoneName(Property[p].region),
 		Property[p].number,
 		Property[p].player);
 	//------------------------------------------------------------------

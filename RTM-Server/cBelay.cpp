@@ -76,7 +76,7 @@ namespace Properties
 					msg,
 					"\"%s\" \n Страховая комания \n{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s",
 					Belay[ count ].name,
-					cProperty::getZoneName(Property[ countProperty ].region),
+					getSaZoneName(Property[ countProperty ].region),
 					Property[ countProperty ].number,
 					Property[ countProperty ].player
 				);
@@ -97,7 +97,7 @@ namespace Properties
 				(
 					msg,
 					"Страховая комания \n{FFFFFF}Адрес: {FF0000}%s {FFFFFF}д: {FF0000}%d\n{FFFFFF}Стоимость: {FF0000}%d$",
-					cProperty::getZoneName(Property[ countProperty ].region),
+					getSaZoneName(Property[ countProperty ].region),
 					Property[ countProperty ].number,
 					Property[ countProperty ].price
 				);

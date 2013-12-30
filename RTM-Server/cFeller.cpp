@@ -55,7 +55,7 @@ void fProperty::cFeller::loadFeller()
 				query, 
 				"{FFFFFF}Лесопилка: {B7FF00}%s\n{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s", 
 				fProperty::cFeller::Feller[i].name, 
-				cProperty::getZoneName(Property[countProperty].region), 
+				getSaZoneName(Property[countProperty].region), 
 				Property[countProperty].number, 
 				Property[countProperty].player
 			);
@@ -68,7 +68,7 @@ void fProperty::cFeller::loadFeller()
 		}
 		else
 		{
-			sprintf(query, "{FFFFFF}Лесопилка: {FF0000}%s\n{FFFFFF}Адрес: {FF0000}%s {FFFFFF}д: {FF0000}%d\n{FFFFFF}Стоимость: {FF0000}%d$", fProperty::cFeller::Feller[i].name, cProperty::getZoneName(Property[countProperty].region), Property[countProperty].number, Property[countProperty].price);
+			sprintf(query, "{FFFFFF}Лесопилка: {FF0000}%s\n{FFFFFF}Адрес: {FF0000}%s {FFFFFF}д: {FF0000}%d\n{FFFFFF}Стоимость: {FF0000}%d$", fProperty::cFeller::Feller[i].name, getSaZoneName(Property[countProperty].region), Property[countProperty].number, Property[countProperty].price);
 			//=====================================================================================================
 			Property[countProperty].pick = StreamerCall::Native::CreateDynamicPickup(DOLLAR_PICKUP, 23,
 				Property[countProperty].posX,
@@ -367,7 +367,7 @@ void fProperty::cFeller::updateText(const int p, const int u = -1)
 {
 	char msg[256];
 	if(u != -1) sprintf(Property[p].player, "%s %s", Player[u].uName, Player[u].sName);
-	sprintf(msg, "{FFFFFF}Лесопилка: {B7FF00}%s\n{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s", fProperty::cFeller::Feller[Property[p].link].name, cProperty::getZoneName(Property[p].region), Property[p].number, Property[p].player);
+	sprintf(msg, "{FFFFFF}Лесопилка: {B7FF00}%s\n{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s", fProperty::cFeller::Feller[Property[p].link].name, getSaZoneName(Property[p].region), Property[p].number, Property[p].player);
 	//------------------------------------------------------------------
 	StreamerCall::Native::UpdateDynamic3DTextLabelText(Property[p].text, -1, msg);
 }

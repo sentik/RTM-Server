@@ -16,8 +16,9 @@ namespace language
 			const char tryMSG[ 2 ][ 128 ] = { "* %s пытается %s (Удачно)", "* %s пытается %s (Неудачно)" };
 			const char tryBuble[ 2 ][ 128 ] = { "* пытается %s (Удачно)", "* пытается %s (Неудачно)" };
 
-			const char shoutMSG[ 64 ]		=  "{FFFFFF}%s [{FFAF00}%d{FFFFFF}] кричит: {DCDCDC}%s" ;
-			const char whisperMSG[ 128 ]	=  "{FFFFFF}%s шепчет[ {FF0000}%d {FFFFFF} ]: {FADBB8}%s";
+			const char shoutMSG[64]		=  "{FFFFFF}%s [{FFAF00}%d{FFFFFF}] кричит: {DCDCDC}%s";
+			const char whisperMSG[64]	=  "{FFFFFF}%s [{FFAF00}%d{FFFFFF}] шепчет: {A8A8A8}%s";
+			const char talkMSG[64]		= "%s [{FFAF00}%d{FFFFFF}] говорит: {FFAF00}%s";
 		}
 
 		namespace biography

@@ -44,7 +44,7 @@ void Properties::Factory::Metal::func::load()
 				query,
 				"{FFFFFF}Завод: {B7FF00}%s\n{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s",
 				Factm[i].name,
-				cProperty::getZoneName(Property[countProperty].region),
+				getSaZoneName(Property[countProperty].region),
 				Property[countProperty].number,
 				Property[countProperty].player
 			);
@@ -57,7 +57,7 @@ void Properties::Factory::Metal::func::load()
 		}
 		else
 		{
-			sprintf(query, "{FFFFFF}Завод: {FF0000}%s\n{FFFFFF}Адрес: {FF0000}%s {FFFFFF}д: {FF0000}%d\n{FFFFFF}Стоимость: {FF0000}%d$", Factm[i].name, cProperty::getZoneName(Property[countProperty].region), Property[countProperty].number, Property[countProperty].price);
+			sprintf(query, "{FFFFFF}Завод: {FF0000}%s\n{FFFFFF}Адрес: {FF0000}%s {FFFFFF}д: {FF0000}%d\n{FFFFFF}Стоимость: {FF0000}%d$", Factm[i].name, getSaZoneName(Property[countProperty].region), Property[countProperty].number, Property[countProperty].price);
 			//=====================================================================================================
 			Property[countProperty].pick = StreamerCall::Native::CreateDynamicPickup(DOLLAR_PICKUP, 23,
 																					 Property[countProperty].posX,

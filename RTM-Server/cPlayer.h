@@ -2,7 +2,7 @@
 #ifndef __cPlayer__
 #define __cPlayer__
 
-#define MAX_PLAYERS		1000
+//#define MAX_PLAYERS		1000
 #define MAX_CHARS		5
 
 

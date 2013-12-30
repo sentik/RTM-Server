@@ -43,7 +43,7 @@ void gasProperty::cGas::loadGas()
 		if (Property[countProperty].owner)
 		{
 			strcpy(Property[countProperty].player, row[gasProperty::rowsGas::pname]);
-			sprintf(query, "{FFFFFF}Заправка: {B7FF00}%s\n{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s\n{FFFFFF}Стоимость литра: {B7FF00}%.2f", gasProperty::cGas::Gas[i].name, cProperty::getZoneName(Property[countProperty].region), Property[countProperty].number, Property[countProperty].player, Gas[i].cost);
+			sprintf(query, "{FFFFFF}Заправка: {B7FF00}%s\n{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s\n{FFFFFF}Стоимость литра: {B7FF00}%.2f", gasProperty::cGas::Gas[i].name, getSaZoneName(Property[countProperty].region), Property[countProperty].number, Property[countProperty].player, Gas[i].cost);
 			//=====================================================================================================
 			Property[countProperty].pick = StreamerCall::Native::CreateDynamicPickup(DOLLAR_PICKUP, 23,
 				Property[countProperty].posX,
@@ -53,7 +53,7 @@ void gasProperty::cGas::loadGas()
 		}
 		else
 		{
-			sprintf(query, "{FFFFFF}Заправка: {FF0000}%s\n{FFFFFF}Адрес: {FF0000}%s {FFFFFF}д: {FF0000}%d\n{FFFFFF}Стоимость: {FF0000}%d$", gasProperty::cGas::Gas[i].name, cProperty::getZoneName(Property[countProperty].region), Property[countProperty].number, Property[countProperty].price);
+			sprintf(query, "{FFFFFF}Заправка: {FF0000}%s\n{FFFFFF}Адрес: {FF0000}%s {FFFFFF}д: {FF0000}%d\n{FFFFFF}Стоимость: {FF0000}%d$", gasProperty::cGas::Gas[i].name, getSaZoneName(Property[countProperty].region), Property[countProperty].number, Property[countProperty].price);
 			//=====================================================================================================
 			Property[countProperty].pick = StreamerCall::Native::CreateDynamicPickup(DOLLAR_PICKUP, 23,
 				Property[countProperty].posX,
@@ -167,7 +167,7 @@ void gasProperty::cGas::updateText(const int p, const int u = -1)
 {
 	char msg[256];
 	if(u != -1) sprintf(Property[p].player, "%s %s", Player[u].uName, Player[u].sName);
-	sprintf(msg, "{FFFFFF}Заправка: {B7FF00}%s\n{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s\n{FFFFFF}Стоимость литра: {B7FF00}%.2f", gasProperty::cGas::Gas[Property[p].link].name, cProperty::getZoneName(Property[p].region), Property[p].number, Property[p].player, gasProperty::cGas::Gas[Property[p].link].cost);
+	sprintf(msg, "{FFFFFF}Заправка: {B7FF00}%s\n{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s\n{FFFFFF}Стоимость литра: {B7FF00}%.2f", gasProperty::cGas::Gas[Property[p].link].name, getSaZoneName(Property[p].region), Property[p].number, Property[p].player, gasProperty::cGas::Gas[Property[p].link].cost);
 	StreamerCall::Native::UpdateDynamic3DTextLabelText(Property[p].text, -1, msg);
 }
 
@@ -195,7 +195,7 @@ void gasProperty::cGas::onDLG(const int u, const int dialogid, const int respons
 				if (listitem == 0)
 				{
 					sprintf(msg, "{FFFFFF}Название: {00C0FF}%s\n{FFFFFF}Адрес: {00C0FF}%s {FFFFFF}д: {00C0FF}%d\n{FFFFFF}№ счёта: {00C0FF}%d\n{FFFFFF}Кол-во топлива: {00C0FF}%.2fL\n{FFFFFF}Стоимость литра:{00C0FF} %.2f$",
-								 Gas[l].name, cProperty::getZoneName(Property[p].region), Property[p].number, Property[p].bank, Gas[l].fuel, Gas[l].cost);
+								 Gas[l].name, getSaZoneName(Property[p].region), Property[p].number, Property[p].bank, Gas[l].fuel, Gas[l].cost);
 					ShowPlayerDialog(u, DIALOG_LIST::DLG_GAS_EMTY, GUI_MSG, Gas[l].name, msg, language::dialogs::buttons::btnBack, "");
 				}
 				else

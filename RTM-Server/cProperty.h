@@ -46,7 +46,6 @@ public:
 	static void cProperty::enterProperty(const int);
 	static void cProperty::buyMessage(const int, const int);
 	static void cProperty::statusMessage(const int, const int);
-	static char* cProperty::getZoneName(const int);
 	static int cProperty::getZoneNumber(float, float, float);
 	static void cProperty::beforBuy(const int);
 	//============================================================

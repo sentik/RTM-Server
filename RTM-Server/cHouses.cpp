@@ -95,7 +95,7 @@ void cHouses::makePick()
 {
 	if (Property[ countProperty ].owner)
 	{
-		sprintf(query, "{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s", cProperty::getZoneName(Property[ countProperty ].region), Property[ countProperty ].number, Property[ countProperty ].player);
+		sprintf(query, "{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s", getSaZoneName(Property[ countProperty ].region), Property[ countProperty ].number, Property[ countProperty ].player);
 		//=====================================================================================================
 		Property[ countProperty ].pick = StreamerCall::Native::CreateDynamicPickup(HOUSE_GREEN, 23,
 																				   Property[ countProperty ].posX,
@@ -105,7 +105,7 @@ void cHouses::makePick()
 	}
 	else
 	{
-		sprintf(query, "{FFFFFF}Адрес: {FF0000}%s {FFFFFF}д: {FF0000}%d\n{FFFFFF}Стоимость: {FF0000}%d$", cProperty::getZoneName(Property[ countProperty ].region), Property[ countProperty ].number, Property[ countProperty ].price);
+		sprintf(query, "{FFFFFF}Адрес: {FF0000}%s {FFFFFF}д: {FF0000}%d\n{FFFFFF}Стоимость: {FF0000}%d$", getSaZoneName(Property[ countProperty ].region), Property[ countProperty ].number, Property[ countProperty ].price);
 		//=====================================================================================================
 		Property[ countProperty ].pick = StreamerCall::Native::CreateDynamicPickup(HOUSE_RED, 23,
 																				   Property[ countProperty ].posX,
@@ -158,7 +158,7 @@ void cHouses::updateText(const int p, const int u)
 {
 	char msg[256];
 	sprintf(Property[p].player, "%s %s", Player[u].uName, Player[u].sName);
-	sprintf(msg, "{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s", cProperty::getZoneName(Property[p].region), Property[p].number, Property[p].player);
+	sprintf(msg, "{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s", getSaZoneName(Property[p].region), Property[p].number, Property[p].player);
 	//=====================================================================================================
 	StreamerCall::Native::DestroyDynamicPickup(Property[p].pick);
 	Property[p].pick = StreamerCall::Native::CreateDynamicPickup(HOUSE_GREEN, 23,

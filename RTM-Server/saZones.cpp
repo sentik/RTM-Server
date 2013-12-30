@@ -373,15 +373,6 @@ ZoneData gSAZones[ 365 ] = {  // Majority of names and area coordinates adopted 
 	{ "Whetstone", { -2997.40, -2892.90, -242.90, -1213.90, -1115.50, 900.00 } }
 };
 
-//TODO: Узнать название територии по ид (0-364)
-char* cProperty::getZoneName(const int i)
-{
-	if (i == -1)
-		return "Unknown";
-	else
-		return gSAZones[i].name;
-}
-
 //TODO: Узнать номер територии по кординатам X Y Z
 int cProperty::getZoneNumber(float x, float y, float z)
 {

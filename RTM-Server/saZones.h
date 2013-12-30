@@ -27,3 +27,5 @@ struct ZoneData
 ZoneData extern gSAZones[ 365 ];
 std::stack<int> extern PlayerAreas[ MAX_PLAYERS ];
 std::unordered_map<int, std::string> extern ZoneAreas;
+
+#define getSaZoneName(i)	gSAZones[i].name

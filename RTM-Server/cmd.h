@@ -16,8 +16,8 @@ class CMD
 	static void setworld(int, char*);
 	static void gotokk(int, char*); 
 	static void cmd_goto( int, char* );
-	static void shout(int, char*);
-	static void whisper(int, char*);
+	static void shout(const int, const char*);
+	static void whisper(const int, const char*);
 	static void me(int, char*);
 	static void domake(int, char*);
 	static void dotry(int, char*);

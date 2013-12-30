@@ -312,7 +312,7 @@ namespace world
 					(
 						tmp,
 						"%s Д. %d \t\t [днл]", 
-						cProperty::getZoneName(Property[ i ].region),
+						getSaZoneName(Property[ i ].region),
 						Property[i].number
 					);
 					dialogs::genDLGItem(l, tmp, res);

@@ -12,7 +12,7 @@ void cProperty::buyMessage(const int u, const int p)
 {
 	char msg[ 336 ];
 	sprintf(msg, "{FFFFFF}Здраствуйте, вы действительно хотите приобрести эту недвижимость?\nАдрес: {00C0FF}%s {FFFFFF}д: {00C0FF}%d {FFFFFF}|| Стоимость: {00C0FF}%d${FFFFFF}",
-				 cProperty::getZoneName(Property[p].region), Property[p].number, Property[p].price);
+				 getSaZoneName(Property[p].region), Property[p].number, Property[p].price);
 	//===============================================
 	Player[ u ].inIndex = p;
 	//===============================================

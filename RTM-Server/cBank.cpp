@@ -112,7 +112,7 @@ void cBanks::makePick()
 	{
 		sprintf(query, "{FFFFFF}Банк: {B7FF00}%s\n{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s",
 				Bank[ countBanks ].title,
-				cProperty::getZoneName(Property[ countProperty ].region), Property[ countProperty ].number,
+				getSaZoneName(Property[ countProperty ].region), Property[ countProperty ].number,
 				Property[ countProperty ].player);
 		//=====================================================================================================
 		Property[ countProperty ].pick = StreamerCall::Native::CreateDynamicPickup(DOLLAR_PICKUP, 23,
@@ -124,7 +124,7 @@ void cBanks::makePick()
 	else
 	{
 		sprintf(query, "{FFFFFF}Банк: {FF0000}%s\n{FFFFFF}Адрес: {FF0000}%s {FFFFFF}д: {FF0000}%d\n{FFFFFF}Стоимость: {FF0000}%d$", 
-		Bank[ countBanks ].title, cProperty::getZoneName(Property[ countProperty ].region), Property[ countProperty ].number, Property[ countProperty ].price);
+		Bank[ countBanks ].title, getSaZoneName(Property[ countProperty ].region), Property[ countProperty ].number, Property[ countProperty ].price);
 		//=====================================================================================================
 		Property[ countProperty ].pick = StreamerCall::Native::CreateDynamicPickup(DOLLAR_PICKUP, 23,
 																				   Property[ countProperty ].posX,
@@ -812,7 +812,7 @@ void cBanks::updateText(const int p, const int u = -1)
 	if (u != -1) sprintf(Property[p].player, "%s %s", Player[u].uName, Player[u].sName);
 	sprintf(msg, "{FFFFFF}Банк: {B7FF00}%s\n{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s",
 		Bank[Property[p].link].title,
-		cProperty::getZoneName(Property[p].region), Property[p].number,
+		getSaZoneName(Property[p].region), Property[p].number,
 		Property[p].player);
 	//------------------------------------------------------------------
 	StreamerCall::Native::UpdateDynamic3DTextLabelText(Property[p].text, -1, msg);

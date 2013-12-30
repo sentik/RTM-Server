@@ -45,10 +45,6 @@
 //#define BOOST_THREAD_DONT_USE_CHRONO 1 
 #define tocolor(r, g, b, a) ( ( r & 0xff ) << 24 ) + ( ( g & 0xff ) << 16 ) + ( ( b & 0xff ) << 8 ) + ( a & 0xff )
 
-#include "Mutex.h"
-
-
-
 #include <iostream>
 #include <string>
 #include <memory>
@@ -66,12 +62,10 @@
 #include <sampgdk/a_samp.h>
 #include <sampgdk/a_players.h>
 #include <sampgdk/a_vehicles.h>
-#include <sampgdk/a_objects.h>
 #include <sampgdk/core.h>
 #include <sampgdk/plugin.h>
 //--------------------------------------------
 #include <mysql.h>
-#include <tinyxml/tinyxml.h>
 //--------------------------------------------
 #include "streamerlib.h"
 #include "cTexrDraws.h"

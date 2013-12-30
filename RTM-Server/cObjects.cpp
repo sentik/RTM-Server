@@ -1,4 +1,5 @@
 #include "main.h"
+#include <tinyxml/tinyxml.h>
 #include <boost/filesystem.hpp>
 namespace bfs = boost::filesystem;
 
@@ -25,17 +26,17 @@ void cObjects::loadObjects()
 			{
 				// Получаем аргументы
 				//---------------------------------------------
-				const int	 model = atoi(obj->Attribute("model"));
-				int			 posI = atoi(obj->Attribute("interior"));
-				int			 posW = atoi(obj->Attribute("dimension"));
+				const int	model = atoi(obj->Attribute("model"));
+				int			posI = atoi(obj->Attribute("interior"));
+				int			posW = atoi(obj->Attribute("dimension"));
 				//---------------------------------------------
-				const double posX = atof(obj->Attribute("posX"));
-				const double posY = atof(obj->Attribute("posY"));
-				const double posZ = atof(obj->Attribute("posZ"));
+				const float	posX = atof(obj->Attribute("posX"));
+				const float	posY = atof(obj->Attribute("posY"));
+				const float	posZ = atof(obj->Attribute("posZ"));
 				//---------------------------------------------
-				const double rotX = atof(obj->Attribute("rotX"));
-				const double rotY = atof(obj->Attribute("rotY"));
-				const double rotZ = atof(obj->Attribute("rotZ"));
+				const float	rotX = atof(obj->Attribute("rotX"));
+				const float	rotY = atof(obj->Attribute("rotY"));
+				const float	rotZ = atof(obj->Attribute("rotZ"));
 				//---------------------------------------------
 				if (posI == 0) posI = -1;
 				if (posW == 0) posW = -1;
