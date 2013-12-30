@@ -101,7 +101,7 @@
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <ExceptionHandling>Sync</ExceptionHandling>
       <BufferSecurityCheck>false</BufferSecurityCheck>
-      <CompileAs>CompileAsCpp</CompileAs>
+      <CompileAs>Default</CompileAs>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -109,7 +109,7 @@
       <EnableCOMDATFolding>false</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <ModuleDefinitionFile>Export.def</ModuleDefinitionFile>
-      <AdditionalDependencies>C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\sampgdk3.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\mysqlclient.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\streamer.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\boost\libboost_iostreams-vc110-mt-1_50.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\boost\libboost_system-vc110-mt-1_50.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\boost\libboost_filesystem-vc110-mt-1_50.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\tinyxml.lib</AdditionalDependencies>
+      <AdditionalDependencies>C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\sampgdk3.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\mysqlclient.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\boost\libboost_iostreams-vc110-mt-1_50.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\boost\libboost_system-vc110-mt-1_50.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\boost\libboost_filesystem-vc110-mt-1_50.lib;C:$(HOMEPATH)\Dropbox\!WorkSpace\sampgdk\lib\tinyxml.lib</AdditionalDependencies>
       <TurnOffAssemblyGeneration>false</TurnOffAssemblyGeneration>
       <LargeAddressAware>false</LargeAddressAware>
       <Driver>NotSet</Driver>
@@ -127,6 +127,7 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\sampgdk\include\streamerlib.h" />
     <ClInclude Include="cAdmins.h" />
     <ClInclude Include="cBank.h" />
     <ClInclude Include="cBelay.h" />
@@ -163,6 +164,18 @@
     <ClInclude Include="Russian.h" />
     <ClInclude Include="saZones.h" />
     <ClInclude Include="shopVehicle.h" />
+    <ClInclude Include="Streamer\cell.h" />
+    <ClInclude Include="Streamer\common.h" />
+    <ClInclude Include="Streamer\core.h" />
+    <ClInclude Include="Streamer\data.h" />
+    <ClInclude Include="Streamer\grid.h" />
+    <ClInclude Include="Streamer\identifier.h" />
+    <ClInclude Include="Streamer\item.h" />
+    <ClInclude Include="Streamer\streamermain.h" />
+    <ClInclude Include="Streamer\natives.h" />
+    <ClInclude Include="Streamer\player.h" />
+    <ClInclude Include="Streamer\streamer.h" />
+    <ClInclude Include="Streamer\utility.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cAdmins.cpp" />
@@ -196,6 +209,18 @@
     <ClCompile Include="moveDraw.cpp" />
     <ClCompile Include="saZones.cpp" />
     <ClCompile Include="shopVehicle.cpp" />
+    <ClCompile Include="Streamer\cell.cpp" />
+    <ClCompile Include="Streamer\core.cpp" />
+    <ClCompile Include="Streamer\data.cpp" />
+    <ClCompile Include="Streamer\events.cpp" />
+    <ClCompile Include="Streamer\grid.cpp" />
+    <ClCompile Include="Streamer\identifier.cpp" />
+    <ClCompile Include="Streamer\item.cpp" />
+    <ClCompile Include="Streamer\streamermain.cpp" />
+    <ClCompile Include="Streamer\natives.cpp" />
+    <ClCompile Include="Streamer\player.cpp" />
+    <ClCompile Include="Streamer\streamer.cpp" />
+    <ClCompile Include="Streamer\utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

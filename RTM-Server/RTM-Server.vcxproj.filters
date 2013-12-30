@@ -76,6 +76,12 @@
     <Filter Include="Файлы исходного кода\player">
       <UniqueIdentifier>{fc60ae4d-bd97-4c97-b898-be6ce22fe14f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы исходного кода\Streamer">
+      <UniqueIdentifier>{65f19e91-244a-4226-95c4-62b409d77376}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\Streamer">
+      <UniqueIdentifier>{f6aed1a1-6b43-469b-ad13-63bd59e5d96b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -186,6 +192,45 @@
     <ClInclude Include="moveDraw.h">
       <Filter>Заголовочные файлы\gui</Filter>
     </ClInclude>
+    <ClInclude Include="Streamer\cell.h">
+      <Filter>Заголовочные файлы\Streamer</Filter>
+    </ClInclude>
+    <ClInclude Include="Streamer\common.h">
+      <Filter>Заголовочные файлы\Streamer</Filter>
+    </ClInclude>
+    <ClInclude Include="Streamer\core.h">
+      <Filter>Заголовочные файлы\Streamer</Filter>
+    </ClInclude>
+    <ClInclude Include="Streamer\data.h">
+      <Filter>Заголовочные файлы\Streamer</Filter>
+    </ClInclude>
+    <ClInclude Include="Streamer\grid.h">
+      <Filter>Заголовочные файлы\Streamer</Filter>
+    </ClInclude>
+    <ClInclude Include="Streamer\identifier.h">
+      <Filter>Заголовочные файлы\Streamer</Filter>
+    </ClInclude>
+    <ClInclude Include="Streamer\item.h">
+      <Filter>Заголовочные файлы\Streamer</Filter>
+    </ClInclude>
+    <ClInclude Include="Streamer\natives.h">
+      <Filter>Заголовочные файлы\Streamer</Filter>
+    </ClInclude>
+    <ClInclude Include="Streamer\player.h">
+      <Filter>Заголовочные файлы\Streamer</Filter>
+    </ClInclude>
+    <ClInclude Include="Streamer\streamer.h">
+      <Filter>Заголовочные файлы\Streamer</Filter>
+    </ClInclude>
+    <ClInclude Include="Streamer\utility.h">
+      <Filter>Заголовочные файлы\Streamer</Filter>
+    </ClInclude>
+    <ClInclude Include="Streamer\streamermain.h">
+      <Filter>Заголовочные файлы\Streamer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sampgdk\include\streamerlib.h">
+      <Filter>Заголовочные файлы\Streamer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -280,6 +325,42 @@
     </ClCompile>
     <ClCompile Include="moveDraw.cpp">
       <Filter>Файлы исходного кода\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Streamer\cell.cpp">
+      <Filter>Файлы исходного кода\Streamer</Filter>
+    </ClCompile>
+    <ClCompile Include="Streamer\core.cpp">
+      <Filter>Файлы исходного кода\Streamer</Filter>
+    </ClCompile>
+    <ClCompile Include="Streamer\data.cpp">
+      <Filter>Файлы исходного кода\Streamer</Filter>
+    </ClCompile>
+    <ClCompile Include="Streamer\events.cpp">
+      <Filter>Файлы исходного кода\Streamer</Filter>
+    </ClCompile>
+    <ClCompile Include="Streamer\grid.cpp">
+      <Filter>Файлы исходного кода\Streamer</Filter>
+    </ClCompile>
+    <ClCompile Include="Streamer\identifier.cpp">
+      <Filter>Файлы исходного кода\Streamer</Filter>
+    </ClCompile>
+    <ClCompile Include="Streamer\item.cpp">
+      <Filter>Файлы исходного кода\Streamer</Filter>
+    </ClCompile>
+    <ClCompile Include="Streamer\natives.cpp">
+      <Filter>Файлы исходного кода\Streamer</Filter>
+    </ClCompile>
+    <ClCompile Include="Streamer\player.cpp">
+      <Filter>Файлы исходного кода\Streamer</Filter>
+    </ClCompile>
+    <ClCompile Include="Streamer\streamer.cpp">
+      <Filter>Файлы исходного кода\Streamer</Filter>
+    </ClCompile>
+    <ClCompile Include="Streamer\utility.cpp">
+      <Filter>Файлы исходного кода\Streamer</Filter>
+    </ClCompile>
+    <ClCompile Include="Streamer\streamermain.cpp">
+      <Filter>Файлы исходного кода\Streamer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
