@@ -154,7 +154,7 @@ void Properties::Shops::ShopVehicle::preView(const int u)
 	}
 	//===================================================
 	SelectTextDraw(u, 0xA3B4C5FF);
-	Player[u].isAction = PlayerAction::ACTION_USERENT;
+	Player[u].isAction = PlayerAction::ACTION_AUTOSHOP;
 	vehicle[shop].Used = true;
 }
 
@@ -233,8 +233,6 @@ void Properties::Shops::ShopVehicle::endView(const int u)
 	TextDrawHideForPlayer(u, drawPlayerChar[ REG_LEFT ]);
 	TextDrawHideForPlayer(u, drawPlayerChar[ REG_SELECT ]);
 	TextDrawHideForPlayer(u, drawPlayerChar[ REG_RIGHT ]);
-
-
 	for (int i = 0; i < sizeof( vehicle[ shop ].Textdraw ); i++)
 	{
 		PlayerTextDrawDestroy(u, vehicle[ shop ].Textdraw[ i ]);
@@ -253,50 +251,53 @@ void Properties::Shops::ShopVehicle::onDLG(int u, int dialogid, int response, in
 	//----------------------------------------------------------------------
 	else if (dialogid == DLG_VEHICLE_PAY)
 	{
-		if (listitem == 0)					//Наличные
+		if(response)
 		{
-			using namespace Properties::Shops;
-			const int idx = Property[ Player[ u ].inIndex ].link;
-			const int item = 0;
-			if (cPlayer::checkMoney(u, -ShopVehicle::items[ idx ][ item ].Price))
+			if (listitem == 0)					//Наличные
 			{
-				eVehicle tmp;
-				//----------------------------------------------------
-				tmp.Owner = Player[ u ].pDB;
-				tmp.Model = ShopVehicle::items[ idx ][ item ].Model;
-				//----------------------------------------------------
-				tmp.posX = ShopVehicle::vehicle[ idx ].spawnX;
-				tmp.posY = ShopVehicle::vehicle[ idx ].spawnY;
-				tmp.posZ = ShopVehicle::vehicle[ idx ].spawnZ;
-				tmp.posR = ShopVehicle::vehicle[ idx ].spawnR;
-				tmp.Dist = tmp.posI = tmp.posW = 0;
-				//----------------------------------------------------
-				tmp.Boot = tmp.Bonnet = tmp.Locked = tmp.Light = tmp.Engine = false;
-				tmp.color1 = tmp.color2 = 0;
-				tmp.Heal = 1000.0f;
-				tmp.Fuel = 20.0f;
-				tmp.paint = -1;
-				//----------------------------------------------------
-				int veh = CreateVehicle(tmp.Model, tmp.posX, tmp.posY, tmp.posZ, tmp.posR, tmp.color1, tmp.color2, 500);
-				//----------------------------------------------------
-				strcpy(tmp.vNumber, "NONE");
-				//----------------------------------------------------
-				sprintf(query, "INSERT INTO world_Vehicles VALUES (NULL, '%d', '%d', '%f', '%f', '%f', '%f', '%d', '%d', '%d', '%d', '%d', '%f', '%f', '%f', '%s', '%d', '%d', '%d', '%d', '%d')",
-				tmp.Owner, tmp.Model, tmp.posX, tmp.posY, tmp.posZ, tmp.posR, tmp.posI, tmp.posW, tmp.color1, tmp.color1, tmp.paint, tmp.Heal, tmp.Fuel, tmp.Dist, tmp.vNumber, false, false, false, false, false);
-				logprintf(query);
-				//----------------------------------------------------
-				safe_query(con, query);
-				tmp.db = mysql_insert_id(con);
-				//----------------------------------------------------
-				world::Vehicles::Vehicle[ veh ] = tmp;
-				ShopVehicle::endView(u);
+				using namespace Properties::Shops;
+				const int idx = Property[ Player[ u ].inIndex ].link;
+				const int item = 0;
+				if (cPlayer::checkMoney(u, -ShopVehicle::items[ idx ][ item ].Price))
+				{
+					eVehicle tmp;
+					//----------------------------------------------------
+					tmp.Owner = Player[ u ].pDB;
+					tmp.Model = ShopVehicle::items[ idx ][ item ].Model;
+					//----------------------------------------------------
+					tmp.posX = ShopVehicle::vehicle[ idx ].spawnX;
+					tmp.posY = ShopVehicle::vehicle[ idx ].spawnY;
+					tmp.posZ = ShopVehicle::vehicle[ idx ].spawnZ;
+					tmp.posR = ShopVehicle::vehicle[ idx ].spawnR;
+					tmp.Dist = tmp.posI = tmp.posW = 0;
+					//----------------------------------------------------
+					tmp.Boot = tmp.Bonnet = tmp.Locked = tmp.Light = tmp.Engine = false;
+					tmp.color1 = tmp.color2 = 0;
+					tmp.Heal = 1000.0f;
+					tmp.Fuel = 20.0f;
+					tmp.paint = -1;
+					//----------------------------------------------------
+					int veh = CreateVehicle(tmp.Model, tmp.posX, tmp.posY, tmp.posZ, tmp.posR, tmp.color1, tmp.color2, 500);
+					//----------------------------------------------------
+					strcpy(tmp.vNumber, "NONE");
+					//----------------------------------------------------
+					sprintf(query, "INSERT INTO world_Vehicles VALUES (NULL, '%d', '%d', '%f', '%f', '%f', '%f', '%d', '%d', '%d', '%d', '%d', '%f', '%f', '%f', '%s', '%d', '%d', '%d', '%d', '%d')",
+					tmp.Owner, tmp.Model, tmp.posX, tmp.posY, tmp.posZ, tmp.posR, tmp.posI, tmp.posW, tmp.color1, tmp.color1, tmp.paint, tmp.Heal, tmp.Fuel, tmp.Dist, tmp.vNumber, false, false, false, false, false);
+					logprintf(query);
+					//----------------------------------------------------
+					safe_query(con, query);
+					tmp.db = mysql_insert_id(con);
+					//----------------------------------------------------
+					world::Vehicles::Vehicle[ veh ] = tmp;
+				}
+			}
+			//===========================================================================
+			else                                //Кредитка
+			{
+				SendClientMessage(u, -1, "Извините, но эта функция еще в разработке!");
 			}
 		}
-		//===========================================================================
-		else                                //Кредитка
-		{
-			SendClientMessage(u, -1, "Извините, но эта функция еще в разработке!");
-		}
+		ShopVehicle::endView(u);
 	}
 	//----------------------------------------------------------------------
 }
@@ -308,6 +309,7 @@ void Properties::Shops::ShopVehicle::onGUI(const int u, const int draw)
 	//----------------------------------------------------------------------
 	if (draw == INVALID_TEXT_DRAW)
 	{
+		SendClientMessage(u, -1, "Xyuua");
 		Properties::Shops::ShopVehicle::endView(u);
 	}
 	//----------------------------------------------------------------------			
@@ -319,8 +321,17 @@ void Properties::Shops::ShopVehicle::onGUI(const int u, const int draw)
 	else if (draw == drawPlayerChar[ REG_SELECT ])	//Выбрать
 	{
 		Player[ u ].isAction = PlayerAction::ACTION_AUTOSHOP;
+		const int idx = ShopVehicle::vehicle[ shop ].Item;
 		char msg[ sizeof( language::property::shop::vehicle::action_Buy )];
-		sprintf(msg, language::property::shop::vehicle::action_Buy, Player[ u ].uName, Player[ u ].sName);
+		sprintf
+		(
+			msg, 
+			language::property::shop::vehicle::action_Buy, 
+			Player[ u ].uName, 
+			Player[ u ].sName,
+			VehicleClass[ idx ].Name,
+			ShopVehicle::items[ shop ][ idx ].Price
+		);
 		ShowPlayerDialog(u, DLG_VEHICLE_BUY, GUI_MSG, language::property::shop::vehicle::header_Buy, msg, "Купить", "Назад");
 	}
 	else if (draw == drawPlayerChar[ REG_RIGHT ])	//Вперед

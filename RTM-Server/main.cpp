@@ -695,8 +695,8 @@ static void initTextDraws()
 	TextDrawSetSelectable(drawPlayerChar[ INVERTORY_BG ], 0);
 	//--------------------------------------------------------------------------------
 	//TODO: Server Name
-	drawPlayerChar[ HEADER_BG ] = TextDrawCreate(320.000000, 1.000000, "~w~West-RP ~p~[~w~west-rp.ru~p~]");
-	//drawPlayerChar[HEADER_BG] = TextDrawCreate(320.000000, 1.000000, "~w~World Of RPG ~p~[~w~worpg.ru~p~]");
+	//drawPlayerChar[ HEADER_BG ] = TextDrawCreate(320.000000, 1.000000, "~w~West-RP ~p~[~w~west-rp.ru~p~]");
+	drawPlayerChar[HEADER_BG] = TextDrawCreate(320.000000, 1.000000, "~w~World Of RPG ~p~[~w~worpg.ru~p~]");
 	TextDrawAlignment(drawPlayerChar[HEADER_BG], 2);
 	TextDrawBackgroundColor(drawPlayerChar[HEADER_BG], -1778346416);
 	TextDrawFont(drawPlayerChar[HEADER_BG], 1);

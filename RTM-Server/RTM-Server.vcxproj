@@ -134,6 +134,7 @@
     <ClInclude Include="cChat.h" />
     <ClInclude Include="cClass.h" />
     <ClInclude Include="cDialogs.h" />
+    <ClInclude Include="cDrawTut.h" />
     <ClInclude Include="cFactoryMetal.h" />
     <ClInclude Include="cFarmer.h" />
     <ClInclude Include="cFeller.h" />
@@ -184,6 +185,7 @@
     <ClCompile Include="cChat.cpp" />
     <ClCompile Include="cClass.cpp" />
     <ClCompile Include="cDialogs.cpp" />
+    <ClCompile Include="cDrawTut.cpp" />
     <ClCompile Include="cFactoryMetal.cpp" />
     <ClCompile Include="cFarmer.cpp" />
     <ClCompile Include="cFeller.cpp" />

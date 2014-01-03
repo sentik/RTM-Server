@@ -406,6 +406,8 @@ void cClass::keyGame(const int u)
 
 void cClass::updateKeyGame(const int u)
 {
+	keyGameMutex.lock();
+
 	int key;
 	int lr;
 	int ud;
@@ -436,4 +438,6 @@ void cClass::updateKeyGame(const int u)
 			Player[u].kgUD = 0;
 		}
 	}
+
+	keyGameMutex.unlock();
 }

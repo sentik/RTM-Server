@@ -43,6 +43,7 @@ void cPlayer::update()
 	TextDrawSetString(drawPlayerChar[HEADER_TIME], buffer);
 
 	mutexUpdate.unlock();
+
 	//-------------------------------------------------
 	for (int i = 0; i < 10; i++)
 	{
@@ -97,6 +98,22 @@ void cPlayer::update()
 
 		mutexUpdate.lock();
 
+		if ( extrimeDraws::tutorial::func::tutDraws.size() >= 1 )
+		{
+			for ( auto id = extrimeDraws::tutorial::func::tutDraws.begin(); id < extrimeDraws::tutorial::func::tutDraws.end(); ++id )
+			{
+				if ( id->closetime <= uTime && id->closetime > 0 )
+				{
+					PlayerTextDrawDestroy(id->player, id->draws.body);
+					PlayerTextDrawDestroy(id->player, id->draws.close);
+					PlayerTextDrawDestroy(id->player, id->draws.header);
+					PlayerTextDrawDestroy(id->player, id->draws.text);
+
+					id = extrimeDraws::tutorial::func::tutDraws.erase(id);
+				}
+			}
+		}
+
 		if (Player[ i ].isAction == PlayerAction::ACTION_FREZSETPOS)
 		{
 			Player[ i ].isAction = PlayerAction::ACTION_NONE;
@@ -121,7 +138,7 @@ void cPlayer::update()
 		if (isTen)
 		{
 			//==========================================
-			if (Player[ i ].isAction == PlayerAction::ACTION_USERENT)
+			if (Player[ i ].isAction == PlayerAction::ACTION_AUTOSHOP)
 			{
 				Properties::Shops::ShopVehicle::viewCam(i);
 			}

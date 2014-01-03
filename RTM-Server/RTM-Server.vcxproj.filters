@@ -231,6 +231,9 @@
     <ClInclude Include="..\..\sampgdk\include\streamerlib.h">
       <Filter>Заголовочные файлы\Streamer</Filter>
     </ClInclude>
+    <ClInclude Include="cDrawTut.h">
+      <Filter>Заголовочные файлы\gui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -361,6 +364,9 @@
     </ClCompile>
     <ClCompile Include="Streamer\streamermain.cpp">
       <Filter>Файлы исходного кода\Streamer</Filter>
+    </ClCompile>
+    <ClCompile Include="cDrawTut.cpp">
+      <Filter>Файлы исходного кода\gui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -112,4 +112,7 @@ void cObjects::removeObjects(const int playerid)
 	RemoveBuildingForPlayer(playerid, 791, -387.3672, -97.3594, 43.1797, 0.25);
 	RemoveBuildingForPlayer(playerid, 694, -439.1875, -19.9375, 58.0938, 0.25);
 	RemoveBuildingForPlayer(playerid, 791, -449.9375, 10.8359, 46.5391, 0.25);
+	//hospital ls
+	RemoveBuildingForPlayer(playerid, 5930, 1134.2500, -1338.0781, 23.1563, 0.25);
+	RemoveBuildingForPlayer(playerid, 5708, 1134.2500, -1338.0781, 23.1563, 0.25);
 }

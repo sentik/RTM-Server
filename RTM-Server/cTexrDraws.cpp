@@ -6,24 +6,23 @@ PLUGIN_EXPORT bool PLUGIN_CALL  OnPlayerClickTextDraw(const int u, const int dra
 	if (Player[u].isLogged)
 	{
 		//=========================================================================
-		if (Player[ u ].isAction == PlayerAction::ACTION_USERENT)	//Действия в AS
+		if (Player[ u ].isAction == PlayerAction::ACTION_AUTOSHOP)	//Действия в AS
 		{
 			Properties::Shops::ShopVehicle::onGUI(u, draw);
 		}
 		//=========================================================================
+		if ( draw == INVALID_TEXT_DRAW )
+		{
+			if ( Player[u].isAction == PlayerAction::ACTION_PREFELGAME )
+			{
+				SelectTextDraw(u, 0xB7FF00FF);
+			}
+		}
 		return 1;
 	}
 	//----------------------------------------------------------------------------------------------------------
 	if (Player[u].isAction == PlayerAction::ACTION_AUTH_PLAYER)		return 1;
 	//----------------------------------------------------------------------------------------------------------
-
-	if (draw == INVALID_TEXT_DRAW)
-	{
-		if (Player[u].isAction == PlayerAction::ACTION_PREFELGAME)
-		{
-			SelectTextDraw(u, 0xB7FF00FF);
-		}
-	}
 	else if (draw == drawPlayerChar[REG_LEFT])		//Назад
 	{
 		if (Player[u].pClass == 0) Player[u].pClass = MAX_CLASES - 1;
@@ -77,6 +76,21 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickPlayerTextDraw(const int u, const in
 		else if (Player[u].isAction == PlayerAction::ACTION_PREFELGAME || Player[u].isAction == PlayerAction::ACTION_FELGAME)
 		{
 			fProperty::cFeller::onGUI(u, draw);
+		}
+		else
+		{
+			for ( std::vector<eTutDraws>::iterator id = extrimeDraws::tutorial::func::tutDraws.begin(); id < extrimeDraws::tutorial::func::tutDraws.end(); ++id )
+			{
+				if ( id->draws.close == draw )
+				{
+					PlayerTextDrawDestroy(u, id->draws.body);
+					PlayerTextDrawDestroy(u, id->draws.close);
+					PlayerTextDrawDestroy(u, id->draws.header);
+					PlayerTextDrawDestroy(u, id->draws.text);
+
+					extrimeDraws::tutorial::func::tutDraws.erase(id);
+				}
+			}
 		}
 		//=========================================================
 		return 1;

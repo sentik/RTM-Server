@@ -387,14 +387,37 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 	{
 		if ( Admins::isAllow(playerid, 3) ) CMD::gethere(playerid, params);
 	}
-	/*else if ( strcmp("testtd", cmd) == 0 )
+	else if ( strcmp("testkg", cmd) == 0 )
 	{
 		std::thread(cClass::keyGame, playerid).detach();
-	}*/
+	}
 	else if ( strcmp("testtd", cmd) == 0 )
 	{
 		extrimeDraws::func::initDraw(playerid, 0);
 	}
+	else if ( strcmp("tutd", cmd) == 0 )
+	{
+		extrimeDraws::tutorial::func::showText(playerid, "cmd: /tutd", params, false, 0);
+	}
+	else if ( strcmp("tutd2", cmd) == 0 )
+	{
+		extrimeDraws::tutorial::func::showText(playerid, "cmd: /tutd2", params, true, 5);
+	}
+	/*else if ( strcmp("tutd2c", cmd) == 0 )
+	{
+		for ( auto id = extrimeDraws::tutorial::func::tutDraws.begin(); id < extrimeDraws::tutorial::func::tutDraws.end(); ++id )
+		{
+			if ( id->closetime <= uTime && id->closetime > 0 )
+			{
+				PlayerTextDrawDestroy(id->player, id->draws.body);
+				PlayerTextDrawDestroy(id->player, id->draws.close);
+				PlayerTextDrawDestroy(id->player, id->draws.header);
+				PlayerTextDrawDestroy(id->player, id->draws.text);
+
+				id = extrimeDraws::tutorial::func::tutDraws.erase(id);
+			}
+		}
+	}*/
 	else if ( strcmp("sethp", cmd) == 0 )
 	{
 		if ( Admins::isAllow(playerid, 3) ) CMD::set_hp(playerid, params);
