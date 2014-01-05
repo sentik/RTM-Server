@@ -102,14 +102,26 @@ void cPlayer::update()
 		{
 			for ( auto id = extrimeDraws::tutorial::func::tutDraws.begin(); id < extrimeDraws::tutorial::func::tutDraws.end(); ++id )
 			{
-				if ( id->closetime <= uTime && id->closetime > 0 )
+				if ( id->player == INVALID_PLAYER_ID )
 				{
-					PlayerTextDrawDestroy(id->player, id->draws.body);
-					PlayerTextDrawDestroy(id->player, id->draws.close);
-					PlayerTextDrawDestroy(id->player, id->draws.header);
-					PlayerTextDrawDestroy(id->player, id->draws.text);
+					TextDraw(id->draws.body).Destroy();
+					TextDraw(id->draws.close).Destroy();
+					TextDraw(id->draws.header).Destroy();
+					TextDraw(id->draws.text).Destroy();
 
-					id = extrimeDraws::tutorial::func::tutDraws.erase(id);
+					extrimeDraws::tutorial::func::tutDraws.erase(id);
+				}
+				else
+				{
+					if ( id->closetime <= uTime && id->closetime > 0 )
+					{
+						PlayerTextDrawDestroy(id->player, id->draws.body);
+						PlayerTextDrawDestroy(id->player, id->draws.close);
+						PlayerTextDrawDestroy(id->player, id->draws.header);
+						PlayerTextDrawDestroy(id->player, id->draws.text);
+
+						extrimeDraws::tutorial::func::tutDraws.erase(id);
+					}
 				}
 			}
 		}

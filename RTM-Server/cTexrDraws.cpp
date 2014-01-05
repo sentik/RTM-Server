@@ -18,6 +18,23 @@ PLUGIN_EXPORT bool PLUGIN_CALL  OnPlayerClickTextDraw(const int u, const int dra
 				SelectTextDraw(u, 0xB7FF00FF);
 			}
 		}
+		for ( std::vector<eTutDraws>::iterator id = extrimeDraws::tutorial::func::tutDraws.begin(); id < extrimeDraws::tutorial::func::tutDraws.end(); ++id )
+		{
+			if ( id->draws.close == draw )
+			{
+				TextDraw(id->draws.body).HideForPlayer(u);
+				TextDraw(id->draws.close).HideForPlayer(u);
+				TextDraw(id->draws.header).HideForPlayer(u);
+				TextDraw(id->draws.text).HideForPlayer(u);
+
+				id->countPlayers -= 1;
+
+				if ( id->countPlayers <= 0 )
+				{
+					extrimeDraws::tutorial::func::tutDraws.erase(id);
+				}
+			}
+		}
 		return 1;
 	}
 	//----------------------------------------------------------------------------------------------------------
