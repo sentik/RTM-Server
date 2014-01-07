@@ -116,6 +116,24 @@ void CMD::setint(int playerid, char* params)
 	else SendClientMessage(playerid, -1, "Используйте: /setint [ид игрока] [ид интерьера]");
 }
 
+void CMD::givegun(const int u, const char * params)
+{
+	int id, weapon, ammo = 50;
+	if ( sscanf(params, "%d %d %d", &id, &weapon, &ammo) >= 2 )
+	{
+		if ( IsPlayerConnected(id) )
+		{
+			if ( Player[id].isLogged )
+			{
+				GivePlayerWeapon(id, weapon, ammo);
+			}
+			else SendClientMessage(u, -1, "{FF0000}Ошибка: {FFFFFF}игрок не авторизован");
+		}
+		else SendClientMessage(u, -1, "{FF0000}Ошибка: {FFFFFF}игрок не найден");
+	}
+	else SendClientMessage(u, -1, "Используйте: /givegun [ид игрока] [ид оружия] (опционально [патроны])");
+}
+
 void CMD::setworld(int playerid, char* params)
 {
 	int target = 0, value = 0;
@@ -345,6 +363,10 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cm
 	else if (strcmp("me", cmd) == 0)
 	{
 		CMD::me(playerid, params);
+	}
+	else if ( strcmp("givegun", cmd) == 0 )
+	{
+		if ( Admins::isAllow(playerid, 4) ) CMD::givegun(playerid, params);
 	}
 	/*else if (strcmp("do", cmd) == 0)
 	{

@@ -42,8 +42,8 @@ namespace cPlayer
 	void setCharHealth(const int, const float);
 	void setCharArmour(const int, const float);
 	void updateHealthBar(const int);
-	void onPlayerGiveDamage(const int, const int, const float, const unsigned char);
-	void onPlayerTakeDamage(const int, const int, const float, const unsigned char);
+	void onPlayerGiveDamage(const int, const int, const float, const int);
+	void onPlayerTakeDamage(const int, const int, const float, const int);
 	int getDeathType(int);
 }
 

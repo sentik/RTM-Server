@@ -12,6 +12,8 @@ EXPORTS
 	OnGameModeInit
 	OnPlayerConnect
 	OnDialogResponse
+	OnPlayerTakeDamage
+	OnPlayerGiveDamage
 	OnPlayerDisconnect
 	OnPlayerStateChange
 	OnPlayerCommandText
@@ -27,5 +29,3 @@ EXPORTS
 	OnPlayerEnterRaceCheckpoint
 	OnPlayerLeaveRaceCheckpoint
 	OnPlayerDeath
-	OnPlayerTakeDamage
-	OnPlayerGiveDamage

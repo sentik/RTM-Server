@@ -23,6 +23,7 @@ class CMD
 	static void dotry(int, char*);
 	static void set_hp(const int, const char *);
 	static void gethere(const int, const char *);
+	static void givegun(const int, const char *);
 	
 };
 

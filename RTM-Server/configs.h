@@ -4,16 +4,16 @@
 
 
 /*----------------- MYSQL Connector -----------------*/
-
+/*
 #define		MYSQL_HOST					"127.0.0.1"
 #define		MYSQL_BASE					"samp"
 #define		MYSQL_USER					"root"
 #define 	MYSQL_PASS					""
-/*
-#define		MYSQL_HOST					"server48.hosting.reg.ru"
-#define		MYSQL_BASE					"u7301517_samp"
-#define		MYSQL_USER					"u7301517_dev"
-#define 	MYSQL_PASS					"dev1488"*/
+*/
+#define		MYSQL_HOST					"194.58.91.44"
+#define		MYSQL_BASE					"u4599606_samp"
+#define		MYSQL_USER					"u4599606_dev"
+#define 	MYSQL_PASS					"dev1488"
 
 /*----------------- MYSQL Connector -----------------*/
 

@@ -212,7 +212,9 @@ namespace extrimeDraws
 					TextDraw(tutDraws.at(number).draws.text).Destroy();
 				}
 
-				tutDraws.erase(tutDraws.begin + number);
+				std::vector<eTutDraws>::iterator it = tutDraws.begin();
+				std::advance(it, number);
+				tutDraws.erase(it);
 				return true;
 			}
 			return false;
