@@ -182,7 +182,6 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData)
 //-------------------------------------------------------------------------------------------
 PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 {
-
 	//"demo"( );
 	Properties::Shops::ShopVehicle::loadShop();
 	Jobs::Miner::cMiner::loadMiner();
@@ -269,7 +268,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerConnect(int playerid)
 			GangZoneShowForPlayer(playerid, Properties::Farms::Farm[ i ].zome, 0x00ff6c96);
 		}
 		StreamerCall::Events::OnPlayerConnect(playerid);
-		Player[ playerid ].pBar = StreamerCall::Native::CreateDynamic3DTextLabel(" ", -1, 0.0f, 0.0f, 0.13f, 20.0f, playerid);
+		Player[ playerid ].xuita.pBar = StreamerCall::Native::CreateDynamic3DTextLabel(" ", -1, 0.0f, 0.0f, 0.13f, 20.0f, playerid);
 		cObjects::removeObjects(playerid);
 		cPlayer::PreloadAnimLib(playerid);
 	}
@@ -291,8 +290,8 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerText(int u, const char *text)
 
 PLUGIN_EXPORT bool PLUGIN_CALL  OnPlayerDeath(int playerid, int killerid, int reason)
 {
-	Player[ playerid ].isAction = PlayerAction::ACTION_Death;
-	Player[playerid].reason = reason;
+	Player[ playerid ].status.action = PlayerAction::ACTION_Death;
+	Player[playerid].xuita.reason = reason;
 	//-------------------------------------
 	return false;
 }
@@ -313,7 +312,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerGiveDamage(int playerid, int damagedid, f
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerDisconnect(int playerid, int reason)
 {
 	Player[playerid].isLogged = false;
-	StreamerCall::Native::DestroyDynamic3DTextLabel(Player[playerid].pBar);
+	StreamerCall::Native::DestroyDynamic3DTextLabel(Player[playerid].xuita.pBar);
 	StreamerCall::Events::OnPlayerDisconnect(playerid, reason);
 	Player[playerid] = pInfo();
 	return true;
@@ -325,50 +324,50 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSpawn(int playerid)
 	{
 		cPlayer::setClassSkin(playerid);
 		//-------------------------------------------------------
-		if(Player[ playerid ].isAction == PlayerAction::ACTION_Death)
+		if(Player[ playerid ].status.action == PlayerAction::ACTION_Death)
 		{
-			Player[playerid].belay = 0;
-			if(Player[playerid].belay != -1)
+			Player[playerid].xuita.belay = 0;
+			if(Player[playerid].xuita.belay != -1)
 			{
 				Properties::Belays::purchase(playerid);
 			}
-			Player[ playerid ].pPosX = 1170.984f;
-			Player[ playerid ].pPosY = -1323.432f;
-			Player[ playerid ].pPosZ = 15.298f;
-			Player[ playerid ].pPosI = 0;
-			Player[ playerid ].pPosW = 0;
+			Player[ playerid ].pos.x = 1170.984f;
+			Player[ playerid ].pos.y = -1323.432f;
+			Player[ playerid ].pos.z = 15.298f;
+			Player[ playerid ].pos.interior = 0;
+			Player[ playerid ].pos.world = 0;
 		}
-		Player[ playerid ].isAction = PlayerAction::ACTION_NONE;
-		if(Player[playerid].AC.Health < 5) Player[playerid].AC.Health = 5;
+		Player[ playerid ].status.action = PlayerAction::ACTION_NONE;
+		if(Player[playerid].status.Health < 5) Player[playerid].status.Health = 5;
 		//-------------------------------------------------------
-		cPlayer::setCharHealth(playerid, Player[playerid].AC.Health);
+		cPlayer::setCharHealth(playerid, Player[playerid].status.Health);
 		//-------------------------------------------------------
-		SetPlayerInterior(playerid, Player[playerid].pPosI);
-		SetPlayerVirtualWorld(playerid, Player[playerid].pPosW);
+		SetPlayerInterior(playerid, Player[playerid].pos.interior);
+		SetPlayerVirtualWorld(playerid, Player[playerid].pos.world);
 		//-------------------------------------------------------
 		cPlayer::setCharPos
 		(
 			playerid,
-			Player[playerid].pPosX,
-			Player[playerid].pPosY,
-			Player[playerid].pPosZ,
+			Player[playerid].pos.x,
+			Player[playerid].pos.y,
+			Player[playerid].pos.z,
 			true
 		);
 		//-------------------------------------------------------
 		StreamerCall::Native::UpdateEx
 		(
 			playerid,
-			Player[playerid].pPosX,
-			Player[playerid].pPosY,
-			Player[playerid].pPosZ,
-			Player[playerid].pPosI,
-			Player[playerid].pPosW
+			Player[playerid].pos.x,
+			Player[playerid].pos.y,
+			Player[playerid].pos.z,
+			Player[playerid].pos.interior,
+			Player[playerid].pos.world
 		);
 		//-------------------------------------------------------
-		SetPlayerFacingAngle(playerid, Player[playerid].pPosR);
+		SetPlayerFacingAngle(playerid, Player[playerid].pos.r);
 		//-------------------------------------------------------
 		cPlayer::updateMoney(playerid);
-		PlayerTextDrawShow(playerid, Player[playerid].tCents);
+		PlayerTextDrawShow(playerid, Player[playerid].draws.money);
 		TextDrawShowForPlayer(playerid, drawPlayerChar[HEADER_BG]);
 		TextDrawShowForPlayer(playerid, drawPlayerChar[HEADER_TIME]);
 		cPlayer::updateHealthBar(playerid);
@@ -386,11 +385,11 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerUpdate(int playerid)
 	if (Player[ playerid ].isLogged)
 	{
 		uCount++;
-		if (Player[playerid].pState == PLAYER_STATE_DRIVER)
+		if (Player[playerid].status.state == PLAYER_STATE_DRIVER)
 		{
 			world::Vehicles::updateSpeed(playerid);
 		}
-		else if ( Player[playerid].isKeyGame == true )
+		else if ( Player[playerid].xuita.isKeyGame == true )
 		{
 			cClass::updateKeyGame(playerid);
 		}
@@ -398,7 +397,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerUpdate(int playerid)
 		if(uCount > 10)
 		{
 			mutexStreamPlayer.lock();
-			StreamerCall::Native::Update(playerid);
+			StreamerCall::Native::UpdateEx(playerid, Player[playerid].pos.x, Player[playerid].pos.y, Player[playerid].pos.z, Player[playerid].pos.interior, Player[playerid].pos.world);
 			uCount = 0;
 			mutexStreamPlayer.unlock();
 		}

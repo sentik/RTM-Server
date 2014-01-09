@@ -84,14 +84,94 @@ public:
 
 int extern drawPlayerChar[20];
 
-struct sAC
+struct pInfoGeneral
 {
-	float	Health;
-	float	Armour;
+	int		db;
+	int		exp;
+	double	money;
+	int		clas;
+};
+
+struct pInfoPosition
+{
+	float	x;
+	float	y;
+	float	z;
+	float	r;
+	int		interior;
+	int		world;
+};
+
+struct pInfoNames
+{
+	char	uName[16];
+	char	sName[16];
+	char	login[16];
+	char	pass[16];
+	char	date[10];
+};
+
+struct pInfoStats
+{
+	unsigned char	action;
+	unsigned char	seatid;
+	unsigned char	state;
+	int				vehicle;
+	int				inType;
+	int				inIndex;
+	float			Health;
+	float			Armour;
+};
+
+struct pInfoDraws
+{
+	unsigned char	money;
+	unsigned char	tempDraws[24];
+	unsigned char	spdSpeed;			
+	unsigned char	spdState;			
+	unsigned char	spdTitle;			
+	unsigned char	spdFuel;			
+	unsigned char	spdMilage;			
+};
+
+struct pInfoEtc
+{
+	int		belay;
+	//--------------------------------------
+	unsigned char	memType;			//Тип банды/ мафии/ 
+	int		memIndex;			//Ид банды/ мафии/
+	//Miner
+	int		aMinerA;
+	int		aMinerB;
+	//Skills, разфасуешь...
+	int		jSkills[3];
+	//Money draw
+	int		tCents;
+	// 3dtext hpbar & name
+	int		pBar;
+	//Jobs
+	unsigned char	pJob1;
+	unsigned char	pJob2;
+	float	minerZP;
+	//for mini-game
+	bool	isKeyGame;
+	unsigned char	kgUD;
+	unsigned char	kgLR;
+	int		pDraw;
+	int reason;
 };
 
 struct  pInfo
 {
+	pInfoGeneral		base;
+	pInfoPosition		pos;
+	pInfoNames			strings;
+	pInfoStats			status;
+	pInfoDraws			draws;
+	bool				isLogged;
+	//	НЕ РАСОРТИРОВАНО
+	pInfoEtc			xuita;
+	/*
 	int		pDB;				//Ид		игрока
 	int		pExp;				//Прогресс	игрока
 	char	uName[16];			//Имя		игрока
@@ -101,18 +181,18 @@ struct  pInfo
 	char	pDate[10];			//Дата		игрока
 	double	pMoney;				//Наличные	игрока
 	int		pClass;				//Класс		игрока
-	float	pPosX;				//Позиция	игрока X
-	float	pPosY;				//Позиция	игрока Y
-	float	pPosZ;				//Позиция	игрока Z
-	float	pPosR;				//Позиция	игрока A
-	int		pPosW;				//Позиция	игрока World
-	int		pPosI;				//Позиция	игрока Interior
+	float	pos.x;				//Позиция	игрока X
+	float	pos.y;				//Позиция	игрока Y
+	float	pos.z;				//Позиция	игрока Z
+	float	pos.r;				//Позиция	игрока A
+	int		pos.world;				//Позиция	игрока World
+	int		pos.interior;				//Позиция	игрока Interior
 	bool	isLogged;			//Авторизов игрок?
-	unsigned char	isAction;			//Действие	игрока
+	unsigned char	status.action;			//Действие	игрока
 	int	pCarid;				//Ид		транспорта
 	unsigned char	pSeatid;			//Ид		места в транспорте
 	unsigned char	pState;				//Состаяние	игрока
-	int		inType;
+	int		status.inType;
 	int		inIndex;
 	int		belay;
 	//--------------------------------------
@@ -146,7 +226,8 @@ struct  pInfo
 	int		spdTitle;			//TextDraw
 	int		spdFuel;			//TextDraw
 	int		spdMilage;			//TextDraw
-	int		minerDraw[20];		//TextDraws miner
+	int		draws.tempDraws[20];		//TextDraws miner
+	*/
 };
 //TODO: Структура игрока
 struct pInfo extern Player[MAX_PLAYERS];

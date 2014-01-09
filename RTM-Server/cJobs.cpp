@@ -32,7 +32,7 @@ void cPlayer::Jobs::cJobs::showDLG(const int u)
 	dialogs::genDLGItem(1, "Уволится", msg, "FFAF00");
 	dialogs::genDLGItem(2, "Список работ", msg, "FFAF00");
 	ShowPlayerDialog(u, DLG_JOB_MAIN, GUI_LIST, "Биржа труда", msg, language::dialogs::buttons::btnSelect, language::dialogs::buttons::btnClose);
-	Player[u].isAction = PlayerAction::ACTION_USEJOBSDLG;
+	Player[u].status.action = PlayerAction::ACTION_USEJOBSDLG;
 }
 
 void cPlayer::Jobs::cJobs::onDLG(const int u, const int dialogid, const int response, const int listitem, const char * inputtext)
@@ -62,7 +62,7 @@ void cPlayer::Jobs::cJobs::onDLG(const int u, const int dialogid, const int resp
 			}
 			else
 			{
-				Player[u].isAction = PlayerAction::ACTION_NONE;
+				Player[u].status.action = PlayerAction::ACTION_NONE;
 			}
 			break;
 		}

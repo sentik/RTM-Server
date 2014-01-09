@@ -6,14 +6,14 @@ PLUGIN_EXPORT bool PLUGIN_CALL  OnPlayerClickTextDraw(const int u, const int dra
 	if (Player[u].isLogged)
 	{
 		//=========================================================================
-		if (Player[ u ].isAction == PlayerAction::ACTION_AUTOSHOP)	//Действия в AS
+		if (Player[ u ].status.action == PlayerAction::ACTION_AUTOSHOP)	//Действия в AS
 		{
 			Properties::Shops::ShopVehicle::onGUI(u, draw);
 		}
 		//=========================================================================
 		if ( draw == INVALID_TEXT_DRAW )
 		{
-			if ( Player[u].isAction == PlayerAction::ACTION_PREFELGAME )
+			if ( Player[u].status.action == PlayerAction::ACTION_PREFELGAME )
 			{
 				SelectTextDraw(u, 0xB7FF00FF);
 			}
@@ -38,7 +38,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL  OnPlayerClickTextDraw(const int u, const int dra
 		return 1;
 	}
 	//----------------------------------------------------------------------------------------------------------
-	if (Player[u].isAction == PlayerAction::ACTION_AUTH_PLAYER)		return 1;
+	if (Player[u].status.action == PlayerAction::ACTION_AUTH_PLAYER)		return 1;
 	//----------------------------------------------------------------------------------------------------------
 	else if (draw == drawPlayerChar[REG_LEFT])		//Назад
 	{
@@ -60,7 +60,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL  OnPlayerClickTextDraw(const int u, const int dra
 		cPlayer::setCharInterior(u, REG_SPAWN_INT);
 		cPlayer::setCharWorld(u, REG_SPAWN_WOR);
 
-		Player[ u ].isAction = PlayerAction::ACTION_NONE;
+		Player[ u ].status.action = PlayerAction::ACTION_NONE;
 
 		dialogs::showDLGEnterName(u);
 
@@ -86,11 +86,11 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickPlayerTextDraw(const int u, const in
 	if (Player[u].isLogged)
 	{
 		//=========================================================
-		if (Player[ u ].isAction == PlayerAction::ACTION_MINERGAME)
+		if (Player[ u ].status.action == PlayerAction::ACTION_MINERGAME)
 		{
 			Jobs::Miner::cMiner::onGUI(u, draw);
 		}
-		else if (Player[u].isAction == PlayerAction::ACTION_PREFELGAME || Player[u].isAction == PlayerAction::ACTION_FELGAME)
+		else if (Player[u].status.action == PlayerAction::ACTION_PREFELGAME || Player[u].status.action == PlayerAction::ACTION_FELGAME)
 		{
 			fProperty::cFeller::onGUI(u, draw);
 		}
@@ -124,7 +124,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickPlayerTextDraw(const int u, const in
 			cPlayer::loadPlayerChar(u, PlayerChar[ u ][ i ].pDB);
 			cPlayer::unloadChars(u);
 			//================================
-			Player[ u ].isAction = PlayerAction::ACTION_NONE;
+			Player[ u ].status.action = PlayerAction::ACTION_NONE;
 			Player[ u ].isLogged = true;
 			//================================
 			cPlayer::SpawnChar(u);

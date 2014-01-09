@@ -186,13 +186,13 @@ void cBanks::actStuff(int u)
 	dialogs::genDLGItem(3, "Название", msg);
 	dialogs::genDLGItem(4, "Финансы", msg);
 	ShowPlayerDialog(u, DLG_BANKOWNER_MAIN, GUI_LIST, "[Банк]: Управление", msg, language::dialogs::buttons::btnSelect, language::dialogs::buttons::btnClose);
-	Player[u].isAction = PlayerAction::ACTION_BANKBILL;
+	Player[u].status.action = PlayerAction::ACTION_BANKBILL;
 }
 
 void cBanks::actBill(int u)
 {
 	char msg[ 300 ] = "";
-	Player[ u ].isAction = PlayerAction::ACTION_BANKBILL;
+	Player[ u ].status.action = PlayerAction::ACTION_BANKBILL;
 	dialogs::genDLGItem(1, "Информация о процентах", msg);
 	dialogs::genDLGItem(2, "Управление счетами", msg);
 	dialogs::genDLGItem(3, "Завести счет", msg);
@@ -267,7 +267,7 @@ void cBanks::onDLG(int u, int dialogid, int response, int listitem, const char* 
 			}
 			else
 			{
-				Player[u].isAction = PlayerAction::ACTION_NONE;
+				Player[u].status.action = PlayerAction::ACTION_NONE;
 			}
 			break;
 		}
@@ -319,7 +319,7 @@ goto case_make;
 					{
 						if (listitem == idx)
 						{						
-							Player[u].inType = atoi(row[0]);
+							Player[u].status.inType = atoi(row[0]);
 							Player[u].aMinerA = atoi(row[1]);
 							cBanks::accMenu(u);
 							break;
@@ -331,7 +331,7 @@ goto case_make;
 					}
 					mysql_free_result(res);
 	case_entercode:
-					sprintf(msg, language::property::bank::enterCode, Player[u].inType);
+					sprintf(msg, language::property::bank::enterCode, Player[u].status.inType);
 					ShowPlayerDialog(u, DLG_BANK_SELECTPASS, GUI_INPUT, Bank[l].title, msg, language::dialogs::buttons::btnNext, language::dialogs::buttons::btnBack);
 				}
 			}
@@ -376,12 +376,12 @@ goto case_numbers;
 					MYSQL_ROW row;
 					MYSQL_RES *res;
 
-					sprintf(msg, "SELECT status,balance,stamp FROM bank_Accounts WHERE id = %d LIMIT 1", Player[u].inType);
+					sprintf(msg, "SELECT status,balance,stamp FROM bank_Accounts WHERE id = %d LIMIT 1", Player[u].status.inType);
 					safe_query(con, msg);
 					res = mysql_store_result(con);
 					row = mysql_fetch_row(res);
 
-					sprintf(msg, "{FFFFFF}Номер счёта: {84ecff}%d\n{FFFFFF}Статус: {84ecff}%d\n{FFFFFF}Баланс: {84ecff}%.2f$\n{FFFFFF}Штамп открытия: {84ecff}%s", Player[u].inType, atoi(row[0]), atof(row[1]), row[2]);
+					sprintf(msg, "{FFFFFF}Номер счёта: {84ecff}%d\n{FFFFFF}Статус: {84ecff}%d\n{FFFFFF}Баланс: {84ecff}%.2f$\n{FFFFFF}Штамп открытия: {84ecff}%s", Player[u].status.inType, atoi(row[0]), atof(row[1]), row[2]);
 
 					mysql_free_result(res);
 					ShowPlayerDialog(u, DLG_BANK_EMTY2, GUI_MSG, Bank[l].title, msg, language::dialogs::buttons::btnBack, "");
@@ -396,7 +396,7 @@ goto case_numbers;
 				{
 	case_take:
 					double value;
-					cBanks::getBalance(Player[u].inType, &value);
+					cBanks::getBalance(Player[u].status.inType, &value);
 					sprintf(msg, "{FFFFFF}Введите сумму которую хотите обналичить.\nТекущей баланс: {84ecff}%.2f$", value);
 					ShowPlayerDialog(u, DLG_BANK_TAKE, GUI_INPUT, Bank[l].title, msg, language::dialogs::buttons::btnDone, language::dialogs::buttons::btnBack);
 				}
@@ -404,7 +404,7 @@ goto case_numbers;
 				{
 	case_trans:
 					double value;
-					cBanks::getBalance(Player[u].inType, &value);
+					cBanks::getBalance(Player[u].status.inType, &value);
 					sprintf(msg, language::property::bank::startTransfer, value);
 					ShowPlayerDialog(u, DLG_BANK_TRANS, GUI_INPUT, Bank[l].title, msg, language::dialogs::buttons::btnDone, language::dialogs::buttons::btnBack);
 				}
@@ -426,14 +426,14 @@ goto case_numbers;
 			{
 				double value;
 				const double sourceValue = atof(inputtext);
-				cBanks::getBalance(Player[u].inType, &value);
+				cBanks::getBalance(Player[u].status.inType, &value);
 				if (sourceValue > 0 && sourceValue <= value)
 				{
 					const float percent = (sourceValue / 100) * Bank[l].pay;
 					const float afterValue = sourceValue - percent;
 					Bank[l].fond += percent;
 					cPlayer::givePlayerMoney(u, afterValue);
-					cBanks::giveBalance(Player[u].inType, -sourceValue);
+					cBanks::giveBalance(Player[u].status.inType, -sourceValue);
 					sprintf(msg, language::property::bank::afterTake, afterValue, percent);
 					ShowPlayerDialog(u, DLG_BANK_EMTY2, GUI_MSG, Bank[l].title, msg, language::dialogs::buttons::btnOK, "");
 				}
@@ -456,7 +456,7 @@ goto case_take;
 				if (Player[u].pMoney >= payValue && payValue > 0)
 				{
 					cPlayer::givePlayerMoney(u, -payValue);
-					cBanks::giveBalance(Player[u].inType, payValue);
+					cBanks::giveBalance(Player[u].status.inType, payValue);
 					sprintf(msg, language::property::bank::afterPay, payValue);
 					ShowPlayerDialog(u, DLG_BANK_EMTY2, GUI_MSG, Bank[l].title, msg, language::dialogs::buttons::btnOK, "");
 				}
@@ -480,13 +480,13 @@ goto case_pay;
 				if (sscanf(inputtext, "%lf %d", &transValue, &number) == 2)
 				{
 					double value;
-					cBanks::getBalance(Player[u].inType, &value);
+					cBanks::getBalance(Player[u].status.inType, &value);
 					if (transValue >= value && transValue > 0)
 					{
 						const float percent = (transValue / 100) * Bank[l].send;
 						const float afterValue = transValue - percent;
 						Bank[l].fond += percent;
-						cBanks::giveBalance(Player[u].inType, -afterValue);
+						cBanks::giveBalance(Player[u].status.inType, -afterValue);
 						cBanks::giveBalance(number, afterValue);
 						sprintf(msg, language::property::bank::afterTransfer, afterValue, percent);
 						ShowPlayerDialog(u, DLG_BANK_EMTY2, GUI_MSG, Bank[l].title, msg, language::dialogs::buttons::btnOK, "");
@@ -538,7 +538,7 @@ goto case_trans;
 			}
 			else
 			{
-				Player[u].isAction = PlayerAction::ACTION_NONE;
+				Player[u].status.action = PlayerAction::ACTION_NONE;
 			}
 			break;
 		}

@@ -90,7 +90,7 @@ namespace world
 					);
 					//--------------------------------------------------
 				}
-				else Player[u].isAction = PlayerAction::ACTION_NONE;
+				else Player[u].status.action = PlayerAction::ACTION_NONE;
 			}
 			//==========================================================
 			else if (dialogid == DLG_GANG_MAKE_NAME)
@@ -224,7 +224,7 @@ namespace world
 			dialogs::genDLGItem(2, "Список членов банды", msg);
 			dialogs::genDLGItem(3, "Управление рангами", msg);
 			dialogs::genDLGItem(4, "Управление бандой", msg);
-			Player[ u ].isAction = PlayerAction::ACTION_GANG_MAKE;
+			Player[ u ].status.action = PlayerAction::ACTION_GANG_MAKE;
 			ShowPlayerDialog(u, DLG_GANG_OWNER_MAIN, GUI_LIST, "[Меню банды] Информация", msg, language::dialogs::buttons::btnNext, "Отмена");
 		}
 		//----------------------------------

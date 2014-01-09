@@ -223,10 +223,10 @@ namespace language
 			const char actionThree[ 96 ]	= "Вы добыли: {B700FF}%d {FFFFFF}грамм меди, всего {B700FF}%d{FFFFFF} грамм";
 			const char actionFour[ 96 ]		= "Вы добыли: {B700FF}%d {FFFFFF}грамм золота, всего {B700FF}%d{FFFFFF} грамм";
 			//----------------------------------------------------------------------------
-			const char disActionOne[ 96 ]	= "Вы уронили:{FF0000} %d {FFFFFF}грамм железа, всего {FF0000}%d{FFFFFF} грамм";
-			const char disActionTwo[ 96 ]	= "Вы уронили:{FF0000} %d {FFFFFF}грамм серебра, всего {FF0000}%d{FFFFFF} грамм";
-			const char disActionThree[ 96 ] = "Вы уронили:{FF0000} %d {FFFFFF}грамм меди, всего {FF0000}%d{FFFFFF} грамм";
-			const char disActionFour[ 96 ]	= "Вы уронили:{FF0000} %d {FFFFFF}грамм золота, всего {FF0000}%d{FFFFFF} грамм";
+			const char actionOne[ 96 ]	= "Вы уронили:{FF0000} %d {FFFFFF}грамм железа, всего {FF0000}%d{FFFFFF} грамм";
+			const char actionTwo[ 96 ]	= "Вы уронили:{FF0000} %d {FFFFFF}грамм серебра, всего {FF0000}%d{FFFFFF} грамм";
+			const char actionThree[ 96 ] = "Вы уронили:{FF0000} %d {FFFFFF}грамм меди, всего {FF0000}%d{FFFFFF} грамм";
+			const char actionFour[ 96 ]	= "Вы уронили:{FF0000} %d {FFFFFF}грамм золота, всего {FF0000}%d{FFFFFF} грамм";
 			//----------------------------------------------------------------------------
 			const char otherAction[32]		= "Вы добыли: {FFAF00}воздух";
 			//----------------------------------------------------------------------------

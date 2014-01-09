@@ -3,7 +3,7 @@ using namespace world::Players;
 
 void CMD::makegang(int playerid, char* params)
 {
-	Player[ playerid ].isAction = PlayerAction::ACTION_GANG_MAKE;
+	Player[ playerid ].status.action = PlayerAction::ACTION_GANG_MAKE;
 	ShowPlayerDialog
 	(
 		playerid, 
@@ -28,9 +28,9 @@ void CMD::veh(int playerid, char* params)
 	{
 		if ( model >= 400 && model <= 611 )
 		{
-			GetPlayerPos(playerid, &Player[ playerid ].pPosX, &Player[ playerid ].pPosY, &Player[ playerid ].pPosZ);
-			GetPlayerFacingAngle(playerid, &Player[ playerid ].pPosR);
-			int veh = world::Vehicles::sCreateVehicle(model, Player[playerid].pPosX, Player[playerid].pPosY, Player[playerid].pPosZ, Player[playerid].pPosR, cone, ctwo, -1);
+			GetPlayerPos(playerid, &Player[ playerid ].pos.x, &Player[ playerid ].pos.y, &Player[ playerid ].pos.z);
+			GetPlayerFacingAngle(playerid, &Player[ playerid ].pos.r);
+			int veh = world::Vehicles::sCreateVehicle(model, Player[playerid].pos.x, Player[playerid].pos.y, Player[playerid].pos.z, Player[playerid].pos.r, cone, ctwo, -1);
 			//-------------------------------------------------------------------
 			SetVehicleParamsEx(veh, true, true, false, false, false, false, false);
 			world::Vehicles::Vehicle[ veh ].Engine = true;
@@ -64,15 +64,15 @@ void CMD::addproperty(int playerid, char* params)
 	int target = 0, price = 0;
 	if (sscanf(params, "%d %d", &target, &price) == 2)
 	{
-		GetPlayerPos(playerid, &Player[ playerid ].pPosX, &Player[ playerid ].pPosY, &Player[ playerid ].pPosZ);
+		GetPlayerPos(playerid, &Player[ playerid ].pos.x, &Player[ playerid ].pos.y, &Player[ playerid ].pos.z);
 		if (target == PropertyType::prHouse)
-			cHouses::create(price, Player[ playerid ].pPosX, Player[ playerid ].pPosY, Player[ playerid ].pPosZ);
+			cHouses::create(price, Player[ playerid ].pos.x, Player[ playerid ].pos.y, Player[ playerid ].pos.z);
 		else if (target == PropertyType::prBank)
-			cBanks::create(price, Player[ playerid ].pPosX, Player[ playerid ].pPosY, Player[ playerid ].pPosZ);
+			cBanks::create(price, Player[playerid].pos.x, Player[playerid].pos.y, Player[playerid].pos.z);
 		else if (target == PropertyType::prBelays)
-			Properties::Belays::create(price, Player[ playerid ].pPosX, Player[ playerid ].pPosY, Player[ playerid ].pPosZ);	
+			Properties::Belays::create(price, Player[playerid].pos.x, Player[playerid].pos.y, Player[playerid].pos.z);
 		/*if (target == PropertyType::prAutosalon)
-		Properties::Shops::ShopVehicle::create(price, Player[ playerid ].pPosX, Player[ playerid ].pPosY, Player[ playerid ].pPosZ);
+		Properties::Shops::ShopVehicle::create(price, Player[ playerid ].pos.x, Player[ playerid ].pos.y, Player[ playerid ].pos.z);
 		*/
 	}
 	else SendClientMessage(playerid, -1, "Используйте: /setint [ид игрока] [ид вирт. мир]");
@@ -168,7 +168,7 @@ void CMD::cmd_goto(int playerid, char* params)
 	if (sscanf(params, "%d", &target))
 	{
 		cPlayer::getPlayerPos(target);
-		cPlayer::setCharPos(playerid, Player[ target ].pPosX, Player[ target ].pPosY, Player[ target ].pPosZ, true);
+		cPlayer::setCharPos(playerid, Player[ target ].pos.x, Player[ target ].pos.y, Player[ target ].pos.z, true);
 		//===========================================================================================================
 		sprintf(msg, "Вы телепортировались к игроку [ид: %d]", target), SendClientMessage(playerid, -1, msg);
 		sprintf(msg, "Администратор %d телепортировался к вам.", playerid), SendClientMessage(target, -1, msg);
@@ -177,7 +177,7 @@ void CMD::cmd_goto(int playerid, char* params)
 	else if (sscanf(params, "%d %d", &subidx, &target))
 	{
 		cPlayer::getPlayerPos(target);
-		cPlayer::setCharPos(subidx, Player[ target ].pPosX, Player[ target ].pPosY, Player[ target ].pPosZ, true);
+		cPlayer::setCharPos(subidx, Player[ target ].pos.x, Player[ target ].pos.y, Player[ target ].pos.z, true);
 		//===========================================================================================================
 		sprintf(msg, "Вы телепортировались к игроку [ид: %d]", target), SendClientMessage(subidx, -1, msg);
 		sprintf(msg, "Администратор %d телепортировал к вам игрока [ид: %d].", playerid, target), SendClientMessage(target, -1, msg);
@@ -255,9 +255,9 @@ void CMD::gethere(const int u, const char * params)
 		if ( IsValidVehicle(id) )
 		{
 			case_getCar:
-			SetVehiclePos(id, Player[u].pPosX, Player[u].pPosY, Player[u].pPosZ);
-			SetVehicleVirtualWorld(id, Player[u].pPosW);
-			LinkVehicleToInterior(id, Player[u].pPosI);
+			SetVehiclePos(id, Player[u].pos.x, Player[u].pos.y, Player[u].pos.z);
+			SetVehicleVirtualWorld(id, Player[u].pos.world);
+			LinkVehicleToInterior(id, Player[u].pos.interior);
 		}
 		else
 		{
@@ -268,17 +268,17 @@ void CMD::gethere(const int u, const char * params)
 	{
 		if ( IsPlayerConnected(id) )
 		{
-			cPlayer::setCharInterior(id, Player[u].pPosI);
-			cPlayer::setCharWorld(id, Player[u].pPosW);
+			cPlayer::setCharInterior(id, Player[u].pos.interior);
+			cPlayer::setCharWorld(id, Player[u].pos.world);
 
-			if ( Player[id].pState == PLAYER_STATE_DRIVER )
+			if ( Player[id].status.state == PLAYER_STATE_DRIVER )
 			{
-				id = Player[id].pCarid;
+				id = Player[id].status.seatid;
 				goto case_getCar;
 			}
 			else
 			{
-				cPlayer::setCharPos(id, Player[u].pPosX, Player[u].pPosY, Player[u].pPosZ, true);
+				cPlayer::setCharPos(id, Player[u].pos.x, Player[u].pos.y, Player[u].pos.z, true);
 			}
 		}
 		else

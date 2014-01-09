@@ -135,7 +135,7 @@ void Properties::Shops::ShopVehicle::create(int price, float x, float y, float z
 
 void Properties::Shops::ShopVehicle::preView(const int u)
 {
-	const int shop = Property[ Player[ u ].inIndex ].link;
+	const int shop = Property[ Player[ u ].status.inIndex ].link;
 	if (vehicle[ shop ].Used)
 	{
 		SendClientMessage(u, -1, "[Информация]: Извините, но на данный момент наш менеджер занят!");
@@ -154,7 +154,7 @@ void Properties::Shops::ShopVehicle::preView(const int u)
 	}
 	//===================================================
 	SelectTextDraw(u, 0xA3B4C5FF);
-	Player[u].isAction = PlayerAction::ACTION_AUTOSHOP;
+	Player[u].status.action = PlayerAction::ACTION_AUTOSHOP;
 	vehicle[shop].Used = true;
 }
 
@@ -162,8 +162,8 @@ void Properties::Shops::ShopVehicle::viewList(const int u, const int item)
 {
 	char field[ 64 ];
 	//====================================================
-	const int shop = Property[ Player[ u ].inIndex ].link;
-	const int styl = Property[ Player[ u ].inIndex ].style;
+	const int shop = Property[ Player[ u ].status.inIndex ].link;
+	const int styl = Property[ Player[ u ].status.inIndex ].style;
 	//====================================================
 	if (items[ shop ][ item ].Amount > 0)  vehicle[ shop ].Item = item;
 	else vehicle[ shop ].Item = 0;
@@ -199,14 +199,14 @@ void Properties::Shops::ShopVehicle::viewList(const int u, const int item)
 										0.0f, 3, 3, 1000);
 	//====================================================
 	SetVehicleParamsEx(vehicle[ shop ].Car, false, false, false, true, false, false, false);
-	SetVehicleVirtualWorld(vehicle[ shop ].Car, Player[ u ].inIndex);
+	SetVehicleVirtualWorld(vehicle[ shop ].Car, Player[ u ].status.inIndex);
 	//====================================================
 }
 
 void Properties::Shops::ShopVehicle::viewCam(const int u)
 {
-	const int shop = Property[ Player[ u ].inIndex ].link;
-	const int styl = Property[ Player[ u ].inIndex ].style;
+	const int shop = Property[ Player[ u ].status.inIndex ].link;
+	const int styl = Property[ Player[ u ].status.inIndex ].style;
 	//------------------------------------------------------------	
 	float xX = Interior[ styl ].actX + 4 * cos(vehicle[ shop ].angle);
 	float xY = Interior[ styl ].actY + 4 * sin(vehicle[ shop ].angle);
@@ -221,8 +221,8 @@ void Properties::Shops::ShopVehicle::viewCam(const int u)
 
 void Properties::Shops::ShopVehicle::endView(const int u)
 {
-	const int shop = Property[ Player[ u ].inIndex ].link;
-	Player[ u ].isAction = PlayerAction::ACTION_NONE;
+	const int shop = Property[ Player[ u ].status.inIndex ].link;
+	Player[ u ].status.action = PlayerAction::ACTION_NONE;
 	DestroyVehicle(vehicle[ shop ].Car);
 	vehicle[ shop ].Used = false;
 	SetCameraBehindPlayer(u);
@@ -256,13 +256,13 @@ void Properties::Shops::ShopVehicle::onDLG(int u, int dialogid, int response, in
 			if (listitem == 0)					//Наличные
 			{
 				using namespace Properties::Shops;
-				const int idx = Property[ Player[ u ].inIndex ].link;
+				const int idx = Property[ Player[ u ].status.inIndex ].link;
 				const int item = 0;
 				if (cPlayer::checkMoney(u, -ShopVehicle::items[ idx ][ item ].Price))
 				{
 					eVehicle tmp;
 					//----------------------------------------------------
-					tmp.Owner = Player[ u ].pDB;
+					tmp.Owner = Player[ u ].base.db;
 					tmp.Model = ShopVehicle::items[ idx ][ item ].Model;
 					//----------------------------------------------------
 					tmp.posX = ShopVehicle::vehicle[ idx ].spawnX;
@@ -305,7 +305,7 @@ void Properties::Shops::ShopVehicle::onDLG(int u, int dialogid, int response, in
 
 void Properties::Shops::ShopVehicle::onGUI(const int u, const int draw)
 {
-	const int shop = Property[ Player[ u ].inIndex ].link;
+	const int shop = Property[ Player[ u ].status.inIndex ].link;
 	//----------------------------------------------------------------------
 	if (draw == INVALID_TEXT_DRAW)
 	{
@@ -320,15 +320,15 @@ void Properties::Shops::ShopVehicle::onGUI(const int u, const int draw)
 	}
 	else if (draw == drawPlayerChar[ REG_SELECT ])	//Выбрать
 	{
-		Player[ u ].isAction = PlayerAction::ACTION_AUTOSHOP;
+		Player[ u ].status.action = PlayerAction::ACTION_AUTOSHOP;
 		const int idx = ShopVehicle::vehicle[ shop ].Item;
 		char msg[ sizeof( language::property::shop::vehicle::action_Buy )];
 		sprintf
 		(
 			msg, 
 			language::property::shop::vehicle::action_Buy, 
-			Player[ u ].uName, 
-			Player[ u ].sName,
+			Player[ u ].strings.uName, 
+			Player[ u ].strings.sName,
 			VehicleClass[ idx ].Name,
 			ShopVehicle::items[ shop ][ idx ].Price
 		);
@@ -480,7 +480,7 @@ void  Properties::Shops::ShopVehicle::initTextDraws(const int u, const int shop)
 void Properties::Shops::ShopVehicle::updateText(const int p, const int u)
 {
 	char msg[256];
-	sprintf(Property[p].player, "%s %s", Player[u].uName, Player[u].sName);
+	sprintf(Property[p].player, "%s %s", Player[u].strings.uName, Player[u].strings.sName);
 	sprintf(msg, "Автосалон: {B7FF00}%s\n{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s", vehicle[Property[p].link].name, getSaZoneName(Property[p].region), Property[p].number, Property[p].player);
 	//=====================================================================================================
 	StreamerCall::Native::UpdateDynamic3DTextLabelText(Property[p].text, -1, msg);

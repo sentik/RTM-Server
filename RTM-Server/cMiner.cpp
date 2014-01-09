@@ -144,20 +144,20 @@ void Jobs::Miner::cMiner::onGUI(const int u, const int draw)
 	char minerAmount,	minerColor;
 	for (int i = 0; i < 20; i++)
 	{
-		if (draw == Player[ u ].minerDraw[ i ])
+		if (draw == Player[ u ].draws.tempDraws[ i ])
 		{
 			minerColor = 0 + rand() % 5;
-			PlayerTextDrawHide(u, Player[ u ].minerDraw[ i ]);
+			PlayerTextDrawHide(u, Player[ u ].draws.tempDraws[ i ]);
 			//------------------------------------------------------------------------------------------------------
 			if (minerColor == 0)
-				PlayerTextDrawColor(u, Player[u].minerDraw[i], 0xFF000088);
+				PlayerTextDrawColor(u, Player[u].draws.tempDraws[i], 0xFF000088);
 			else if (minerColor == 1)
-				PlayerTextDrawColor(u, Player[u].minerDraw[i], 0xB700FF88);
+				PlayerTextDrawColor(u, Player[u].draws.tempDraws[i], 0xB700FF88);
 			else
-				PlayerTextDrawColor(u, Player[u].minerDraw[i], 0xFFAF0088);
+				PlayerTextDrawColor(u, Player[u].draws.tempDraws[i], 0xFFAF0088);
 			//------------------------------------------------------------------------------------------------------
-			PlayerTextDrawSetSelectable(u, Player[ u ].minerDraw[ i ], false);
-			PlayerTextDrawShow(u, Player[ u ].minerDraw[ i ]);
+			PlayerTextDrawSetSelectable(u, Player[ u ].draws.tempDraws[ i ], false);
+			PlayerTextDrawShow(u, Player[ u ].draws.tempDraws[ i ]);
 			//------------------------------------------------------------------------------------------------------
 			if (Player[ u ].inIndex == 1)				// Железо
 			{
@@ -171,7 +171,7 @@ void Jobs::Miner::cMiner::onGUI(const int u, const int draw)
 				{
 					minerAmount =  1 + rand() % 5;
 					Player[ u ].aMinerA -= minerAmount;
-					sprintf(msg, language::jobs::miner::disActionOne, minerAmount, Player[ u ].aMinerA);
+					sprintf(msg, language::jobs::miner::dstatus.actionOne, minerAmount, Player[ u ].aMinerA);
 				}
 				else
 				{
@@ -191,7 +191,7 @@ void Jobs::Miner::cMiner::onGUI(const int u, const int draw)
 				{
 					minerAmount = 1 + rand() % 2;
 					Player[ u ].aMinerB -= minerAmount;
-					sprintf(msg, language::jobs::miner::disActionTwo, minerAmount, Player[u].aMinerB);
+					sprintf(msg, language::jobs::miner::dstatus.actionTwo, minerAmount, Player[u].aMinerB);
 				}
 				else
 				{
@@ -211,7 +211,7 @@ void Jobs::Miner::cMiner::onGUI(const int u, const int draw)
 				{
 					minerAmount = 1 + rand() % 4;
 					Player[ u ].aMinerA -= minerAmount;
-					sprintf(msg, language::jobs::miner::disActionThree, minerAmount, Player[u].aMinerA);
+					sprintf(msg, language::jobs::miner::dstatus.actionThree, minerAmount, Player[u].aMinerA);
 				}
 				else
 				{
@@ -231,7 +231,7 @@ void Jobs::Miner::cMiner::onGUI(const int u, const int draw)
 				{
 					minerAmount = 1 + rand() % 2;
 					Player[ u ].aMinerB -= minerAmount;
-					sprintf(msg, language::jobs::miner::disActionFour, minerAmount, Player[u].aMinerB);
+					sprintf(msg, language::jobs::miner::dstatus.actionFour, minerAmount, Player[u].aMinerB);
 				}
 				else
 				{
@@ -266,22 +266,22 @@ void Jobs::Miner::cMiner::startMinerGame(const int u)
 		wtd_pmx		= 0 + rand() % 50;
 		wtd_pmy		= -60 + rand() % 120;
 
-		Player[u].minerDraw[i] = CreatePlayerTextDraw(u, wtd_xpos, wtd_ypos, "_");
-		PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[i], 0);
-		PlayerTextDrawFont(u, Player[u].minerDraw[i], 5);
-		PlayerTextDrawLetterSize(u, Player[u].minerDraw[i], 0.5, 1.0);
-		PlayerTextDrawColor(u, Player[u].minerDraw[i], -1);
-		PlayerTextDrawSetOutline(u, Player[u].minerDraw[i], 1);
-		PlayerTextDrawSetProportional(u, Player[u].minerDraw[i], 1);
-		PlayerTextDrawUseBox(u, Player[u].minerDraw[i], 1);
-		PlayerTextDrawBoxColor(u, Player[u].minerDraw[i], 0);
-		PlayerTextDrawTextSize(u, Player[u].minerDraw[i], wtd_sx, wtd_sy);
-		PlayerTextDrawSetPreviewModel(u, Player[u].minerDraw[i], 896);
-		PlayerTextDrawSetPreviewRot(u, Player[u].minerDraw[i], wtd_pmx, 0.0, wtd_pmy, 1.0);
-		PlayerTextDrawSetSelectable(u, Player[u].minerDraw[i], 1);
-		PlayerTextDrawShow(u, Player[u].minerDraw[i]);
+		Player[u].draws.tempDraws[i] = CreatePlayerTextDraw(u, wtd_xpos, wtd_ypos, "_");
+		PlayerTextDrawBackgroundColor(u, Player[u].draws.tempDraws[i], 0);
+		PlayerTextDrawFont(u, Player[u].draws.tempDraws[i], 5);
+		PlayerTextDrawLetterSize(u, Player[u].draws.tempDraws[i], 0.5, 1.0);
+		PlayerTextDrawColor(u, Player[u].draws.tempDraws[i], -1);
+		PlayerTextDrawSetOutline(u, Player[u].draws.tempDraws[i], 1);
+		PlayerTextDrawSetProportional(u, Player[u].draws.tempDraws[i], 1);
+		PlayerTextDrawUseBox(u, Player[u].draws.tempDraws[i], 1);
+		PlayerTextDrawBoxColor(u, Player[u].draws.tempDraws[i], 0);
+		PlayerTextDrawTextSize(u, Player[u].draws.tempDraws[i], wtd_sx, wtd_sy);
+		PlayerTextDrawSetPreviewModel(u, Player[u].draws.tempDraws[i], 896);
+		PlayerTextDrawSetPreviewRot(u, Player[u].draws.tempDraws[i], wtd_pmx, 0.0, wtd_pmy, 1.0);
+		PlayerTextDrawSetSelectable(u, Player[u].draws.tempDraws[i], 1);
+		PlayerTextDrawShow(u, Player[u].draws.tempDraws[i]);
 	}
-	Player[u].isAction = PlayerAction::ACTION_MINERGAME;
+	Player[u].status.action = PlayerAction::ACTION_MINERGAME;
 	SelectTextDraw(u, 0x00000055);
 }
 
@@ -291,12 +291,12 @@ void Jobs::Miner::cMiner::actionPicks(const int u)
 	if (cPlayer::isRangeOfPoint(u, 1.0f, MINER_SH1_RAZDEVALKA))
 	{
 		action = 1;
-		Player[u].inType = 1;
+		Player[u].status.inType = 1;
 	}
 	else if (cPlayer::isRangeOfPoint(u, 1.0f, MINER_SH2_RAZDEVALKA))
 	{
 		action = 1;
-		Player[u].inType = 2;
+		Player[u].status.inType = 2;
 	}
 	else if (cPlayer::isRangeOfPoint(u, MINER_SH1_IRON_RADIUS, MINER_SH1_IRON))
 	{
@@ -437,7 +437,7 @@ void Jobs::Miner::cMiner::updateText(const int p, const int u)
 void Jobs::Miner::cMiner::showDLG(const int u)
 {
 	char msg[ 256 ] = "";
-	Player[ u ].isAction = PlayerAction::ACTION_USEMINERDLG;
+	Player[ u ].status.action = PlayerAction::ACTION_USEMINERDLG;
 	if (Player[ u ].pDB == Property[ Player[ u ].inIndex ].owner)
 	{
 		dialogs::genDLGItem(1, "Информация", msg, MINER_MENU_COLOR);
@@ -529,7 +529,7 @@ void Jobs::Miner::cMiner::onDLG(const int u, const int dialogid, const int respo
 			}
 			else
 			{
-				Player[u].isAction = PlayerAction::ACTION_NONE;
+				Player[u].status.action = PlayerAction::ACTION_NONE;
 			}
 			break;
 		}
@@ -679,7 +679,7 @@ goto case_bank;
 			}
 			else
 			{
-				Player[ u ].isAction = PlayerAction::ACTION_NONE;
+				Player[ u ].status.action = PlayerAction::ACTION_NONE;
 			}
 			break;
 		}

@@ -177,7 +177,7 @@ void gasProperty::cGas::ownerMenu(const int u)
 	dialogs::genDLGItem(1, "Информация", msg);
 	dialogs::genDLGItem(2, "Управление", msg);
 	ShowPlayerDialog(u, DIALOG_LIST::DLG_GAS_MAIN, GUI_LIST, gasProperty::cGas::Gas[Property[Player[u].inIndex].link].name, msg, language::dialogs::buttons::btnSelect, language::dialogs::buttons::btnCancel);
-	Player[u].isAction = PlayerAction::ACTION_USEPROP_GAS;
+	Player[u].status.action = PlayerAction::ACTION_USEPROP_GAS;
 }
 
 void gasProperty::cGas::onDLG(const int u, const int dialogid, const int response, const int listitem, const char* inputtext)
@@ -209,7 +209,7 @@ void gasProperty::cGas::onDLG(const int u, const int dialogid, const int respons
 			}
 			else
 			{
-				Player[u].isAction = PlayerAction::ACTION_NONE;
+				Player[u].status.action = PlayerAction::ACTION_NONE;
 			}
 			break;
 		}

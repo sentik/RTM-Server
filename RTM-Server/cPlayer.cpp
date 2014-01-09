@@ -126,63 +126,63 @@ void cPlayer::update()
 			}
 		}
 
-		if (Player[ i ].isAction == PlayerAction::ACTION_FREZSETPOS)
+		if (Player[ i ].status.action == PlayerAction::ACTION_FREZSETPOS)
 		{
-			Player[ i ].isAction = PlayerAction::ACTION_NONE;
+			Player[ i ].status.action = PlayerAction::ACTION_NONE;
 			TogglePlayerControllable(i, 1);
 		}
 		if (isTwo)
 		{
-			if (Player[ i ].isAction == PlayerAction::ACTION_AUTH_PLAYER)
+			if (Player[ i ].status.action == PlayerAction::ACTION_AUTH_PLAYER)
 			{
 
 			}
 			//==========================================
-			else if (Player[ i ].isAction != PlayerAction::ACTION_Death)
+			else if (Player[ i ].status.action != PlayerAction::ACTION_Death)
 			{
-				GetPlayerPos(i, &Player[ i ].pPosX, &Player[ i ].pPosY, &Player[ i ].pPosZ);
-				GetPlayerFacingAngle(i, &Player[ i ].pPosR);
-				Player[ i ].pPosW = GetPlayerVirtualWorld(i);
-				Player[ i ].pPosI = GetPlayerInterior(i);
+				GetPlayerPos(i, &Player[ i ].pos.x, &Player[ i ].pos.y, &Player[ i ].pos.z);
+				GetPlayerFacingAngle(i, &Player[ i ].pos.r);
+				Player[ i ].pos.world = GetPlayerVirtualWorld(i);
+				Player[ i ].pos.interior = GetPlayerInterior(i);
 			}
 			//==========================================
 		}
 		if (isTen)
 		{
 			//==========================================
-			if (Player[ i ].isAction == PlayerAction::ACTION_AUTOSHOP)
+			if (Player[ i ].status.action == PlayerAction::ACTION_AUTOSHOP)
 			{
 				Properties::Shops::ShopVehicle::viewCam(i);
 			}
-			else if (Player[i].isAction == PlayerAction::ACTION_MINERGAME)
+			else if (Player[i].status.action == PlayerAction::ACTION_MINERGAME)
 			{
-				if (Player[i].minerDraw[1] != INVALID_TEXT_DRAW)
+				if (Player[i].draws.tempDraws[1] != INVALID_TEXT_DRAW)
 				{
 					for (int t = 0; t < 20; t++)
 					{
-						PlayerTextDrawDestroy(i, Player[i].minerDraw[t]);
+						PlayerTextDrawDestroy(i, Player[i].draws.tempDraws[t]);
 					}
 				}
 				CancelSelectTextDraw(i);
 				ClearAnimations(i, true);
-				Player[i].isAction = PlayerAction::ACTION_NONE;
-				if (Player[i].inType == 1) 
+				Player[i].status.action = PlayerAction::ACTION_NONE;
+				if (Player[i].status.inType == 1) 
 					SetPlayerCheckpoint(i, MINER_SH1_CHECKPOS, 4.5f);
 				else
 					SetPlayerCheckpoint(i, MINER_SH2_CHECKPOS, 4.5f);
 			}
-			else if (Player[i].isAction == PlayerAction::ACTION_FELGAME)
+			else if (Player[i].status.action == PlayerAction::ACTION_FELGAME)
 			{
-				if (Player[i].minerDraw[1] != INVALID_TEXT_DRAW)
+				if (Player[i].draws.tempDraws[1] != INVALID_TEXT_DRAW)
 				{
 					for (int t = 0; t < 20; t++)
 					{
-						PlayerTextDrawDestroy(i, Player[i].minerDraw[t]);
+						PlayerTextDrawDestroy(i, Player[i].draws.tempDraws[t]);
 					}
 				}
 				CancelSelectTextDraw(i);
 				ClearAnimations(i, true);
-				Player[i].isAction = PlayerAction::ACTION_FELJOB;
+				Player[i].status.action = PlayerAction::ACTION_FELJOB;
 			}
 			else
 			{
@@ -243,11 +243,11 @@ int cPlayer::regChar(const int u)
 		Player[u].pDB, Player[u].uName, Player[u].sName, Player[u].pMoney, Player[u].pClass);
 	safe_query(con, qqq);
 	//--------------------------------------------------------------------------------------------------------------------
-	Player[u].pPosX = REG_SPAWN_X;
-	Player[u].pPosY = REG_SPAWN_Y;
-	Player[u].pPosZ = REG_SPAWN_Z;
-	Player[u].pPosW = REG_SPAWN_WOR;
-	Player[u].pPosI = REG_SPAWN_INT;
+	Player[u].pos.x = REG_SPAWN_X;
+	Player[u].pos.y = REG_SPAWN_Y;
+	Player[u].pos.z = REG_SPAWN_Z;
+	Player[u].pos.world = REG_SPAWN_WOR;
+	Player[u].pos.interior = REG_SPAWN_INT;
 	return mysql_insert_id(con);
 }
 
@@ -274,12 +274,12 @@ void cPlayer::loadPlayerChar(int i, int pers)
 			Player[ i ].pDB = atoi(row[ PlayerRows::plDB ]);
 			Player[ i ].pMoney = atof(row[ PlayerRows::plMoney ]);
 			Player[ i ].pClass = atoi(row[ PlayerRows::plClass ]);
-			Player[ i ].pPosX = atof(row[ PlayerRows::plPosX ]);
-			Player[ i ].pPosY = atof(row[ PlayerRows::plPosY ]);
-			Player[ i ].pPosZ = atof(row[ PlayerRows::plPosZ ]);
-			Player[ i ].pPosR = atof(row[ PlayerRows::plPosR ]);
-			Player[ i ].pPosI = atoi(row[ PlayerRows::plPosI ]);
-			Player[ i ].pPosW = atoi(row[ PlayerRows::plPosW ]);
+			Player[ i ].pos.x = atof(row[ PlayerRows::plPosX ]);
+			Player[ i ].pos.y = atof(row[ PlayerRows::plPosY ]);
+			Player[ i ].pos.z = atof(row[ PlayerRows::plPosZ ]);
+			Player[ i ].pos.r = atof(row[ PlayerRows::plPosR ]);
+			Player[ i ].pos.interior = atoi(row[ PlayerRows::plPosI ]);
+			Player[ i ].pos.world = atoi(row[ PlayerRows::plPosW ]);
 			Player[i].pJob1 = atoi(row[PlayerRows::plJob1]);
 			Player[i].pJob2 = atoi(row[PlayerRows::plJob2]);
 			//------------------------------------------------
@@ -342,7 +342,7 @@ bool cPlayer::loadChars(int i)
 	MYSQL_RES *result = mysql_store_result(con);
 	int num_fields = mysql_num_rows(result);
 	//---------------------------------------------
-	Player[i].isAction = PlayerAction::ACTION_AUTH_PLAYER;
+	Player[i].status.action = PlayerAction::ACTION_AUTH_PLAYER;
 	//---------------------------------------------
 	TextDrawShowForPlayer(i, drawPlayerChar[REG_BG]);
 	TextDrawShowForPlayer(i, drawPlayerChar[REG_HEADER]);
@@ -499,7 +499,7 @@ void cPlayer::SpawnChar(const int i)
 {
 	CancelSelectTextDraw(i);
 	TogglePlayerControllable(i, 0);
-	Player[i].isAction = PlayerAction::ACTION_FREZSETPOS;
+	Player[i].status.action = PlayerAction::ACTION_FREZSETPOS;
 	TogglePlayerSpectating(i, false);
 	SetCameraBehindPlayer(i);
 	SpawnPlayer(i);
@@ -515,16 +515,16 @@ void cPlayer::SpawnChar(const int i)
 void cPlayer::setCharPos(const int i, float x, float y, float z, bool isFreeze = false)
 {
 	//------------------------------
-	Player[i].pPosX = x;
-	Player[i].pPosY = y;
-	Player[i].pPosZ = z;
+	Player[i].pos.x = x;
+	Player[i].pos.y = y;
+	Player[i].pos.z = z;
 	//------------------------------
-	SetPlayerPos(i, Player[i].pPosX, Player[i].pPosY, Player[i].pPosZ);
+	SetPlayerPos(i, Player[i].pos.x, Player[i].pos.y, Player[i].pos.z);
 	//------------------------------
 	if (isFreeze)
 	{
 		TogglePlayerControllable(i, false);
-		Player[i].isAction = PlayerAction::ACTION_FREZSETPOS;
+		Player[i].status.action = PlayerAction::ACTION_FREZSETPOS;
 	}
 }
 //http://developer.alexanderklimov.ru/articles/xmlcomment.php
@@ -535,8 +535,8 @@ void cPlayer::setCharPos(const int i, float x, float y, float z, bool isFreeze =
 /// </summary>
 void cPlayer::setCharAngle(const int i, float a = -369)
 {
-	Player[i].pPosR = a;
-	SetPlayerFacingAngle(i, Player[i].pPosR);
+	Player[i].pos.r = a;
+	SetPlayerFacingAngle(i, Player[i].pos.r);
 }
 
 /// <summary>
@@ -546,8 +546,8 @@ void cPlayer::setCharAngle(const int i, float a = -369)
 /// </summary>
 void cPlayer::setCharInterior(const int i, const int interior)
 {
-	Player[i].pPosI = interior;
-	SetPlayerInterior(i, Player[i].pPosI);
+	Player[i].pos.interior = interior;
+	SetPlayerInterior(i, Player[i].pos.interior);
 }
 
 /// <summary>
@@ -557,8 +557,8 @@ void cPlayer::setCharInterior(const int i, const int interior)
 /// </summary>
 void cPlayer::setCharWorld(const int i, const int world)
 {
-	Player[i].pPosW = world;
-	SetPlayerVirtualWorld(i, Player[i].pPosW);
+	Player[i].pos.world = world;
+	SetPlayerVirtualWorld(i, Player[i].pos.world);
 }
 
 void cPlayer::camSelectChar(int i)
@@ -697,7 +697,7 @@ void cPlayer::showCharMaker(int i)
 	PlayerTextDrawTextSize(i, RegChar[i].rSex, 175.000000, 0.000000);
 	PlayerTextDrawSetSelectable(i, RegChar[i].rSex, 0);
 	//-------------------------------------------------------------------------------------------------------------
-	Player[i].isAction = PlayerAction::ACTION_NONE;
+	Player[i].status.action = PlayerAction::ACTION_NONE;
 	PlayerTextDrawShow(i, RegChar[i].rSpeed[0]);
 	PlayerTextDrawShow(i, RegChar[i].rPower[0]);
 	PlayerTextDrawShow(i, RegChar[i].rAgility[0]);
@@ -717,8 +717,8 @@ void cPlayer::showCharMaker(int i)
 bool cPlayer::isRangeOfPoint(int i, float r, float x, float y, float z)
 {
 	float ra = pow(r, 2);
-	if (pow(Player[ i ].pPosZ - z, 2) > ra) return false;
-	return pow(Player[ i ].pPosX - x, 2) + pow(Player[ i ].pPosY - y, 2) < ra;
+	if (pow(Player[ i ].pos.z - z, 2) > ra) return false;
+	return pow(Player[ i ].pos.x - x, 2) + pow(Player[ i ].pos.y - y, 2) < ra;
 }
 
 bool cPlayer::checkMoney(const int u, float value)
@@ -767,13 +767,13 @@ void cPlayer::updateMoney(const int u)
 void cPlayer::updatePos(const int u)
 {
 	char qqq[256];
-	GetPlayerPos(u, &Player[ u ].pPosX, &Player[ u ].pPosY, &Player[ u ].pPosZ);
-	GetPlayerFacingAngle( u, &Player[ u ].pPosR );
-	Player[ u ].pPosW = GetPlayerVirtualWorld(u);
-	Player[ u ].pPosI = GetPlayerInterior(u);
+	GetPlayerPos(u, &Player[ u ].pos.x, &Player[ u ].pos.y, &Player[ u ].pos.z);
+	GetPlayerFacingAngle( u, &Player[ u ].pos.r );
+	Player[ u ].pos.world = GetPlayerVirtualWorld(u);
+	Player[ u ].pos.interior = GetPlayerInterior(u);
 	//================================================================================
 	sprintf(qqq, "UPDATE player_Character SET posx='%.4f', posy='%.4f', posz='%.4f', posr='%.2f', posi='%d', posw='%d', posp='%d', pHP='%.2f' WHERE id = '%d'", 
-			Player[ u ].pPosX, Player[ u ].pPosY, Player[ u ].pPosZ, Player[ u ].pPosR, Player[ u ].pPosI, Player[ u ].pPosW, Player[ u ].AC.Health,
+			Player[ u ].pos.x, Player[ u ].pos.y, Player[ u ].pos.z, Player[ u ].pos.r, Player[ u ].pos.interior, Player[ u ].pos.world, Player[ u ].AC.Health,
 			Player[ u ].inIndex, Player[ u ].pDB);
 	//================================================================================	
 	safe_query(con, qqq);
@@ -782,14 +782,14 @@ void cPlayer::updatePos(const int u)
 
 void cPlayer::getPlayerPos(const int i)
 {
-	GetPlayerPos(i, &Player[ i ].pPosX, &Player[ i ].pPosY, &Player[ i ].pPosZ);
+	GetPlayerPos(i, &Player[ i ].pos.x, &Player[ i ].pos.y, &Player[ i ].pos.z);
 }
 
 bool cPlayer::isPlayerInCube(const int u, float minX, float minY, float minZ, float maxX, float maxY, float maxZ)
 {
-	const float x = Player[u].pPosX;
-	const float y = Player[u].pPosY;
-	const float z = Player[u].pPosZ;
+	const float x = Player[u].pos.x;
+	const float y = Player[u].pos.y;
+	const float z = Player[u].pos.z;
 	//================================================================================
 	return (x >= minX && x <= maxX && y >= minY && y <= maxY && z >= minZ && z <= maxZ) ? true : false;
 }

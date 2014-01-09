@@ -140,19 +140,19 @@ void fProperty::cFeller::loadTrees()
 void fProperty::cFeller::onGUI(const int u, const int draw)
 {
 	char msg[112], minerColor; 
-	const char fell = Player[u].inType;
+	const char fell = Player[u].status.inType;
 	const char slot = Player[u].aMinerB;
 
-	if (Player[u].isAction == PlayerAction::ACTION_PREFELGAME)
+	if (Player[u].status.action == PlayerAction::ACTION_PREFELGAME)
 	{
 		for (int i = 1; i < 10; i++)
 		{
-			if (draw == Player[u].minerDraw[i])
+			if (draw == Player[u].draws.tempDraws[i])
 			{
 
 				for (int t = 0; t < 10; t++)
 				{
-					PlayerTextDrawDestroy(u, Player[u].minerDraw[t]);
+					PlayerTextDrawDestroy(u, Player[u].draws.tempDraws[t]);
 				}
 
 				minerColor = 1 + rand() % 10;
@@ -169,7 +169,7 @@ void fProperty::cFeller::onGUI(const int u, const int draw)
 				}
 
 				CancelSelectTextDraw(u);
-				Player[u].isAction = PlayerAction::ACTION_FELJOB;
+				Player[u].status.action = PlayerAction::ACTION_FELJOB;
 
 				break;
 			}
@@ -180,24 +180,24 @@ void fProperty::cFeller::onGUI(const int u, const int draw)
 		char minerAmount;
 		for (int i = 0; i < 20; i++)
 		{
-			if (draw == Player[u].minerDraw[i])
+			if (draw == Player[u].draws.tempDraws[i])
 			{
 				minerColor = 0 + rand() % 6;
-				PlayerTextDrawHide(u, Player[u].minerDraw[i]);
+				PlayerTextDrawHide(u, Player[u].draws.tempDraws[i]);
 				//------------------------------------------------------------------------------------------------------
 				if (minerColor == 0)
 				{
 					minerAmount = 1 + rand() % 8;
 					Player[u].aMinerA -= minerAmount;
 					sprintf(msg, language::jobs::feller::actionOne, minerAmount, Player[u].aMinerA);
-					PlayerTextDrawColor(u, Player[u].minerDraw[i], 0xFF000088);
+					PlayerTextDrawColor(u, Player[u].draws.tempDraws[i], 0xFF000088);
 				}
 				else if (minerColor == 1)
 				{
 					minerAmount = 1 + rand() % 24;
 					Player[u].aMinerA += minerAmount;
 					sprintf(msg, language::jobs::feller::actionTwo, minerAmount, Player[u].aMinerA);
-					PlayerTextDrawColor(u, Player[u].minerDraw[i], 0xB7FF0088);
+					PlayerTextDrawColor(u, Player[u].draws.tempDraws[i], 0xB7FF0088);
 
 					fProperty::cFeller::Feller[fell].Trees[slot].proc += minerAmount;
 				}
@@ -206,16 +206,16 @@ void fProperty::cFeller::onGUI(const int u, const int draw)
 					const float hpAmount = (1.0f + rand() % 300) / 100;
 					cPlayer::setCharHealth(u, Player[u].AC.Health - hpAmount);
 					sprintf(msg, language::jobs::feller::actionFour, hpAmount);
-					PlayerTextDrawColor(u, Player[u].minerDraw[i], 0xB700B788);
+					PlayerTextDrawColor(u, Player[u].draws.tempDraws[i], 0xB700B788);
 				}
 				else
 				{
 					strcpy(msg, language::jobs::feller::actionThree);
-					PlayerTextDrawColor(u, Player[u].minerDraw[i], 0xFFAF0088);
+					PlayerTextDrawColor(u, Player[u].draws.tempDraws[i], 0xFFAF0088);
 				}
 				//------------------------------------------------------------------------------------------------------
-				PlayerTextDrawSetSelectable(u, Player[u].minerDraw[i], false);
-				PlayerTextDrawShow(u, Player[u].minerDraw[i]);
+				PlayerTextDrawSetSelectable(u, Player[u].draws.tempDraws[i], false);
+				PlayerTextDrawShow(u, Player[u].draws.tempDraws[i]);
 				SendClientMessage(u, -1, msg);
 			}
 		}
@@ -224,7 +224,7 @@ void fProperty::cFeller::onGUI(const int u, const int draw)
 
 void fProperty::cFeller::giveFellerTool(const int u)
 {
-	Player[u].isAction = PlayerAction::ACTION_FELJOB;
+	Player[u].status.action = PlayerAction::ACTION_FELJOB;
 	SetPlayerAttachedObject(u, 5, 19036, 2, 0.097140, 0.030915, 0.0, 85.865409, 87.990005, 0.0, 1.0, 1.0, 1.0, -1, -1);
 	SetPlayerAttachedObject(u, 4, 341, 6, -0.029709, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, -1, -1);
 }
@@ -236,7 +236,7 @@ bool fProperty::cFeller::getFellerTool(const int u)
 
 void fProperty::cFeller::removeFellerTool(const int u)
 {
-	Player[u].isAction = PlayerAction::ACTION_NONE;
+	Player[u].status.action = PlayerAction::ACTION_NONE;
 	RemovePlayerAttachedObject(u, 5); 
 	RemovePlayerAttachedObject(u, 4);
 }
@@ -245,43 +245,43 @@ void fProperty::cFeller::startPreFellerGame(const int u)
 {
 	float y;
 
-	Player[u].minerDraw[0] = CreatePlayerTextDraw(u, 115.000000, 120.000000, "Tree");
-	PlayerTextDrawAlignment(u, Player[u].minerDraw[0], 2);
-	PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[0], 0);
-	PlayerTextDrawFont(u, Player[u].minerDraw[0], 5);
-	PlayerTextDrawLetterSize(u, Player[u].minerDraw[0], 0.500000, 1.000000);
-	PlayerTextDrawColor(u, Player[u].minerDraw[0], -2004318072);
-	PlayerTextDrawSetOutline(u, Player[u].minerDraw[0], 0);
-	PlayerTextDrawSetProportional(u, Player[u].minerDraw[0], 0);
-	PlayerTextDrawSetShadow(u, Player[u].minerDraw[0], 1);
-	PlayerTextDrawUseBox(u, Player[u].minerDraw[0], 1);
-	PlayerTextDrawBoxColor(u, Player[u].minerDraw[0], 255);
-	PlayerTextDrawTextSize(u, Player[u].minerDraw[0], 400.000000, 380.000000);
-	PlayerTextDrawSetPreviewModel(u, Player[u].minerDraw[0], 659);
-	PlayerTextDrawSetPreviewRot(u, Player[u].minerDraw[0], -16.000000, 0.000000, -55.000000, 1.200000);
-	PlayerTextDrawSetSelectable(u, Player[u].minerDraw[0], false);
-	PlayerTextDrawShow(u, Player[u].minerDraw[0]);
+	Player[u].draws.tempDraws[0] = CreatePlayerTextDraw(u, 115.000000, 120.000000, "Tree");
+	PlayerTextDrawAlignment(u, Player[u].draws.tempDraws[0], 2);
+	PlayerTextDrawBackgroundColor(u, Player[u].draws.tempDraws[0], 0);
+	PlayerTextDrawFont(u, Player[u].draws.tempDraws[0], 5);
+	PlayerTextDrawLetterSize(u, Player[u].draws.tempDraws[0], 0.500000, 1.000000);
+	PlayerTextDrawColor(u, Player[u].draws.tempDraws[0], -2004318072);
+	PlayerTextDrawSetOutline(u, Player[u].draws.tempDraws[0], 0);
+	PlayerTextDrawSetProportional(u, Player[u].draws.tempDraws[0], 0);
+	PlayerTextDrawSetShadow(u, Player[u].draws.tempDraws[0], 1);
+	PlayerTextDrawUseBox(u, Player[u].draws.tempDraws[0], 1);
+	PlayerTextDrawBoxColor(u, Player[u].draws.tempDraws[0], 255);
+	PlayerTextDrawTextSize(u, Player[u].draws.tempDraws[0], 400.000000, 380.000000);
+	PlayerTextDrawSetPreviewModel(u, Player[u].draws.tempDraws[0], 659);
+	PlayerTextDrawSetPreviewRot(u, Player[u].draws.tempDraws[0], -16.000000, 0.000000, -55.000000, 1.200000);
+	PlayerTextDrawSetSelectable(u, Player[u].draws.tempDraws[0], false);
+	PlayerTextDrawShow(u, Player[u].draws.tempDraws[0]);
 
 	for (int i = 1; i < 10; i++)
 	{
 		y = 365.0f + (rand() % 7500) / 100;
 
-		Player[u].minerDraw[i] = CreatePlayerTextDraw(u, 318.000000, y, "-");
-		PlayerTextDrawAlignment(u, Player[u].minerDraw[i], 2);
-		PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[i], 255);
-		PlayerTextDrawFont(u, Player[u].minerDraw[i], 1);
-		PlayerTextDrawLetterSize(u, Player[u].minerDraw[i], 1.000000, 1.000000);
-		PlayerTextDrawColor(u, Player[u].minerDraw[i], -1);
-		PlayerTextDrawSetOutline(u, Player[u].minerDraw[i], 0);
-		PlayerTextDrawSetProportional(u, Player[u].minerDraw[i], 1);
-		PlayerTextDrawSetShadow(u, Player[u].minerDraw[i], 0);
-		PlayerTextDrawUseBox(u, Player[u].minerDraw[i], 1);
-		PlayerTextDrawBoxColor(u, Player[u].minerDraw[i], 0);
-		PlayerTextDrawTextSize(u, Player[u].minerDraw[i], 10.000000, 10.000000);
-		PlayerTextDrawSetSelectable(u, Player[u].minerDraw[i], true);
-		PlayerTextDrawShow(u, Player[u].minerDraw[i]);
+		Player[u].draws.tempDraws[i] = CreatePlayerTextDraw(u, 318.000000, y, "-");
+		PlayerTextDrawAlignment(u, Player[u].draws.tempDraws[i], 2);
+		PlayerTextDrawBackgroundColor(u, Player[u].draws.tempDraws[i], 255);
+		PlayerTextDrawFont(u, Player[u].draws.tempDraws[i], 1);
+		PlayerTextDrawLetterSize(u, Player[u].draws.tempDraws[i], 1.000000, 1.000000);
+		PlayerTextDrawColor(u, Player[u].draws.tempDraws[i], -1);
+		PlayerTextDrawSetOutline(u, Player[u].draws.tempDraws[i], 0);
+		PlayerTextDrawSetProportional(u, Player[u].draws.tempDraws[i], 1);
+		PlayerTextDrawSetShadow(u, Player[u].draws.tempDraws[i], 0);
+		PlayerTextDrawUseBox(u, Player[u].draws.tempDraws[i], 1);
+		PlayerTextDrawBoxColor(u, Player[u].draws.tempDraws[i], 0);
+		PlayerTextDrawTextSize(u, Player[u].draws.tempDraws[i], 10.000000, 10.000000);
+		PlayerTextDrawSetSelectable(u, Player[u].draws.tempDraws[i], true);
+		PlayerTextDrawShow(u, Player[u].draws.tempDraws[i]);
 	}
-	Player[u].isAction = PlayerAction::ACTION_PREFELGAME;
+	Player[u].status.action = PlayerAction::ACTION_PREFELGAME;
 	SelectTextDraw(u, 0xB7FF00FF);
 }
 
@@ -303,22 +303,22 @@ void fProperty::cFeller::startFellerGame(const int u)
 		wtd_pmx = 0 + rand() % 50;
 		wtd_pmy = -60 + rand() % 120;
 
-		Player[u].minerDraw[i] = CreatePlayerTextDraw(u, wtd_xpos, wtd_ypos, "_");
-		PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[i], 0);
-		PlayerTextDrawFont(u, Player[u].minerDraw[i], 5);
-		PlayerTextDrawLetterSize(u, Player[u].minerDraw[i], 0.5, 1.0);
-		PlayerTextDrawColor(u, Player[u].minerDraw[i], -1);
-		PlayerTextDrawSetOutline(u, Player[u].minerDraw[i], 1);
-		PlayerTextDrawSetProportional(u, Player[u].minerDraw[i], 1);
-		PlayerTextDrawUseBox(u, Player[u].minerDraw[i], 1);
-		PlayerTextDrawBoxColor(u, Player[u].minerDraw[i], 0);
-		PlayerTextDrawTextSize(u, Player[u].minerDraw[i], wtd_sx, wtd_sy);
-		PlayerTextDrawSetPreviewModel(u, Player[u].minerDraw[i], 1463);
-		PlayerTextDrawSetPreviewRot(u, Player[u].minerDraw[i], wtd_pmx, 0.0, wtd_pmy, 1.0);
-		PlayerTextDrawSetSelectable(u, Player[u].minerDraw[i], 1);
-		PlayerTextDrawShow(u, Player[u].minerDraw[i]);
+		Player[u].draws.tempDraws[i] = CreatePlayerTextDraw(u, wtd_xpos, wtd_ypos, "_");
+		PlayerTextDrawBackgroundColor(u, Player[u].draws.tempDraws[i], 0);
+		PlayerTextDrawFont(u, Player[u].draws.tempDraws[i], 5);
+		PlayerTextDrawLetterSize(u, Player[u].draws.tempDraws[i], 0.5, 1.0);
+		PlayerTextDrawColor(u, Player[u].draws.tempDraws[i], -1);
+		PlayerTextDrawSetOutline(u, Player[u].draws.tempDraws[i], 1);
+		PlayerTextDrawSetProportional(u, Player[u].draws.tempDraws[i], 1);
+		PlayerTextDrawUseBox(u, Player[u].draws.tempDraws[i], 1);
+		PlayerTextDrawBoxColor(u, Player[u].draws.tempDraws[i], 0);
+		PlayerTextDrawTextSize(u, Player[u].draws.tempDraws[i], wtd_sx, wtd_sy);
+		PlayerTextDrawSetPreviewModel(u, Player[u].draws.tempDraws[i], 1463);
+		PlayerTextDrawSetPreviewRot(u, Player[u].draws.tempDraws[i], wtd_pmx, 0.0, wtd_pmy, 1.0);
+		PlayerTextDrawSetSelectable(u, Player[u].draws.tempDraws[i], 1);
+		PlayerTextDrawShow(u, Player[u].draws.tempDraws[i]);
 	}
-	Player[u].isAction = PlayerAction::ACTION_FELGAME;
+	Player[u].status.action = PlayerAction::ACTION_FELGAME;
 	SelectTextDraw(u, 0x00000055);
 }
 
@@ -343,7 +343,7 @@ void fProperty::cFeller::actionTrees(const int u)
 					else
 					{
 						ApplyAnimation(u, "CHAINSAW", "CSAW_G", 3.0, 1, 0, 0, 0, 0, 1);
-						Player[u].inType = fell;
+						Player[u].status.inType = fell;
 						Player[u].aMinerB = slot;
 						fProperty::cFeller::startFellerGame(u);
 					}
@@ -352,7 +352,7 @@ void fProperty::cFeller::actionTrees(const int u)
 				else if (cPlayer::isRangeOfPoint(u, 2.5f, fProperty::cFeller::Feller[fell].Trees[slot].x, fProperty::cFeller::Feller[fell].Trees[slot].y, fProperty::cFeller::Feller[fell].Trees[slot].z) && fProperty::cFeller::Feller[fell].Trees[slot].proc == 0.0f)
 				{
 					ApplyAnimation(u, "CHAINSAW", "CSAW_PART", 3.0, 1, 1, 1, 1, 1, 1);
-					Player[u].inType = fell;
+					Player[u].status.inType = fell;
 					Player[u].aMinerB = slot;
 					fProperty::cFeller::startPreFellerGame(u);
 					break;
@@ -407,7 +407,7 @@ void fProperty::cFeller::onDLG(int u, int dialogid, int response, int listitem, 
 			}
 			else
 			{
-				Player[u].isAction = PlayerAction::ACTION_NONE;
+				Player[u].status.action = PlayerAction::ACTION_NONE;
 			}
 			break;
 		}
@@ -621,10 +621,10 @@ goto case_paydep;
 			}
 			else
 			{
-				if (Player[u].isAction == PlayerAction::ACTION_USEFELLERDLG_ONJOB)
-					Player[u].isAction = ACTION_FELJOB;
+				if (Player[u].status.action == PlayerAction::ACTION_USEFELLERDLG_ONJOB)
+					Player[u].status.action = ACTION_FELJOB;
 				else
-					Player[u].isAction = PlayerAction::ACTION_NONE;
+					Player[u].status.action = PlayerAction::ACTION_NONE;
 			}
 			break;
 		}
@@ -711,7 +711,7 @@ goto case_clientmoney;
 
 void fProperty::cFeller::ownerMenu(const int u)
 {
-	Player[u].isAction = PlayerAction::ACTION_USEFELLERDLG;
+	Player[u].status.action = PlayerAction::ACTION_USEFELLERDLG;
 	char msg[300] = "";
 	dialogs::genDLGItem(1, "Информация", msg);
 	dialogs::genDLGItem(2, "Название", msg);
@@ -723,10 +723,10 @@ void fProperty::cFeller::clientMenu(const int u)
 {
 	if (cPlayer::Jobs::cJobs::isInJob(u, cPlayer::Jobs::PlayerJob::JOB_FELLER))
 	{
-		if (Player[u].isAction == PlayerAction::ACTION_FELJOB) 
-			Player[u].isAction = PlayerAction::ACTION_USEFELLERDLG_ONJOB;
-		else if (Player[u].isAction == PlayerAction::ACTION_NONE)
-			Player[u].isAction = PlayerAction::ACTION_USEFELLERDLG;
+		if (Player[u].status.action == PlayerAction::ACTION_FELJOB) 
+			Player[u].status.action = PlayerAction::ACTION_USEFELLERDLG_ONJOB;
+		else if (Player[u].status.action == PlayerAction::ACTION_NONE)
+			Player[u].status.action = PlayerAction::ACTION_USEFELLERDLG;
 		char msg[300] = "";
 		dialogs::genDLGItem(1, "Переодется", msg);
 		dialogs::genDLGItem(2, "Зарплата", msg);

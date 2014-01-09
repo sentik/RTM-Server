@@ -4,7 +4,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int, int, int, int, const char*)
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int response, int listitem, const char* inputtext)
 {
-	if (Player[ playerid ].isAction == PlayerAction::ACTION_NONE)
+	if (Player[ playerid ].status.action == PlayerAction::ACTION_NONE)
 	{
 		switch (dialogid)
 		{
@@ -110,7 +110,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 					//-----------------------------------------
 					Player[ playerid ].pDB = cPlayer::regChar(playerid);
 					//-----------------------------------------
-					Player[ playerid ].isAction = PlayerAction::ACTION_NONE;
+					Player[ playerid ].status.action = PlayerAction::ACTION_NONE;
 					Player[ playerid ].isLogged = true;
 					//-----------------------------------------
 					//cPlayer::SpawnChar(playerid);
@@ -185,40 +185,40 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 		}
 	}
 	//---------------------------------------------------------------------------
-	else if (Player[ playerid ].isAction == PlayerAction::ACTION_BANKBILL)
+	else if (Player[ playerid ].status.action == PlayerAction::ACTION_BANKBILL)
 	{
 		cBanks::onDLG(playerid, dialogid, response, listitem, inputtext);
 	}
 	//---------------------------------------------------------------------------
-	else if (Player[ playerid ].isAction == PlayerAction::ACTION_AUTOSHOP)
+	else if (Player[ playerid ].status.action == PlayerAction::ACTION_AUTOSHOP)
 	{
 		Properties::Shops::ShopVehicle::onDLG(playerid, dialogid, response, listitem, inputtext);
 	}
 	//---------------------------------------------------------------------------
-	else if (Player[playerid].isAction == PlayerAction::ACTION_USEPROP_GAS)
+	else if (Player[playerid].status.action == PlayerAction::ACTION_USEPROP_GAS)
 	{
 		gasProperty::cGas::onDLG(playerid, dialogid, response, listitem, inputtext);
 	}
 	//---------------------------------------------------------------------------
-	else if (Player[playerid].isAction == PlayerAction::ACTION_USEFELLERDLG || Player[playerid].isAction == PlayerAction::ACTION_USEFELLERDLG_ONJOB)
+	else if (Player[playerid].status.action == PlayerAction::ACTION_USEFELLERDLG || Player[playerid].status.action == PlayerAction::ACTION_USEFELLERDLG_ONJOB)
 	{
 		fProperty::cFeller::onDLG(playerid, dialogid, response, listitem, inputtext);
 	}
 	//---------------------------------------------------------------------------
-	else if (Player[ playerid ].isAction == PlayerAction::ACTION_GANG_MAKE)
+	else if (Player[ playerid ].status.action == PlayerAction::ACTION_GANG_MAKE)
 	{
 		world::gangs::onDLG(playerid, dialogid, response, listitem, inputtext);
 	}
-	else if (Player[playerid].isAction == PlayerAction::ACTION_USEJOBSDLG)
+	else if (Player[playerid].status.action == PlayerAction::ACTION_USEJOBSDLG)
 	{
 		cPlayer::Jobs::cJobs::onDLG(playerid, dialogid, response, listitem, inputtext);
 	}
-	else if (Player[ playerid ].isAction == PlayerAction::ACTION_USEMINERDLG)
+	else if (Player[ playerid ].status.action == PlayerAction::ACTION_USEMINERDLG)
 	{
 		Jobs::Miner::cMiner::onDLG(playerid, dialogid, response, listitem, inputtext);
 	}
 	//---------------------------------------------------------------------------
-	else if (Player[ playerid ].isAction == PlayerAction::ACTION_Belay)
+	else if (Player[ playerid ].status.action == PlayerAction::ACTION_Belay)
 	{
 		Properties::Belays::onDLG(playerid, dialogid, response, listitem, inputtext);
 	}

@@ -38,11 +38,11 @@ void cState::callKeyStateChange(int playerid, int newkeys, int oldkeys)
 			thread(world::pickups::cPickups::actionPickups, playerid).join();
 			//==========================================================
 			//Взимодействия с работами
-			if (Player[ playerid ].isAction == PlayerAction::ACTION_FELJOB)
+			if (Player[ playerid ].status.action == PlayerAction::ACTION_FELJOB)
 			{
 				fProperty::cFeller::actionTrees(playerid);
 			}
-			else if (Player[ playerid ].isAction == PlayerAction::ACTION_FARMER)
+			else if (Player[ playerid ].status.action == PlayerAction::ACTION_FARMER)
 			{
 				Properties::Farms::onAction(playerid);
 			}

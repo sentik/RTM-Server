@@ -125,7 +125,7 @@ namespace Properties
 		{
 			const int idx = Player[ u ].inIndex;		// Ид проперти
 			const int bdx = Player[ u ].inIndex;		// Ид страховой
-			Player[u].isAction = PlayerAction::ACTION_Belay;
+			Player[u].status.action = PlayerAction::ACTION_Belay;
 			//---------------------------------
 			if (Property[ idx ].owner != Player[ u ].pDB)
 			{
@@ -290,7 +290,7 @@ namespace Properties
 				}
 				else
 				{
-					Player[u].isAction = PlayerAction::ACTION_NONE;
+					Player[u].status.action = PlayerAction::ACTION_NONE;
 				}
 			}
 			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -559,7 +559,7 @@ namespace Properties
 						regPlayer(u, Belay[bdx].db);
 					}
 				}
-				Player[u].isAction = PlayerAction::ACTION_NONE;
+				Player[u].status.action = PlayerAction::ACTION_NONE;
 			}
 			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		}

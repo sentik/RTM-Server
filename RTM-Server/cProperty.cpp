@@ -240,7 +240,7 @@ void cProperty::enterProperty(const int u)
 				break;
 			}
 			//--------------------------------------------------------------------
-		//	if (Player[ u ].pPosW != i) continue;	//Если игрок не в нужном мире
+		//	if (Player[ u ].pos.world != i) continue;	//Если игрок не в нужном мире
 			//--------------------------------------------------------------------
 			if (cPlayer::isRangeOfPoint(u, ENTER_RADIUS, Interior[ idx ].posX, Interior[ idx ].posY, Interior[ idx ].posZ))
 			{
@@ -312,7 +312,7 @@ void cProperty::enterProperty(const int u)
 			break;
 		}
 		//--------------------------------------------------------------------
-		if (Player[ u ].pPosW != i) continue;	//Если игрок не в нужном мире
+		if (Player[ u ].pos.world != i) continue;	//Если игрок не в нужном мире
 		//--------------------------------------------------------------------
 		if (cPlayer::isRangeOfPoint(u, ENTER_RADIUS, Interior[ idx ].posX, Interior[ idx ].posY, Interior[ idx ].posZ))
 		{

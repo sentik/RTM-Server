@@ -11,7 +11,7 @@ enum introDraw
 	IT_STORY,
 };
 
-
+/*
 void cPlayer::Intro::cIntro::initTrain(const int u)
 {
 	char bot[16];
@@ -26,91 +26,91 @@ void cPlayer::Intro::cIntro::initTrain(const int u)
 	TextDrawShowForPlayer(u, drawPlayerChar[HIGHT_TOP]);
 	TextDrawShowForPlayer(u, drawPlayerChar[HIGHT_BOTTOM]);
 	//---------------------------------------------------------------
-	Player[u].minerDraw[IT_SNAME] = CreatePlayerTextDraw(u, 320.000000, 230.000000, "West Role Play");
-	PlayerTextDrawAlignment(u, Player[u].minerDraw[IT_SNAME], 2);
-	PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[IT_SNAME], 255);
-	PlayerTextDrawFont(u, Player[u].minerDraw[IT_SNAME], 1);
-	PlayerTextDrawLetterSize(u, Player[u].minerDraw[IT_SNAME], 0.500000, 1.000000);
-	PlayerTextDrawColor(u, Player[u].minerDraw[IT_SNAME], -1);
-	PlayerTextDrawSetOutline(u, Player[u].minerDraw[IT_SNAME], 0);
-	PlayerTextDrawSetProportional(u, Player[u].minerDraw[IT_SNAME], 1);
-	PlayerTextDrawSetShadow(u, Player[u].minerDraw[IT_SNAME], 1);
-	PlayerTextDrawUseBox(u, Player[u].minerDraw[IT_SNAME], 1);
-	PlayerTextDrawBoxColor(u, Player[u].minerDraw[IT_SNAME], 838873680);
-	PlayerTextDrawTextSize(u, Player[u].minerDraw[IT_SNAME], 0.000000, 735.000000);
-	PlayerTextDrawSetSelectable(u, Player[u].minerDraw[IT_SNAME], 0);
+	Player[u].draws.tempDraws[IT_SNAME] = CreatePlayerTextDraw(u, 320.000000, 230.000000, "West Role Play");
+	PlayerTextDrawAlignment(u, Player[u].draws.tempDraws[IT_SNAME], 2);
+	PlayerTextDrawBackgroundColor(u, Player[u].draws.tempDraws[IT_SNAME], 255);
+	PlayerTextDrawFont(u, Player[u].draws.tempDraws[IT_SNAME], 1);
+	PlayerTextDrawLetterSize(u, Player[u].draws.tempDraws[IT_SNAME], 0.500000, 1.000000);
+	PlayerTextDrawColor(u, Player[u].draws.tempDraws[IT_SNAME], -1);
+	PlayerTextDrawSetOutline(u, Player[u].draws.tempDraws[IT_SNAME], 0);
+	PlayerTextDrawSetProportional(u, Player[u].draws.tempDraws[IT_SNAME], 1);
+	PlayerTextDrawSetShadow(u, Player[u].draws.tempDraws[IT_SNAME], 1);
+	PlayerTextDrawUseBox(u, Player[u].draws.tempDraws[IT_SNAME], 1);
+	PlayerTextDrawBoxColor(u, Player[u].draws.tempDraws[IT_SNAME], 838873680);
+	PlayerTextDrawTextSize(u, Player[u].draws.tempDraws[IT_SNAME], 0.000000, 735.000000);
+	PlayerTextDrawSetSelectable(u, Player[u].draws.tempDraws[IT_SNAME], 0);
 
-	Player[u].minerDraw[IT_SENTIKE] = CreatePlayerTextDraw(u, 260.000000, 211.000000, "Sentike");
-	PlayerTextDrawAlignment(u, Player[u].minerDraw[IT_SENTIKE], 2);
-	PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[IT_SENTIKE], 255);
-	PlayerTextDrawFont(u, Player[u].minerDraw[IT_SENTIKE], 1);
-	PlayerTextDrawLetterSize(u, Player[u].minerDraw[IT_SENTIKE], 0.500000, 1.000000);
-	PlayerTextDrawColor(u, Player[u].minerDraw[IT_SENTIKE], -1);
-	PlayerTextDrawSetOutline(u, Player[u].minerDraw[IT_SENTIKE], 0);
-	PlayerTextDrawSetProportional(u, Player[u].minerDraw[IT_SENTIKE], 1);
-	PlayerTextDrawSetShadow(u, Player[u].minerDraw[IT_SENTIKE], 1);
-	PlayerTextDrawSetSelectable(u, Player[u].minerDraw[IT_SENTIKE], 0);
+	Player[u].draws.tempDraws[IT_SENTIKE] = CreatePlayerTextDraw(u, 260.000000, 211.000000, "Sentike");
+	PlayerTextDrawAlignment(u, Player[u].draws.tempDraws[IT_SENTIKE], 2);
+	PlayerTextDrawBackgroundColor(u, Player[u].draws.tempDraws[IT_SENTIKE], 255);
+	PlayerTextDrawFont(u, Player[u].draws.tempDraws[IT_SENTIKE], 1);
+	PlayerTextDrawLetterSize(u, Player[u].draws.tempDraws[IT_SENTIKE], 0.500000, 1.000000);
+	PlayerTextDrawColor(u, Player[u].draws.tempDraws[IT_SENTIKE], -1);
+	PlayerTextDrawSetOutline(u, Player[u].draws.tempDraws[IT_SENTIKE], 0);
+	PlayerTextDrawSetProportional(u, Player[u].draws.tempDraws[IT_SENTIKE], 1);
+	PlayerTextDrawSetShadow(u, Player[u].draws.tempDraws[IT_SENTIKE], 1);
+	PlayerTextDrawSetSelectable(u, Player[u].draws.tempDraws[IT_SENTIKE], 0);
 
-	Player[u].minerDraw[IT_AND] = CreatePlayerTextDraw(u, 320.000000, 219.000000, "and");
-	PlayerTextDrawAlignment(u, Player[u].minerDraw[IT_AND], 2);
-	PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[IT_AND], 255);
-	PlayerTextDrawFont(u, Player[u].minerDraw[IT_AND], 1);
-	PlayerTextDrawLetterSize(u, Player[u].minerDraw[IT_AND], 0.500000, 1.000000);
-	PlayerTextDrawColor(u, Player[u].minerDraw[IT_AND], -1);
-	PlayerTextDrawSetOutline(u, Player[u].minerDraw[IT_AND], 0);
-	PlayerTextDrawSetProportional(u, Player[u].minerDraw[IT_AND], 1);
-	PlayerTextDrawSetShadow(u, Player[u].minerDraw[IT_AND], 1);
-	PlayerTextDrawSetSelectable(u, Player[u].minerDraw[IT_AND], 0);
+	Player[u].draws.tempDraws[IT_AND] = CreatePlayerTextDraw(u, 320.000000, 219.000000, "and");
+	PlayerTextDrawAlignment(u, Player[u].draws.tempDraws[IT_AND], 2);
+	PlayerTextDrawBackgroundColor(u, Player[u].draws.tempDraws[IT_AND], 255);
+	PlayerTextDrawFont(u, Player[u].draws.tempDraws[IT_AND], 1);
+	PlayerTextDrawLetterSize(u, Player[u].draws.tempDraws[IT_AND], 0.500000, 1.000000);
+	PlayerTextDrawColor(u, Player[u].draws.tempDraws[IT_AND], -1);
+	PlayerTextDrawSetOutline(u, Player[u].draws.tempDraws[IT_AND], 0);
+	PlayerTextDrawSetProportional(u, Player[u].draws.tempDraws[IT_AND], 1);
+	PlayerTextDrawSetShadow(u, Player[u].draws.tempDraws[IT_AND], 1);
+	PlayerTextDrawSetSelectable(u, Player[u].draws.tempDraws[IT_AND], 0);
 
-	Player[u].minerDraw[IT_SERINC] = CreatePlayerTextDraw(u, 306.000000, 228.000000, "Serinc");
-	PlayerTextDrawAlignment(u, Player[u].minerDraw[IT_SERINC], 2);
-	PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[IT_SERINC], 255);
-	PlayerTextDrawFont(u, Player[u].minerDraw[IT_SERINC], 1);
-	PlayerTextDrawLetterSize(u, Player[u].minerDraw[IT_SERINC], 0.500000, 1.000000);
-	PlayerTextDrawColor(u, Player[u].minerDraw[IT_SERINC], -1);
-	PlayerTextDrawSetOutline(u, Player[u].minerDraw[IT_SERINC], 0);
-	PlayerTextDrawSetProportional(u, Player[u].minerDraw[IT_SERINC], 1);
-	PlayerTextDrawSetShadow(u, Player[u].minerDraw[IT_SERINC], 1);
-	PlayerTextDrawSetSelectable(u, Player[u].minerDraw[IT_SERINC], 0);
+	Player[u].draws.tempDraws[IT_SERINC] = CreatePlayerTextDraw(u, 306.000000, 228.000000, "Serinc");
+	PlayerTextDrawAlignment(u, Player[u].draws.tempDraws[IT_SERINC], 2);
+	PlayerTextDrawBackgroundColor(u, Player[u].draws.tempDraws[IT_SERINC], 255);
+	PlayerTextDrawFont(u, Player[u].draws.tempDraws[IT_SERINC], 1);
+	PlayerTextDrawLetterSize(u, Player[u].draws.tempDraws[IT_SERINC], 0.500000, 1.000000);
+	PlayerTextDrawColor(u, Player[u].draws.tempDraws[IT_SERINC], -1);
+	PlayerTextDrawSetOutline(u, Player[u].draws.tempDraws[IT_SERINC], 0);
+	PlayerTextDrawSetProportional(u, Player[u].draws.tempDraws[IT_SERINC], 1);
+	PlayerTextDrawSetShadow(u, Player[u].draws.tempDraws[IT_SERINC], 1);
+	PlayerTextDrawSetSelectable(u, Player[u].draws.tempDraws[IT_SERINC], 0);
 
-	Player[u].minerDraw[IT_PRESENT] = CreatePlayerTextDraw(u, 320.000000, 220.000000, "PRESENT");
-	PlayerTextDrawAlignment(u, Player[u].minerDraw[IT_PRESENT], 2);
-	PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[IT_PRESENT], 255);
-	PlayerTextDrawFont(u, Player[u].minerDraw[IT_PRESENT], 1);
-	PlayerTextDrawLetterSize(u, Player[u].minerDraw[IT_PRESENT], 0.500000, 1.000000);
-	PlayerTextDrawColor(u, Player[u].minerDraw[IT_PRESENT], -1);
-	PlayerTextDrawSetOutline(u, Player[u].minerDraw[IT_PRESENT], 0);
-	PlayerTextDrawSetProportional(u, Player[u].minerDraw[IT_PRESENT], 1);
-	PlayerTextDrawSetShadow(u, Player[u].minerDraw[IT_PRESENT], 1);
-	PlayerTextDrawSetSelectable(u, Player[u].minerDraw[IT_PRESENT], 0);
+	Player[u].draws.tempDraws[IT_PRESENT] = CreatePlayerTextDraw(u, 320.000000, 220.000000, "PRESENT");
+	PlayerTextDrawAlignment(u, Player[u].draws.tempDraws[IT_PRESENT], 2);
+	PlayerTextDrawBackgroundColor(u, Player[u].draws.tempDraws[IT_PRESENT], 255);
+	PlayerTextDrawFont(u, Player[u].draws.tempDraws[IT_PRESENT], 1);
+	PlayerTextDrawLetterSize(u, Player[u].draws.tempDraws[IT_PRESENT], 0.500000, 1.000000);
+	PlayerTextDrawColor(u, Player[u].draws.tempDraws[IT_PRESENT], -1);
+	PlayerTextDrawSetOutline(u, Player[u].draws.tempDraws[IT_PRESENT], 0);
+	PlayerTextDrawSetProportional(u, Player[u].draws.tempDraws[IT_PRESENT], 1);
+	PlayerTextDrawSetShadow(u, Player[u].draws.tempDraws[IT_PRESENT], 1);
+	PlayerTextDrawSetSelectable(u, Player[u].draws.tempDraws[IT_PRESENT], 0);
 
-	Player[u].minerDraw[IT_BG] = CreatePlayerTextDraw(u, 320.000000, 1.000000, "_");
-	PlayerTextDrawAlignment(u, Player[u].minerDraw[IT_BG], 2);
-	PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[IT_BG], 255);
-	PlayerTextDrawFont(u, Player[u].minerDraw[IT_BG], 1);
-	PlayerTextDrawLetterSize(u, Player[u].minerDraw[IT_BG], 0.500000, 60.0);
-	PlayerTextDrawColor(u, Player[u].minerDraw[IT_BG], -1);
-	PlayerTextDrawSetOutline(u, Player[u].minerDraw[IT_BG], 0);
-	PlayerTextDrawSetProportional(u, Player[u].minerDraw[IT_BG], 1);
-	PlayerTextDrawSetShadow(u, Player[u].minerDraw[IT_BG], 1);
-	PlayerTextDrawUseBox(u, Player[u].minerDraw[IT_BG], 1);
-	PlayerTextDrawBoxColor(u, Player[u].minerDraw[IT_BG], 255);
-	PlayerTextDrawTextSize(u, Player[u].minerDraw[IT_BG], 0.000000, 690.000000);
-	PlayerTextDrawSetSelectable(u, Player[u].minerDraw[IT_BG], 0);
-	PlayerTextDrawShow(u, Player[u].minerDraw[IT_BG]);
+	Player[u].draws.tempDraws[IT_BG] = CreatePlayerTextDraw(u, 320.000000, 1.000000, "_");
+	PlayerTextDrawAlignment(u, Player[u].draws.tempDraws[IT_BG], 2);
+	PlayerTextDrawBackgroundColor(u, Player[u].draws.tempDraws[IT_BG], 255);
+	PlayerTextDrawFont(u, Player[u].draws.tempDraws[IT_BG], 1);
+	PlayerTextDrawLetterSize(u, Player[u].draws.tempDraws[IT_BG], 0.500000, 60.0);
+	PlayerTextDrawColor(u, Player[u].draws.tempDraws[IT_BG], -1);
+	PlayerTextDrawSetOutline(u, Player[u].draws.tempDraws[IT_BG], 0);
+	PlayerTextDrawSetProportional(u, Player[u].draws.tempDraws[IT_BG], 1);
+	PlayerTextDrawSetShadow(u, Player[u].draws.tempDraws[IT_BG], 1);
+	PlayerTextDrawUseBox(u, Player[u].draws.tempDraws[IT_BG], 1);
+	PlayerTextDrawBoxColor(u, Player[u].draws.tempDraws[IT_BG], 255);
+	PlayerTextDrawTextSize(u, Player[u].draws.tempDraws[IT_BG], 0.000000, 690.000000);
+	PlayerTextDrawSetSelectable(u, Player[u].draws.tempDraws[IT_BG], 0);
+	PlayerTextDrawShow(u, Player[u].draws.tempDraws[IT_BG]);
 
-	Player[u].minerDraw[IT_STORY] = CreatePlayerTextDraw(u, 320.000000, 385.000000, "_");
-	PlayerTextDrawAlignment(u, Player[u].minerDraw[IT_STORY], 2);
-	PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[IT_STORY], 838873650);
-	PlayerTextDrawFont(u, Player[u].minerDraw[IT_STORY], 1);
-	PlayerTextDrawLetterSize(u, Player[u].minerDraw[IT_STORY], 0.500000, 1.000000);
-	PlayerTextDrawColor(u, Player[u].minerDraw[IT_STORY], -1);
-	PlayerTextDrawSetOutline(u, Player[u].minerDraw[IT_STORY], 1);
-	PlayerTextDrawSetProportional(u, Player[u].minerDraw[IT_STORY], 1);
-	PlayerTextDrawUseBox(u, Player[u].minerDraw[IT_STORY], 1);
-	PlayerTextDrawBoxColor(u, Player[u].minerDraw[IT_STORY], 0);
-	PlayerTextDrawTextSize(u, Player[u].minerDraw[IT_STORY], 0.000000, 555.000000);
-	PlayerTextDrawSetSelectable(u, Player[u].minerDraw[IT_STORY], 0);	
+	Player[u].draws.tempDraws[IT_STORY] = CreatePlayerTextDraw(u, 320.000000, 385.000000, "_");
+	PlayerTextDrawAlignment(u, Player[u].draws.tempDraws[IT_STORY], 2);
+	PlayerTextDrawBackgroundColor(u, Player[u].draws.tempDraws[IT_STORY], 838873650);
+	PlayerTextDrawFont(u, Player[u].draws.tempDraws[IT_STORY], 1);
+	PlayerTextDrawLetterSize(u, Player[u].draws.tempDraws[IT_STORY], 0.500000, 1.000000);
+	PlayerTextDrawColor(u, Player[u].draws.tempDraws[IT_STORY], -1);
+	PlayerTextDrawSetOutline(u, Player[u].draws.tempDraws[IT_STORY], 1);
+	PlayerTextDrawSetProportional(u, Player[u].draws.tempDraws[IT_STORY], 1);
+	PlayerTextDrawUseBox(u, Player[u].draws.tempDraws[IT_STORY], 1);
+	PlayerTextDrawBoxColor(u, Player[u].draws.tempDraws[IT_STORY], 0);
+	PlayerTextDrawTextSize(u, Player[u].draws.tempDraws[IT_STORY], 0.000000, 555.000000);
+	PlayerTextDrawSetSelectable(u, Player[u].draws.tempDraws[IT_STORY], 0);	
 }
 
 unsigned long createRGBA(int r, int g, int b, int a)
@@ -137,9 +137,9 @@ void cPlayer::Intro::cIntro::drawIntro(const int u)
 	if (bggg > 0)
 	{
 		bggg -= 1;
-		PlayerTextDrawHide(u, Player[u].minerDraw[IT_BG]);
-		PlayerTextDrawBoxColor(u, Player[u].minerDraw[IT_BG], bggg);
-		PlayerTextDrawShow(u, Player[u].minerDraw[IT_BG]);
+		PlayerTextDrawHide(u, Player[u].draws.tempDraws[IT_BG]);
+		PlayerTextDrawBoxColor(u, Player[u].draws.tempDraws[IT_BG], bggg);
+		PlayerTextDrawShow(u, Player[u].draws.tempDraws[IT_BG]);
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(25));
 
@@ -177,40 +177,40 @@ void cPlayer::Intro::cIntro::drawIntro(const int u)
 	if (Y < 300.0f)
 	{
 		check_Sentike:
-		PlayerTextDrawDestroy(u, Player[u].minerDraw[IT_SENTIKE]);
-		Player[u].minerDraw[IT_SENTIKE] = CreatePlayerTextDraw(u, Y, 211.0, "Sentike");
-		if(Player[u].minerDraw[IT_SENTIKE] )
+		PlayerTextDrawDestroy(u, Player[u].draws.tempDraws[IT_SENTIKE]);
+		Player[u].draws.tempDraws[IT_SENTIKE] = CreatePlayerTextDraw(u, Y, 211.0, "Sentike");
+		if(Player[u].draws.tempDraws[IT_SENTIKE] )
 		{
-			PlayerTextDrawAlignment(u, Player[u].minerDraw[IT_SENTIKE], 2);
-			PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[IT_SENTIKE], createRGBA(bR, bG, bB, bA));
-			PlayerTextDrawFont(u, Player[u].minerDraw[IT_SENTIKE], 1);
-			PlayerTextDrawLetterSize(u, Player[u].minerDraw[IT_SENTIKE], 0.500000, 1.000000);
-			PlayerTextDrawColor(u, Player[u].minerDraw[IT_SENTIKE], createRGBA(R, G, B, A));
-			PlayerTextDrawSetOutline(u, Player[u].minerDraw[IT_SENTIKE], 0);
-			PlayerTextDrawSetProportional(u, Player[u].minerDraw[IT_SENTIKE], 1);
-			PlayerTextDrawSetShadow(u, Player[u].minerDraw[IT_SENTIKE], 1);
-			PlayerTextDrawSetSelectable(u, Player[u].minerDraw[IT_SENTIKE], 0);
-			PlayerTextDrawShow(u, Player[u].minerDraw[IT_SENTIKE]);
+			PlayerTextDrawAlignment(u, Player[u].draws.tempDraws[IT_SENTIKE], 2);
+			PlayerTextDrawBackgroundColor(u, Player[u].draws.tempDraws[IT_SENTIKE], createRGBA(bR, bG, bB, bA));
+			PlayerTextDrawFont(u, Player[u].draws.tempDraws[IT_SENTIKE], 1);
+			PlayerTextDrawLetterSize(u, Player[u].draws.tempDraws[IT_SENTIKE], 0.500000, 1.000000);
+			PlayerTextDrawColor(u, Player[u].draws.tempDraws[IT_SENTIKE], createRGBA(R, G, B, A));
+			PlayerTextDrawSetOutline(u, Player[u].draws.tempDraws[IT_SENTIKE], 0);
+			PlayerTextDrawSetProportional(u, Player[u].draws.tempDraws[IT_SENTIKE], 1);
+			PlayerTextDrawSetShadow(u, Player[u].draws.tempDraws[IT_SENTIKE], 1);
+			PlayerTextDrawSetSelectable(u, Player[u].draws.tempDraws[IT_SENTIKE], 0);
+			PlayerTextDrawShow(u, Player[u].draws.tempDraws[IT_SENTIKE]);
 		}
 		else goto check_Sentike;
 
-		PlayerTextDrawHide(u, Player[u].minerDraw[IT_AND]);
-		PlayerTextDrawColor(u, Player[u].minerDraw[IT_AND], createRGBA(R, RR, B, AA));
-		PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[IT_AND], createRGBA(bR, bG, bB, AA));
-		PlayerTextDrawShow(u, Player[u].minerDraw[IT_AND]);
+		PlayerTextDrawHide(u, Player[u].draws.tempDraws[IT_AND]);
+		PlayerTextDrawColor(u, Player[u].draws.tempDraws[IT_AND], createRGBA(R, RR, B, AA));
+		PlayerTextDrawBackgroundColor(u, Player[u].draws.tempDraws[IT_AND], createRGBA(bR, bG, bB, AA));
+		PlayerTextDrawShow(u, Player[u].draws.tempDraws[IT_AND]);
 
-		PlayerTextDrawDestroy(u, Player[u].minerDraw[IT_SERINC]);
-		Player[u].minerDraw[IT_SERINC] = CreatePlayerTextDraw(u, X, 228.0, "Serinc");
-		PlayerTextDrawAlignment(u, Player[u].minerDraw[IT_SERINC], 2);
-		PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[IT_SERINC], createRGBA(bR, bG, bB, bA));
-		PlayerTextDrawFont(u, Player[u].minerDraw[IT_SERINC], 1);
-		PlayerTextDrawLetterSize(u, Player[u].minerDraw[IT_SERINC], 0.500000, 1.000000);
-		PlayerTextDrawColor(u, Player[u].minerDraw[IT_SERINC], createRGBA(R, G, B, A));
-		PlayerTextDrawSetOutline(u, Player[u].minerDraw[IT_SERINC], 0);
-		PlayerTextDrawSetProportional(u, Player[u].minerDraw[IT_SERINC], 1);
-		PlayerTextDrawSetShadow(u, Player[u].minerDraw[IT_SERINC], 1);
-		PlayerTextDrawSetSelectable(u, Player[u].minerDraw[IT_SERINC], 0);
-		PlayerTextDrawShow(u, Player[u].minerDraw[IT_SERINC]);
+		PlayerTextDrawDestroy(u, Player[u].draws.tempDraws[IT_SERINC]);
+		Player[u].draws.tempDraws[IT_SERINC] = CreatePlayerTextDraw(u, X, 228.0, "Serinc");
+		PlayerTextDrawAlignment(u, Player[u].draws.tempDraws[IT_SERINC], 2);
+		PlayerTextDrawBackgroundColor(u, Player[u].draws.tempDraws[IT_SERINC], createRGBA(bR, bG, bB, bA));
+		PlayerTextDrawFont(u, Player[u].draws.tempDraws[IT_SERINC], 1);
+		PlayerTextDrawLetterSize(u, Player[u].draws.tempDraws[IT_SERINC], 0.500000, 1.000000);
+		PlayerTextDrawColor(u, Player[u].draws.tempDraws[IT_SERINC], createRGBA(R, G, B, A));
+		PlayerTextDrawSetOutline(u, Player[u].draws.tempDraws[IT_SERINC], 0);
+		PlayerTextDrawSetProportional(u, Player[u].draws.tempDraws[IT_SERINC], 1);
+		PlayerTextDrawSetShadow(u, Player[u].draws.tempDraws[IT_SERINC], 1);
+		PlayerTextDrawSetSelectable(u, Player[u].draws.tempDraws[IT_SERINC], 0);
+		PlayerTextDrawShow(u, Player[u].draws.tempDraws[IT_SERINC]);
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(15));
 
@@ -229,25 +229,25 @@ void cPlayer::Intro::cIntro::drawIntro(const int u)
 		A -= 1;
 		bA += 1;
 
-		PlayerTextDrawHide(u, Player[u].minerDraw[IT_SERINC]);
-		PlayerTextDrawColor(u, Player[u].minerDraw[IT_SERINC], createRGBA(R, G, B, A));
-		PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[IT_SERINC], createRGBA(bR, bG, bB, A));
-		PlayerTextDrawShow(u, Player[u].minerDraw[IT_SERINC]);
+		PlayerTextDrawHide(u, Player[u].draws.tempDraws[IT_SERINC]);
+		PlayerTextDrawColor(u, Player[u].draws.tempDraws[IT_SERINC], createRGBA(R, G, B, A));
+		PlayerTextDrawBackgroundColor(u, Player[u].draws.tempDraws[IT_SERINC], createRGBA(bR, bG, bB, A));
+		PlayerTextDrawShow(u, Player[u].draws.tempDraws[IT_SERINC]);
 
-		PlayerTextDrawHide(u, Player[u].minerDraw[IT_AND]);
-		PlayerTextDrawColor(u, Player[u].minerDraw[IT_AND], createRGBA(R, RR, B, A));
-		PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[IT_AND], createRGBA(bR, bG, bB, A));
-		PlayerTextDrawShow(u, Player[u].minerDraw[IT_AND]);
+		PlayerTextDrawHide(u, Player[u].draws.tempDraws[IT_AND]);
+		PlayerTextDrawColor(u, Player[u].draws.tempDraws[IT_AND], createRGBA(R, RR, B, A));
+		PlayerTextDrawBackgroundColor(u, Player[u].draws.tempDraws[IT_AND], createRGBA(bR, bG, bB, A));
+		PlayerTextDrawShow(u, Player[u].draws.tempDraws[IT_AND]);
 
-		PlayerTextDrawHide(u, Player[u].minerDraw[IT_SENTIKE]);
-		PlayerTextDrawColor(u, Player[u].minerDraw[IT_SENTIKE], createRGBA(R, G, B, A));
-		PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[IT_SENTIKE], createRGBA(bR, bG, bB, A));
-		PlayerTextDrawShow(u, Player[u].minerDraw[IT_SENTIKE]);
+		PlayerTextDrawHide(u, Player[u].draws.tempDraws[IT_SENTIKE]);
+		PlayerTextDrawColor(u, Player[u].draws.tempDraws[IT_SENTIKE], createRGBA(R, G, B, A));
+		PlayerTextDrawBackgroundColor(u, Player[u].draws.tempDraws[IT_SENTIKE], createRGBA(bR, bG, bB, A));
+		PlayerTextDrawShow(u, Player[u].draws.tempDraws[IT_SENTIKE]);
 
-		PlayerTextDrawHide(u, Player[u].minerDraw[IT_PRESENT]);
-		PlayerTextDrawColor(u, Player[u].minerDraw[IT_PRESENT], createRGBA(R, RR, B, bA));
-		PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[IT_PRESENT], createRGBA(bR, bG, bB, bA));
-		PlayerTextDrawShow(u, Player[u].minerDraw[IT_PRESENT]);
+		PlayerTextDrawHide(u, Player[u].draws.tempDraws[IT_PRESENT]);
+		PlayerTextDrawColor(u, Player[u].draws.tempDraws[IT_PRESENT], createRGBA(R, RR, B, bA));
+		PlayerTextDrawBackgroundColor(u, Player[u].draws.tempDraws[IT_PRESENT], createRGBA(bR, bG, bB, bA));
+		PlayerTextDrawShow(u, Player[u].draws.tempDraws[IT_PRESENT]);
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(15));
 
@@ -267,16 +267,16 @@ void cPlayer::Intro::cIntro::drawIntro(const int u)
 		
 		if(A < 50 && bA < 50) A += 1;
 
-		PlayerTextDrawHide(u, Player[u].minerDraw[IT_PRESENT]);
-		PlayerTextDrawColor(u, Player[u].minerDraw[IT_PRESENT], createRGBA(R, RR, B, bA));
-		PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[IT_PRESENT], createRGBA(bR, bG, bB, bA));
-		PlayerTextDrawShow(u, Player[u].minerDraw[IT_PRESENT]);
+		PlayerTextDrawHide(u, Player[u].draws.tempDraws[IT_PRESENT]);
+		PlayerTextDrawColor(u, Player[u].draws.tempDraws[IT_PRESENT], createRGBA(R, RR, B, bA));
+		PlayerTextDrawBackgroundColor(u, Player[u].draws.tempDraws[IT_PRESENT], createRGBA(bR, bG, bB, bA));
+		PlayerTextDrawShow(u, Player[u].draws.tempDraws[IT_PRESENT]);
 
-		PlayerTextDrawHide(u, Player[u].minerDraw[IT_SNAME]);
-		PlayerTextDrawColor(u, Player[u].minerDraw[IT_SNAME], createRGBA(R, G, B, tA));
-		PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[IT_SNAME], createRGBA(bR, bG, bB, tA));
-		PlayerTextDrawBoxColor(u, Player[u].minerDraw[IT_SNAME], createRGBA(50, 0, 50, A));
-		PlayerTextDrawShow(u, Player[u].minerDraw[IT_SNAME]);
+		PlayerTextDrawHide(u, Player[u].draws.tempDraws[IT_SNAME]);
+		PlayerTextDrawColor(u, Player[u].draws.tempDraws[IT_SNAME], createRGBA(R, G, B, tA));
+		PlayerTextDrawBackgroundColor(u, Player[u].draws.tempDraws[IT_SNAME], createRGBA(bR, bG, bB, tA));
+		PlayerTextDrawBoxColor(u, Player[u].draws.tempDraws[IT_SNAME], createRGBA(50, 0, 50, A));
+		PlayerTextDrawShow(u, Player[u].draws.tempDraws[IT_SNAME]);
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(15));
 
@@ -296,21 +296,21 @@ void cPlayer::Intro::cIntro::drawIntro(const int u)
 		if (A > 0) A -= 1;
 		if (tA > 0) tA -= 1;
 
-		PlayerTextDrawDestroy(u, Player[u].minerDraw[IT_SNAME]);
-		Player[u].minerDraw[IT_SNAME] = CreatePlayerTextDraw(u, 320.0, X, "West Role Play");
-		PlayerTextDrawAlignment(u, Player[u].minerDraw[IT_SNAME], 2);
-		PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[IT_SNAME], createRGBA(bR, bG, bB, tA));
-		PlayerTextDrawFont(u, Player[u].minerDraw[IT_SNAME], 1);
-		PlayerTextDrawLetterSize(u, Player[u].minerDraw[IT_SNAME], 0.500000, 1.000000);
-		PlayerTextDrawColor(u, Player[u].minerDraw[IT_SNAME], createRGBA(R, G, B, tA));
-		PlayerTextDrawSetOutline(u, Player[u].minerDraw[IT_SNAME], 0);
-		PlayerTextDrawSetProportional(u, Player[u].minerDraw[IT_SNAME], 1);
-		PlayerTextDrawSetShadow(u, Player[u].minerDraw[IT_SNAME], 1);
-		PlayerTextDrawUseBox(u, Player[u].minerDraw[IT_SNAME], 1);
-		PlayerTextDrawBoxColor(u, Player[u].minerDraw[IT_SNAME], createRGBA(50, 0, 50, A));
-		PlayerTextDrawTextSize(u, Player[u].minerDraw[IT_SNAME], 0.000000, 735.000000);
-		PlayerTextDrawSetSelectable(u, Player[u].minerDraw[IT_SNAME], 0);
-		PlayerTextDrawShow(u, Player[u].minerDraw[IT_SNAME]);
+		PlayerTextDrawDestroy(u, Player[u].draws.tempDraws[IT_SNAME]);
+		Player[u].draws.tempDraws[IT_SNAME] = CreatePlayerTextDraw(u, 320.0, X, "West Role Play");
+		PlayerTextDrawAlignment(u, Player[u].draws.tempDraws[IT_SNAME], 2);
+		PlayerTextDrawBackgroundColor(u, Player[u].draws.tempDraws[IT_SNAME], createRGBA(bR, bG, bB, tA));
+		PlayerTextDrawFont(u, Player[u].draws.tempDraws[IT_SNAME], 1);
+		PlayerTextDrawLetterSize(u, Player[u].draws.tempDraws[IT_SNAME], 0.500000, 1.000000);
+		PlayerTextDrawColor(u, Player[u].draws.tempDraws[IT_SNAME], createRGBA(R, G, B, tA));
+		PlayerTextDrawSetOutline(u, Player[u].draws.tempDraws[IT_SNAME], 0);
+		PlayerTextDrawSetProportional(u, Player[u].draws.tempDraws[IT_SNAME], 1);
+		PlayerTextDrawSetShadow(u, Player[u].draws.tempDraws[IT_SNAME], 1);
+		PlayerTextDrawUseBox(u, Player[u].draws.tempDraws[IT_SNAME], 1);
+		PlayerTextDrawBoxColor(u, Player[u].draws.tempDraws[IT_SNAME], createRGBA(50, 0, 50, A));
+		PlayerTextDrawTextSize(u, Player[u].draws.tempDraws[IT_SNAME], 0.000000, 735.000000);
+		PlayerTextDrawSetSelectable(u, Player[u].draws.tempDraws[IT_SNAME], 0);
+		PlayerTextDrawShow(u, Player[u].draws.tempDraws[IT_SNAME]);
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(20));
 
@@ -323,7 +323,7 @@ void cPlayer::Intro::cIntro::drawIntro(const int u)
 
 	case_story:
 	char msg[256] = "";
-	PlayerTextDrawSetString(u, Player[ u ].minerDraw[ IT_STORY ], "_");
+	PlayerTextDrawSetString(u, Player[ u ].draws.tempDraws[ IT_STORY ], "_");
 
 	if ( A == 0 )
 	{
@@ -412,7 +412,7 @@ void cPlayer::Intro::cIntro::drawIntro(const int u)
 
 
 
-	PlayerTextDrawSetString(u, Player[u].minerDraw[IT_STORY], msg);
+	PlayerTextDrawSetString(u, Player[u].draws.tempDraws[IT_STORY], msg);
 
 	case_showStory:
 
@@ -421,10 +421,10 @@ void cPlayer::Intro::cIntro::drawIntro(const int u)
 		AA += 1;
 		if ( bA < 50 ) bA += 1;
 
-		PlayerTextDrawHide(u, Player[u].minerDraw[IT_STORY]);
-		PlayerTextDrawColor(u, Player[u].minerDraw[IT_STORY], createRGBA(255, 255, 255, AA));
-		PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[IT_STORY], createRGBA(50, 0, 50, bA));
-		PlayerTextDrawShow(u, Player[u].minerDraw[IT_STORY]);
+		PlayerTextDrawHide(u, Player[u].draws.tempDraws[IT_STORY]);
+		PlayerTextDrawColor(u, Player[u].draws.tempDraws[IT_STORY], createRGBA(255, 255, 255, AA));
+		PlayerTextDrawBackgroundColor(u, Player[u].draws.tempDraws[IT_STORY], createRGBA(50, 0, 50, bA));
+		PlayerTextDrawShow(u, Player[u].draws.tempDraws[IT_STORY]);
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
@@ -443,10 +443,10 @@ void cPlayer::Intro::cIntro::drawIntro(const int u)
 		AA -= 1;
 		if ( bA > 0 ) bA -= 1;
 
-		PlayerTextDrawHide(u, Player[u].minerDraw[IT_STORY]);
-		PlayerTextDrawColor(u, Player[u].minerDraw[IT_STORY], createRGBA(255, 255, 255, AA));
-		PlayerTextDrawBackgroundColor(u, Player[u].minerDraw[IT_STORY], createRGBA(50, 0, 50, bA));
-		PlayerTextDrawShow(u, Player[u].minerDraw[IT_STORY]);
+		PlayerTextDrawHide(u, Player[u].draws.tempDraws[IT_STORY]);
+		PlayerTextDrawColor(u, Player[u].draws.tempDraws[IT_STORY], createRGBA(255, 255, 255, AA));
+		PlayerTextDrawBackgroundColor(u, Player[u].draws.tempDraws[IT_STORY], createRGBA(50, 0, 50, bA));
+		PlayerTextDrawShow(u, Player[u].draws.tempDraws[IT_STORY]);
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
@@ -466,9 +466,9 @@ void cPlayer::Intro::cIntro::drawIntro(const int u)
 	if ( bggg < 255 )
 	{
 		bggg += 1;
-		PlayerTextDrawHide(u, Player[u].minerDraw[IT_BG]);
-		PlayerTextDrawBoxColor(u, Player[u].minerDraw[IT_BG], bggg);
-		PlayerTextDrawShow(u, Player[u].minerDraw[IT_BG]);
+		PlayerTextDrawHide(u, Player[u].draws.tempDraws[IT_BG]);
+		PlayerTextDrawBoxColor(u, Player[u].draws.tempDraws[IT_BG], bggg);
+		PlayerTextDrawShow(u, Player[u].draws.tempDraws[IT_BG]);
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(25));
 
@@ -490,7 +490,7 @@ void cPlayer::Intro::cIntro::drawIntro(const int u)
 	cPlayer::setCharInterior(u, REG_SPAWN_INT);
 	cPlayer::setCharWorld(u, REG_SPAWN_WOR);
 
-	Player[ u ].isAction = PlayerAction::ACTION_NONE;
+	Player[ u ].status.action = PlayerAction::ACTION_NONE;
 
 	dialogs::showDLGEnterName(u);
 
@@ -501,22 +501,22 @@ void cPlayer::Intro::cIntro::drawIntro(const int u)
 	if ( bggg > 0 )
 	{
 		bggg -= 1;
-		PlayerTextDrawHide(u, Player[u].minerDraw[IT_BG]);
-		PlayerTextDrawBoxColor(u, Player[u].minerDraw[IT_BG], bggg);
-		PlayerTextDrawShow(u, Player[u].minerDraw[IT_BG]);
+		PlayerTextDrawHide(u, Player[u].draws.tempDraws[IT_BG]);
+		PlayerTextDrawBoxColor(u, Player[u].draws.tempDraws[IT_BG], bggg);
+		PlayerTextDrawShow(u, Player[u].draws.tempDraws[IT_BG]);
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(25));
 
 		goto case_bggg;
 	}
 
-	PlayerTextDrawDestroy(u, Player[u].minerDraw[introDraw::IT_AND]);
-	PlayerTextDrawDestroy(u, Player[u].minerDraw[introDraw::IT_PRESENT]);
-	PlayerTextDrawDestroy(u, Player[u].minerDraw[introDraw::IT_SENTIKE]);
-	PlayerTextDrawDestroy(u, Player[u].minerDraw[introDraw::IT_SERINC]);
-	PlayerTextDrawDestroy(u, Player[u].minerDraw[introDraw::IT_SNAME]);
-	PlayerTextDrawDestroy(u, Player[u].minerDraw[introDraw::IT_BG]);
-	PlayerTextDrawDestroy(u, Player[u].minerDraw[introDraw::IT_STORY]);
+	PlayerTextDrawDestroy(u, Player[u].draws.tempDraws[introDraw::IT_AND]);
+	PlayerTextDrawDestroy(u, Player[u].draws.tempDraws[introDraw::IT_PRESENT]);
+	PlayerTextDrawDestroy(u, Player[u].draws.tempDraws[introDraw::IT_SENTIKE]);
+	PlayerTextDrawDestroy(u, Player[u].draws.tempDraws[introDraw::IT_SERINC]);
+	PlayerTextDrawDestroy(u, Player[u].draws.tempDraws[introDraw::IT_SNAME]);
+	PlayerTextDrawDestroy(u, Player[u].draws.tempDraws[introDraw::IT_BG]);
+	PlayerTextDrawDestroy(u, Player[u].draws.tempDraws[introDraw::IT_STORY]);
 }
 
 void cPlayer::Intro::cIntro::updateIntro(const int u)
@@ -567,20 +567,20 @@ void cPlayer::Intro::cIntro::updateIntro(const int u)
 
 	//MoveObject(o, cX, cY, cZ, 100.0, 0, 0, 0);
 	//AttachObjectToVehicle(o, Player[b].pCarid, cX, cY, cZ, 0, 0, 0);
-	InterpolateCameraPos(u, Player[u].pPosX, Player[u].pPosY, Player[u].pPosZ, cX, cY, cZ, 2000, CAMERA_MOVE);
-	InterpolateCameraLookAt(u, Player[b].pPosX, Player[b].pPosY, Player[b].pPosZ, lX, lY, z, 2000, CAMERA_MOVE);
+	InterpolateCameraPos(u, Player[u].pos.x, Player[u].pos.y, Player[u].pos.z, cX, cY, cZ, 2000, CAMERA_MOVE);
+	InterpolateCameraLookAt(u, Player[b].pos.x, Player[b].pos.y, Player[b].pos.z, lX, lY, z, 2000, CAMERA_MOVE);
 	//SetPlayerCameraLookAt(u, x, y, z, CAMERA_CUT);
 	//AttachCameraToObject(u, o);
 
-	Player[u].pPosX = cX;
-	Player[u].pPosY = cY;
-	Player[u].pPosZ = cZ;
+	Player[u].pos.x = cX;
+	Player[u].pos.y = cY;
+	Player[u].pos.z = cZ;
 	
-	Player[b].pPosX = lX;
-	Player[b].pPosY = lY;
-	Player[b].pPosZ = z;
+	Player[b].pos.x = lX;
+	Player[b].pos.y = lY;
+	Player[b].pos.z = z;
 }
-
+*/
 
 /*void cPlayer::Intro::cIntro::updateIntro(const int u)
 {
