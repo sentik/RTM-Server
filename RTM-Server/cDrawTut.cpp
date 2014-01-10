@@ -171,6 +171,8 @@ namespace extrimeDraws
 			TextDrawSetSelectable(tmp.draws.text, 0);
 			TextDraw(tmp.draws.text).ShowForAll();
 
+			tmp.countPlayers = 0;
+
 			for ( int i = 0; i < MAX_PLAYERS; i++ )
 			{
 				if ( Player[i].isLogged )

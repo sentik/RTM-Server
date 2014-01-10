@@ -145,8 +145,6 @@ struct pInfoEtc
 	int		aMinerB;
 	//Skills, разфасуешь...
 	int		jSkills[3];
-	//Money draw
-	int		tCents;
 	// 3dtext hpbar & name
 	int		pBar;
 	//Jobs
@@ -171,63 +169,6 @@ struct  pInfo
 	bool				isLogged;
 	//	НЕ РАСОРТИРОВАНО
 	pInfoEtc			xuita;
-	/*
-	int		pDB;				//Ид		игрока
-	int		pExp;				//Прогресс	игрока
-	char	uName[16];			//Имя		игрока
-	char	sName[16];			//Фамилия	игрока
-	char	uLogin[16];			//Логин		игрока
-	char	uPassw[16];			//Пароль	игрока
-	char	pDate[10];			//Дата		игрока
-	double	pMoney;				//Наличные	игрока
-	int		pClass;				//Класс		игрока
-	float	pos.x;				//Позиция	игрока X
-	float	pos.y;				//Позиция	игрока Y
-	float	pos.z;				//Позиция	игрока Z
-	float	pos.r;				//Позиция	игрока A
-	int		pos.world;				//Позиция	игрока World
-	int		pos.interior;				//Позиция	игрока Interior
-	bool	isLogged;			//Авторизов игрок?
-	unsigned char	status.action;			//Действие	игрока
-	int	pCarid;				//Ид		транспорта
-	unsigned char	pSeatid;			//Ид		места в транспорте
-	unsigned char	pState;				//Состаяние	игрока
-	int		status.inType;
-	int		inIndex;
-	int		belay;
-	//--------------------------------------
-	unsigned char	memType;			//Тип банды/ мафии/ 
-	int		memIndex;			//Ид банды/ мафии/
-	//Miner
-	int		aMinerA;
-	int		aMinerB;
-	//Skills, разфасуешь...
-	int		jSkills[3];
-	//Money draw
-	int		tCents;
-	// 3dtext hpbar & name
-	int		pBar;
-	//Jobs
-	unsigned char	pJob1;
-	unsigned char	pJob2;
-	float	minerZP;
-	//for mini-game
-	bool	isKeyGame;
-	unsigned char	kgUD;
-	unsigned char	kgLR;
-	sAC		AC;
-	int		pDraw;
-	int reason;
-
-
-	//Потом пихани куда надо, ок.
-	int		spdSpeed;			//TextDraw
-	int		spdState;			//TextDraw
-	int		spdTitle;			//TextDraw
-	int		spdFuel;			//TextDraw
-	int		spdMilage;			//TextDraw
-	int		draws.tempDraws[20];		//TextDraws miner
-	*/
 };
 //TODO: Структура игрока
 struct pInfo extern Player[MAX_PLAYERS];

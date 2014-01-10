@@ -6,7 +6,8 @@ void Properties::Factory::Metal::func::load()
 {
 	int i = 0;
 	MYSQL_ROW row;
-	safe_query(con, "SELECT class_Property.*, class_FactoryMetal.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_FactoryMetal  WHERE class_Property.property = class_FactoryMetal.id AND class_Property.type = 8");
+	cProperty::propertyLoadQuery(PropertyType::prFactMetal);
+	//safe_query(con, "SELECT class_Property.*, class_FactoryMetal.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_FactoryMetal  WHERE class_Property.property = class_FactoryMetal.id AND class_Property.type = 8");
 	MYSQL_RES *res = mysql_store_result(con);
 
 	while ( row = mysql_fetch_row(res) )

@@ -240,7 +240,7 @@ int cPlayer::regChar(const int u)
 {
 	char qqq[ 144 ];
 	sprintf(qqq, "INSERT INTO player_Character (owner, uname, sname, money, class) VALUES ('%d', '%s', '%s', '%f', '%d')",
-		Player[u].pDB, Player[u].uName, Player[u].sName, Player[u].pMoney, Player[u].pClass);
+		Player[u].base.db, Player[u].strings.uName, Player[u].strings.sName, Player[u].base.money, Player[u].base.clas);
 	safe_query(con, qqq);
 	//--------------------------------------------------------------------------------------------------------------------
 	Player[u].pos.x = REG_SPAWN_X;
@@ -262,7 +262,7 @@ void cPlayer::loadPlayerChar(int i, int pers)
 	char qqq[ 144 ];
 	start:
 	//-------------------------------------------------------------------------------------------------------------------
-	sprintf(qqq, "SELECT * FROM player_Character  WHERE owner = '%d' AND id = %d  LIMIT 1", Player[ i ].pDB, pers);
+	sprintf(qqq, "SELECT * FROM player_Character  WHERE owner = '%d' AND id = %d  LIMIT 1", Player[ i ].base.db, pers);
 	if (safe_query(con, qqq) == 0)
 	{
 		//-------------------------------------------------------------------------------------------------------------------
@@ -271,26 +271,26 @@ void cPlayer::loadPlayerChar(int i, int pers)
 		if (mysql_num_rows(result) == 1)
 		{
 			MYSQL_ROW row = mysql_fetch_row(result);
-			Player[ i ].pDB = atoi(row[ PlayerRows::plDB ]);
-			Player[ i ].pMoney = atof(row[ PlayerRows::plMoney ]);
-			Player[ i ].pClass = atoi(row[ PlayerRows::plClass ]);
+			Player[ i ].base.db = atoi(row[ PlayerRows::plDB ]);
+			Player[ i ].base.money = atof(row[ PlayerRows::plMoney ]);
+			Player[ i ].base.clas = atoi(row[ PlayerRows::plClass ]);
 			Player[ i ].pos.x = atof(row[ PlayerRows::plPosX ]);
 			Player[ i ].pos.y = atof(row[ PlayerRows::plPosY ]);
 			Player[ i ].pos.z = atof(row[ PlayerRows::plPosZ ]);
 			Player[ i ].pos.r = atof(row[ PlayerRows::plPosR ]);
 			Player[ i ].pos.interior = atoi(row[ PlayerRows::plPosI ]);
 			Player[ i ].pos.world = atoi(row[ PlayerRows::plPosW ]);
-			Player[i].pJob1 = atoi(row[PlayerRows::plJob1]);
-			Player[i].pJob2 = atoi(row[PlayerRows::plJob2]);
+			Player[i].xuita.pJob1 = atoi(row[PlayerRows::plJob1]);
+			Player[i].xuita.pJob2 = atoi(row[PlayerRows::plJob2]);
 			//------------------------------------------------
-			Player[ i ].AC.Health = atof(row[ PlayerRows::plHealth ]);
-			Player[ i ].AC.Armour = atof(row[ PlayerRows::plArmour ]);
-			if(Player[ i ].AC.Health < 5) Player[ i ].AC.Health = 5;
+			Player[ i ].status.Health = atof(row[ PlayerRows::plHealth ]);
+			Player[ i ].status.Armour = atof(row[ PlayerRows::plArmour ]);
+			if(Player[ i ].status.Health < 5) Player[ i ].status.Health = 5;
 			//------------------------------------------------
-			strcpy(Player[ i ].uName, row[ PlayerRows::pluName ]);
-			strcpy(Player[ i ].sName, row[ PlayerRows::plsName ]);
+			strcpy(Player[ i ].strings.uName, row[ PlayerRows::pluName ]);
+			strcpy(Player[ i ].strings.sName, row[ PlayerRows::plsName ]);
 			//------------------------------------------------
-			GivePlayerMoney(i, Player[ i ].pMoney);
+			GivePlayerMoney(i, Player[ i ].base.money);
 			cPlayer::setClassSkin(i);
 			//------------------------------------------------
 			world::Vehicles::loadPlayerVehs(i);
@@ -337,7 +337,7 @@ bool cPlayer::loadChars(int i)
 	int c = 0;
 	char tmp[32];
 	MYSQL_ROW row;
-	sprintf(query, "SELECT id, `class`, money, uname, sname  FROM player_Character WHERE owner = '%d' LIMIT %d", Player[i].pDB, MAX_CHARS), safe_query(con, query);
+	sprintf(query, "SELECT id, `class`, money, uname, sname  FROM player_Character WHERE owner = '%d' LIMIT %d", Player[i].base.db, MAX_CHARS), safe_query(con, query);
 	//---------------------------------------------
 	MYSQL_RES *result = mysql_store_result(con);
 	int num_fields = mysql_num_rows(result);
@@ -407,8 +407,8 @@ bool cPlayer::loadChars(int i)
 /// </summary>
 void cPlayer::setClassSkin(int p)
 {
-	SetPlayerSkin(p, PlayerClass[Player[p].pClass].cSkin);
-	sprintf(query, "class: %d || skin: %d", Player[p].pClass, PlayerClass[Player[p].pClass].cSkin);
+	SetPlayerSkin(p, PlayerClass[Player[p].base.clas].cSkin);
+	sprintf(query, "class: %d || skin: %d", Player[p].base.clas, PlayerClass[Player[p].base.clas].cSkin);
 	SendClientMessage(p, -1, query);
 }
 
@@ -723,11 +723,11 @@ bool cPlayer::isRangeOfPoint(int i, float r, float x, float y, float z)
 
 bool cPlayer::checkMoney(const int u, float value)
 {
-	if (Player[ u ].pMoney >= value) return true;
+	if (Player[ u ].base.money >= value) return true;
 	//=========================================
 	char msg[ 128 ];
 	//=========================================
-	sprintf(msg, "{FFFFFF}К сожаления у вас не хватает: \t\t\t{FF0000}%.2f$\n{FFFFFF}Требуется всего: \t\t\t\t{FF0000}%.2f$", value - Player[ u ].pMoney, value);
+	sprintf(msg, "{FFFFFF}К сожаления у вас не хватает: \t\t{FF0000}%.2f$\n{FFFFFF}Требуется всего: \t\t\t\t{FF0000}%.2f$", value - Player[ u ].base.money, value);
 	ShowPlayerDialog(u, DIALOG_LIST::DLG_NONE, GUI_MSG, "[Информация]: Недостаточно средств", msg, "Закрыть", "");
 	//=========================================
 	return false;
@@ -746,9 +746,9 @@ void cPlayer::givePlayerMoney(const int u, float value)
 	}
 	GameTextForPlayer(u, msg, 500, 1);
 	//=============================
-	Player[ u ].pMoney += value;
+	Player[ u ].base.money += value;
 	//=============================
-	sprintf(msg, "UPDATE player_Character SET money = '%.2f' WHERE id = '%d'", Player[u].pMoney, Player[u].pDB);
+	sprintf(msg, "UPDATE player_Character SET money = '%.2f' WHERE id = '%d'", Player[u].base.money, Player[u].base.db);
 	safe_query(con, msg);
 	//=============================
 	cPlayer::updateMoney(u);
@@ -757,11 +757,11 @@ void cPlayer::givePlayerMoney(const int u, float value)
 void cPlayer::updateMoney(const int u)
 {
 	char buff[16];
-	sprintf(buff, "%0.02f", Player[u].pMoney);
-	PlayerTextDrawSetString(u, Player[u].tCents, buff);
+	sprintf(buff, "%0.02f", Player[u].base.money);
+	PlayerTextDrawSetString(u, Player[u].draws.money, buff);
 	//=============================
 	ResetPlayerMoney(u);
-	GivePlayerMoney(u, floor(Player[u].pMoney));
+	GivePlayerMoney(u, floor(Player[u].base.money));
 }
 
 void cPlayer::updatePos(const int u)
@@ -773,8 +773,8 @@ void cPlayer::updatePos(const int u)
 	Player[ u ].pos.interior = GetPlayerInterior(u);
 	//================================================================================
 	sprintf(qqq, "UPDATE player_Character SET posx='%.4f', posy='%.4f', posz='%.4f', posr='%.2f', posi='%d', posw='%d', posp='%d', pHP='%.2f' WHERE id = '%d'", 
-			Player[ u ].pos.x, Player[ u ].pos.y, Player[ u ].pos.z, Player[ u ].pos.r, Player[ u ].pos.interior, Player[ u ].pos.world, Player[ u ].AC.Health,
-			Player[ u ].inIndex, Player[ u ].pDB);
+			Player[ u ].pos.x, Player[ u ].pos.y, Player[ u ].pos.z, Player[ u ].pos.r, Player[ u ].pos.interior, Player[ u ].pos.world, Player[ u ].status.Health,
+			Player[ u ].status.inIndex, Player[ u ].base.db);
 	//================================================================================	
 	safe_query(con, qqq);
 }
@@ -805,15 +805,15 @@ void cPlayer::giveExp(const int u, const int exp)
 	{
 		sprintf(msg, "~r~%d EXP", exp);
 	}
-	Player[u].pExp += exp;
-	SetPlayerScore(u, Player[u].pExp);
+	Player[u].base.exp += exp;
+	SetPlayerScore(u, Player[u].base.exp);
 	GameTextForPlayer(u, msg, 3500, 5);
 }
 
 
 void cPlayer::getName(const int playerid, char name[])
 {
-	sprintf(name, "%s %s", Player[ playerid ].uName, Player[ playerid ].sName);
+	sprintf(name, "%s %s", Player[ playerid ].strings.uName, Player[ playerid ].strings.sName);
 }
 
 /*void cPlayer::EffectCamera(const int playerid)
@@ -973,20 +973,20 @@ void cPlayer::PreloadAnimLib(const int playerid)
 void cPlayer::updateHealthBar(const int u)
 {
 	char msg[88];
-	sprintf(msg, "(%d) %s %s [{B7FF00}%.2f%% {DCDCDC}%.2f%%{FFFFFF}]", u, Player[u].uName, Player[u].sName, Player[u].AC.Health, Player[u].AC.Armour);
-	StreamerCall::Native::UpdateDynamic3DTextLabelText(Player[u].pBar, -1, msg);
+	sprintf(msg, "(%d) %s %s [{B7FF00}%.2f%% {DCDCDC}%.2f%%{FFFFFF}]", u, Player[u].strings.uName, Player[u].strings.sName, Player[u].status.Health, Player[u].status.Armour);
+	StreamerCall::Native::UpdateDynamic3DTextLabelText(Player[u].xuita.pBar, -1, msg);
 }
 
 void cPlayer::setCharHealth(const int u, const float value)
 {
-	Player[u].AC.Health = value;
+	Player[u].status.Health = value;
 	SetPlayerHealth(u, value);
 	cPlayer::updateHealthBar(u);
 }
 
 void cPlayer::setCharArmour(const int u, const float value)
 {
-	Player[u].AC.Armour = value;
+	Player[u].status.Armour = value;
 	SetPlayerArmour(u, value);
 	cPlayer::updateHealthBar(u);
 }
@@ -1068,14 +1068,14 @@ void cPlayer::onPlayerGiveDamage(const int u, const int damagedid, const float a
 		hp =  amount + (rand() % 1000 ) / 100;
 	}
 
-	if ( Player[damagedid].AC.Armour > 0.00f )
+	if ( Player[damagedid].status.Armour > 0.00f )
 	{
 		hp = hp / 2;
-		Player[damagedid].AC.Armour -= (hp / 5);
-		SetPlayerArmour(damagedid, Player[damagedid].AC.Armour);
+		Player[damagedid].status.Armour -= (hp / 5);
+		SetPlayerArmour(damagedid, Player[damagedid].status.Armour);
 	}
 
-	cPlayer::setCharHealth(damagedid, Player[damagedid].AC.Health - hp);
+	cPlayer::setCharHealth(damagedid, Player[damagedid].status.Health - hp);
 
 	char msg[256];
 	sprintf(msg, "onPlayerGiveDamage >> player: %d, hp: %.2f, weaponid: %d", damagedid, hp, weaponid);
@@ -1086,7 +1086,7 @@ void cPlayer::onPlayerTakeDamage(const int u, const int issuerid, const float am
 {
 	if ( weaponid < 0 || weaponid > 42 )
 	{
-		cPlayer::setCharHealth(u, Player[u].AC.Health - amount);
+		cPlayer::setCharHealth(u, Player[u].status.Health - amount);
 		char msg[144];
 		sprintf(msg, "onPlayerTakeDamage >> player: %d, weaponid: %d", u, weaponid);
 		SendClientMessageToAll(-1, msg);

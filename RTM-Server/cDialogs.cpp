@@ -31,14 +31,14 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 				//---------------------------------
 				if (!regex_match(inputtext, expLogin)) goto case_welcome;
 				//---------------------------------
-				Player[ playerid ].pDB = cPlayer::checkLogin(inputtext);
+				Player[ playerid ].base.db = cPlayer::checkLogin(inputtext);
 				SetPlayerName(playerid, inputtext);
-				if (Player[ playerid ].pDB == 0)
+				if (Player[ playerid ].base.db == 0)
 				{
-					strcpy(Player[ playerid ].uLogin, inputtext);
+					strcpy(Player[ playerid ].strings.login, inputtext);
 				}
 			case_login:
-				if (Player[ playerid ].pDB)
+				if (Player[ playerid ].base.db)
 				{
 					strcpy(message, "{078ad6}===========================================================\n");
 					strcat(message, "{7d67dd}ћы рады вновь видеть вас на нашем сервере!\n");
@@ -69,20 +69,20 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 				if (!response)							goto case_welcome;
 				if (!regex_match(inputtext, expLogin))	goto case_login;
 				//-----------------------------------------
-				strcpy(Player[ playerid ].uPassw, inputtext);
+				strcpy(Player[ playerid ].strings.pass, inputtext);
 				//-----------------------------------------
 				cPlayer::camSelectChar(playerid);
 				//-----------------------------------------
-				if (Player[ playerid ].pDB)
+				if (Player[ playerid ].base.db)
 				{
-					if (!cPlayer::checkPass(Player[ playerid ].pDB, Player[ playerid ].uPassw))	goto case_login;
+					if (!cPlayer::checkPass(Player[ playerid ].base.db, Player[ playerid ].strings.pass))	goto case_login;
 					if (cPlayer::loadChars(playerid))
 						cPlayer::setRegClassSkin(playerid, 0);
 					else	cPlayer::showCharMaker(playerid);
 				}
 				else
 				{
-					Player[ playerid ].pDB = cPlayer::regPlayer(Player[ playerid ].uLogin, Player[ playerid ].uPassw);
+					Player[ playerid ].base.db = cPlayer::regPlayer(Player[ playerid ].strings.login, Player[ playerid ].strings.pass);
 					cPlayer::showCharMaker(playerid);
 				}
 				break;
@@ -93,7 +93,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 				if (!regex_match(inputtext, expNames))				dialogs::showDLGEnterName(playerid);
 				else
 				{
-					if (sscanf(inputtext, "%s %s", Player[ playerid ].uName, Player[ playerid ].sName) != 2)
+					if (sscanf(inputtext, "%s %s", Player[ playerid ].strings.uName, Player[ playerid ].strings.sName) != 2)
 						dialogs::showDLGEnterName(playerid);
 					else	dialogs::showDLGEnterDate(playerid);
 				}
@@ -106,9 +106,9 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 				else
 				{
 					cPlayer::destRegDraws(playerid);
-					strcpy(Player[ playerid ].pDate, inputtext);
+					strcpy(Player[ playerid ].strings.date, inputtext);
 					//-----------------------------------------
-					Player[ playerid ].pDB = cPlayer::regChar(playerid);
+					Player[ playerid ].base.db = cPlayer::regChar(playerid);
 					//-----------------------------------------
 					Player[ playerid ].status.action = PlayerAction::ACTION_NONE;
 					Player[ playerid ].isLogged = true;
@@ -121,7 +121,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 			{
 				if (!response) return true;
 
-				const int vehid = Player[ playerid ].pCarid;
+				const int vehid = Player[ playerid ].status.vehicle;
 
 				if (listitem == 0)
 				{
@@ -155,14 +155,14 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 			{
 				if (!response) return true;
 
-				const int vid = Player[playerid].pCarid;
+				const int vid = Player[playerid].status.vehicle;
 				world::Vehicles::Vehicle[vid].radio = listitem;
 
 				for (int i = 0; i < MAX_PLAYERS; i++)
 				{
-					if (Player[i].pSeatid != -1)
+					if (Player[i].status.seatid != -1)
 					{
-						if (Player[i].pCarid == vid)
+						if (Player[i].status.vehicle == vid)
 						{
 							PlayAudioStreamForPlayer(i, world::radio::cRadio::Radio.at(listitem).url, 0.0, 0.0, 0.0, 50.0, false);
 						}
@@ -173,7 +173,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 			case DLG_PROPERTY_BUY:
 			{
 				if (!response) return 1;
-				int idx = Player[playerid].inIndex;
+				int idx = Player[playerid].status.inIndex;
 				if (cPlayer::checkMoney(playerid, Property[idx].price))
 				{
 					cProperty::setOwner(idx, playerid);

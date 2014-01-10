@@ -14,11 +14,12 @@ namespace Properties
 			MYSQL_RES *result;
 			int slot = -1;
 			int farm = 0;
-			if (safe_query(con, "SELECT class_Property.*, class_Belay.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Belay  WHERE class_Property.property = class_Belay.id AND class_Property.type = 9"))
+			cProperty::propertyLoadQuery(PropertyType::prBelays);
+			/*if (safe_query(con, "SELECT class_Property.*, class_Belay.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Belay  WHERE class_Property.property = class_Belay.id AND class_Property.type = 9"))
 			{
 				logprintf("Не удалось загрузить страховые компании");
 				return;
-			}
+			}*/
 			//===================================================================================
 			result = mysql_store_result(con);
 			while (( row = mysql_fetch_row(result) ))
@@ -123,11 +124,11 @@ namespace Properties
 		//-----------------------------------------------------------------------------
 		void onAction(const int u)
 		{
-			const int idx = Player[ u ].inIndex;		// Ид проперти
-			const int bdx = Player[ u ].inIndex;		// Ид страховой
+			const int idx = Player[ u ].status.inIndex;		// Ид проперти
+			const int bdx = Player[ u ].status.inIndex;		// Ид страховой
 			Player[u].status.action = PlayerAction::ACTION_Belay;
 			//---------------------------------
-			if (Property[ idx ].owner != Player[ u ].pDB)
+			if (Property[ idx ].owner != Player[ u ].base.db)
 			{
 				char msg[ 256 ] = "";
 				//******************************************
@@ -187,7 +188,7 @@ namespace Properties
 		void onDLG(int u, int dialogid, int response, int listitem, const char* inputtext)
 		{
 			char msg[ 512 ] = "";
-			const int idx = Player[ u ].inIndex;		// Ид проперти
+			const int idx = Player[ u ].status.inIndex;		// Ид проперти
 			const int bdx = Property[idx].link;		// Ид страховой
 			if (dialogid == DLG_BELAY_OWNER_MAIN)
 			{
@@ -572,7 +573,7 @@ namespace Properties
 				(
 					query, 
 					"UPDATE Belay_Clients SET belay=%d, tstart=NOW(), tend=NOW()+7 WHERE player = '%d'",
-					idb, Player[u].pDB
+					idb, Player[u].base.db
 				);
 				//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 				safe_query(con, query);
@@ -583,12 +584,12 @@ namespace Properties
 				(
 					query, 
 					"INSERT INTO Belay_Clients SET belay=%d, player=%d, tstart=NOW(), tend=NOW()+7",
-					idb, Player[u].pDB
+					idb, Player[u].base.db
 				);
 				//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 				safe_query(con, query);
 				//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-				Player[u].belay = mysql_insert_id(con);
+				Player[u].xuita.belay = mysql_insert_id(con);
 			}
 		}	
 
@@ -607,8 +608,8 @@ namespace Properties
 			int resPrice;
 			char msg[144];
 			const int price = DEFAULT_HEAL_PRICE;								
-			const int bdx = Player[u].belay;
-			const int reas = cPlayer::getDeathType(Player[u].reason);	
+			const int bdx = Player[u].xuita.belay;
+			const int reas = cPlayer::getDeathType(Player[u].xuita.reason);	
 			//------------------------------------------------------------------------
 			if(reas == DeathTypes::reason_Drive)
 				resPrice = (price * Properties::Belays::Belay[bdx].perDrive / 100);
@@ -639,16 +640,16 @@ namespace Properties
 				{
 					cBanks::giveBalance
 					(
-						Property[Player[u].inIndex].bank,
+						Property[Player[u].status.inIndex].bank,
 						-resPrice
 					);
 				}
 			}
 			else
 			{
-				if(Property[Player[u].inIndex].bank)
+				if(Property[Player[u].status.inIndex].bank)
 				{
-					cBanks::getBalance(Property[Player[u].inIndex].bank, &tBal);		
+					cBanks::getBalance(Property[Player[u].status.inIndex].bank, &tBal);		
 					if(tBal >= resPrice) goto msg_GOOD;
 				}
 				resPrice = 0;
@@ -671,7 +672,7 @@ namespace Properties
 			(
 				query, 
 				"SELECT NULL FROM Belay_Clients WHERE player = '%d' LIMIT 1",
-				Player[u].pDB
+				Player[u].base.db
 			);
 			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			safe_query(con,  query);

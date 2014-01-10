@@ -9,7 +9,8 @@ void fProperty::cFeller::loadFeller()
 	int i = 0;
 	MYSQL_ROW row;
 	//------------------------------------------------------------
-	safe_query(con, "SELECT class_Property.*, class_Feller.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Feller  WHERE class_Property.property = class_Feller.id AND class_Property.type = 6");
+	cProperty::propertyLoadQuery(PropertyType::prFeller);
+	//safe_query(con, "SELECT class_Property.*, class_Feller.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Feller  WHERE class_Property.property = class_Feller.id AND class_Property.type = 6");
 	MYSQL_RES *result = mysql_store_result(con);
 	//------------------------------------------------------------
 	while ((row = mysql_fetch_row(result)))
@@ -141,7 +142,7 @@ void fProperty::cFeller::onGUI(const int u, const int draw)
 {
 	char msg[112], minerColor; 
 	const char fell = Player[u].status.inType;
-	const char slot = Player[u].aMinerB;
+	const char slot = Player[u].xuita.aMinerB;
 
 	if (Player[u].status.action == PlayerAction::ACTION_PREFELGAME)
 	{
@@ -188,15 +189,15 @@ void fProperty::cFeller::onGUI(const int u, const int draw)
 				if (minerColor == 0)
 				{
 					minerAmount = 1 + rand() % 8;
-					Player[u].aMinerA -= minerAmount;
-					sprintf(msg, language::jobs::feller::actionOne, minerAmount, Player[u].aMinerA);
+					Player[u].xuita.aMinerA -= minerAmount;
+					sprintf(msg, language::jobs::feller::actionOne, minerAmount, Player[u].xuita.aMinerA);
 					PlayerTextDrawColor(u, Player[u].draws.tempDraws[i], 0xFF000088);
 				}
 				else if (minerColor == 1)
 				{
 					minerAmount = 1 + rand() % 24;
-					Player[u].aMinerA += minerAmount;
-					sprintf(msg, language::jobs::feller::actionTwo, minerAmount, Player[u].aMinerA);
+					Player[u].xuita.aMinerA += minerAmount;
+					sprintf(msg, language::jobs::feller::actionTwo, minerAmount, Player[u].xuita.aMinerA);
 					PlayerTextDrawColor(u, Player[u].draws.tempDraws[i], 0xB7FF0088);
 
 					fProperty::cFeller::Feller[fell].Trees[slot].proc += minerAmount;
@@ -204,7 +205,7 @@ void fProperty::cFeller::onGUI(const int u, const int draw)
 				else if (minerColor == 5)
 				{
 					const float hpAmount = (1.0f + rand() % 300) / 100;
-					cPlayer::setCharHealth(u, Player[u].AC.Health - hpAmount);
+					cPlayer::setCharHealth(u, Player[u].status.Health - hpAmount);
 					sprintf(msg, language::jobs::feller::actionFour, hpAmount);
 					PlayerTextDrawColor(u, Player[u].draws.tempDraws[i], 0xB700B788);
 				}
@@ -344,7 +345,7 @@ void fProperty::cFeller::actionTrees(const int u)
 					{
 						ApplyAnimation(u, "CHAINSAW", "CSAW_G", 3.0, 1, 0, 0, 0, 0, 1);
 						Player[u].status.inType = fell;
-						Player[u].aMinerB = slot;
+						Player[u].xuita.aMinerB = slot;
 						fProperty::cFeller::startFellerGame(u);
 					}
 					break;
@@ -353,7 +354,7 @@ void fProperty::cFeller::actionTrees(const int u)
 				{
 					ApplyAnimation(u, "CHAINSAW", "CSAW_PART", 3.0, 1, 1, 1, 1, 1, 1);
 					Player[u].status.inType = fell;
-					Player[u].aMinerB = slot;
+					Player[u].xuita.aMinerB = slot;
 					fProperty::cFeller::startPreFellerGame(u);
 					break;
 				}
@@ -366,7 +367,7 @@ void fProperty::cFeller::actionTrees(const int u)
 void fProperty::cFeller::updateText(const int p, const int u = -1)
 {
 	char msg[256];
-	if(u != -1) sprintf(Property[p].player, "%s %s", Player[u].uName, Player[u].sName);
+	if(u != -1) sprintf(Property[p].player, "%s %s", Player[u].strings.uName, Player[u].strings.sName);
 	sprintf(msg, "{FFFFFF}Лесопилка: {B7FF00}%s\n{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s", fProperty::cFeller::Feller[Property[p].link].name, getSaZoneName(Property[p].region), Property[p].number, Property[p].player);
 	//------------------------------------------------------------------
 	StreamerCall::Native::UpdateDynamic3DTextLabelText(Property[p].text, -1, msg);
@@ -375,7 +376,7 @@ void fProperty::cFeller::updateText(const int p, const int u = -1)
 void fProperty::cFeller::onDLG(int u, int dialogid, int response, int listitem, const char* inputtext)
 {
 	char msg[256];
-	const int p = Player[u].inIndex;
+	const int p = Player[u].status.inIndex;
 	const int l = Property[p].link;
 
 	switch (dialogid)
@@ -527,7 +528,7 @@ goto case_money;
 				else
 				{
 	case_odep:
-					sprintf(msg, "Введите сумму которую хотите положить.\nУ вас в кошельке: %.2f$", Player[u].pMoney);
+					sprintf(msg, "Введите сумму которую хотите положить.\nУ вас в кошельке: %.2f$", Player[u].base.money);
 					ShowPlayerDialog(u, DLG_FELLEROWNER_COSTS_MN_DEP, GUI_INPUT, Feller[l].name, msg, language::dialogs::buttons::btnDone, language::dialogs::buttons::btnBack);
 				}
 			}
@@ -573,7 +574,7 @@ goto case_paydep;
 				if (regex_match(inputtext, expFloat))
 				{
 					const float value = atof(inputtext);
-					if (value <= Player[u].pMoney && value > 0)
+					if (value <= Player[u].base.money && value > 0)
 					{
 						Feller[l].fond += value;
 						cPlayer::givePlayerMoney(u, -value);
@@ -634,25 +635,25 @@ goto case_paydep;
 			{
 				if (listitem == 0)
 				{
-					const float money = Feller[l].zp * Player[u].aMinerA;
-					const int exp = floor(Player[u].aMinerA / 10);
+					const float money = Feller[l].zp * Player[u].xuita.aMinerA;
+					const int exp = floor(Player[u].xuita.aMinerA / 10);
 					if (Feller[l].fond > money)
 					{
 						cPlayer::givePlayerMoney(u, money);
 					}
 					cPlayer::giveExp(u, exp);
-					Feller[l].am += Player[u].aMinerA;
+					Feller[l].am += Player[u].xuita.aMinerA;
 					fProperty::cFeller::updateInfotable(l);
-					sprintf(msg, "{FFFFFF}Кол-во древесины: {FFAF00}%d\n{FFFFFF}Заработано: {FFAF00}%.2f$ {FFFFFF}+ ({FFAF00}%d EXP{FFFFFF})", Player[u].aMinerA, money, exp);
+					sprintf(msg, "{FFFFFF}Кол-во древесины: {FFAF00}%d\n{FFFFFF}Заработано: {FFAF00}%.2f$ {FFFFFF}+ ({FFAF00}%d EXP{FFFFFF})", Player[u].xuita.aMinerA, money, exp);
 					ShowPlayerDialog(u, DLG_FELLER_EMTY, GUI_MSG, Feller[l].name, msg, language::dialogs::buttons::btnOK, "");
-					Player[u].aMinerA = 0;
+					Player[u].xuita.aMinerA = 0;
 				}
 				else
 				{
 	case_paybank:
-					const float money = Feller[l].zp * Player[u].aMinerA;
-					const int exp = floor(Player[u].aMinerA / 10);
-					sprintf(msg, "{FFFFFF}Введите номер банского счёта на который будет произведена оплата.\nКол-во древесины: {FFAF00}%d\n{FFFFFF}Заработано: {FFAF00}%.2f$ {FFFFFF}+ ({FFAF00}%d EXP{FFFFFF})", Player[u].aMinerA, money, exp);
+					const float money = Feller[l].zp * Player[u].xuita.aMinerA;
+					const int exp = floor(Player[u].xuita.aMinerA / 10);
+					sprintf(msg, "{FFFFFF}Введите номер банского счёта на который будет произведена оплата.\nКол-во древесины: {FFAF00}%d\n{FFFFFF}Заработано: {FFAF00}%.2f$ {FFFFFF}+ ({FFAF00}%d EXP{FFFFFF})", Player[u].xuita.aMinerA, money, exp);
 					ShowPlayerDialog(u, DLG_FELLER_MONEYBANK, GUI_INPUT, Feller[l].name, msg, language::dialogs::buttons::btnDone, language::dialogs::buttons::btnBack);
 				}
 			}
@@ -671,8 +672,8 @@ goto case_paydep;
 					const int num = atoi(inputtext);
 					if (cBanks::isValidNumber(num))
 					{
-						const float money = Feller[l].zp * Player[u].aMinerA;
-						const int exp = floor(Player[u].aMinerA / 10);
+						const float money = Feller[l].zp * Player[u].xuita.aMinerA;
+						const int exp = floor(Player[u].xuita.aMinerA / 10);
 						double value; 
 						cBanks::getBalance(Property[p].bank, &value);
 						if (value > money)
@@ -681,8 +682,8 @@ goto case_paydep;
 							cBanks::giveBalance(num, money);
 						}
 						cPlayer::giveExp(u, exp);
-						Feller[l].am += Player[u].aMinerA;
-						Player[u].aMinerA = 0;
+						Feller[l].am += Player[u].xuita.aMinerA;
+						Player[u].xuita.aMinerA = 0;
 						fProperty::cFeller::updateInfotable(l);
 						ShowPlayerDialog(u, DLG_FELLER_EMTY, GUI_MSG, Feller[l].name, "{FFFFFF}Операция успешно завершена.\nПримечание: {FF0000}если на счету лесопилки недостаточно средств они выплачены не были.", language::dialogs::buttons::btnOK, "");
 					}
@@ -716,7 +717,7 @@ void fProperty::cFeller::ownerMenu(const int u)
 	dialogs::genDLGItem(1, "Информация", msg);
 	dialogs::genDLGItem(2, "Название", msg);
 	dialogs::genDLGItem(3, "Финансы", msg);
-	ShowPlayerDialog(u, DLG_FELLEROWNER_MAIN, GUI_LIST, Feller[Property[Player[u].inIndex].link].name, msg, language::dialogs::buttons::btnSelect, language::dialogs::buttons::btnClose);
+	ShowPlayerDialog(u, DLG_FELLEROWNER_MAIN, GUI_LIST, Feller[Property[Player[u].status.inIndex].link].name, msg, language::dialogs::buttons::btnSelect, language::dialogs::buttons::btnClose);
 }
 
 void fProperty::cFeller::clientMenu(const int u)
@@ -730,7 +731,7 @@ void fProperty::cFeller::clientMenu(const int u)
 		char msg[300] = "";
 		dialogs::genDLGItem(1, "Переодется", msg);
 		dialogs::genDLGItem(2, "Зарплата", msg);
-		ShowPlayerDialog(u, DLG_FELLER_MAIN, GUI_LIST, Feller[Property[Player[u].inIndex].link].name, msg, language::dialogs::buttons::btnSelect, language::dialogs::buttons::btnClose);
+		ShowPlayerDialog(u, DLG_FELLER_MAIN, GUI_LIST, Feller[Property[Player[u].status.inIndex].link].name, msg, language::dialogs::buttons::btnSelect, language::dialogs::buttons::btnClose);
 	}
 	else
 		SendClientMessage(u, -1, "{FF0000}Ошибка: {FFFFFF}вы не лесоруб!");

@@ -9,7 +9,8 @@ void cBanks::loadBanks()
 {
 	MYSQL_ROW row;
 	//------------------------------------------------------------
-	safe_query(con, "SELECT class_Property.*, class_Banks.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Banks  WHERE class_Property.property = class_Banks.db AND class_Property.type = 2");
+	cProperty::propertyLoadQuery(PropertyType::prBank);
+	//safe_query(con, "SELECT class_Property.*, class_Banks.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Banks  WHERE class_Property.property = class_Banks.db AND class_Property.type = 2");
 	MYSQL_RES *result = mysql_store_result(con);
 	//------------------------------------------------------------	
 	while (( row = mysql_fetch_row(result) ))
@@ -212,7 +213,7 @@ void cBanks::accMenu(int u)
 void cBanks::onDLG(int u, int dialogid, int response, int listitem, const char* inputtext)
 {
 	char msg[256] = "";
-	const int p = Player[u].inIndex;
+	const int p = Player[u].status.inIndex;
 	const int l = Property[p].link;
 
 	switch (dialogid)
@@ -244,7 +245,7 @@ void cBanks::onDLG(int u, int dialogid, int response, int listitem, const char* 
 					MYSQL_ROW row;
 					MYSQL_RES *res;
 
-					sprintf(msg, "SELECT id,balance FROM bank_Accounts WHERE player = %d ORDER BY id ASC", Player[u].pDB);
+					sprintf(msg, "SELECT id,balance FROM bank_Accounts WHERE player = %d ORDER BY id ASC", Player[u].base.db);
 					safe_query(con, msg);
 					res = mysql_store_result(con);
 
@@ -261,7 +262,7 @@ void cBanks::onDLG(int u, int dialogid, int response, int listitem, const char* 
 				else if (listitem == 2)			//Завести счет
 				{
 	case_make:
-					sprintf(msg, language::property::bank::Acc_Make, Player[u].uName, Player[u].sName);
+					sprintf(msg, language::property::bank::Acc_Make, Player[u].strings.uName, Player[u].strings.sName);
 					ShowPlayerDialog(u, DLG_BABK_MAKE_ACC, GUI_INPUT, language::property::bank::Header_Acc_MAKE, msg, language::dialogs::buttons::btnNext, language::dialogs::buttons::btnBack);
 				}
 			}
@@ -282,7 +283,7 @@ void cBanks::onDLG(int u, int dialogid, int response, int listitem, const char* 
 			{
 				if (regex_match(inputtext, expCode))
 				{
-					const int acc = createAcc(Bank[l].db, Player[u].pDB, atoi(inputtext));
+					const int acc = createAcc(Bank[l].db, Player[u].base.db, atoi(inputtext));
 					sprintf(msg, language::property::bank::afterMake, acc, atoi(inputtext));
 					ShowPlayerDialog(u, DLG_BANK_PERCENT, GUI_MSG, language::property::bank::Header_Acc_MAKE, msg, language::dialogs::buttons::btnOK, "");
 				}
@@ -311,7 +312,7 @@ goto case_make;
 					MYSQL_ROW row;
 					MYSQL_RES *res = nullptr;
 
-					sprintf(msg, "SELECT id,pass FROM bank_Accounts WHERE player = %d ORDER BY id ASC", Player[u].pDB);
+					sprintf(msg, "SELECT id,pass FROM bank_Accounts WHERE player = %d ORDER BY id ASC", Player[u].base.db);
 					safe_query(con, msg);
 					res = mysql_store_result(con);
 
@@ -320,7 +321,7 @@ goto case_make;
 						if (listitem == idx)
 						{						
 							Player[u].status.inType = atoi(row[0]);
-							Player[u].aMinerA = atoi(row[1]);
+							Player[u].xuita.aMinerA = atoi(row[1]);
 							cBanks::accMenu(u);
 							break;
 						}
@@ -347,7 +348,7 @@ goto case_make;
 			{
 				if (regex_match(inputtext, expCode))
 				{
-					if (Player[u].aMinerA == atoi(inputtext))
+					if (Player[u].xuita.aMinerA == atoi(inputtext))
 					{
 						cBanks::accMenu(u);
 					}
@@ -389,7 +390,7 @@ goto case_numbers;
 				else if (listitem == 1)
 				{
 	case_pay:
-					sprintf(msg, "{FFFFFF}Введите сумму которую хотите положить.\nУ вас в кошельке: {84ecff}%.2f$", Player[u].pMoney);
+					sprintf(msg, "{FFFFFF}Введите сумму которую хотите положить.\nУ вас в кошельке: {84ecff}%.2f$", Player[u].base.money);
 					ShowPlayerDialog(u, DLG_BANK_PAY, GUI_INPUT, Bank[l].title, msg, language::dialogs::buttons::btnDone, language::dialogs::buttons::btnBack);
 				}
 				else if (listitem == 2)
@@ -453,7 +454,7 @@ goto case_take;
 			if (response)
 			{
 				const double payValue = atof(inputtext);
-				if (Player[u].pMoney >= payValue && payValue > 0)
+				if (Player[u].base.money >= payValue && payValue > 0)
 				{
 					cPlayer::givePlayerMoney(u, -payValue);
 					cBanks::giveBalance(Player[u].status.inType, payValue);
@@ -571,7 +572,7 @@ goto case_trans;
 	case_pPay:
 					sprintf(msg, "Введите новый процент оплаты.\nТекущей процент: %.1f%%", Bank[l].pay);
 				}
-				Player[u].inIndex = listitem + 1;
+				Player[u].status.inIndex = listitem + 1;
 				ShowPlayerDialog(u, DLG_BANKOWNER_PERCENTS_SET, GUI_INPUT, Bank[l].title, msg, language::dialogs::buttons::btnDone, language::dialogs::buttons::btnBack);
 			}
 			else
@@ -587,22 +588,22 @@ goto case_trans;
 				if (regex_match(inputtext, expFloat))
 				{
 					const float percent = atof(inputtext);
-					if (Player[u].inIndex == 1)
+					if (Player[u].status.inIndex == 1)
 					{
 						Bank[l].credit = percent;
 						sprintf(msg, "Процент кредита установлен: %.1f%%", percent);
 					}
-					else if (Player[u].inIndex == 2)
+					else if (Player[u].status.inIndex == 2)
 					{
 						Bank[l].deposit = percent;
 						sprintf(msg, "Процент вклада установлен: %.1f%%", percent);
 					}
-					else if (Player[u].inIndex == 3)
+					else if (Player[u].status.inIndex == 3)
 					{
 						Bank[l].send = percent;
 						sprintf(msg, "Процент перевода установлен: %.1f%%", percent);
 					}
-					else if (Player[u].inIndex == 4)
+					else if (Player[u].status.inIndex == 4)
 					{
 						Bank[l].pay = percent;
 						sprintf(msg, "Процент оплаты установлен: %.1f%%", percent);
@@ -611,13 +612,13 @@ goto case_trans;
 				}
 				else
 				{
-					if (Player[u].inIndex == 1)
+					if (Player[u].status.inIndex == 1)
 goto case_pCredit;
-					else if (Player[u].inIndex == 2)
+					else if (Player[u].status.inIndex == 2)
 goto case_pDeposit;
-					else if (Player[u].inIndex == 3)
+					else if (Player[u].status.inIndex == 3)
 goto case_pSend;
-					else if (Player[u].inIndex == 4)
+					else if (Player[u].status.inIndex == 4)
 goto case_pPay;
 				}
 			}
@@ -662,7 +663,7 @@ goto case_setname;
 				else
 				{
 	case_oDep:
-					sprintf(msg, "Введите сумму которую хотите положить.\nУ вас в кошельке: %.2f$", Player[u].pMoney);
+					sprintf(msg, "Введите сумму которую хотите положить.\nУ вас в кошельке: %.2f$", Player[u].base.money);
 					ShowPlayerDialog(u, DLG_BANKOWNER_MONEY_DEP, GUI_INPUT, Bank[l].title, msg, language::dialogs::buttons::btnDone, language::dialogs::buttons::btnBack);
 				}
 			}
@@ -708,7 +709,7 @@ goto case_oPay;
 				if (regex_match(inputtext, expFloat))
 				{
 					const double value = atof(inputtext);
-					if (Player[u].pMoney >= value)
+					if (Player[u].base.money >= value)
 					{
 						Bank[l].fond += value;
 						cPlayer::givePlayerMoney(u, -value);
@@ -809,7 +810,7 @@ int cBanks::createAcc(int bank, int player, int pass)
 void cBanks::updateText(const int p, const int u = -1)
 {
 	char msg[256];
-	if (u != -1) sprintf(Property[p].player, "%s %s", Player[u].uName, Player[u].sName);
+	if (u != -1) sprintf(Property[p].player, "%s %s", Player[u].strings.uName, Player[u].strings.sName);
 	sprintf(msg, "{FFFFFF}Банк: {B7FF00}%s\n{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s",
 		Bank[Property[p].link].title,
 		getSaZoneName(Property[p].region), Property[p].number,

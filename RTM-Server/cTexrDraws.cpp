@@ -42,9 +42,9 @@ PLUGIN_EXPORT bool PLUGIN_CALL  OnPlayerClickTextDraw(const int u, const int dra
 	//----------------------------------------------------------------------------------------------------------
 	else if (draw == drawPlayerChar[REG_LEFT])		//Назад
 	{
-		if (Player[u].pClass == 0) Player[u].pClass = MAX_CLASES - 1;
-		else Player[u].pClass = clamp(Player[u].pClass - 1, 0, MAX_CLASES);
-		cPlayer::preSelectClass(u, Player[u].pClass);
+		if ( Player[u].base.clas == 0 ) Player[u].base.clas = MAX_CLASES - 1;
+		else Player[u].base.clas = clamp(Player[u].base.clas - 1, 0, MAX_CLASES);
+		cPlayer::preSelectClass(u, Player[u].base.clas);
 	}
 	else if (draw == drawPlayerChar[REG_SELECT])	//Выбрать
 	{
@@ -52,7 +52,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL  OnPlayerClickTextDraw(const int u, const int dra
 		TogglePlayerSpectating(u, true);
 		cPlayer::hideRegDraws(u);
 
-		Player[ u ].pClass = clamp(Player[ u ].pClass, 0, MAX_CLASES);
+		Player[u].base.clas = clamp(Player[u].base.clas, 0, MAX_CLASES);
 	
 		cPlayer::SpawnChar(u);
 		cPlayer::setClassSkin(u);
@@ -72,9 +72,9 @@ PLUGIN_EXPORT bool PLUGIN_CALL  OnPlayerClickTextDraw(const int u, const int dra
 	}
 	else if (draw == drawPlayerChar[REG_RIGHT])		//Вперед
 	{
-		if (Player[u].pClass == MAX_CLASES - 1) Player[u].pClass = 1;
-		else Player[u].pClass = clamp(Player[u].pClass + 1, 0, MAX_CLASES);
-		cPlayer::preSelectClass(u, Player[u].pClass);
+		if ( Player[u].base.clas == MAX_CLASES - 1 ) Player[u].base.clas = 1;
+		else Player[u].base.clas = clamp(Player[u].base.clas + 1, 0, MAX_CLASES);
+		cPlayer::preSelectClass(u, Player[u].base.clas);
 	}
 	//----------------------------------------------------------------------------------------------------------
 	return 1;
@@ -129,15 +129,15 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickPlayerTextDraw(const int u, const in
 			//================================
 			cPlayer::SpawnChar(u);
 			//==========================================================================
-			Player[u].tCents = CreatePlayerTextDraw(u, 637.500000, 77.000000, "$12345678.91");
-			PlayerTextDrawAlignment(u, Player[u].tCents, 3);
-			PlayerTextDrawBackgroundColor(u, Player[u].tCents, 255);
-			PlayerTextDrawFont(u, Player[u].tCents, 3);
-			PlayerTextDrawLetterSize(u, Player[u].tCents, 0.599999, 2.199998);
-			PlayerTextDrawColor(u, Player[u].tCents, 929443071);
-			PlayerTextDrawSetOutline(u, Player[u].tCents, 1);
-			PlayerTextDrawSetProportional(u, Player[u].tCents, 1);
-			PlayerTextDrawSetSelectable(u, Player[u].tCents, 0);
+			Player[u].draws.money = CreatePlayerTextDraw(u, 637.500000, 77.000000, "$12345678.91");
+			PlayerTextDrawAlignment(u, Player[u].draws.money, 3);
+			PlayerTextDrawBackgroundColor(u, Player[u].draws.money, 255);
+			PlayerTextDrawFont(u, Player[u].draws.money, 3);
+			PlayerTextDrawLetterSize(u, Player[u].draws.money, 0.599999, 2.199998);
+			PlayerTextDrawColor(u, Player[u].draws.money, 929443071);
+			PlayerTextDrawSetOutline(u, Player[u].draws.money, 1);
+			PlayerTextDrawSetProportional(u, Player[u].draws.money, 1);
+			PlayerTextDrawSetSelectable(u, Player[u].draws.money, 0);
 			break;
 		}
 	}

@@ -13,7 +13,8 @@ void cHouses::loadHouses()
 	int i = 0;
 	MYSQL_ROW row;
 	//------------------------------------------------------------
-	safe_query(con, "SELECT class_Property.*, class_Houses.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Houses  WHERE class_Property.property = class_Houses.db AND class_Property.type = 1");
+	cProperty::propertyLoadQuery(PropertyType::prHouse);
+	//safe_query(con, "SELECT class_Property.*, class_Houses.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Houses  WHERE class_Property.property = class_Houses.db AND class_Property.type = 1");
 	MYSQL_RES *result = mysql_store_result(con);
 	//------------------------------------------------------------
 	while (( row = mysql_fetch_row(result) ))
@@ -157,7 +158,7 @@ void cHouses::create(int price, float x, float y, float z)
 void cHouses::updateText(const int p, const int u)
 {
 	char msg[256];
-	sprintf(Property[p].player, "%s %s", Player[u].uName, Player[u].sName);
+	sprintf(Property[p].player, "%s %s", Player[u].strings.uName, Player[u].strings.sName);
 	sprintf(msg, "{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s", getSaZoneName(Property[p].region), Property[p].number, Property[p].player);
 	//=====================================================================================================
 	StreamerCall::Native::DestroyDynamicPickup(Property[p].pick);

@@ -54,6 +54,8 @@ public:
 	//============================================================
 	static void cProperty::doAct(int);
 	static void cProperty::doSub(int);
+	//============================================================
+	static void propertyLoadQuery(const int type);
 };
 
 enum PropertyType

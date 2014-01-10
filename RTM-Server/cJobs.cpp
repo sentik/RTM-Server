@@ -2,25 +2,25 @@
 
 bool cPlayer::Jobs::cJobs::isInJob(const int u, const int j)
 {
-	if (Player[u].pJob1 == j)
+	if (Player[u].xuita.pJob1 == j)
 		return true;
-	else if (Player[u].pJob2 == j)
+	else if (Player[u].xuita.pJob2 == j)
 		return true;
 	return false;
 }
 
 bool cPlayer::Jobs::cJobs::setJob(const int u, const int j)
 {
-	if (Player[u].pJob1 == cPlayer::Jobs::PlayerJob::JOB_NONE)
+	if (Player[u].xuita.pJob1 == cPlayer::Jobs::PlayerJob::JOB_NONE)
 	{
-		Player[u].pJob1 = j;
-		cClass::sqlSetInt("player_Character", "job1", j, Player[u].pDB);
+		Player[u].xuita.pJob1 = j;
+		cClass::sqlSetInt("player_Character", "job1", j, Player[u].base.db);
 		return true;
 	}
-	else if (Player[u].pJob2 == cPlayer::Jobs::PlayerJob::JOB_NONE)
+	else if (Player[u].xuita.pJob2 == cPlayer::Jobs::PlayerJob::JOB_NONE)
 	{
-		Player[u].pJob2 = j;
-		cClass::sqlSetInt("player_Character", "job2", j, Player[u].pDB);
+		Player[u].xuita.pJob2 = j;
+		cClass::sqlSetInt("player_Character", "job2", j, Player[u].base.db);
 		return true;
 	}
 	return false;
@@ -47,8 +47,8 @@ void cPlayer::Jobs::cJobs::onDLG(const int u, const int dialogid, const int resp
 			{
 				if ( listitem == 0 )
 				{
-					dialogs::genDLGItem(1, language::jobs::general::jobList[Player[u].pJob1], msg, "FFAF00");
-					dialogs::genDLGItem(2, language::jobs::general::jobList[Player[u].pJob2], msg, "FFAF00");
+					dialogs::genDLGItem(1, language::jobs::general::jobList[Player[u].xuita.pJob1], msg, "FFAF00");
+					dialogs::genDLGItem(2, language::jobs::general::jobList[Player[u].xuita.pJob2], msg, "FFAF00");
 					ShowPlayerDialog(u, DLG_JOB_LEAVE, GUI_LIST, "Уволится с:", msg, language::dialogs::buttons::btnSelect, language::dialogs::buttons::btnBack);
 				}
 				else
@@ -89,11 +89,11 @@ void cPlayer::Jobs::cJobs::onDLG(const int u, const int dialogid, const int resp
 			{
 				if ( listitem == 0 )
 				{
-					Player[u].pJob1 = cPlayer::Jobs::PlayerJob::JOB_NONE;
+					Player[u].xuita.pJob1 = cPlayer::Jobs::PlayerJob::JOB_NONE;
 				}
 				else
 				{
-					Player[u].pJob2 = cPlayer::Jobs::PlayerJob::JOB_NONE;
+					Player[u].xuita.pJob2 = cPlayer::Jobs::PlayerJob::JOB_NONE;
 				}
 				SendClientMessage(u, -1, "{B7FF00}Информация: {FFFFFF}вы успешно уволились с работы.");
 			}

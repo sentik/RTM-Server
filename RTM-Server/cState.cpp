@@ -16,7 +16,7 @@ void cState::callKeyStateChange(int playerid, int newkeys, int oldkeys)
 		case 1:
 		case 9:
 		{		   
-			if (Player[playerid].pState == PLAYER_STATE_DRIVER)
+			if (Player[playerid].status.state == PLAYER_STATE_DRIVER)
 			{
 				world::Vehicles::menuVehicle(playerid);
 			}
@@ -72,12 +72,12 @@ void cState::callStateChange(int playerid, int newstate, int oldstate)
 //	sprintf(query, "player: %d || state: %d||%d", playerid, newstate, oldstate);
 //	SendClientMessage(playerid, -1, query);
 	callStateMutex.lock();
-	Player[playerid].pState = newstate;
+	Player[playerid].status.state = newstate;
 	if (newstate == 2 || newstate == 3)
 	{
-		Player[playerid].pCarid = GetPlayerVehicleID(playerid);
-		Player[playerid].pSeatid = GetPlayerVehicleSeat(playerid);
-		PlayAudioStreamForPlayer(playerid, world::radio::cRadio::Radio.at(world::Vehicles::Vehicle[Player[playerid].pCarid].radio).url,
+		Player[playerid].status.vehicle = GetPlayerVehicleID(playerid);
+		Player[playerid].status.seatid = GetPlayerVehicleSeat(playerid);
+		PlayAudioStreamForPlayer(playerid, world::radio::cRadio::Radio.at(world::Vehicles::Vehicle[Player[playerid].status.vehicle].radio).url,
 		 0.0, 0.0, 0.0, 50.0, false);
 		if (newstate == 2)
 		{
@@ -87,7 +87,7 @@ void cState::callStateChange(int playerid, int newstate, int oldstate)
 	else if (oldstate == 2 || oldstate == 3)
 	{
 		StopAudioStreamForPlayer(playerid);
-		Player[playerid].pSeatid = -1;
+		Player[playerid].status.seatid = -1;
 		if (oldstate == 2)
 		{
 			world::Vehicles::hideSpeed(playerid);

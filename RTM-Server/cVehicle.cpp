@@ -26,7 +26,7 @@ void world::Vehicles::loadPlayerVehs(int u)
 	int i = 0;
 	MYSQL_ROW row;
 	//------------------------------------------------------------
-	sprintf(query, "SELECT * FROM world_Vehicles WHERE owner = %d", Player[ u ].pDB), safe_query(con, query);
+	sprintf(query, "SELECT * FROM world_Vehicles WHERE owner = %d", Player[ u ].base.db), safe_query(con, query);
 	//------------------------------------------------------------
 	MYSQL_RES *result = mysql_store_result(con);
 	//------------------------------------------------------------	
@@ -75,7 +75,7 @@ void world::Vehicles::loadPlayerVehs(int u)
 
 void world::Vehicles::menuVehicle(int u)
 {
-	const int vehid = Player[u].pCarid;
+	const int vehid = Player[u].status.vehicle;
 	char text[152];
 	sprintf(text, "«%s{FFFFFF}»\t\tÄâèãàòåëü\n«%s{FFFFFF}»\t\tÔàðû\n«%s{FFFFFF}»\t\tÁàãàæíèê\n«%s{FFFFFF}»\t\tÊàïîò\n«{00C0FF}%s{FFFFFF}»", Vehicle[vehid].Engine ? ("{00C0FF}ON") : ("{FF0000}OFF"), Vehicle[vehid].Light ? ("{00C0FF}ON") : ("{FF0000}OFF"), Vehicle[vehid].Boot ? ("{00C0FF}ON") : ("{FF0000}OFF"), Vehicle[vehid].Bonnet ? ("{00C0FF}ON") : ("{FF0000}OFF"), 
 					world::radio::cRadio::Radio.at(Vehicle[vehid].radio).name);
@@ -87,78 +87,78 @@ void world::Vehicles::showSpeed(int u)
 {
 	TextDrawShowForPlayer(u, drawPlayerChar[SPD_BG]);
 
-	Player[u].spdTitle = CreatePlayerTextDraw(u, 510.000000, 291.000000, VehicleClass[GetVehicleModel(Player[u].pCarid)-400].Name);
-	PlayerTextDrawBackgroundColor(u, Player[u].spdTitle, -1778346416);
-	PlayerTextDrawFont(u, Player[u].spdTitle, 0);
-	PlayerTextDrawLetterSize(u, Player[u].spdTitle, 0.500000, 1.000000);
-	PlayerTextDrawColor(u, Player[u].spdTitle, -1);
-	PlayerTextDrawSetOutline(u, Player[u].spdTitle, 1);
-	PlayerTextDrawSetProportional(u, Player[u].spdTitle, 1);
-	PlayerTextDrawSetSelectable(u, Player[u].spdTitle, 0);
-	PlayerTextDrawShow(u, Player[u].spdTitle);
+	Player[u].draws.spdTitle = CreatePlayerTextDraw(u, 510.000000, 291.000000, VehicleClass[GetVehicleModel(Player[u].status.vehicle)-400].Name);
+	PlayerTextDrawBackgroundColor(u, Player[u].draws.spdTitle, -1778346416);
+	PlayerTextDrawFont(u, Player[u].draws.spdTitle, 0);
+	PlayerTextDrawLetterSize(u, Player[u].draws.spdTitle, 0.500000, 1.000000);
+	PlayerTextDrawColor(u, Player[u].draws.spdTitle, -1);
+	PlayerTextDrawSetOutline(u, Player[u].draws.spdTitle, 1);
+	PlayerTextDrawSetProportional(u, Player[u].draws.spdTitle, 1);
+	PlayerTextDrawSetSelectable(u, Player[u].draws.spdTitle, 0);
+	PlayerTextDrawShow(u, Player[u].draws.spdTitle);
 
-	Player[u].spdSpeed = CreatePlayerTextDraw(u, 622.000000, 305.000000, "170 Km/h ~p~lllllllllllllll~l~lllll");
-	PlayerTextDrawAlignment(u, Player[u].spdSpeed, 3);
-	PlayerTextDrawBackgroundColor(u, Player[u].spdSpeed, -1778346416);
-	PlayerTextDrawFont(u, Player[u].spdSpeed, 1);
-	PlayerTextDrawLetterSize(u, Player[u].spdSpeed, 0.500000, 1.000000);
-	PlayerTextDrawColor(u, Player[u].spdSpeed, -1);
-	PlayerTextDrawSetOutline(u, Player[u].spdSpeed, 1);
-	PlayerTextDrawSetProportional(u, Player[u].spdSpeed, 1);
-	PlayerTextDrawSetSelectable(u, Player[u].spdSpeed, 0);
-	PlayerTextDrawShow(u, Player[u].spdSpeed);
+	Player[u].draws.spdSpeed = CreatePlayerTextDraw(u, 622.000000, 305.000000, "170 Km/h ~p~lllllllllllllll~l~lllll");
+	PlayerTextDrawAlignment(u, Player[u].draws.spdSpeed, 3);
+	PlayerTextDrawBackgroundColor(u, Player[u].draws.spdSpeed, -1778346416);
+	PlayerTextDrawFont(u, Player[u].draws.spdSpeed, 1);
+	PlayerTextDrawLetterSize(u, Player[u].draws.spdSpeed, 0.500000, 1.000000);
+	PlayerTextDrawColor(u, Player[u].draws.spdSpeed, -1);
+	PlayerTextDrawSetOutline(u, Player[u].draws.spdSpeed, 1);
+	PlayerTextDrawSetProportional(u, Player[u].draws.spdSpeed, 1);
+	PlayerTextDrawSetSelectable(u, Player[u].draws.spdSpeed, 0);
+	PlayerTextDrawShow(u, Player[u].draws.spdSpeed);
 
-	Player[u].spdFuel = CreatePlayerTextDraw(u, 622.000000, 320.000000, "100L ~p~llllllllllllllllllll");
-	PlayerTextDrawAlignment(u, Player[u].spdFuel, 3);
-	PlayerTextDrawBackgroundColor(u, Player[u].spdFuel, -1778346416);
-	PlayerTextDrawFont(u, Player[u].spdFuel, 1);
-	PlayerTextDrawLetterSize(u, Player[u].spdFuel, 0.500000, 1.000000);
-	PlayerTextDrawColor(u, Player[u].spdFuel, -1);
-	PlayerTextDrawSetOutline(u, Player[u].spdFuel, 1);
-	PlayerTextDrawSetProportional(u, Player[u].spdFuel, 1);
-	PlayerTextDrawSetSelectable(u, Player[u].spdFuel, 0);
-	PlayerTextDrawShow(u, Player[u].spdFuel);
+	Player[u].draws.spdFuel = CreatePlayerTextDraw(u, 622.000000, 320.000000, "100L ~p~llllllllllllllllllll");
+	PlayerTextDrawAlignment(u, Player[u].draws.spdFuel, 3);
+	PlayerTextDrawBackgroundColor(u, Player[u].draws.spdFuel, -1778346416);
+	PlayerTextDrawFont(u, Player[u].draws.spdFuel, 1);
+	PlayerTextDrawLetterSize(u, Player[u].draws.spdFuel, 0.500000, 1.000000);
+	PlayerTextDrawColor(u, Player[u].draws.spdFuel, -1);
+	PlayerTextDrawSetOutline(u, Player[u].draws.spdFuel, 1);
+	PlayerTextDrawSetProportional(u, Player[u].draws.spdFuel, 1);
+	PlayerTextDrawSetSelectable(u, Player[u].draws.spdFuel, 0);
+	PlayerTextDrawShow(u, Player[u].draws.spdFuel);
 
-	Player[u].spdMilage = CreatePlayerTextDraw(u, 622.000000, 335.000000, "00001 Km ~p~llllllllllllllllllll");
-	PlayerTextDrawAlignment(u, Player[u].spdMilage, 3);
-	PlayerTextDrawBackgroundColor(u, Player[u].spdMilage, -1778346416);
-	PlayerTextDrawFont(u, Player[u].spdMilage, 1);
-	PlayerTextDrawLetterSize(u, Player[u].spdMilage, 0.500000, 1.000000);
-	PlayerTextDrawColor(u, Player[u].spdMilage, -1);
-	PlayerTextDrawSetOutline(u, Player[u].spdMilage, 1);
-	PlayerTextDrawSetProportional(u, Player[u].spdMilage, 1);
-	PlayerTextDrawSetSelectable(u, Player[u].spdMilage, 0);
-	PlayerTextDrawShow(u, Player[u].spdMilage);
+	Player[u].draws.spdMilage = CreatePlayerTextDraw(u, 622.000000, 335.000000, "00001 Km ~p~llllllllllllllllllll");
+	PlayerTextDrawAlignment(u, Player[u].draws.spdMilage, 3);
+	PlayerTextDrawBackgroundColor(u, Player[u].draws.spdMilage, -1778346416);
+	PlayerTextDrawFont(u, Player[u].draws.spdMilage, 1);
+	PlayerTextDrawLetterSize(u, Player[u].draws.spdMilage, 0.500000, 1.000000);
+	PlayerTextDrawColor(u, Player[u].draws.spdMilage, -1);
+	PlayerTextDrawSetOutline(u, Player[u].draws.spdMilage, 1);
+	PlayerTextDrawSetProportional(u, Player[u].draws.spdMilage, 1);
+	PlayerTextDrawSetSelectable(u, Player[u].draws.spdMilage, 0);
+	PlayerTextDrawShow(u, Player[u].draws.spdMilage);
 
-	Player[u].spdState = CreatePlayerTextDraw(u, 580.000000, 348.000000, "~l~ENGINE ~p~LIGHT ~l~DOORS");
-	PlayerTextDrawAlignment(u, Player[u].spdState, 2);
-	PlayerTextDrawBackgroundColor(u, Player[u].spdState, -1778346416);
-	PlayerTextDrawFont(u, Player[u].spdState, 1);
-	PlayerTextDrawLetterSize(u, Player[u].spdState, 0.350000, 1.000000);
-	PlayerTextDrawColor(u, Player[u].spdState, -1);
-	PlayerTextDrawSetOutline(u, Player[u].spdState, 1);
-	PlayerTextDrawSetProportional(u, Player[u].spdState, 1);
-	PlayerTextDrawUseBox(u, Player[u].spdState, 1);
-	PlayerTextDrawBoxColor(u, Player[u].spdState, -1778346416);
-	PlayerTextDrawTextSize(u, Player[u].spdState, 0.000000, 120.000000);
-	PlayerTextDrawSetSelectable(u, Player[u].spdState, 0);
-	PlayerTextDrawShow(u, Player[u].spdState);
+	Player[u].draws.spdState = CreatePlayerTextDraw(u, 580.000000, 348.000000, "~l~ENGINE ~p~LIGHT ~l~DOORS");
+	PlayerTextDrawAlignment(u, Player[u].draws.spdState, 2);
+	PlayerTextDrawBackgroundColor(u, Player[u].draws.spdState, -1778346416);
+	PlayerTextDrawFont(u, Player[u].draws.spdState, 1);
+	PlayerTextDrawLetterSize(u, Player[u].draws.spdState, 0.350000, 1.000000);
+	PlayerTextDrawColor(u, Player[u].draws.spdState, -1);
+	PlayerTextDrawSetOutline(u, Player[u].draws.spdState, 1);
+	PlayerTextDrawSetProportional(u, Player[u].draws.spdState, 1);
+	PlayerTextDrawUseBox(u, Player[u].draws.spdState, 1);
+	PlayerTextDrawBoxColor(u, Player[u].draws.spdState, -1778346416);
+	PlayerTextDrawTextSize(u, Player[u].draws.spdState, 0.000000, 120.000000);
+	PlayerTextDrawSetSelectable(u, Player[u].draws.spdState, 0);
+	PlayerTextDrawShow(u, Player[u].draws.spdState);
 }
 
 void world::Vehicles::hideSpeed(int u)
 {
 	TextDrawHideForPlayer(u, drawPlayerChar[SPD_BG]);
-	PlayerTextDrawDestroy(u, Player[u].spdState);
-	PlayerTextDrawDestroy(u, Player[u].spdTitle);
-	PlayerTextDrawDestroy(u, Player[u].spdSpeed);
-	PlayerTextDrawDestroy(u, Player[u].spdFuel);
-	PlayerTextDrawDestroy(u, Player[u].spdMilage);
+	PlayerTextDrawDestroy(u, Player[u].draws.spdState);
+	PlayerTextDrawDestroy(u, Player[u].draws.spdTitle);
+	PlayerTextDrawDestroy(u, Player[u].draws.spdSpeed);
+	PlayerTextDrawDestroy(u, Player[u].draws.spdFuel);
+	PlayerTextDrawDestroy(u, Player[u].draws.spdMilage);
 }
 
 void world::Vehicles::updateSpeed(int u)
 {
 	mutexSpidak.lock();
-	const int car = Player[u].pCarid;
+	const int car = Player[u].status.vehicle;
 	if (Vehicle[car].Fuel <= 0.0f)
 	{
 		Vehicle[car].Engine = false;
@@ -191,19 +191,19 @@ void world::Vehicles::updateSpeed(int u)
 		Vehicle[car].Fuel -= (speedAlt / 10);
 		//======================================================
 		sprintf(tmp, "%.2f Km ~p~%s", Vehicle[car].Dist, rowDist.c_str());
-		PlayerTextDrawSetString(u, Player[u].spdMilage, tmp);
+		PlayerTextDrawSetString(u, Player[u].draws.spdMilage, tmp);
 		//======================================================
 		sprintf(tmp, "%.2fL ~p~%s", Vehicle[car].Fuel, rowFuel.c_str());
-		PlayerTextDrawSetString(u, Player[u].spdFuel, tmp);
+		PlayerTextDrawSetString(u, Player[u].draws.spdFuel, tmp);
 		//======================================================
 		sprintf(tmp, "%d Km/h ~p~%s", speed, row.c_str());
-		PlayerTextDrawSetString(u, Player[ u ].spdSpeed, tmp);
+		PlayerTextDrawSetString(u, Player[ u ].draws.spdSpeed, tmp);
 		//======================================================	
 		sprintf(tmp, "%sENGINE %sLIGHT %sDOORS",
 			act[Vehicle[car].Engine],
 			act[Vehicle[car].Light],
 			act[Vehicle[car].Locked]);
-		PlayerTextDrawSetString(u, Player[ u ].spdState, tmp);
+		PlayerTextDrawSetString(u, Player[ u ].draws.spdState, tmp);
 		//======================================================	
 	}
 	mutexSpidak.unlock();

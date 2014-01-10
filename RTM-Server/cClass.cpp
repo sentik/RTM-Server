@@ -229,7 +229,7 @@ void cClass::keyGame(const int u)
 {
 	keyGameMutex.lock();
 
-	Player[u].isKeyGame = true;
+	Player[u].xuita.isKeyGame = true;
 
 	//char msg[144];
 
@@ -289,51 +289,51 @@ void cClass::keyGame(const int u)
 			}
 			else if ( kgPlayerText[u][t].x == 290.0f)
 			{
-				Player[u].kgUD = 0;
-				Player[u].kgLR = 0;
+				Player[u].xuita.kgUD = 0;
+				Player[u].xuita.kgLR = 0;
 				//SendClientMessage(u, -1, "Current key: null");
 			}
 			else if ( kgPlayerText[u][t].x == 320.0f)
 			{
 				if ( kgPlayerText[u][t].key == kgKeys::KG_KEY_DOWN )
 				{
-					Player[u].kgUD = 128;
-					Player[u].kgLR = 0;
+					Player[u].xuita.kgUD = 128;
+					Player[u].xuita.kgLR = 0;
 				}
 				else if ( kgPlayerText[u][t].key == kgKeys::KG_KEY_DOWNLEFT )
 				{
-					Player[u].kgUD = 128;
-					Player[u].kgLR = -128;
+					Player[u].xuita.kgUD = 128;
+					Player[u].xuita.kgLR = -128;
 				}
 				else if ( kgPlayerText[u][t].key == kgKeys::KG_KEY_DOWNRIGHT )
 				{
-					Player[u].kgUD = 128;
-					Player[u].kgLR = 128;
+					Player[u].xuita.kgUD = 128;
+					Player[u].xuita.kgLR = 128;
 				}
 				else if ( kgPlayerText[u][t].key == kgKeys::KG_KEY_LEFT)
 				{
-					Player[u].kgUD = 0;
-					Player[u].kgLR = -128;
+					Player[u].xuita.kgUD = 0;
+					Player[u].xuita.kgLR = -128;
 				}
 				else if ( kgPlayerText[u][t].key == kgKeys::KG_KEY_RIGHT )
 				{
-					Player[u].kgUD = 0;
-					Player[u].kgLR = 128;
+					Player[u].xuita.kgUD = 0;
+					Player[u].xuita.kgLR = 128;
 				}
 				else if ( kgPlayerText[u][t].key == kgKeys::KG_KEY_UP )
 				{
-					Player[u].kgUD = -128;
-					Player[u].kgLR = 0;
+					Player[u].xuita.kgUD = -128;
+					Player[u].xuita.kgLR = 0;
 				}
 				else if ( kgPlayerText[u][t].key == kgKeys::KG_KEY_UPLEFT )
 				{
-					Player[u].kgUD = -128;
-					Player[u].kgLR = -128;
+					Player[u].xuita.kgUD = -128;
+					Player[u].xuita.kgLR = -128;
 				}
 				else if ( kgPlayerText[u][t].key == kgKeys::KG_KEY_UPRIGHT )
 				{
-					Player[u].kgUD = -128;
-					Player[u].kgLR = 128;
+					Player[u].xuita.kgUD = -128;
+					Player[u].xuita.kgLR = 128;
 				}
 				//sprintf(msg, "Current key: %s", kgKeys[kgPlayerText[u][t].key]);
 				//SendClientMessage(u, -1, msg);
@@ -374,7 +374,7 @@ void cClass::keyGame(const int u)
 	}
 
 	keyGameMutex.lock();
-	Player[u].isKeyGame = false;
+	Player[u].xuita.isKeyGame = false;
 	keyGameMutex.unlock();
 
 	for ( int i = 0; i < 256; i++ )
@@ -414,7 +414,7 @@ void cClass::updateKeyGame(const int u)
 
 	GetPlayerKeys(u, &key, &ud, &lr);
 
-	if ( Player[u].kgLR == 0 && Player[u].kgUD == 0)
+	if ( Player[u].xuita.kgLR == 0 && Player[u].xuita.kgUD == 0)
 	{
 		
 	}
@@ -426,7 +426,7 @@ void cClass::updateKeyGame(const int u)
 		}
 		else
 		{
-			if ( lr == Player[u].kgLR && ud == Player[u].kgUD)
+			if ( lr == Player[u].xuita.kgLR && ud == Player[u].xuita.kgUD)
 			{
 				GameTextForPlayer(u, "~g~GOOD", 1000, 3);
 			}
@@ -434,8 +434,8 @@ void cClass::updateKeyGame(const int u)
 			{
 				GameTextForPlayer(u, "~r~BAD", 1000, 3);
 			}
-			Player[u].kgLR = 0;
-			Player[u].kgUD = 0;
+			Player[u].xuita.kgLR = 0;
+			Player[u].xuita.kgUD = 0;
 		}
 	}
 

@@ -14,7 +14,7 @@ void cProperty::buyMessage(const int u, const int p)
 	sprintf(msg, "{FFFFFF}Здраствуйте, вы действительно хотите приобрести эту недвижимость?\nАдрес: {00C0FF}%s {FFFFFF}д: {00C0FF}%d {FFFFFF}|| Стоимость: {00C0FF}%d${FFFFFF}",
 				 getSaZoneName(Property[p].region), Property[p].number, Property[p].price);
 	//===============================================
-	Player[ u ].inIndex = p;
+	Player[ u ].status.inIndex = p;
 	//===============================================
 	switch (Property[p].type)
 	{
@@ -90,7 +90,7 @@ void cProperty::statusMessage(const int u, const int p)
 
 void cProperty::setOwner(const int p, const int owner)
 {
-	Property[p].owner = Player[owner].pDB;
+	Property[p].owner = Player[owner].base.db;
 	sprintf(query, "UPDATE class_Property SET owner = '%d' WHERE id = %d", Property[p].owner, Property[p].db);
 	safe_query(con, query); 
 
@@ -275,7 +275,7 @@ void cProperty::enterProperty(const int u)
 		//-------------------------------------------------------------------------------------------------------
 		if (cPlayer::isRangeOfPoint(u, ENTER_RADIUS, Property[ i ].posX, Property[ i ].posY, Property[ i ].posZ))
 		{
-			Player[u].inIndex = i;
+			Player[u].status.inIndex = i;
 			//Вывод различных сообщений
 			if (Property[ i ].owner==0)
 			{
@@ -285,7 +285,7 @@ void cProperty::enterProperty(const int u)
 			//-----------------------------------------------------------------------------------------------
 			if (Property[ i ].type == PropertyType::prGas) //Заправки
 			{
-				if (Property[ i ].owner == Player[ u ].pDB)
+				if (Property[ i ].owner == Player[ u ].base.db)
 				{
 					gasProperty::cGas::ownerMenu(u);
 				}
@@ -293,7 +293,7 @@ void cProperty::enterProperty(const int u)
 			}
 			else if (Property[ i ].type == PropertyType::prFeller)
 			{
-				if (Property[ i ].owner == Player[ u ].pDB)
+				if (Property[ i ].owner == Player[ u ].base.db)
 					fProperty::cFeller::ownerMenu(u);
 				else	fProperty::cFeller::clientMenu(u);
 				break;
@@ -337,7 +337,7 @@ void cProperty::enterProperty(const int u)
 
 void cProperty::doAct(int u)
 {
-	const int idx = Player[ u ].inIndex;
+	const int idx = Player[ u ].status.inIndex;
 	switch (Property[idx].type)
 	{
 		//----------------------------------------
@@ -357,7 +357,7 @@ void cProperty::doAct(int u)
 
 void cProperty::doSub(int u)
 {
-	const int idx = Player[ u ].inIndex;
+	const int idx = Player[ u ].status.inIndex;
 	switch (Property[ idx ].type)
 	{
 		//----------------------------------------
@@ -380,4 +380,30 @@ void cProperty::doSub(int u)
 		break;
 		//----------------------------------------
 	}
+}
+
+void cProperty::propertyLoadQuery(const int type)
+{
+	char table[24], localQuery[200];
+	if ( type == PropertyType::prHouse )			strcpy(table, "class_Houses");
+	else if ( type == PropertyType::prBank )		strcpy(table, "class_Banks");
+	else if ( type == PropertyType::prAutosalon )	strcpy(table, "class_Shop_vehicle");
+	else if ( type == PropertyType::prMiner )		strcpy(table, "class_Miners");
+	else if ( type == PropertyType::prGas )			strcpy(table, "class_Gas");
+	else if ( type == PropertyType::prFeller )		strcpy(table, "class_Feller");
+	else if ( type == PropertyType::prFarms )		strcpy(table, "class_Farms");
+	else if ( type == PropertyType::prFactMetal )	strcpy(table, "class_FactoryMetal");
+	else if ( type == PropertyType::prBelays )		strcpy(table, "class_Belay");
+
+	sprintf
+	(
+		localQuery, 
+		"SELECT class_Property.*, %s.*, getOwnerName(class_Property.owner) as pname FROM class_Property, %s  WHERE class_Property.property = %s.id AND class_Property.type = %d", 
+		table, 
+		table, 
+		table, 
+		type
+	);
+
+	safe_query(con, localQuery);
 }

@@ -8,7 +8,8 @@ void gasProperty::cGas::loadGas()
 	int i = 0;
 	MYSQL_ROW row;
 	//------------------------------------------------------------
-	safe_query(con, "SELECT class_Property.*, class_Gas.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Gas  WHERE class_Property.property = class_Gas.id AND class_Property.type = 5");
+	cProperty::propertyLoadQuery(PropertyType::prGas);
+	//safe_query(con, "SELECT class_Property.*, class_Gas.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Gas  WHERE class_Property.property = class_Gas.id AND class_Property.type = 5");
 	MYSQL_RES *result = mysql_store_result(con);
 	//------------------------------------------------------------
 	while ((row = mysql_fetch_row(result)))
@@ -86,7 +87,7 @@ void gasProperty::cGas::saveGas()
 
 void gasProperty::cGas::fillingVehicle(const int u)
 {
-	const int car = Player[u].pCarid;
+	const int car = Player[u].status.vehicle;
 	for (int i = 0; i < MAX_PROPERTY; i++)
 	{
 		if (Property[i].type == 5)
@@ -108,7 +109,7 @@ void gasProperty::cGas::fillingVehicleProcess(const int u, const int i)
 
 	char msg[64];
 	const int d = Property[i].link;
-	const int car = Player[u].pCarid;
+	const int car = Player[u].status.vehicle;
 	const float cost = Gas[d].cost * (100.0f - world::Vehicles::Vehicle[car].Fuel);
 	const int tmpText = world::Vehicles::Vehicle[car].text3D;
 	float fuel;
@@ -166,7 +167,7 @@ void gasProperty::cGas::fillingVehicleProcess(const int u, const int i)
 void gasProperty::cGas::updateText(const int p, const int u = -1)
 {
 	char msg[256];
-	if(u != -1) sprintf(Property[p].player, "%s %s", Player[u].uName, Player[u].sName);
+	if(u != -1) sprintf(Property[p].player, "%s %s", Player[u].strings.uName, Player[u].strings.sName);
 	sprintf(msg, "{FFFFFF}Заправка: {B7FF00}%s\n{FFFFFF}Адрес: {B7FF00}%s {FFFFFF}д: {B7FF00}%d\n{FFFFFF}Владелец: {B7FF00}%s\n{FFFFFF}Стоимость литра: {B7FF00}%.2f", gasProperty::cGas::Gas[Property[p].link].name, getSaZoneName(Property[p].region), Property[p].number, Property[p].player, gasProperty::cGas::Gas[Property[p].link].cost);
 	StreamerCall::Native::UpdateDynamic3DTextLabelText(Property[p].text, -1, msg);
 }
@@ -176,14 +177,14 @@ void gasProperty::cGas::ownerMenu(const int u)
 	char msg[128] = "";
 	dialogs::genDLGItem(1, "Информация", msg);
 	dialogs::genDLGItem(2, "Управление", msg);
-	ShowPlayerDialog(u, DIALOG_LIST::DLG_GAS_MAIN, GUI_LIST, gasProperty::cGas::Gas[Property[Player[u].inIndex].link].name, msg, language::dialogs::buttons::btnSelect, language::dialogs::buttons::btnCancel);
+	ShowPlayerDialog(u, DIALOG_LIST::DLG_GAS_MAIN, GUI_LIST, gasProperty::cGas::Gas[Property[Player[u].status.inIndex].link].name, msg, language::dialogs::buttons::btnSelect, language::dialogs::buttons::btnCancel);
 	Player[u].status.action = PlayerAction::ACTION_USEPROP_GAS;
 }
 
 void gasProperty::cGas::onDLG(const int u, const int dialogid, const int response, const int listitem, const char* inputtext)
 {
 	char msg[256] = "";
-	const int p = Player[u].inIndex;
+	const int p = Player[u].status.inIndex;
 	const int l = Property[p].link;
 
 	switch (dialogid)

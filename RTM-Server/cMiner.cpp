@@ -24,7 +24,8 @@ void Jobs::Miner::cMiner::loadMiner()
 	world::Vehicles::locked(0, true);
 
 	//------------------------------------------------------------
-	safe_query(con, "SELECT class_Property.*, class_Miners.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Miners  WHERE class_Property.property = class_Miners.id AND class_Property.type = 4");
+	cProperty::propertyLoadQuery(PropertyType::prMiner);
+	//safe_query(con, "SELECT class_Property.*, class_Miners.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Miners  WHERE class_Property.property = class_Miners.id AND class_Property.type = 4");
 	MYSQL_RES *result = mysql_store_result(con);
 	//------------------------------------------------------------
 	while ((row = mysql_fetch_row(result)))
@@ -159,19 +160,19 @@ void Jobs::Miner::cMiner::onGUI(const int u, const int draw)
 			PlayerTextDrawSetSelectable(u, Player[ u ].draws.tempDraws[ i ], false);
 			PlayerTextDrawShow(u, Player[ u ].draws.tempDraws[ i ]);
 			//------------------------------------------------------------------------------------------------------
-			if (Player[ u ].inIndex == 1)				// Железо
+			if (Player[ u ].status.inIndex == 1)				// Железо
 			{
 				if (minerColor == 1)
 				{
 					minerAmount = 1 + rand() % 9;
-					Player[ u ].aMinerA += minerAmount;
-					sprintf(msg, language::jobs::miner::actionOne, minerAmount, Player[ u ].aMinerA);
+					Player[ u ].xuita.aMinerA += minerAmount;
+					sprintf(msg, language::jobs::miner::actionOne, minerAmount, Player[ u ].xuita.aMinerA);
 				}
 				else if (minerColor == 0)
 				{
 					minerAmount =  1 + rand() % 5;
-					Player[ u ].aMinerA -= minerAmount;
-					sprintf(msg, language::jobs::miner::dstatus.actionOne, minerAmount, Player[ u ].aMinerA);
+					Player[ u ].xuita.aMinerA -= minerAmount;
+					sprintf(msg, language::jobs::miner::dactionOne, minerAmount, Player[ u ].xuita.aMinerA);
 				}
 				else
 				{
@@ -179,19 +180,19 @@ void Jobs::Miner::cMiner::onGUI(const int u, const int draw)
 				}
 			}
 			//------------------------------------------------------------------------------------------------------
-			else if (Player[ u ].inIndex == 2)			//Серебро
+			else if (Player[ u ].status.inIndex == 2)			//Серебро
 			{
 				if (minerColor == 1)
 				{
 					minerAmount = 1 + rand() % 6;
-					Player[ u ].aMinerB += minerAmount;
-					sprintf(msg, language::jobs::miner::actionTwo, minerAmount, Player[ u ].aMinerB);
+					Player[ u ].xuita.aMinerB += minerAmount;
+					sprintf(msg, language::jobs::miner::actionTwo, minerAmount, Player[ u ].xuita.aMinerB);
 				}
 				else if (minerColor == 0)
 				{
 					minerAmount = 1 + rand() % 2;
-					Player[ u ].aMinerB -= minerAmount;
-					sprintf(msg, language::jobs::miner::dstatus.actionTwo, minerAmount, Player[u].aMinerB);
+					Player[ u ].xuita.aMinerB -= minerAmount;
+					sprintf(msg, language::jobs::miner::dactionTwo, minerAmount, Player[u].xuita.aMinerB);
 				}
 				else
 				{
@@ -199,19 +200,19 @@ void Jobs::Miner::cMiner::onGUI(const int u, const int draw)
 				}
 			}
 			//------------------------------------------------------------------------------------------------------
-			else if (Player[ u ].inIndex == 3)			//Медь
+			else if (Player[ u ].status.inIndex == 3)			//Медь
 			{
 				if (minerColor == 1)
 				{
 					minerAmount = 1 + rand() % 8;
-					Player[ u ].aMinerA += minerAmount;
-					sprintf(msg, language::jobs::miner::actionThree, minerAmount, Player[u].aMinerA);
+					Player[ u ].xuita.aMinerA += minerAmount;
+					sprintf(msg, language::jobs::miner::actionThree, minerAmount, Player[u].xuita.aMinerA);
 				}
 				else if (minerColor == 0)
 				{
 					minerAmount = 1 + rand() % 4;
-					Player[ u ].aMinerA -= minerAmount;
-					sprintf(msg, language::jobs::miner::dstatus.actionThree, minerAmount, Player[u].aMinerA);
+					Player[ u ].xuita.aMinerA -= minerAmount;
+					sprintf(msg, language::jobs::miner::dactionThree, minerAmount, Player[u].xuita.aMinerA);
 				}
 				else
 				{
@@ -219,19 +220,19 @@ void Jobs::Miner::cMiner::onGUI(const int u, const int draw)
 				}
 			}
 			//------------------------------------------------------------------------------------------------------
-			else if (Player[ u ].inIndex == 4)			//Золото
+			else if (Player[ u ].status.inIndex == 4)			//Золото
 			{
 				if (minerColor == 1)
 				{
 					minerAmount = 1 + rand() % 4;
-					Player[ u ].aMinerB += minerAmount;
-					sprintf(msg, language::jobs::miner::actionFour, minerAmount, Player[ u ].aMinerB);
+					Player[ u ].xuita.aMinerB += minerAmount;
+					sprintf(msg, language::jobs::miner::actionFour, minerAmount, Player[ u ].xuita.aMinerB);
 				}
 				else if (minerColor == 0)
 				{
 					minerAmount = 1 + rand() % 2;
-					Player[ u ].aMinerB -= minerAmount;
-					sprintf(msg, language::jobs::miner::dstatus.actionFour, minerAmount, Player[u].aMinerB);
+					Player[ u ].xuita.aMinerB -= minerAmount;
+					sprintf(msg, language::jobs::miner::dactionFour, minerAmount, Player[u].xuita.aMinerB);
 				}
 				else
 				{
@@ -239,8 +240,8 @@ void Jobs::Miner::cMiner::onGUI(const int u, const int draw)
 				}
 			}
 			//------------------------------------------------------------------------------------------------------
-			if (Player[ u ].aMinerA < 0) Player[ u ].aMinerA = 0;
-			if (Player[ u ].aMinerB < 0) Player[ u ].aMinerB = 0;
+			if (Player[ u ].xuita.aMinerA < 0) Player[ u ].xuita.aMinerA = 0;
+			if (Player[ u ].xuita.aMinerB < 0) Player[ u ].xuita.aMinerB = 0;
 			//------------------------------------------------------------------------------------------------------
 			SendClientMessage(u, -1, msg);
 			break;
@@ -301,58 +302,58 @@ void Jobs::Miner::cMiner::actionPicks(const int u)
 	else if (cPlayer::isRangeOfPoint(u, MINER_SH1_IRON_RADIUS, MINER_SH1_IRON))
 	{
 		action = 2;
-		Player[u].inIndex = 1;
+		Player[u].status.inIndex = 1;
 		SendClientMessage(u, -1, "Вы начали добывать, {"MINER_MENU_COLOR"}железо");
 	}
 	else if (cPlayer::isRangeOfPoint(u, MINER_SH1_SILVER_RADIUS, MINER_SH1_SILVER))
 	{
 		action = 2;
-		Player[u].inIndex = 2;
+		Player[u].status.inIndex = 2;
 		SendClientMessage(u, -1, "Вы начали добывать, {"MINER_MENU_COLOR"}серебро");
 	}
 	else if (cPlayer::isRangeOfPoint(u, MINER_SH2_CUPRUM_RADIUS, MINER_SH2_CUPRUM))
 	{
 		action = 2;
-		Player[u].inIndex = 3;
+		Player[u].status.inIndex = 3;
 		SendClientMessage(u, -1, "Вы начали добывать, {"MINER_MENU_COLOR"}медь");
 	}
 	else if (cPlayer::isRangeOfPoint(u, MINER_SH2_GOLD_RADIUS, MINER_SH2_GOLD))
 	{
 		action = 2;
-		Player[u].inIndex = 4;
+		Player[u].status.inIndex = 4;
 		SendClientMessage(u, -1, "Вы начали добывать, {"MINER_MENU_COLOR"}золото");
 	}
 	else if (cPlayer::isRangeOfPoint(u, 2.5f, MINER_SH1_CHECKPOS))
 	{
 		sprintf(query, "\t\t\t\t\t{FFFFFF}Добыто {"MINER_MENU_COLOR"}[{FFFFFF}Заработано{"MINER_MENU_COLOR"}]\n\t{FFFFFF}Железо: {"MINER_MENU_COLOR"}%d [{FFFFFF}%.2f${"MINER_MENU_COLOR"}]\n\t{FFFFFF}Серебро: {"MINER_MENU_COLOR"}%d [{FFFFFF}%.2f${"MINER_MENU_COLOR"}]",
-						Player[u].aMinerA, Jobs::Miner::cMiner::miner[0].zp1*Player[u].aMinerA, 
-						Player[u].aMinerB, Jobs::Miner::cMiner::miner[0].zp2*Player[u].aMinerB);
+						Player[u].xuita.aMinerA, Jobs::Miner::cMiner::miner[0].zp1*Player[u].xuita.aMinerA, 
+						Player[u].xuita.aMinerB, Jobs::Miner::cMiner::miner[0].zp2*Player[u].xuita.aMinerB);
 		ShowPlayerDialog(u, DLG_NONE, GUI_MSG, "Железно-серебряная шахта", query, "OK", "");
 		//----------------------------------------------------------------------------------------------------------------------
-		Jobs::Miner::cMiner::miner[0].a1 += Player[u].aMinerA;
-		Jobs::Miner::cMiner::miner[0].a2 += Player[u].aMinerB;
+		Jobs::Miner::cMiner::miner[0].a1 += Player[u].xuita.aMinerA;
+		Jobs::Miner::cMiner::miner[0].a2 += Player[u].xuita.aMinerB;
 		//----------------------------------------------------------------------------------------------------------------------
 		Jobs::Miner::cMiner::updateInfotable(false);
 		//----------------------------------------------------------------------------------------------------------------------
-		Player[u].minerZP += ( Jobs::Miner::cMiner::miner[0].zp1*Player[u].aMinerA + Jobs::Miner::cMiner::miner[0].zp2*Player[u].aMinerB );
-		Player[u].aMinerA = 0;
-		Player[u].aMinerB = 0;
+		Player[u].xuita.minerZP += ( Jobs::Miner::cMiner::miner[0].zp1*Player[u].xuita.aMinerA + Jobs::Miner::cMiner::miner[0].zp2*Player[u].xuita.aMinerB );
+		Player[u].xuita.aMinerA = 0;
+		Player[u].xuita.aMinerB = 0;
 	}
 	else if (cPlayer::isRangeOfPoint(u, 2.5f, MINER_SH2_CHECKPOS))
 	{
 		sprintf(query, "\t\t\t\t\t{FFFFFF}Добыто {"MINER_MENU_COLOR"}[{FFFFFF}Заработано{"MINER_MENU_COLOR"}]\n\t{FFFFFF}Медь: {"MINER_MENU_COLOR"}%d [{FFFFFF}%.2f${"MINER_MENU_COLOR"}]\n\t{FFFFFF}Золото: {"MINER_MENU_COLOR"}%d [{FFFFFF}%.2f${"MINER_MENU_COLOR"}]",
-			Player[u].aMinerA, Jobs::Miner::cMiner::miner[1].zp1*Player[u].aMinerA,
-			Player[u].aMinerB, Jobs::Miner::cMiner::miner[1].zp2*Player[u].aMinerB);
+			Player[u].xuita.aMinerA, Jobs::Miner::cMiner::miner[1].zp1*Player[u].xuita.aMinerA,
+			Player[u].xuita.aMinerB, Jobs::Miner::cMiner::miner[1].zp2*Player[u].xuita.aMinerB);
 		ShowPlayerDialog(u, DLG_NONE, GUI_MSG, "Золото-медная шахта", query, "OK", "");
 		//----------------------------------------------------------------------------------------------------------------------
-		Jobs::Miner::cMiner::miner[1].a1 += Player[u].aMinerA;
-		Jobs::Miner::cMiner::miner[1].a2 += Player[u].aMinerB;
+		Jobs::Miner::cMiner::miner[1].a1 += Player[u].xuita.aMinerA;
+		Jobs::Miner::cMiner::miner[1].a2 += Player[u].xuita.aMinerB;
 		//----------------------------------------------------------------------------------------------------------------------
 		Jobs::Miner::cMiner::updateInfotable(true);
 		//----------------------------------------------------------------------------------------------------------------------
-		Player[u].minerZP += ( Jobs::Miner::cMiner::miner[1].zp1*Player[u].aMinerA + Jobs::Miner::cMiner::miner[1].zp2*Player[u].aMinerB );
-		Player[u].aMinerA = 0;
-		Player[u].aMinerB = 0;
+		Player[u].xuita.minerZP += ( Jobs::Miner::cMiner::miner[1].zp1*Player[u].xuita.aMinerA + Jobs::Miner::cMiner::miner[1].zp2*Player[u].xuita.aMinerB );
+		Player[u].xuita.aMinerA = 0;
+		Player[u].xuita.aMinerB = 0;
 	}
 
 	if (action == 1)
@@ -416,7 +417,7 @@ void Jobs::Miner::cMiner::updateInfotable(bool i)
 void Jobs::Miner::cMiner::updateText(const int p, const int u)
 {
 	char msg[256];
-	sprintf(Property[p].player, "%s %s", Player[u].uName, Player[u].sName);
+	sprintf(Property[p].player, "%s %s", Player[u].strings.uName, Player[u].strings.sName);
 	if (!Property[p].link)
 	{
 		sprintf(msg, "Железо-серебряная шахта");
@@ -438,7 +439,7 @@ void Jobs::Miner::cMiner::showDLG(const int u)
 {
 	char msg[ 256 ] = "";
 	Player[ u ].status.action = PlayerAction::ACTION_USEMINERDLG;
-	if (Player[ u ].pDB == Property[ Player[ u ].inIndex ].owner)
+	if (Player[ u ].base.db == Property[ Player[ u ].status.inIndex ].owner)
 	{
 		dialogs::genDLGItem(1, "Информация", msg, MINER_MENU_COLOR);
 		dialogs::genDLGItem(2, "Финансы", msg, MINER_MENU_COLOR);
@@ -476,7 +477,7 @@ void Jobs::Miner::cMiner::showDLG(const int u)
 void Jobs::Miner::cMiner::onDLG(const int u, const int dialogid, const int response, const int listitem, const char * inputtext)
 {
 	char msg[256] = "";
-	const int p = Player[u].inIndex;
+	const int p = Player[u].status.inIndex;
 	const int l = Property[p].link;
 
 	switch (dialogid)
@@ -539,7 +540,7 @@ void Jobs::Miner::cMiner::onDLG(const int u, const int dialogid, const int respo
 			{
 				if ( listitem == 0 )
 				{
-					const float money = Player[u].minerZP;
+					const float money = Player[u].xuita.minerZP;
 					const int exp = floor(money / 100);
 
 					sprintf(msg, "{FFFFFF}Заработано: {"MINER_MENU_COLOR"}%.2f$ {FFFFFF}+ ({"MINER_MENU_COLOR"}%d EXP{FFFFFF})", money, exp);
@@ -549,7 +550,7 @@ void Jobs::Miner::cMiner::onDLG(const int u, const int dialogid, const int respo
 						cPlayer::giveExp(u, exp);
 						Jobs::Miner::cMiner::miner[l].fond -= money;
 						cPlayer::givePlayerMoney(u, money);
-						Player[u].minerZP = 0;
+						Player[u].xuita.minerZP = 0;
 					}
 					else
 					{
@@ -579,7 +580,7 @@ void Jobs::Miner::cMiner::onDLG(const int u, const int dialogid, const int respo
 					const int num = atoi(inputtext);
 					if ( cBanks::isValidNumber(num) )
 					{
-						const float money = Player[u].minerZP;
+						const float money = Player[u].xuita.minerZP;
 						const int exp = floor(money / 100);
 						double value;
 						cBanks::getBalance(Property[p].bank, &value);
@@ -591,7 +592,7 @@ void Jobs::Miner::cMiner::onDLG(const int u, const int dialogid, const int respo
 							cPlayer::giveExp(u, exp);
 							cBanks::giveBalance(Property[p].bank, -money);
 							cBanks::giveBalance(num, money);
-							Player[u].minerZP = 0;
+							Player[u].xuita.minerZP = 0;
 						}
 						else
 						{
@@ -735,7 +736,7 @@ goto case_bank;
 				else
 				{
 	case_oDep:
-					sprintf(msg, "{FFFFFF}Введите сумму которую хотите положить.\nУ вас в кошельке: {"MINER_MENU_COLOR"}%.2f$", Player[u].pMoney);
+					sprintf(msg, "{FFFFFF}Введите сумму которую хотите положить.\nУ вас в кошельке: {"MINER_MENU_COLOR"}%.2f$", Player[u].base.money);
 					ShowPlayerDialog(u, DLG_MINER_OWNER_MONEY_DEP, GUI_INPUT, "Снять", msg, language::dialogs::buttons::btnDone, language::dialogs::buttons::btnBack);
 				}
 			}
@@ -782,7 +783,7 @@ goto case_omoney;
 				if ( regex_match(inputtext, expFloat) )
 				{
 					const float money = atof(inputtext);
-					if ( money > 0 && Player[u].pMoney > money )
+					if ( money > 0 && Player[u].base.money > money )
 					{
 						miner[l].fond += money;
 						cPlayer::givePlayerMoney(u, -money);

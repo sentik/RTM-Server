@@ -97,7 +97,7 @@ namespace world
 			{
 				if (response)
 				{
-					Player[u ].memIndex = count; //Присваеваем ид банды
+					Player[u ].xuita.memIndex = count; //Присваеваем ид банды
 					//--------------------------------------------------
 					strcpy(Gang[ count ].name, inputtext);
 					//--------------------------------------------------
@@ -113,7 +113,7 @@ namespace world
 						language::dialogs::buttons::btnBack
 					);
 					//--------------------------------------------------
-					if (Player[ u ].memIndex == 0)				count++;
+					if (Player[ u ].xuita.memIndex == 0)				count++;
 				}
 				else goto enter_Name;
 			}
@@ -122,7 +122,7 @@ namespace world
 			{
 				if (response)
 				{
-					Gang[ Player[ u ].memIndex ].color = atoi(inputtext);
+					Gang[ Player[ u ].xuita.memIndex ].color = atoi(inputtext);
 					enter_PreProperty:
 					//--------------------------------------------------
 					ShowPlayerDialog
@@ -175,7 +175,7 @@ namespace world
 			else if (dialogid == DLG_GANG_OWNER_MAIN)
 			{
 				char msg[ 512 ] = "";
-				const int idx = Player[ u ].memIndex;
+				const int idx = Player[ u ].xuita.memIndex;
 				//--------------------------------------------------
 				if (listitem == 0)		//Информация о банде
 				{
@@ -235,8 +235,8 @@ namespace world
 		//----------------------------------
 		void create(int u, int listitem)
 		{
-			const int idx = Player[u].memIndex;			//Ид банды
-			Gang[ idx ].owner = Player[ u ].pDB;		//Ид владельца
+			const int idx = Player[u].xuita.memIndex;			//Ид банды
+			Gang[ idx ].owner = Player[ u ].base.db;		//Ид владельца
 			Gang[ idx ].prop = Property[ getProp(u, listitem) ].db;
 			//-------------------------------------------------------
 			Gang[ idx ].rep = 0;
@@ -291,7 +291,7 @@ namespace world
 			int l = 0;
 			for (int i = 0; i < countProperty; i++)
 			{
-				if (Property[ i ].owner != Player[ u ].pDB) continue;
+				if (Property[ i ].owner != Player[ u ].base.db) continue;
 				if (Property[ i ].type != 1)				continue;
 				if (item == l)								return i;
 				l++;
@@ -305,7 +305,7 @@ namespace world
 			char tmp[64] = "";
 			for (int i = 0; i < countProperty; i++)
 			{
-				if (Property[ i ].owner != Player[ u ].pDB) continue;
+				if (Property[ i ].owner != Player[ u ].base.db) continue;
 				if (Property[ i ].type == 1)
 				{
 					sprintf
