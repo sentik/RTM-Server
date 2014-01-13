@@ -397,7 +397,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerUpdate(int playerid)
 		if(uCount > 10)
 		{
 			mutexStreamPlayer.lock();
-			StreamerCall::Native::UpdateEx(playerid, Player[playerid].pos.x, Player[playerid].pos.y, Player[playerid].pos.z, Player[playerid].pos.interior, Player[playerid].pos.world);
+			StreamerCall::Native::Update(playerid);
 			uCount = 0;
 			mutexStreamPlayer.unlock();
 		}
@@ -542,6 +542,21 @@ static void initTextDraws()
 	TextDrawTextSize(drawPlayerChar[ REG_BG ], 0.000000f, 150.000000f);
 	TextDrawSetSelectable(drawPlayerChar[ REG_BG ], 0);
 	//-------------------------------------------------------------
+	//TODO: Фон формы авторизации
+	drawPlayerChar[REG_BG_ALT] = TextDrawCreate(540.000000f, 160.000000f, "_");
+	TextDrawAlignment(drawPlayerChar[REG_BG_ALT], 2);
+	TextDrawBackgroundColor(drawPlayerChar[REG_BG_ALT], 255);
+	TextDrawFont(drawPlayerChar[REG_BG_ALT], 1);
+	TextDrawLetterSize(drawPlayerChar[REG_BG_ALT], 0.500000f, 17.000003f);
+	TextDrawColor(drawPlayerChar[REG_BG_ALT], -1);
+	TextDrawSetOutline(drawPlayerChar[REG_BG_ALT], 0);
+	TextDrawSetProportional(drawPlayerChar[REG_BG_ALT], 1);
+	TextDrawSetShadow(drawPlayerChar[REG_BG_ALT], 1);
+	TextDrawUseBox(drawPlayerChar[REG_BG_ALT], 1);
+	TextDrawBoxColor(drawPlayerChar[REG_BG_ALT], 80);
+	TextDrawTextSize(drawPlayerChar[REG_BG_ALT], 0.000000f, 150.000000f);
+	TextDrawSetSelectable(drawPlayerChar[REG_BG_ALT], 0);
+	//-------------------------------------------------------------
 	//TODO: Заголовок окна авторизации
 	drawPlayerChar[ REG_HEADER ] = TextDrawCreate(100.000000f, 153.000000f, "Select Craracter");
 	TextDrawAlignment(drawPlayerChar[ REG_HEADER ], 2);
@@ -609,8 +624,23 @@ static void initTextDraws()
 	TextDrawTextSize(drawPlayerChar[ REG_SELECT ], 15.000000f, 60.000000f);
 	TextDrawSetSelectable(drawPlayerChar[ REG_SELECT ], 1);
 	//-------------------------------------------------------------
-	//TODO: Регистрация. Кнопка Выбрать
-	drawPlayerChar[REG_CREATE] = TextDrawCreate(100.000000f, 316.000000f, "CREATE");
+	//TODO: Регистрация. Кнопка Выбрать алтернативная
+	drawPlayerChar[REG_SELECT_ALT] = TextDrawCreate(60.000000f, 316.000000f, "SELECT");
+	TextDrawAlignment(drawPlayerChar[REG_SELECT_ALT], 2);
+	TextDrawBackgroundColor(drawPlayerChar[REG_SELECT_ALT], 0);
+	TextDrawFont(drawPlayerChar[REG_SELECT_ALT], 1);
+	TextDrawLetterSize(drawPlayerChar[REG_SELECT_ALT], 0.609999f, 1.399999f);
+	TextDrawColor(drawPlayerChar[REG_SELECT_ALT], 100);
+	TextDrawSetOutline(drawPlayerChar[REG_SELECT_ALT], 0);
+	TextDrawSetProportional(drawPlayerChar[REG_SELECT_ALT], 1);
+	TextDrawSetShadow(drawPlayerChar[REG_SELECT_ALT], 1);
+	TextDrawUseBox(drawPlayerChar[REG_SELECT_ALT], 1);
+	TextDrawBoxColor(drawPlayerChar[REG_SELECT_ALT], 0);
+	TextDrawTextSize(drawPlayerChar[REG_SELECT_ALT], 15.000000f, 70.000000f);
+	TextDrawSetSelectable(drawPlayerChar[REG_SELECT_ALT], 1);
+	//-------------------------------------------------------------
+	//TODO: Регистрация. Кнопка Создать
+	drawPlayerChar[REG_CREATE] = TextDrawCreate(140.000000f, 316.000000f, "CREATE");
 	TextDrawAlignment(drawPlayerChar[REG_CREATE], 2);
 	TextDrawBackgroundColor(drawPlayerChar[REG_CREATE], 0);
 	TextDrawFont(drawPlayerChar[REG_CREATE], 1);
@@ -621,7 +651,7 @@ static void initTextDraws()
 	TextDrawSetShadow(drawPlayerChar[REG_CREATE], 1);
 	TextDrawUseBox(drawPlayerChar[REG_CREATE], 1);
 	TextDrawBoxColor(drawPlayerChar[REG_CREATE], 0x00000000);
-	TextDrawTextSize(drawPlayerChar[REG_CREATE], 15.000000f, 60.000000f);
+	TextDrawTextSize(drawPlayerChar[REG_CREATE], 15.000000f, 70.000000f);
 	TextDrawSetSelectable(drawPlayerChar[REG_CREATE], 1);
 	//-------------------------------------------------------------
 	//TODO: Регистрация. Фон для кнопок
@@ -695,7 +725,7 @@ static void initTextDraws()
 	//--------------------------------------------------------------------------------
 	//TODO: Server Name
 	//drawPlayerChar[ HEADER_BG ] = TextDrawCreate(320.000000, 1.000000, "~w~West-RP ~p~[~w~west-rp.ru~p~]");
-	drawPlayerChar[HEADER_BG] = TextDrawCreate(320.000000, 1.000000, "~w~World Of RPG ~p~[~w~worpg.ru~p~]");
+	drawPlayerChar[HEADER_BG] = TextDrawCreate(320.000000, 1.000000, "~w~RTM::WoRPG::SunCity ~p~[~w~suncity-rp.ru~p~]");
 	TextDrawAlignment(drawPlayerChar[HEADER_BG], 2);
 	TextDrawBackgroundColor(drawPlayerChar[HEADER_BG], -1778346416);
 	TextDrawFont(drawPlayerChar[HEADER_BG], 1);

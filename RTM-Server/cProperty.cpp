@@ -382,9 +382,12 @@ void cProperty::doSub(int u)
 	}
 }
 
-void cProperty::propertyLoadQuery(const int type)
+int propertyLoadQuery(const int type)
 {
+	mutexMYSQL.lock();
+
 	char table[24], localQuery[200];
+	int queryIdx;
 	if ( type == PropertyType::prHouse )			strcpy(table, "class_Houses");
 	else if ( type == PropertyType::prBank )		strcpy(table, "class_Banks");
 	else if ( type == PropertyType::prAutosalon )	strcpy(table, "class_Shop_vehicle");
@@ -405,5 +408,9 @@ void cProperty::propertyLoadQuery(const int type)
 		type
 	);
 
-	safe_query(con, localQuery);
+	queryIdx = mysql_query(con, localQuery);
+
+	mutexMYSQL.unlock();
+
+	return queryIdx;
 }

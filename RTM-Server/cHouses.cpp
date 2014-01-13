@@ -13,7 +13,7 @@ void cHouses::loadHouses()
 	int i = 0;
 	MYSQL_ROW row;
 	//------------------------------------------------------------
-	cProperty::propertyLoadQuery(PropertyType::prHouse);
+	propertyLoadQuery(PropertyType::prHouse);
 	//safe_query(con, "SELECT class_Property.*, class_Houses.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Houses  WHERE class_Property.property = class_Houses.db AND class_Property.type = 1");
 	MYSQL_RES *result = mysql_store_result(con);
 	//------------------------------------------------------------

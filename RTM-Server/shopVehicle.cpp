@@ -30,7 +30,7 @@ void Properties::Shops::ShopVehicle::loadShop()
 	cClass::fixText(Group[ 2 ], 16);
 	cClass::fixText(Group[ 3 ], 16);*/
 	//------------------------------------------------------------
-	cProperty::propertyLoadQuery(PropertyType::prAutosalon);
+	propertyLoadQuery(PropertyType::prAutosalon);
 	//safe_query(con, "SELECT class_Property.*, class_Shop_vehicle.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Shop_vehicle  WHERE class_Property.property = class_Shop_vehicle.db AND class_Property.type = 3");
 	MYSQL_RES *result = mysql_store_result(con);
 	//------------------------------------------------------------

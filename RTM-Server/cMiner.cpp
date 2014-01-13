@@ -24,7 +24,7 @@ void Jobs::Miner::cMiner::loadMiner()
 	world::Vehicles::locked(0, true);
 
 	//------------------------------------------------------------
-	cProperty::propertyLoadQuery(PropertyType::prMiner);
+	propertyLoadQuery(PropertyType::prMiner);
 	//safe_query(con, "SELECT class_Property.*, class_Miners.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Miners  WHERE class_Property.property = class_Miners.id AND class_Property.type = 4");
 	MYSQL_RES *result = mysql_store_result(con);
 	//------------------------------------------------------------

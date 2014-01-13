@@ -14,7 +14,7 @@ namespace Properties
 			MYSQL_RES *result;
 			int slot = -1;
 			int farm = 0;
-			cProperty::propertyLoadQuery(PropertyType::prBelays);
+			propertyLoadQuery(PropertyType::prBelays);
 			/*if (safe_query(con, "SELECT class_Property.*, class_Belay.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Belay  WHERE class_Property.property = class_Belay.id AND class_Property.type = 9"))
 			{
 				logprintf("Не удалось загрузить страховые компании");

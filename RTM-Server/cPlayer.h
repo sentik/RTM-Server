@@ -45,6 +45,8 @@ namespace cPlayer
 	void onPlayerGiveDamage(const int, const int, const float, const int);
 	void onPlayerTakeDamage(const int, const int, const float, const int);
 	int getDeathType(int);
+	void showSelectedCharInfo(const int, const int);
+	void hideSelectedCharInfo(const int);
 }
 
 /*

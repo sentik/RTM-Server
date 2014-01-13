@@ -9,7 +9,7 @@ void fProperty::cFeller::loadFeller()
 	int i = 0;
 	MYSQL_ROW row;
 	//------------------------------------------------------------
-	cProperty::propertyLoadQuery(PropertyType::prFeller);
+	propertyLoadQuery(PropertyType::prFeller);
 	//safe_query(con, "SELECT class_Property.*, class_Feller.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Feller  WHERE class_Property.property = class_Feller.id AND class_Property.type = 6");
 	MYSQL_RES *result = mysql_store_result(con);
 	//------------------------------------------------------------

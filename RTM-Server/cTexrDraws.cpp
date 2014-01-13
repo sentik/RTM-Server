@@ -38,9 +38,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL  OnPlayerClickTextDraw(const int u, const int dra
 		return 1;
 	}
 	//----------------------------------------------------------------------------------------------------------
-	if (Player[u].status.action == PlayerAction::ACTION_AUTH_PLAYER)		return 1;
-	//----------------------------------------------------------------------------------------------------------
-	else if (draw == drawPlayerChar[REG_LEFT])		//Назад
+	if (draw == drawPlayerChar[REG_LEFT])		//Назад
 	{
 		if ( Player[u].base.clas == 0 ) Player[u].base.clas = MAX_CLASES - 1;
 		else Player[u].base.clas = clamp(Player[u].base.clas - 1, 0, MAX_CLASES);
@@ -56,7 +54,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL  OnPlayerClickTextDraw(const int u, const int dra
 	
 		cPlayer::SpawnChar(u);
 		cPlayer::setClassSkin(u);
-		cPlayer::setCharPos(u, REG_SPAWN_X, REG_SPAWN_Y, REG_SPAWN_Z, false);
+		cPlayer::setCharPos(u, REG_SPAWN_X, REG_SPAWN_Y, REG_SPAWN_Z + 0.5f, false);
 		cPlayer::setCharInterior(u, REG_SPAWN_INT);
 		cPlayer::setCharWorld(u, REG_SPAWN_WOR);
 
@@ -69,6 +67,34 @@ PLUGIN_EXPORT bool PLUGIN_CALL  OnPlayerClickTextDraw(const int u, const int dra
 		//cPlayer::hideRegDraws(u), dialogs::showDLGEnterName(u);
 		
 		
+	}
+	else if ( draw == drawPlayerChar[REG_SELECT_ALT] )	//Выбрать
+	{
+		cPlayer::hideSelectedCharInfo(u);
+		//================================
+		cPlayer::loadPlayerChar(u, PlayerChar[u][Player[u].status.inType].pDB);
+		cPlayer::unloadChars(u);
+		//================================
+		Player[u].status.action = PlayerAction::ACTION_NONE;
+		Player[u].isLogged = true;
+		//================================
+		cPlayer::SpawnChar(u);
+		//==========================================================================
+		Player[u].draws.money = CreatePlayerTextDraw(u, 637.500000, 77.000000, "$12345678.91");
+		PlayerTextDrawAlignment(u, Player[u].draws.money, 3);
+		PlayerTextDrawBackgroundColor(u, Player[u].draws.money, 255);
+		PlayerTextDrawFont(u, Player[u].draws.money, 3);
+		PlayerTextDrawLetterSize(u, Player[u].draws.money, 0.599999, 2.199998);
+		PlayerTextDrawColor(u, Player[u].draws.money, 929443071);
+		PlayerTextDrawSetOutline(u, Player[u].draws.money, 1);
+		PlayerTextDrawSetProportional(u, Player[u].draws.money, 1);
+		PlayerTextDrawSetSelectable(u, Player[u].draws.money, 0);
+	}
+	else if ( draw == drawPlayerChar[REG_CREATE] )
+	{
+		cPlayer::hideSelectedCharInfo(u);
+		cPlayer::unloadChars(u);
+		cPlayer::showCharMaker(u);
 	}
 	else if (draw == drawPlayerChar[REG_RIGHT])		//Вперед
 	{
@@ -117,27 +143,11 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickPlayerTextDraw(const int u, const in
 	{
 		if (draw == PlayerChar[u][i].cUserus)
 		{
-			logprintf("Clicked : %d[%d] || db:%d || class: %d", i,u, PlayerChar[ u ][ i ].pDB, PlayerChar[ u ][ i ].pClass);
+			Player[u].status.inType = i;
 			//================================
 			cPlayer::setRegClassSkin(u, i);
 			//-----------------------------------
-			cPlayer::loadPlayerChar(u, PlayerChar[ u ][ i ].pDB);
-			cPlayer::unloadChars(u);
-			//================================
-			Player[ u ].status.action = PlayerAction::ACTION_NONE;
-			Player[ u ].isLogged = true;
-			//================================
-			cPlayer::SpawnChar(u);
-			//==========================================================================
-			Player[u].draws.money = CreatePlayerTextDraw(u, 637.500000, 77.000000, "$12345678.91");
-			PlayerTextDrawAlignment(u, Player[u].draws.money, 3);
-			PlayerTextDrawBackgroundColor(u, Player[u].draws.money, 255);
-			PlayerTextDrawFont(u, Player[u].draws.money, 3);
-			PlayerTextDrawLetterSize(u, Player[u].draws.money, 0.599999, 2.199998);
-			PlayerTextDrawColor(u, Player[u].draws.money, 929443071);
-			PlayerTextDrawSetOutline(u, Player[u].draws.money, 1);
-			PlayerTextDrawSetProportional(u, Player[u].draws.money, 1);
-			PlayerTextDrawSetSelectable(u, Player[u].draws.money, 0);
+			cPlayer::showSelectedCharInfo(u, i);
 			break;
 		}
 	}

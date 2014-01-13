@@ -9,7 +9,7 @@ void cBanks::loadBanks()
 {
 	MYSQL_ROW row;
 	//------------------------------------------------------------
-	cProperty::propertyLoadQuery(PropertyType::prBank);
+	propertyLoadQuery(PropertyType::prBank);
 	//safe_query(con, "SELECT class_Property.*, class_Banks.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Banks  WHERE class_Property.property = class_Banks.db AND class_Property.type = 2");
 	MYSQL_RES *result = mysql_store_result(con);
 	//------------------------------------------------------------	
@@ -56,7 +56,7 @@ void cBanks::loadATM()
 	int bank = 0;
 	MYSQL_ROW row;
 	//------------------------------------------------------------
-	safe_query(con, "SELECT bank_ATM.*,class_Banks.name FROM bank_ATM,class_Banks WHERE bank_ATM.owner = class_Banks.db ORDER BY owner");
+	safe_query(con, "SELECT bank_ATM.*,class_Banks.name FROM bank_ATM,class_Banks WHERE bank_ATM.owner = class_Banks.id ORDER BY owner");
 	MYSQL_RES *result = mysql_store_result(con);
 	//------------------------------------------------------------	
 	while (( row = mysql_fetch_row(result) ))

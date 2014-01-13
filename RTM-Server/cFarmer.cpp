@@ -12,7 +12,7 @@ namespace Properties
 			MYSQL_RES *result;
 			int slot = -1;
 			int farm = 0;
-			cProperty::propertyLoadQuery(PropertyType::prFarms);
+			propertyLoadQuery(PropertyType::prFarms);
 			/*if (safe_query(con, "SELECT class_Property.*, class_Farms.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Farms  WHERE class_Property.property = class_Farms.id AND class_Property.type = 7"))
 			{
 				logprintf("Не удалось загрузить фермы");

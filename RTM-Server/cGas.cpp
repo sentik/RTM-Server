@@ -8,7 +8,7 @@ void gasProperty::cGas::loadGas()
 	int i = 0;
 	MYSQL_ROW row;
 	//------------------------------------------------------------
-	cProperty::propertyLoadQuery(PropertyType::prGas);
+	propertyLoadQuery(PropertyType::prGas);
 	//safe_query(con, "SELECT class_Property.*, class_Gas.*, getOwnerName(class_Property.owner) as pname FROM class_Property, class_Gas  WHERE class_Property.property = class_Gas.id AND class_Property.type = 5");
 	MYSQL_RES *result = mysql_store_result(con);
 	//------------------------------------------------------------

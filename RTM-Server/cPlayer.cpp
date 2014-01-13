@@ -315,7 +315,7 @@ void  cPlayer::unloadChars(int i)
 	TextDrawHideForPlayer(i, drawPlayerChar[REG_HEADER]);
 	TextDrawHideForPlayer(i, drawPlayerChar[REG_BUTTON_BG]);
 	TextDrawHideForPlayer(i, drawPlayerChar[REG_LEFT]);
-	TextDrawHideForPlayer(i, drawPlayerChar[REG_SELECT]);
+	TextDrawHideForPlayer(i, drawPlayerChar[REG_SELECT_ALT]);
 	TextDrawHideForPlayer(i, drawPlayerChar[REG_RIGHT]);
 	TextDrawHideForPlayer(i, drawPlayerChar[REG_CREATE]);
 	for (int c = 0; c < MAX_CHARS; c++)
@@ -348,6 +348,7 @@ bool cPlayer::loadChars(int i)
 	TextDrawShowForPlayer(i, drawPlayerChar[REG_HEADER]);
 	TextDrawShowForPlayer(i, drawPlayerChar[REG_BUTTON_BG]);
 	TextDrawShowForPlayer(i, drawPlayerChar[REG_CREATE]);
+	TextDrawShowForPlayer(i, drawPlayerChar[REG_SELECT_ALT]);
 	//---------------------------------------------
 	while ((row = mysql_fetch_row(result)))
 	{
@@ -587,7 +588,6 @@ void cPlayer::showCharMaker(int i)
 	TextDrawShowForPlayer(i, drawPlayerChar[REG_LEFT]);
 	TextDrawShowForPlayer(i, drawPlayerChar[REG_RIGHT]);
 	TextDrawShowForPlayer(i, drawPlayerChar[REG_SELECT]);
-	TextDrawHideForPlayer(i, drawPlayerChar[REG_CREATE]);
 	//-------------------------------------------------------------------------------------------------------------
 	RegChar[i].rSpeed[0] = CreatePlayerTextDraw(i, 30.000000f, 170.000000f, strSpeed);
 	PlayerTextDrawBackgroundColor(i, RegChar[i].rSpeed[0], 80);
@@ -1093,8 +1093,6 @@ void cPlayer::onPlayerTakeDamage(const int u, const int issuerid, const float am
 	}
 }
 
-
-
 int cPlayer::getDeathType(int reason)
 {
 	if(reason == 15)					return DeathTypes::reason_Fight;
@@ -1105,4 +1103,165 @@ int cPlayer::getDeathType(int reason)
 	if(reason >= 51 && reason <=54)		return DeathTypes::reason_Fight;
 	if(reason == 49 || reason == 50)	return DeathTypes::reason_Drive;	
 	return DeathTypes::reason_Fire;
+}
+
+void cPlayer::showSelectedCharInfo(const int i, const int character)
+{
+	TextDrawShowForPlayer(i, drawPlayerChar[REG_BG_ALT]);
+
+	logprintf("showSelectedCharInfo(%d, %d) :: PlayerTextDraw(RegChar[i].rNation, i).GetId() >> %d", i, character, PlayerTextDraw(RegChar[i].rNation, i).GetId());
+
+	if ( PlayerTextDraw(RegChar[i].rNation, i).GetId() == 0 )
+	{
+		//-------------------------------------------------------------------------------------------------------------
+		RegChar[i].rSpeed[0] = CreatePlayerTextDraw(i, 470.000000f, 170.000000f, strSpeed);
+		PlayerTextDrawBackgroundColor(i, RegChar[i].rSpeed[0], 80);
+		PlayerTextDrawFont(i, RegChar[i].rSpeed[0], 1);
+		PlayerTextDrawLetterSize(i, RegChar[i].rSpeed[0], 0.32000f, 1.0000f);
+		PlayerTextDrawColor(i, RegChar[i].rSpeed[0], -1);
+		PlayerTextDrawSetOutline(i, RegChar[i].rSpeed[0], 1);
+		PlayerTextDrawSetProportional(i, RegChar[i].rSpeed[0], 1);
+		PlayerTextDrawUseBox(i, RegChar[i].rSpeed[0], 1);
+		PlayerTextDrawBoxColor(i, RegChar[i].rSpeed[0], -1778346416);
+		PlayerTextDrawTextSize(i, RegChar[i].rSpeed[0], 615.000000f, 0.000000f);
+		PlayerTextDrawSetSelectable(i, RegChar[i].rSpeed[0], 0);
+		//-------------------------------------------------------------------------------------------------------------
+		RegChar[i].rSpeed[1] = CreatePlayerTextDraw(i, 580.000000f, 170.000000f, perkCalculate(10).c_str());
+		PlayerTextDrawAlignment(i, RegChar[i].rSpeed[1], 2);
+		PlayerTextDrawBackgroundColor(i, RegChar[i].rSpeed[1], 255);
+		PlayerTextDrawFont(i, RegChar[i].rSpeed[1], 1);
+		PlayerTextDrawLetterSize(i, RegChar[i].rSpeed[1], 0.500000f, 1.000000f);
+		PlayerTextDrawColor(i, RegChar[i].rSpeed[1], -1);
+		PlayerTextDrawSetOutline(i, RegChar[i].rSpeed[1], 0);
+		PlayerTextDrawSetProportional(i, RegChar[i].rSpeed[1], 1);
+		PlayerTextDrawSetShadow(i, RegChar[i].rSpeed[1], 0);
+		PlayerTextDrawSetSelectable(i, RegChar[i].rSpeed[1], 0);
+		//-------------------------------------------------------------------------------------------------------------
+		RegChar[i].rPower[0] = CreatePlayerTextDraw(i, 470.000000f, 185.000000f, strMuscular);
+		PlayerTextDrawBackgroundColor(i, RegChar[i].rPower[0], 80);
+		PlayerTextDrawFont(i, RegChar[i].rPower[0], 1);
+		PlayerTextDrawLetterSize(i, RegChar[i].rPower[0], 0.32000f, 1.0000f);
+		PlayerTextDrawColor(i, RegChar[i].rPower[0], -1);
+		PlayerTextDrawSetOutline(i, RegChar[i].rPower[0], 1);
+		PlayerTextDrawSetProportional(i, RegChar[i].rPower[0], 1);
+		PlayerTextDrawUseBox(i, RegChar[i].rPower[0], 1);
+		PlayerTextDrawBoxColor(i, RegChar[i].rPower[0], -1778346416);
+		PlayerTextDrawTextSize(i, RegChar[i].rPower[0], 615.000000f, 0.000000f);
+		PlayerTextDrawSetSelectable(i, RegChar[i].rPower[0], 0);
+		//-------------------------------------------------------------------------------------------------------------
+		RegChar[i].rPower[1] = CreatePlayerTextDraw(i, 580.000000f, 185.000000f, perkCalculate(8).c_str());
+		PlayerTextDrawAlignment(i, RegChar[i].rPower[1], 2);
+		PlayerTextDrawBackgroundColor(i, RegChar[i].rPower[1], 255);
+		PlayerTextDrawFont(i, RegChar[i].rPower[1], 1);
+		PlayerTextDrawLetterSize(i, RegChar[i].rPower[1], 0.500000f, 1.000000f);
+		PlayerTextDrawColor(i, RegChar[i].rPower[1], -1);
+		PlayerTextDrawSetOutline(i, RegChar[i].rPower[1], 0);
+		PlayerTextDrawSetProportional(i, RegChar[i].rPower[1], 1);
+		PlayerTextDrawSetShadow(i, RegChar[i].rPower[1], 0);
+		PlayerTextDrawSetSelectable(i, RegChar[i].rPower[1], 0);
+		//-------------------------------------------------------------------------------------------------------------
+		RegChar[i].rAgility[0] = CreatePlayerTextDraw(i, 470.000000f, 200.000000f, strAgility);
+		PlayerTextDrawBackgroundColor(i, RegChar[i].rAgility[0], 80);
+		PlayerTextDrawFont(i, RegChar[i].rAgility[0], 1);
+		PlayerTextDrawLetterSize(i, RegChar[i].rAgility[0], 0.32000f, 1.0000f);
+		PlayerTextDrawColor(i, RegChar[i].rAgility[0], -1);
+		PlayerTextDrawSetOutline(i, RegChar[i].rAgility[0], 1);
+		PlayerTextDrawSetProportional(i, RegChar[i].rAgility[0], 1);
+		PlayerTextDrawUseBox(i, RegChar[i].rAgility[0], 1);
+		PlayerTextDrawBoxColor(i, RegChar[i].rAgility[0], -1778346416);
+		PlayerTextDrawTextSize(i, RegChar[i].rAgility[0], 615.000000f, 0.000000f);
+		PlayerTextDrawSetSelectable(i, RegChar[i].rAgility[0], 0);
+		//-------------------------------------------------------------------------------------------------------------
+		RegChar[i].rAgility[1] = CreatePlayerTextDraw(i, 580.000000f, 200.000000f, perkCalculate(8).c_str());
+		PlayerTextDrawAlignment(i, RegChar[i].rAgility[1], 2);
+		PlayerTextDrawBackgroundColor(i, RegChar[i].rAgility[1], 255);
+		PlayerTextDrawFont(i, RegChar[i].rAgility[1], 1);
+		PlayerTextDrawLetterSize(i, RegChar[i].rAgility[1], 0.500000f, 1.000000f);
+		PlayerTextDrawColor(i, RegChar[i].rAgility[1], -1);
+		PlayerTextDrawSetOutline(i, RegChar[i].rAgility[1], 0);
+		PlayerTextDrawSetProportional(i, RegChar[i].rAgility[1], 1);
+		PlayerTextDrawSetShadow(i, RegChar[i].rAgility[1], 0);
+		PlayerTextDrawSetSelectable(i, RegChar[i].rAgility[1], 0);
+		//-------------------------------------------------------------------------------------------------------------
+		RegChar[i].rNation = CreatePlayerTextDraw(i, 470.000000, 270.000000, "RACE");
+		PlayerTextDrawBackgroundColor(i, RegChar[i].rNation, 80);
+		PlayerTextDrawFont(i, RegChar[i].rNation, 1);
+		PlayerTextDrawLetterSize(i, RegChar[i].rNation, 0.500000, 1.000000);
+		PlayerTextDrawColor(i, RegChar[i].rNation, -1);
+		PlayerTextDrawSetOutline(i, RegChar[i].rNation, 0);
+		PlayerTextDrawSetProportional(i, RegChar[i].rNation, 1);
+		PlayerTextDrawSetShadow(i, RegChar[i].rNation, 0);
+		PlayerTextDrawUseBox(i, RegChar[i].rNation, 1);
+		PlayerTextDrawBoxColor(i, RegChar[i].rNation, -1778346416);
+		PlayerTextDrawTextSize(i, RegChar[i].rNation, 615.000000, 0.000000);
+		PlayerTextDrawSetSelectable(i, RegChar[i].rNation, 0);
+		//-------------------------------------------------------------------------------------------------------------
+		RegChar[i].rRace = CreatePlayerTextDraw(i, 470.000000, 285.000000, "Nation");
+		PlayerTextDrawBackgroundColor(i, RegChar[i].rRace, 80);
+		PlayerTextDrawFont(i, RegChar[i].rRace, 1);
+		PlayerTextDrawLetterSize(i, RegChar[i].rRace, 0.500000, 1.000000);
+		PlayerTextDrawColor(i, RegChar[i].rRace, -1);
+		PlayerTextDrawSetOutline(i, RegChar[i].rRace, 0);
+		PlayerTextDrawSetProportional(i, RegChar[i].rRace, 1);
+		PlayerTextDrawSetShadow(i, RegChar[i].rRace, 0);
+		PlayerTextDrawUseBox(i, RegChar[i].rRace, 1);
+		PlayerTextDrawBoxColor(i, RegChar[i].rRace, -1778346416);
+		PlayerTextDrawTextSize(i, RegChar[i].rRace, 615.000000, 0.000000);
+		PlayerTextDrawSetSelectable(i, RegChar[i].rRace, 0);
+		//-------------------------------------------------------------------------------------------------------------
+		RegChar[i].rSex = CreatePlayerTextDraw(i, 470.000000, 300.000000, "Sex");
+		PlayerTextDrawBackgroundColor(i, RegChar[i].rSex, 80);
+		PlayerTextDrawFont(i, RegChar[i].rSex, 1);
+		PlayerTextDrawLetterSize(i, RegChar[i].rSex, 0.500000, 1.000000);
+		PlayerTextDrawColor(i, RegChar[i].rSex, -1);
+		PlayerTextDrawSetOutline(i, RegChar[i].rSex, 0);
+		PlayerTextDrawSetProportional(i, RegChar[i].rSex, 1);
+		PlayerTextDrawSetShadow(i, RegChar[i].rSex, 0);
+		PlayerTextDrawUseBox(i, RegChar[i].rSex, 1);
+		PlayerTextDrawBoxColor(i, RegChar[i].rSex, -1778346416);
+		PlayerTextDrawTextSize(i, RegChar[i].rSex, 615.000000, 0.000000);
+		PlayerTextDrawSetSelectable(i, RegChar[i].rSex, 0);
+	}
+	//-------------------------------------------------------------------------------------------------------------
+	const int c = PlayerChar[i][character].pClass;
+
+	PlayerTextDrawSetString(i, RegChar[i].rSpeed[1], perkCalculate(PlayerClass[c].cSpeed).c_str());
+	PlayerTextDrawSetString(i, RegChar[i].rPower[1], perkCalculate(PlayerClass[c].cPower).c_str());
+	PlayerTextDrawSetString(i, RegChar[i].rAgility[1], perkCalculate(PlayerClass[c].cAgility).c_str());
+	PlayerTextDrawSetString(i, RegChar[i].rRace, RaceList[PlayerClass[c].cRace]);
+	PlayerTextDrawSetString(i, RegChar[i].rNation, Natioins[PlayerClass[c].cNation]);
+	PlayerTextDrawSetString(i, RegChar[i].rSex, SexArray[PlayerClass[c].cSex]);
+	//-------------------------------------------------------------------------------------------------------------
+	
+	PlayerTextDraw(RegChar[i].rSpeed[0], i).Show();
+	PlayerTextDraw(RegChar[i].rPower[0], i).Show();
+	PlayerTextDraw(RegChar[i].rAgility[0], i).Show();
+	//--------------------------------------------
+	PlayerTextDraw(RegChar[i].rSpeed[1], i).Show();
+	PlayerTextDraw(RegChar[i].rPower[1], i).Show();
+	PlayerTextDraw(RegChar[i].rAgility[1], i).Show();
+	//--------------------------------------------
+	PlayerTextDraw(RegChar[i].rNation, i).Show();
+	PlayerTextDraw(RegChar[i].rRace, i).Show();
+	PlayerTextDraw(RegChar[i].rSex, i).Show();
+}
+
+void cPlayer::hideSelectedCharInfo(const int i)
+{
+	TextDrawHideForPlayer(i, drawPlayerChar[REG_BG_ALT]);
+
+	if ( PlayerTextDraw(RegChar[i].rNation, i).GetId() != 0 )
+	{
+		PlayerTextDraw(RegChar[i].rSpeed[0], i).Destroy();
+		PlayerTextDraw(RegChar[i].rPower[0], i).Destroy();
+		PlayerTextDraw(RegChar[i].rAgility[0], i).Destroy();
+		//--------------------------------------------
+		PlayerTextDraw(RegChar[i].rSpeed[1], i).Destroy();
+		PlayerTextDraw(RegChar[i].rPower[1], i).Destroy();
+		PlayerTextDraw(RegChar[i].rAgility[1], i).Destroy();
+		//--------------------------------------------
+		PlayerTextDraw(RegChar[i].rNation, i).Destroy();
+		PlayerTextDraw(RegChar[i].rRace, i).Destroy();
+		PlayerTextDraw(RegChar[i].rSex, i).Destroy();
+	}
 }
